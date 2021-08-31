@@ -7,6 +7,3 @@
 3. Fudong Huang
 4. Xiaoshu Xiao
 5. Shuang Pan
-
-test
-
