@@ -31,5 +31,4 @@ else
 fi
 
 $swagger_bin_path validate ${scriptdir}/../source/swagger-specs/api.yaml --stop-on-error
-$swagger_bin_path generate server  --spec ${scriptdir}/../source/swagger-specs/api.yaml --name coreapi --target ${scriptdir}/../source/generated --flag-strategy=pflag  --exclude-main
-# $swagger_bin_path --quiet generate client --spec ${scriptdir}/../source/client/svc-provider.yaml -t ${scriptdir}/../source/client
+$swagger_bin_path generate server --spec ${scriptdir}/../source/swagger-specs/api.yaml --name coreapi --target ${scriptdir}/../source/generated --flag-strategy=pflag  --exclude-main
