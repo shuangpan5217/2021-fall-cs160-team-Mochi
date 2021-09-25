@@ -4,14 +4,18 @@ package restapi
 
 import (
 	"crypto/tls"
+	"log"
 	"net/http"
+
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/runtime/middleware"
+	"github.com/jinzhu/gorm"
 
+	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/login"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations"
-	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/login_v1"
 )
 
 //go:generate swagger generate server --target ../../generated --name Coreapi --spec ../../swagger-specs/api.yaml --principal interface{} --exclude-main
@@ -35,14 +39,18 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	// api.UseRedoc()
 
 	api.JSONConsumer = runtime.JSONConsumer()
-
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.LoginV1LoginV1Handler == nil {
-		api.LoginV1LoginV1Handler = login_v1.LoginV1HandlerFunc(func(params login_v1.LoginV1Params) middleware.Responder {
-			return middleware.NotImplemented("operation login_v1.LoginV1 has not yet been implemented")
-		})
+	db, err := gorm.Open("postgres", "host=localhost port=5432 dbname=shuangpan user=shuangpan sslmode=disable")
+	if err != nil {
+		log.Fatal(err.Error())
 	}
+	err = commonutils.InitDatabase(db)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	api.LoginV1LoginV1Handler = login.LoginV1Handler(db)
 
 	api.PreServerShutdown = func() {}
 
