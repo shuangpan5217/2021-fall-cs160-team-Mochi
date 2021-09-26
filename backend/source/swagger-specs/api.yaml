@@ -1,0 +1,73 @@
+swagger: '2.0'
+info:
+  description: This is the Public API for MochiNote
+  version: 1.0.0
+  title: MochiNote
+
+schemes:
+- http
+- https
+
+paths:
+  /v1/login:
+    post:
+      description: handle login request, username and password
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - LoginV1
+      summary: Sign up or log in
+      operationId: loginV1
+      parameters:
+      - name: body
+        in: body
+        description: user object
+        required: true
+        schema:
+          $ref: '#/definitions/userObject'
+      - name: signup
+        default: false
+        type: boolean
+        in: query
+        description: Do sign up operation if set to true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/loginResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+
+definitions:
+  userObject:
+    type: object
+    required:
+    - username
+    - password
+    properties:
+      username: 
+        description: username of the user
+        type: string
+      password:
+        description: password of the user
+        type: string
+  loginResponse:
+    type: object
+    properties:
+      username:
+        description: username of the user
+        type: string
+  errResponse:
+    type: object
+    properties:
+      errMessage:
+        description: error message
+        type: string
+      status_code:
+        description: http error code
+        type: integer
+        format: int32
