@@ -13,16 +13,15 @@ import (
 
 func LoginV1Handler(db *gorm.DB) login_v1.LoginV1HandlerFunc {
 	return func(params login_v1.LoginV1Params) (responder middleware.Responder) {
-		storeUserInDB(db, params)
-
-		resp := login_v1.NewLoginV1OK()
-		username, errResp := storeUserInDB(db, params)
+		username, errResp := processLoginRequest(db, params)
 		if errResp != nil {
 			switch errResp.StatusCode {
 			case http.StatusInternalServerError:
 				return login_v1.NewLoginV1InternalServerError().WithPayload(errResp)
 			}
 		}
+
+		resp := login_v1.NewLoginV1OK()
 		respStruct := models.LoginResponse{
 			Username: username,
 		}
@@ -31,27 +30,59 @@ func LoginV1Handler(db *gorm.DB) login_v1.LoginV1HandlerFunc {
 	}
 }
 
-func storeUserInDB(db *gorm.DB, params login_v1.LoginV1Params) (username string, errResp *models.ErrResponse) {
+func processLoginRequest(db *gorm.DB, params login_v1.LoginV1Params) (username string, errResp *models.ErrResponse) {
+	if *params.Signup {
+		return handleSignup(db, params)
+	}
+	return handleLogin(db, params)
+}
+
+// update later
+func handleLogin(db *gorm.DB, params login_v1.LoginV1Params) (username string, errResp *models.ErrResponse) {
+	return
+}
+
+func handleSignup(db *gorm.DB, params login_v1.LoginV1Params) (username string, errResp *models.ErrResponse) {
 	username = *params.Body.Username
 	password := *params.Body.Password
-	if *params.Signup == true {
-		user := dbpackages.User{
-			Username: username,
-			Password: password,
-		}
-		tx := db.Begin()
-		err := tx.Save(&user).Error
-		if err != nil {
-			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
-			return username, errResp
-		}
-		if err = tx.Commit().Error; err != nil {
-			tx.Rollback()
-			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
-			return
-		}
-	} else {
 
+	// check if user exists
+	var user dbpackages.User
+	user, errResp = checkIfUserExist(db, username)
+	if errResp != nil {
+		return
+	}
+	if user.Username != "" {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, "username already exists")
+		return
+	}
+
+	// store to db if not exists
+	user = dbpackages.User{
+		Username: username,
+		Password: password,
+	}
+	tx := db.Begin()
+	err := tx.Save(&user).Error
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return username, errResp
+	}
+	if err = tx.Commit().Error; err != nil {
+		tx.Rollback()
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+	return
+}
+
+func checkIfUserExist(db *gorm.DB, username string) (user dbpackages.User, errResp *models.ErrResponse) {
+	err := db.Table("users").Where("username = ?", username).First(&user).Error
+	if gorm.IsRecordNotFoundError(err) {
+
+	} else if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
 	}
 	return
 }
