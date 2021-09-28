@@ -9,14 +9,14 @@
 5. Shuang Pan
 
 ### Run the program 
-####1. Start db server
+##### 1. Start db server
 Download PostgreSQL
 ```
 https://www.postgresql.org/download/
 ```
 Start the `psql` server and listen to port `5432`
 
-###2. Start backend Server
+##### 2. Start backend Server
 Download Go env
 ```
 https://golang.org/dl/
@@ -42,7 +42,7 @@ Run
 ```
 The backend will listen to the `localhost:3000`
 
-###Start frontend server
+##### 3. Start frontend server
 
 
 
