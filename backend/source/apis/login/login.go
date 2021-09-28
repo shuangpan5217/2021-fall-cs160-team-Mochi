@@ -39,6 +39,11 @@ func processLoginRequest(db *gorm.DB, params login_v1.LoginV1Params) (username s
 
 // update later
 func handleLogin(db *gorm.DB, params login_v1.LoginV1Params) (username string, errResp *models.ErrResponse) {
+	// useranme exists
+	// if not exists, return (password or username is not correct)
+	// if exists, check password
+	//     if correct, return username
+	//     if not correct, (password or username is not correct)
 	return
 }
 
