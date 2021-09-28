@@ -8,7 +8,7 @@ function App() {
   const handleSubmit = async(e) => {
     e.preventDefault();
 
-    await fetch('http://localhost:3000/v1/login?signup=true', {
+    const response = await fetch('http://localhost:3000/v1/login?signup=true', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -17,6 +17,14 @@ function App() {
       })
   });
 
+  const responseJSON = await response.json();
+  if(responseJSON.username){
+    alert("You have successfully signed up, " + responseJSON.username + "!");
+  }else if(responseJSON.errMessage === "username already exists"){
+    alert("That username already exists, please try again.");
+  }else{
+    alert("Something went wrong");
+  }
   };
 
   return (
