@@ -43,6 +43,16 @@ Run
 The backend will listen to the `localhost:3000`
 
 ##### 3. Start frontend server
+Have `node`, `npm` installed
+<pre>
+1. Delete nodes_modules/ dir
+2. npm install
+3. npm start
+</pre>
+Listen to a different port if needed when run `npm start`. 
+Open your browser and input `localhost:front_end_port_number`
+
+Now, you are ready to use the website.
 
 
 
