@@ -3,6 +3,7 @@ module 2021-fall-cs160-team-Mochi/backend
 go 1.16
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-chi/cors v1.2.0
 	github.com/go-openapi/errors v0.20.1
 	github.com/go-openapi/loads v0.20.2

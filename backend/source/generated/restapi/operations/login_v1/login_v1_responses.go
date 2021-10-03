@@ -57,6 +57,226 @@ func (o *LoginV1OK) WriteResponse(rw http.ResponseWriter, producer runtime.Produ
 	}
 }
 
+// LoginV1BadRequestCode is the HTTP code returned for type LoginV1BadRequest
+const LoginV1BadRequestCode int = 400
+
+/*LoginV1BadRequest Bad Request
+
+swagger:response loginV1BadRequest
+*/
+type LoginV1BadRequest struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrResponse `json:"body,omitempty"`
+}
+
+// NewLoginV1BadRequest creates LoginV1BadRequest with default headers values
+func NewLoginV1BadRequest() *LoginV1BadRequest {
+
+	return &LoginV1BadRequest{}
+}
+
+// WithPayload adds the payload to the login v1 bad request response
+func (o *LoginV1BadRequest) WithPayload(payload *models.ErrResponse) *LoginV1BadRequest {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the login v1 bad request response
+func (o *LoginV1BadRequest) SetPayload(payload *models.ErrResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *LoginV1BadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(400)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// LoginV1UnauthorizedCode is the HTTP code returned for type LoginV1Unauthorized
+const LoginV1UnauthorizedCode int = 401
+
+/*LoginV1Unauthorized Unauthorized
+
+swagger:response loginV1Unauthorized
+*/
+type LoginV1Unauthorized struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrResponse `json:"body,omitempty"`
+}
+
+// NewLoginV1Unauthorized creates LoginV1Unauthorized with default headers values
+func NewLoginV1Unauthorized() *LoginV1Unauthorized {
+
+	return &LoginV1Unauthorized{}
+}
+
+// WithPayload adds the payload to the login v1 unauthorized response
+func (o *LoginV1Unauthorized) WithPayload(payload *models.ErrResponse) *LoginV1Unauthorized {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the login v1 unauthorized response
+func (o *LoginV1Unauthorized) SetPayload(payload *models.ErrResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *LoginV1Unauthorized) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(401)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// LoginV1ForbiddenCode is the HTTP code returned for type LoginV1Forbidden
+const LoginV1ForbiddenCode int = 403
+
+/*LoginV1Forbidden Forbidden
+
+swagger:response loginV1Forbidden
+*/
+type LoginV1Forbidden struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrResponse `json:"body,omitempty"`
+}
+
+// NewLoginV1Forbidden creates LoginV1Forbidden with default headers values
+func NewLoginV1Forbidden() *LoginV1Forbidden {
+
+	return &LoginV1Forbidden{}
+}
+
+// WithPayload adds the payload to the login v1 forbidden response
+func (o *LoginV1Forbidden) WithPayload(payload *models.ErrResponse) *LoginV1Forbidden {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the login v1 forbidden response
+func (o *LoginV1Forbidden) SetPayload(payload *models.ErrResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *LoginV1Forbidden) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(403)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// LoginV1NotFoundCode is the HTTP code returned for type LoginV1NotFound
+const LoginV1NotFoundCode int = 404
+
+/*LoginV1NotFound Not Found
+
+swagger:response loginV1NotFound
+*/
+type LoginV1NotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrResponse `json:"body,omitempty"`
+}
+
+// NewLoginV1NotFound creates LoginV1NotFound with default headers values
+func NewLoginV1NotFound() *LoginV1NotFound {
+
+	return &LoginV1NotFound{}
+}
+
+// WithPayload adds the payload to the login v1 not found response
+func (o *LoginV1NotFound) WithPayload(payload *models.ErrResponse) *LoginV1NotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the login v1 not found response
+func (o *LoginV1NotFound) SetPayload(payload *models.ErrResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *LoginV1NotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// LoginV1ConflictCode is the HTTP code returned for type LoginV1Conflict
+const LoginV1ConflictCode int = 409
+
+/*LoginV1Conflict Conflict
+
+swagger:response loginV1Conflict
+*/
+type LoginV1Conflict struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrResponse `json:"body,omitempty"`
+}
+
+// NewLoginV1Conflict creates LoginV1Conflict with default headers values
+func NewLoginV1Conflict() *LoginV1Conflict {
+
+	return &LoginV1Conflict{}
+}
+
+// WithPayload adds the payload to the login v1 conflict response
+func (o *LoginV1Conflict) WithPayload(payload *models.ErrResponse) *LoginV1Conflict {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the login v1 conflict response
+func (o *LoginV1Conflict) SetPayload(payload *models.ErrResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *LoginV1Conflict) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(409)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
 // LoginV1InternalServerErrorCode is the HTTP code returned for type LoginV1InternalServerError
 const LoginV1InternalServerErrorCode int = 500
 

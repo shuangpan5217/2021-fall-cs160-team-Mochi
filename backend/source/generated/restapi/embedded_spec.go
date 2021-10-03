@@ -45,6 +45,12 @@ func init() {
         "operationId": "loginV1",
         "parameters": [
           {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header"
+          },
+          {
             "description": "user object",
             "name": "body",
             "in": "body",
@@ -66,6 +72,36 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/loginResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
             }
           },
           "500": {
@@ -96,6 +132,10 @@ func init() {
     "loginResponse": {
       "type": "object",
       "properties": {
+        "token": {
+          "description": "jwt",
+          "type": "string"
+        },
         "username": {
           "description": "username of the user",
           "type": "string"
@@ -149,6 +189,12 @@ func init() {
         "operationId": "loginV1",
         "parameters": [
           {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header"
+          },
+          {
             "description": "user object",
             "name": "body",
             "in": "body",
@@ -170,6 +216,36 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/loginResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
             }
           },
           "500": {
@@ -200,6 +276,10 @@ func init() {
     "loginResponse": {
       "type": "object",
       "properties": {
+        "token": {
+          "description": "jwt",
+          "type": "string"
+        },
         "username": {
           "description": "username of the user",
           "type": "string"
