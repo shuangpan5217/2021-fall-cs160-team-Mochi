@@ -44,6 +44,10 @@ type LoginV1Params struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
+	/*Bearer token based Authorization
+	  In: header
+	*/
+	Authorization *string
 	/*user object
 	  Required: true
 	  In: body
@@ -66,6 +70,10 @@ func (o *LoginV1Params) BindRequest(r *http.Request, route *middleware.MatchedRo
 	o.HTTPRequest = r
 
 	qs := runtime.Values(r.URL.Query())
+
+	if err := o.bindAuthorization(r.Header[http.CanonicalHeaderKey("Authorization")], true, route.Formats); err != nil {
+		res = append(res, err)
+	}
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
@@ -102,6 +110,23 @@ func (o *LoginV1Params) BindRequest(r *http.Request, route *middleware.MatchedRo
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// bindAuthorization binds and validates parameter Authorization from header.
+func (o *LoginV1Params) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+
+	if raw == "" { // empty values pass all other validations
+		return nil
+	}
+	o.Authorization = &raw
+
 	return nil
 }
 

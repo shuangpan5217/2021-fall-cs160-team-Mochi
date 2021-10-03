@@ -17,6 +17,9 @@ import (
 // swagger:model loginResponse
 type LoginResponse struct {
 
+	// jwt
+	Token string `json:"token,omitempty"`
+
 	// username of the user
 	Username string `json:"username,omitempty"`
 }
