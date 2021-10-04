@@ -52,7 +52,7 @@ func ExtractJWT(req *http.Request) (payload *Payload, errResp *models.ErrRespons
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("error decoding token")
 		}
-		return SecretTokenKey, nil
+		return []byte(SecretTokenKey), nil
 	})
 	if err != nil {
 		errResp = GenerateErrResp(http.StatusBadRequest, err.Error())
