@@ -21,6 +21,11 @@ paths:
       summary: Sign up or log in
       operationId: loginV1
       parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: false
       - name: body
         in: body
         description: user object
@@ -37,6 +42,26 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/loginResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
         500:
           description: Internal Server Error
           schema:
@@ -60,6 +85,9 @@ definitions:
     properties:
       username:
         description: username of the user
+        type: string
+      token:
+        description: jwt
         type: string
   errResponse:
     type: object
