@@ -44,6 +44,7 @@ func processLoginRequest(db *gorm.DB, params login_v1.LoginV1Params) (resp *mode
 }
 
 // update later
+
 func handleLogin(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.LoginResponse, errResp *models.ErrResponse) {
 	username := *params.Body.Username
 	// useranme exists
@@ -59,6 +60,7 @@ func handleLogin(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.Login
 		Token:    tokenString,
 		Username: username,
 	}
+
 	return
 }
 
@@ -109,3 +111,5 @@ func checkIfUserExist(db *gorm.DB, username string) (user dbpackages.User, errRe
 	}
 	return
 }
+
+
