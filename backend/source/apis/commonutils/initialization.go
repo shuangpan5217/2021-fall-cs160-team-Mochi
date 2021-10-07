@@ -6,7 +6,17 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-func InitDatabase(db *gorm.DB) error {
+func InsertTables(db *gorm.DB) error {
 	err := db.AutoMigrate(&dbpackages.User{}).Error
+	if err == nil {
+		err = db.AutoMigrate(&dbpackages.Group{}).Error
+	}
+	if err == nil {
+		err = db.AutoMigrate(dbpackages.GroupUser{}).Error
+	}
 	return err
+}
+
+func AddFKConstraints(db *gorm.DB) {
+	dbpackages.CreateFKConstraints(db)
 }
