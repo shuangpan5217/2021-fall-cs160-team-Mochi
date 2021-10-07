@@ -46,10 +46,11 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	err = commonutils.InitDatabase(db)
+	err = commonutils.InsertTables(db)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	commonutils.AddFKConstraints(db)
 
 	api.LoginV1LoginV1Handler = login.LoginV1Handler(db)
 

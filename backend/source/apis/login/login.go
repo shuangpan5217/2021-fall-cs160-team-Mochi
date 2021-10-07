@@ -108,7 +108,7 @@ func handleSignup(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.Logi
 }
 
 func checkIfUserExist(db *gorm.DB, username string) (user dbpackages.User, errResp *models.ErrResponse) {
-	err := db.Table("users").Where("username = ?", username).First(&user).Error
+	err := db.Table(dbpackages.UserTable).Where("username = ?", username).First(&user).Error
 	if gorm.IsRecordNotFoundError(err) {
 
 	} else if err != nil {
