@@ -19,6 +19,21 @@ import (
 // swagger:model userObject
 type UserObject struct {
 
+	// description of the user
+	Description string `json:"description,omitempty"`
+
+	// email of the user
+	Email string `json:"email,omitempty"`
+
+	// first name of the user
+	FirstName string `json:"first_name,omitempty"`
+
+	// last name of the user
+	LastName string `json:"last_name,omitempty"`
+
+	// middle name of the user
+	MiddleName string `json:"middle_name,omitempty"`
+
 	// password of the user
 	// Required: true
 	Password *string `json:"password"`
