@@ -1,2 +1,5 @@
 ./backend/source/generated/cmd/coreapi-server/coreapi
 ./backend/source/generated/cmd/coreapi-server/coreapi-server
+backend/source/generated/cmd/coreapi-server/coreapi-server
+.vscode/
+frontend/node_modules
