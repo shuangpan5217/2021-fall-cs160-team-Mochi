@@ -149,6 +149,26 @@ func init() {
         "password"
       ],
       "properties": {
+        "description": {
+          "description": "description of the user",
+          "type": "string"
+        },
+        "email": {
+          "description": "email of the user",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "first name of the user",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "last name of the user",
+          "type": "string"
+        },
+        "middle_name": {
+          "description": "middle name of the user",
+          "type": "string"
+        },
         "password": {
           "description": "password of the user",
           "type": "string"
@@ -293,6 +313,26 @@ func init() {
         "password"
       ],
       "properties": {
+        "description": {
+          "description": "description of the user",
+          "type": "string"
+        },
+        "email": {
+          "description": "email of the user",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "first name of the user",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "last name of the user",
+          "type": "string"
+        },
+        "middle_name": {
+          "description": "middle name of the user",
+          "type": "string"
+        },
         "password": {
           "description": "password of the user",
           "type": "string"

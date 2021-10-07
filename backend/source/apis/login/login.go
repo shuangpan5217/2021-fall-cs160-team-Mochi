@@ -65,8 +65,9 @@ func handleLogin(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.Login
 }
 
 func handleSignup(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.LoginResponse, errResp *models.ErrResponse) {
-	username := *params.Body.Username
-	password := *params.Body.Password
+	body := *params.Body
+	username := *body.Username
+	password := *body.Password
 
 	// check if user exists
 	var user dbpackages.User
@@ -81,8 +82,13 @@ func handleSignup(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.Logi
 
 	// store to db if not exists
 	user = dbpackages.User{
-		Username: username,
-		Password: password,
+		Username:    username,
+		Password:    password,
+		Email:       body.Email,
+		Description: body.Description,
+		FirstName:   body.FirstName,
+		MiddleName:  body.MiddleName,
+		LastName:    body.LastName,
 	}
 	tx := db.Begin()
 	err := tx.Save(&user).Error
@@ -111,5 +117,3 @@ func checkIfUserExist(db *gorm.DB, username string) (user dbpackages.User, errRe
 	}
 	return
 }
-
-
