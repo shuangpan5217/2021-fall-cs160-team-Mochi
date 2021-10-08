@@ -43,15 +43,16 @@ func processLoginRequest(db *gorm.DB, params login_v1.LoginV1Params) (resp *mode
 	return handleLogin(db, params)
 }
 
-// update later
-
 func handleLogin(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.LoginResponse, errResp *models.ErrResponse) {
 	username := *params.Body.Username
-	// useranme exists
-	// if not exists, return (password or username is not correct)
-	// if exists, check password
-	//     if correct, return username
-	//     if not correct, (password or username is not correct)
+	password := *params.Body.Password
+
+	_, errResp = checkIfPasswordCorrect(db, username, password)
+
+	if errResp != nil {
+		return
+	}
+
 	tokenString, errResp := commonutils.GenerateJWT(username)
 	if errResp != nil {
 		return
@@ -111,6 +112,17 @@ func checkIfUserExist(db *gorm.DB, username string) (user dbpackages.User, errRe
 	err := db.Table(dbpackages.UserTable).Where("username = ?", username).First(&user).Error
 	if gorm.IsRecordNotFoundError(err) {
 
+	} else if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+	return
+}
+
+func checkIfPasswordCorrect(db *gorm.DB, username string, password string) (user dbpackages.User, errResp *models.ErrResponse) {
+	err := db.Table("users").Where("username = ? AND password = ?", username, password).First(&user).Error
+	if gorm.IsRecordNotFoundError(err) {
+		errResp = commonutils.GenerateErrResp(http.StatusUnauthorized, "Username or password is incorrect") // 401 error
 	} else if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
