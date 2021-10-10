@@ -94,7 +94,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/loginResponse'
+            $ref: '#/definitions/noteGetResponse'
         400:
           description: Bad Request
           schema:
@@ -121,13 +121,12 @@ paths:
             $ref: '#/definitions/errResponse'
   /v1/notes/findByUsername:
     get: 
-      tags: notesV1
+      tags: 
+      - notesV1
       summary: find notes by username
       description: one username can be provided to search
       operationId: "findByUsername"
       produces:
-          - application/json
-        consumes:
           - application/json
       parameters:
         - name: username
@@ -139,7 +138,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/loginResponse'
+            $ref: '#/definitions/noteGetResponse'
         400:
           description: Bad Request
           schema:
@@ -166,13 +165,12 @@ paths:
             $ref: '#/definitions/errResponse'
   /v1/notes/findByTags:
     get: 
-      tags: notesV1
+      tags: 
+      - notesV1
       summary: find notes by tags
       description: one tag can be provided to search
       operationId: "findByTags"
       produces:
-          - application/json
-        consumes:
           - application/json
       parameters:
         - name: tag
@@ -184,7 +182,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/loginResponse'
+            $ref: '#/definitions/noteGetResponse'
         400:
           description: Bad Request
           schema:
@@ -211,13 +209,12 @@ paths:
             $ref: '#/definitions/errResponse'
   /v1/notes/findByGroupname:
     get: 
-      tags: notesV1
+      tags: 
+      - notesV1
       summary: find notes by Groupname
       description: one groupname can be provided to search
       operationId: "findByGroupname"
       produces:
-          - application/json
-        consumes:
           - application/json
       parameters:
         - name: groupname
@@ -229,7 +226,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/loginResponse'
+            $ref: '#/definitions/noteGetResponse'
         400:
           description: Bad Request
           schema:
@@ -256,13 +253,14 @@ paths:
             $ref: '#/definitions/errResponse'
   /v1/notes/deleteNote:
     delete: 
-      tags: notesV1
+      tags: 
+      - notesV1
       summary: delete note
       description: user delete note by title
       operationId: "deleteNote"
       produces:
           - application/json
-        consumes:
+      consumes:
           - application/json
       parameters:
         - name: title
@@ -274,7 +272,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/loginResponse'
+            $ref: '#/definitions/noteDeleteResponse'
         400:
           description: Bad Request
           schema:
@@ -300,14 +298,15 @@ paths:
           schema:
             $ref: '#/definitions/errResponse'
   /v1/notes/updateNote:
-    delete: 
-      tags: notesV1
+    put: 
+      tags: 
+      - notesV1
       summary: delete note
       description: user update note by title
       operationId: "updateNote"
       produces:
           - application/json
-        consumes:
+      consumes:
           - application/json
       parameters:
         - name: title
@@ -319,7 +318,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/loginResponse'
+            $ref: '#/definitions/noteDeleteResponse'
         400:
           description: Bad Request
           schema:
@@ -371,7 +370,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/loginResponse'
+            $ref: '#/definitions/commentResponse'
         400:
           description: Bad Request
           schema:
@@ -426,7 +425,6 @@ definitions:
       email: 
         description: email of the user
         type: string
-  
   noteObject:
     type: object
     required:
@@ -484,6 +482,19 @@ definitions:
       token:
         description: jwt
         type: string
+  noteGetResponse:
+    type: object
+    properties:
+      note: 
+        description: note
+        type: object
+  noteDeleteResponse:
+    type: object
+    properties:
+      note_id:
+        description: id of note
+        type: integer
+  
   errResponse:
     type: object
     properties:
