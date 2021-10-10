@@ -12,6 +12,7 @@ require (
 	github.com/go-openapi/strfmt v0.20.2
 	github.com/go-openapi/swag v0.19.15
 	github.com/go-openapi/validate v0.20.2
+	github.com/google/uuid v1.1.1
 	github.com/jinzhu/gorm v1.9.16
 	github.com/spf13/pflag v1.0.5
 	golang.org/x/net v0.0.0-20210924151903-3ad01bbaa167

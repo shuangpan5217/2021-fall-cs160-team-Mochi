@@ -14,10 +14,10 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// UserObject user object
+// CreateUserObject create user object
 //
-// swagger:model userObject
-type UserObject struct {
+// swagger:model createUserObject
+type CreateUserObject struct {
 
 	// description of the user
 	Description string `json:"description,omitempty"`
@@ -43,8 +43,8 @@ type UserObject struct {
 	Username *string `json:"username"`
 }
 
-// Validate validates this user object
-func (m *UserObject) Validate(formats strfmt.Registry) error {
+// Validate validates this create user object
+func (m *CreateUserObject) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validatePassword(formats); err != nil {
@@ -61,7 +61,7 @@ func (m *UserObject) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *UserObject) validatePassword(formats strfmt.Registry) error {
+func (m *CreateUserObject) validatePassword(formats strfmt.Registry) error {
 
 	if err := validate.Required("password", "body", m.Password); err != nil {
 		return err
@@ -70,7 +70,7 @@ func (m *UserObject) validatePassword(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *UserObject) validateUsername(formats strfmt.Registry) error {
+func (m *CreateUserObject) validateUsername(formats strfmt.Registry) error {
 
 	if err := validate.Required("username", "body", m.Username); err != nil {
 		return err
@@ -79,13 +79,13 @@ func (m *UserObject) validateUsername(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validates this user object based on context it is used
-func (m *UserObject) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validates this create user object based on context it is used
+func (m *CreateUserObject) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
 // MarshalBinary interface implementation
-func (m *UserObject) MarshalBinary() ([]byte, error) {
+func (m *CreateUserObject) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -93,8 +93,8 @@ func (m *UserObject) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *UserObject) UnmarshalBinary(b []byte) error {
-	var res UserObject
+func (m *CreateUserObject) UnmarshalBinary(b []byte) error {
+	var res CreateUserObject
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}
