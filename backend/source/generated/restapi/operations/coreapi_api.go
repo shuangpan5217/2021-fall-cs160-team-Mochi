@@ -19,7 +19,9 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/login_v1"
+	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/comments_v1"
+	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/notes_v1"
+	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_mgmt_v1"
 )
 
 // NewCoreapiAPI creates a new Coreapi instance
@@ -44,8 +46,41 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
-		LoginV1LoginV1Handler: login_v1.LoginV1HandlerFunc(func(params login_v1.LoginV1Params) middleware.Responder {
-			return middleware.NotImplemented("operation login_v1.LoginV1 has not yet been implemented")
+		NotesV1DeleteNoteHandler: notes_v1.DeleteNoteHandlerFunc(func(params notes_v1.DeleteNoteParams) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.DeleteNote has not yet been implemented")
+		}),
+		NotesV1FindByGroupnameHandler: notes_v1.FindByGroupnameHandlerFunc(func(params notes_v1.FindByGroupnameParams) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.FindByGroupname has not yet been implemented")
+		}),
+		NotesV1FindByTagsHandler: notes_v1.FindByTagsHandlerFunc(func(params notes_v1.FindByTagsParams) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.FindByTags has not yet been implemented")
+		}),
+		NotesV1FindByUsernameHandler: notes_v1.FindByUsernameHandlerFunc(func(params notes_v1.FindByUsernameParams) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.FindByUsername has not yet been implemented")
+		}),
+		NotesV1GetNoteMembersHandler: notes_v1.GetNoteMembersHandlerFunc(func(params notes_v1.GetNoteMembersParams) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.GetNoteMembers has not yet been implemented")
+		}),
+		UserMgmtV1GetUserV1Handler: user_mgmt_v1.GetUserV1HandlerFunc(func(params user_mgmt_v1.GetUserV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_mgmt_v1.GetUserV1 has not yet been implemented")
+		}),
+		UserMgmtV1LoginV1Handler: user_mgmt_v1.LoginV1HandlerFunc(func(params user_mgmt_v1.LoginV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_mgmt_v1.LoginV1 has not yet been implemented")
+		}),
+		NotesV1NotesV1Handler: notes_v1.NotesV1HandlerFunc(func(params notes_v1.NotesV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.NotesV1 has not yet been implemented")
+		}),
+		CommentsV1PostCommentsV1Handler: comments_v1.PostCommentsV1HandlerFunc(func(params comments_v1.PostCommentsV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation comments_v1.PostCommentsV1 has not yet been implemented")
+		}),
+		NotesV1UpdateNoteHandler: notes_v1.UpdateNoteHandlerFunc(func(params notes_v1.UpdateNoteParams) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.UpdateNote has not yet been implemented")
+		}),
+		UserMgmtV1UpdatePasswordV1Handler: user_mgmt_v1.UpdatePasswordV1HandlerFunc(func(params user_mgmt_v1.UpdatePasswordV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_mgmt_v1.UpdatePasswordV1 has not yet been implemented")
+		}),
+		UserMgmtV1UpdateUserInfoV1Handler: user_mgmt_v1.UpdateUserInfoV1HandlerFunc(func(params user_mgmt_v1.UpdateUserInfoV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_mgmt_v1.UpdateUserInfoV1 has not yet been implemented")
 		}),
 	}
 }
@@ -83,8 +118,30 @@ type CoreapiAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
-	// LoginV1LoginV1Handler sets the operation handler for the login v1 operation
-	LoginV1LoginV1Handler login_v1.LoginV1Handler
+	// NotesV1DeleteNoteHandler sets the operation handler for the delete note operation
+	NotesV1DeleteNoteHandler notes_v1.DeleteNoteHandler
+	// NotesV1FindByGroupnameHandler sets the operation handler for the find by groupname operation
+	NotesV1FindByGroupnameHandler notes_v1.FindByGroupnameHandler
+	// NotesV1FindByTagsHandler sets the operation handler for the find by tags operation
+	NotesV1FindByTagsHandler notes_v1.FindByTagsHandler
+	// NotesV1FindByUsernameHandler sets the operation handler for the find by username operation
+	NotesV1FindByUsernameHandler notes_v1.FindByUsernameHandler
+	// NotesV1GetNoteMembersHandler sets the operation handler for the get note members operation
+	NotesV1GetNoteMembersHandler notes_v1.GetNoteMembersHandler
+	// UserMgmtV1GetUserV1Handler sets the operation handler for the get user v1 operation
+	UserMgmtV1GetUserV1Handler user_mgmt_v1.GetUserV1Handler
+	// UserMgmtV1LoginV1Handler sets the operation handler for the login v1 operation
+	UserMgmtV1LoginV1Handler user_mgmt_v1.LoginV1Handler
+	// NotesV1NotesV1Handler sets the operation handler for the notes v1 operation
+	NotesV1NotesV1Handler notes_v1.NotesV1Handler
+	// CommentsV1PostCommentsV1Handler sets the operation handler for the post comments v1 operation
+	CommentsV1PostCommentsV1Handler comments_v1.PostCommentsV1Handler
+	// NotesV1UpdateNoteHandler sets the operation handler for the update note operation
+	NotesV1UpdateNoteHandler notes_v1.UpdateNoteHandler
+	// UserMgmtV1UpdatePasswordV1Handler sets the operation handler for the update password v1 operation
+	UserMgmtV1UpdatePasswordV1Handler user_mgmt_v1.UpdatePasswordV1Handler
+	// UserMgmtV1UpdateUserInfoV1Handler sets the operation handler for the update user info v1 operation
+	UserMgmtV1UpdateUserInfoV1Handler user_mgmt_v1.UpdateUserInfoV1Handler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -162,8 +219,41 @@ func (o *CoreapiAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.LoginV1LoginV1Handler == nil {
-		unregistered = append(unregistered, "login_v1.LoginV1Handler")
+	if o.NotesV1DeleteNoteHandler == nil {
+		unregistered = append(unregistered, "notes_v1.DeleteNoteHandler")
+	}
+	if o.NotesV1FindByGroupnameHandler == nil {
+		unregistered = append(unregistered, "notes_v1.FindByGroupnameHandler")
+	}
+	if o.NotesV1FindByTagsHandler == nil {
+		unregistered = append(unregistered, "notes_v1.FindByTagsHandler")
+	}
+	if o.NotesV1FindByUsernameHandler == nil {
+		unregistered = append(unregistered, "notes_v1.FindByUsernameHandler")
+	}
+	if o.NotesV1GetNoteMembersHandler == nil {
+		unregistered = append(unregistered, "notes_v1.GetNoteMembersHandler")
+	}
+	if o.UserMgmtV1GetUserV1Handler == nil {
+		unregistered = append(unregistered, "user_mgmt_v1.GetUserV1Handler")
+	}
+	if o.UserMgmtV1LoginV1Handler == nil {
+		unregistered = append(unregistered, "user_mgmt_v1.LoginV1Handler")
+	}
+	if o.NotesV1NotesV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.NotesV1Handler")
+	}
+	if o.CommentsV1PostCommentsV1Handler == nil {
+		unregistered = append(unregistered, "comments_v1.PostCommentsV1Handler")
+	}
+	if o.NotesV1UpdateNoteHandler == nil {
+		unregistered = append(unregistered, "notes_v1.UpdateNoteHandler")
+	}
+	if o.UserMgmtV1UpdatePasswordV1Handler == nil {
+		unregistered = append(unregistered, "user_mgmt_v1.UpdatePasswordV1Handler")
+	}
+	if o.UserMgmtV1UpdateUserInfoV1Handler == nil {
+		unregistered = append(unregistered, "user_mgmt_v1.UpdateUserInfoV1Handler")
 	}
 
 	if len(unregistered) > 0 {
@@ -253,10 +343,54 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/v1/notes/{id}"] = notes_v1.NewDeleteNote(o.context, o.NotesV1DeleteNoteHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/notes/groupname/{group_name}"] = notes_v1.NewFindByGroupname(o.context, o.NotesV1FindByGroupnameHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/notes/tag/{tag}"] = notes_v1.NewFindByTags(o.context, o.NotesV1FindByTagsHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/notes/username/{username}"] = notes_v1.NewFindByUsername(o.context, o.NotesV1FindByUsernameHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/notes/{id}/members"] = notes_v1.NewGetNoteMembers(o.context, o.NotesV1GetNoteMembersHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/getuser/{username}"] = user_mgmt_v1.NewGetUserV1(o.context, o.UserMgmtV1GetUserV1Handler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/v1/login"] = login_v1.NewLoginV1(o.context, o.LoginV1LoginV1Handler)
+	o.handlers["POST"]["/v1/login"] = user_mgmt_v1.NewLoginV1(o.context, o.UserMgmtV1LoginV1Handler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/v1/notes"] = notes_v1.NewNotesV1(o.context, o.NotesV1NotesV1Handler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/v1/comments"] = comments_v1.NewPostCommentsV1(o.context, o.CommentsV1PostCommentsV1Handler)
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/v1/notes/{id}"] = notes_v1.NewUpdateNote(o.context, o.NotesV1UpdateNoteHandler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
+	}
+	o.handlers["PATCH"]["/v1/updatepassword/{password}"] = user_mgmt_v1.NewUpdatePasswordV1(o.context, o.UserMgmtV1UpdatePasswordV1Handler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
+	}
+	o.handlers["PATCH"]["/v1/updateuserinfo"] = user_mgmt_v1.NewUpdateUserInfoV1(o.context, o.UserMgmtV1UpdateUserInfoV1Handler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

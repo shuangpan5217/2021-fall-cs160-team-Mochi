@@ -29,6 +29,157 @@ func init() {
     "version": "1.0.0"
   },
   "paths": {
+    "/v1/comments": {
+      "post": {
+        "description": "add comment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "commentsV1"
+        ],
+        "summary": "add comment",
+        "operationId": "postCommentsV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "comment object",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commentObject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/commentResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/getuser/{username}": {
+      "get": {
+        "description": "get user info",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Get user info",
+        "operationId": "getUserV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "username",
+            "name": "username",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/login": {
       "post": {
         "description": "handle login request, username and password",
@@ -39,7 +190,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "LoginV1"
+          "UserMgmtV1"
         ],
         "summary": "Sign up or log in",
         "operationId": "loginV1",
@@ -56,7 +207,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/userObject"
+              "$ref": "#/definitions/createUserObject"
             }
           },
           {
@@ -112,37 +263,721 @@ func init() {
           }
         }
       }
+    },
+    "/v1/notes": {
+      "post": {
+        "description": "add note",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "add note",
+        "operationId": "notesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "note object",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/noteObject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/groupname/{group_name}": {
+      "get": {
+        "description": "one groupname can be provided to search",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "find notes by Groupname",
+        "operationId": "findByGroupname",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "groupname to filter by",
+            "name": "group_name",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/tag/{tag}": {
+      "get": {
+        "description": "one tag can be provided to search",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "find notes by tags",
+        "operationId": "findByTags",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "tag to filter by",
+            "name": "tag",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/username/{username}": {
+      "get": {
+        "description": "one username can be provided to search",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "find notes by username",
+        "operationId": "findByUsername",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "username to filter by",
+            "name": "username",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/{id}": {
+      "put": {
+        "description": "user update note by id",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "update note",
+        "operationId": "updateNote",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "title to filter by",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "note object",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/noteObject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteDeleteResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "user delete note by title",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "delete note",
+        "operationId": "deleteNote",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "title to filter by",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteDeleteResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/{id}/members": {
+      "get": {
+        "description": "get members of notes",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get members of notes",
+        "operationId": "getNoteMembers",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "title to filter by",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getNoteMembersResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/updatepassword/{password}": {
+      "patch": {
+        "description": "update password",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Update password",
+        "operationId": "updatePasswordV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "password",
+            "name": "password",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/updateuserinfo": {
+      "patch": {
+        "description": "update user info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Update user info",
+        "operationId": "updateUserInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "new user info body",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "errResponse": {
+    "commentObject": {
       "type": "object",
+      "required": [
+        "username",
+        "note_id",
+        "content"
+      ],
       "properties": {
-        "errMessage": {
-          "description": "error message",
+        "content": {
+          "description": "content of the comment",
           "type": "string"
         },
-        "status_code": {
-          "description": "http error code",
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "loginResponse": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "description": "jwt",
+        "note_id": {
+          "description": "the note corresponding to comment_id",
           "type": "string"
         },
         "username": {
-          "description": "username of the user",
+          "description": "user who submit the comment",
           "type": "string"
         }
       }
     },
-    "userObject": {
+    "commentResponse": {
+      "type": "object",
+      "properties": {
+        "note_id": {
+          "description": "the note corresponding to comment_id",
+          "type": "string"
+        },
+        "username": {
+          "description": "user who submit the comment",
+          "type": "string"
+        }
+      }
+    },
+    "createUserObject": {
       "type": "object",
       "required": [
         "username",
@@ -171,6 +1006,143 @@ func init() {
         },
         "password": {
           "description": "password of the user",
+          "type": "string"
+        },
+        "username": {
+          "description": "username of the user",
+          "type": "string"
+        }
+      }
+    },
+    "errResponse": {
+      "type": "object",
+      "properties": {
+        "errMessage": {
+          "description": "error message",
+          "type": "string"
+        },
+        "status_code": {
+          "description": "http error code",
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "getNoteMembersResponse": {
+      "type": "object",
+      "properties": {
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupObj"
+          }
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userObj"
+          }
+        }
+      }
+    },
+    "groupObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "group's desciption",
+          "type": "string"
+        },
+        "group_name": {
+          "description": "group name",
+          "type": "string"
+        },
+        "group_owner": {
+          "description": "group owner",
+          "type": "string"
+        }
+      }
+    },
+    "loginResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "description": "jwt",
+          "type": "string"
+        },
+        "username": {
+          "description": "username of the user",
+          "type": "string"
+        }
+      }
+    },
+    "noteDeleteResponse": {
+      "type": "object",
+      "properties": {
+        "note_id": {
+          "description": "id of note",
+          "type": "integer"
+        }
+      }
+    },
+    "noteGetResponse": {
+      "description": "array of note",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/noteObject"
+      }
+    },
+    "noteObject": {
+      "description": "array of notes",
+      "required": [
+        "note_owner",
+        "tag"
+      ],
+      "properties": {
+        "category": {
+          "description": "note category",
+          "type": "string"
+        },
+        "desc": {
+          "description": "description of the note",
+          "type": "string"
+        },
+        "note_owner": {
+          "description": "the owner of note"
+        },
+        "tag": {
+          "description": "tags of the note",
+          "type": "string"
+        },
+        "title": {
+          "description": "title of the note",
+          "type": "string"
+        },
+        "type": {
+          "description": "type of the note file",
+          "type": "string"
+        }
+      }
+    },
+    "userObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "description of the user",
+          "type": "string"
+        },
+        "email": {
+          "description": "email of the user"
+        },
+        "first_name": {
+          "description": "first name of the user",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "last name of the user",
+          "type": "string"
+        },
+        "middle_name": {
+          "description": "middle name of the user",
           "type": "string"
         },
         "username": {
@@ -193,6 +1165,157 @@ func init() {
     "version": "1.0.0"
   },
   "paths": {
+    "/v1/comments": {
+      "post": {
+        "description": "add comment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "commentsV1"
+        ],
+        "summary": "add comment",
+        "operationId": "postCommentsV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "comment object",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commentObject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/commentResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/getuser/{username}": {
+      "get": {
+        "description": "get user info",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Get user info",
+        "operationId": "getUserV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "username",
+            "name": "username",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/login": {
       "post": {
         "description": "handle login request, username and password",
@@ -203,7 +1326,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "LoginV1"
+          "UserMgmtV1"
         ],
         "summary": "Sign up or log in",
         "operationId": "loginV1",
@@ -220,7 +1343,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/userObject"
+              "$ref": "#/definitions/createUserObject"
             }
           },
           {
@@ -276,37 +1399,721 @@ func init() {
           }
         }
       }
+    },
+    "/v1/notes": {
+      "post": {
+        "description": "add note",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "add note",
+        "operationId": "notesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "note object",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/noteObject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/groupname/{group_name}": {
+      "get": {
+        "description": "one groupname can be provided to search",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "find notes by Groupname",
+        "operationId": "findByGroupname",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "groupname to filter by",
+            "name": "group_name",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/tag/{tag}": {
+      "get": {
+        "description": "one tag can be provided to search",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "find notes by tags",
+        "operationId": "findByTags",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "tag to filter by",
+            "name": "tag",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/username/{username}": {
+      "get": {
+        "description": "one username can be provided to search",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "find notes by username",
+        "operationId": "findByUsername",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "username to filter by",
+            "name": "username",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/{id}": {
+      "put": {
+        "description": "user update note by id",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "update note",
+        "operationId": "updateNote",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "title to filter by",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "note object",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/noteObject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteDeleteResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "user delete note by title",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "delete note",
+        "operationId": "deleteNote",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "title to filter by",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteDeleteResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/{id}/members": {
+      "get": {
+        "description": "get members of notes",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get members of notes",
+        "operationId": "getNoteMembers",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "title to filter by",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getNoteMembersResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/updatepassword/{password}": {
+      "patch": {
+        "description": "update password",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Update password",
+        "operationId": "updatePasswordV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "password",
+            "name": "password",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/updateuserinfo": {
+      "patch": {
+        "description": "update user info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Update user info",
+        "operationId": "updateUserInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "new user info body",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "errResponse": {
+    "commentObject": {
       "type": "object",
+      "required": [
+        "username",
+        "note_id",
+        "content"
+      ],
       "properties": {
-        "errMessage": {
-          "description": "error message",
+        "content": {
+          "description": "content of the comment",
           "type": "string"
         },
-        "status_code": {
-          "description": "http error code",
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "loginResponse": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "description": "jwt",
+        "note_id": {
+          "description": "the note corresponding to comment_id",
           "type": "string"
         },
         "username": {
-          "description": "username of the user",
+          "description": "user who submit the comment",
           "type": "string"
         }
       }
     },
-    "userObject": {
+    "commentResponse": {
+      "type": "object",
+      "properties": {
+        "note_id": {
+          "description": "the note corresponding to comment_id",
+          "type": "string"
+        },
+        "username": {
+          "description": "user who submit the comment",
+          "type": "string"
+        }
+      }
+    },
+    "createUserObject": {
       "type": "object",
       "required": [
         "username",
@@ -335,6 +2142,143 @@ func init() {
         },
         "password": {
           "description": "password of the user",
+          "type": "string"
+        },
+        "username": {
+          "description": "username of the user",
+          "type": "string"
+        }
+      }
+    },
+    "errResponse": {
+      "type": "object",
+      "properties": {
+        "errMessage": {
+          "description": "error message",
+          "type": "string"
+        },
+        "status_code": {
+          "description": "http error code",
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "getNoteMembersResponse": {
+      "type": "object",
+      "properties": {
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupObj"
+          }
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userObj"
+          }
+        }
+      }
+    },
+    "groupObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "group's desciption",
+          "type": "string"
+        },
+        "group_name": {
+          "description": "group name",
+          "type": "string"
+        },
+        "group_owner": {
+          "description": "group owner",
+          "type": "string"
+        }
+      }
+    },
+    "loginResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "description": "jwt",
+          "type": "string"
+        },
+        "username": {
+          "description": "username of the user",
+          "type": "string"
+        }
+      }
+    },
+    "noteDeleteResponse": {
+      "type": "object",
+      "properties": {
+        "note_id": {
+          "description": "id of note",
+          "type": "integer"
+        }
+      }
+    },
+    "noteGetResponse": {
+      "description": "array of note",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/noteObject"
+      }
+    },
+    "noteObject": {
+      "description": "array of notes",
+      "required": [
+        "note_owner",
+        "tag"
+      ],
+      "properties": {
+        "category": {
+          "description": "note category",
+          "type": "string"
+        },
+        "desc": {
+          "description": "description of the note",
+          "type": "string"
+        },
+        "note_owner": {
+          "description": "the owner of note"
+        },
+        "tag": {
+          "description": "tags of the note",
+          "type": "string"
+        },
+        "title": {
+          "description": "title of the note",
+          "type": "string"
+        },
+        "type": {
+          "description": "type of the note file",
+          "type": "string"
+        }
+      }
+    },
+    "userObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "description of the user",
+          "type": "string"
+        },
+        "email": {
+          "description": "email of the user"
+        },
+        "first_name": {
+          "description": "first name of the user",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "last name of the user",
+          "type": "string"
+        },
+        "middle_name": {
+          "description": "middle name of the user",
           "type": "string"
         },
         "username": {
