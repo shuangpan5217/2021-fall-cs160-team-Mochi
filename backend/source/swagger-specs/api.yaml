@@ -615,7 +615,6 @@ definitions:
       email: 
         description: email of the user
   noteObject:
-    
     description: array of notes
     required:
     - note_owner
