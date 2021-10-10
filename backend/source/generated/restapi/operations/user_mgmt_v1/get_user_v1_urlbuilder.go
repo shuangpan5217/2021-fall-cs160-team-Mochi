@@ -9,16 +9,11 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
-	"strings"
 )
 
 // GetUserV1URL generates an URL for the get user v1 operation
 type GetUserV1URL struct {
-	Username string
-
 	_basePath string
-	// avoid unkeyed usage
-	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
@@ -40,14 +35,7 @@ func (o *GetUserV1URL) SetBasePath(bp string) {
 func (o *GetUserV1URL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/v1/getuser/{username}"
-
-	username := o.Username
-	if username != "" {
-		_path = strings.Replace(_path, "{username}", username, -1)
-	} else {
-		return nil, errors.New("username is required on GetUserV1URL")
-	}
+	var _path = "/v1/user"
 
 	_basePath := o._basePath
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)

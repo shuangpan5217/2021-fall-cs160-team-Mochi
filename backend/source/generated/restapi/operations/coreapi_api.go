@@ -20,6 +20,7 @@ import (
 	"github.com/go-openapi/swag"
 
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/comments_v1"
+	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/groups_v1"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/notes_v1"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_mgmt_v1"
 )
@@ -46,6 +47,15 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
+		GroupsV1AddGroupUsersV1Handler: groups_v1.AddGroupUsersV1HandlerFunc(func(params groups_v1.AddGroupUsersV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation groups_v1.AddGroupUsersV1 has not yet been implemented")
+		}),
+		GroupsV1CreateGroupV1Handler: groups_v1.CreateGroupV1HandlerFunc(func(params groups_v1.CreateGroupV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation groups_v1.CreateGroupV1 has not yet been implemented")
+		}),
+		GroupsV1DeleteGroupV1Handler: groups_v1.DeleteGroupV1HandlerFunc(func(params groups_v1.DeleteGroupV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation groups_v1.DeleteGroupV1 has not yet been implemented")
+		}),
 		NotesV1DeleteNoteHandler: notes_v1.DeleteNoteHandlerFunc(func(params notes_v1.DeleteNoteParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.DeleteNote has not yet been implemented")
 		}),
@@ -57,6 +67,18 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		}),
 		NotesV1FindByUsernameHandler: notes_v1.FindByUsernameHandlerFunc(func(params notes_v1.FindByUsernameParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.FindByUsername has not yet been implemented")
+		}),
+		GroupsV1GetGroupInfoV1Handler: groups_v1.GetGroupInfoV1HandlerFunc(func(params groups_v1.GetGroupInfoV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation groups_v1.GetGroupInfoV1 has not yet been implemented")
+		}),
+		GroupsV1GetGroupUsersV1Handler: groups_v1.GetGroupUsersV1HandlerFunc(func(params groups_v1.GetGroupUsersV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation groups_v1.GetGroupUsersV1 has not yet been implemented")
+		}),
+		GroupsV1GetGroupsV1Handler: groups_v1.GetGroupsV1HandlerFunc(func(params groups_v1.GetGroupsV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation groups_v1.GetGroupsV1 has not yet been implemented")
+		}),
+		NotesV1GetNoteCommentsHandler: notes_v1.GetNoteCommentsHandlerFunc(func(params notes_v1.GetNoteCommentsParams) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.GetNoteComments has not yet been implemented")
 		}),
 		NotesV1GetNoteMembersHandler: notes_v1.GetNoteMembersHandlerFunc(func(params notes_v1.GetNoteMembersParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.GetNoteMembers has not yet been implemented")
@@ -72,6 +94,12 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		}),
 		CommentsV1PostCommentsV1Handler: comments_v1.PostCommentsV1HandlerFunc(func(params comments_v1.PostCommentsV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation comments_v1.PostCommentsV1 has not yet been implemented")
+		}),
+		CommentsV1RemoveComnentV1Handler: comments_v1.RemoveComnentV1HandlerFunc(func(params comments_v1.RemoveComnentV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation comments_v1.RemoveComnentV1 has not yet been implemented")
+		}),
+		GroupsV1RemoveGroupUsersV1Handler: groups_v1.RemoveGroupUsersV1HandlerFunc(func(params groups_v1.RemoveGroupUsersV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation groups_v1.RemoveGroupUsersV1 has not yet been implemented")
 		}),
 		NotesV1UpdateNoteHandler: notes_v1.UpdateNoteHandlerFunc(func(params notes_v1.UpdateNoteParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.UpdateNote has not yet been implemented")
@@ -118,6 +146,12 @@ type CoreapiAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
+	// GroupsV1AddGroupUsersV1Handler sets the operation handler for the add group users v1 operation
+	GroupsV1AddGroupUsersV1Handler groups_v1.AddGroupUsersV1Handler
+	// GroupsV1CreateGroupV1Handler sets the operation handler for the create group v1 operation
+	GroupsV1CreateGroupV1Handler groups_v1.CreateGroupV1Handler
+	// GroupsV1DeleteGroupV1Handler sets the operation handler for the delete group v1 operation
+	GroupsV1DeleteGroupV1Handler groups_v1.DeleteGroupV1Handler
 	// NotesV1DeleteNoteHandler sets the operation handler for the delete note operation
 	NotesV1DeleteNoteHandler notes_v1.DeleteNoteHandler
 	// NotesV1FindByGroupnameHandler sets the operation handler for the find by groupname operation
@@ -126,6 +160,14 @@ type CoreapiAPI struct {
 	NotesV1FindByTagsHandler notes_v1.FindByTagsHandler
 	// NotesV1FindByUsernameHandler sets the operation handler for the find by username operation
 	NotesV1FindByUsernameHandler notes_v1.FindByUsernameHandler
+	// GroupsV1GetGroupInfoV1Handler sets the operation handler for the get group info v1 operation
+	GroupsV1GetGroupInfoV1Handler groups_v1.GetGroupInfoV1Handler
+	// GroupsV1GetGroupUsersV1Handler sets the operation handler for the get group users v1 operation
+	GroupsV1GetGroupUsersV1Handler groups_v1.GetGroupUsersV1Handler
+	// GroupsV1GetGroupsV1Handler sets the operation handler for the get groups v1 operation
+	GroupsV1GetGroupsV1Handler groups_v1.GetGroupsV1Handler
+	// NotesV1GetNoteCommentsHandler sets the operation handler for the get note comments operation
+	NotesV1GetNoteCommentsHandler notes_v1.GetNoteCommentsHandler
 	// NotesV1GetNoteMembersHandler sets the operation handler for the get note members operation
 	NotesV1GetNoteMembersHandler notes_v1.GetNoteMembersHandler
 	// UserMgmtV1GetUserV1Handler sets the operation handler for the get user v1 operation
@@ -136,6 +178,10 @@ type CoreapiAPI struct {
 	NotesV1NotesV1Handler notes_v1.NotesV1Handler
 	// CommentsV1PostCommentsV1Handler sets the operation handler for the post comments v1 operation
 	CommentsV1PostCommentsV1Handler comments_v1.PostCommentsV1Handler
+	// CommentsV1RemoveComnentV1Handler sets the operation handler for the remove comnent v1 operation
+	CommentsV1RemoveComnentV1Handler comments_v1.RemoveComnentV1Handler
+	// GroupsV1RemoveGroupUsersV1Handler sets the operation handler for the remove group users v1 operation
+	GroupsV1RemoveGroupUsersV1Handler groups_v1.RemoveGroupUsersV1Handler
 	// NotesV1UpdateNoteHandler sets the operation handler for the update note operation
 	NotesV1UpdateNoteHandler notes_v1.UpdateNoteHandler
 	// UserMgmtV1UpdatePasswordV1Handler sets the operation handler for the update password v1 operation
@@ -219,6 +265,15 @@ func (o *CoreapiAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.GroupsV1AddGroupUsersV1Handler == nil {
+		unregistered = append(unregistered, "groups_v1.AddGroupUsersV1Handler")
+	}
+	if o.GroupsV1CreateGroupV1Handler == nil {
+		unregistered = append(unregistered, "groups_v1.CreateGroupV1Handler")
+	}
+	if o.GroupsV1DeleteGroupV1Handler == nil {
+		unregistered = append(unregistered, "groups_v1.DeleteGroupV1Handler")
+	}
 	if o.NotesV1DeleteNoteHandler == nil {
 		unregistered = append(unregistered, "notes_v1.DeleteNoteHandler")
 	}
@@ -230,6 +285,18 @@ func (o *CoreapiAPI) Validate() error {
 	}
 	if o.NotesV1FindByUsernameHandler == nil {
 		unregistered = append(unregistered, "notes_v1.FindByUsernameHandler")
+	}
+	if o.GroupsV1GetGroupInfoV1Handler == nil {
+		unregistered = append(unregistered, "groups_v1.GetGroupInfoV1Handler")
+	}
+	if o.GroupsV1GetGroupUsersV1Handler == nil {
+		unregistered = append(unregistered, "groups_v1.GetGroupUsersV1Handler")
+	}
+	if o.GroupsV1GetGroupsV1Handler == nil {
+		unregistered = append(unregistered, "groups_v1.GetGroupsV1Handler")
+	}
+	if o.NotesV1GetNoteCommentsHandler == nil {
+		unregistered = append(unregistered, "notes_v1.GetNoteCommentsHandler")
 	}
 	if o.NotesV1GetNoteMembersHandler == nil {
 		unregistered = append(unregistered, "notes_v1.GetNoteMembersHandler")
@@ -245,6 +312,12 @@ func (o *CoreapiAPI) Validate() error {
 	}
 	if o.CommentsV1PostCommentsV1Handler == nil {
 		unregistered = append(unregistered, "comments_v1.PostCommentsV1Handler")
+	}
+	if o.CommentsV1RemoveComnentV1Handler == nil {
+		unregistered = append(unregistered, "comments_v1.RemoveComnentV1Handler")
+	}
+	if o.GroupsV1RemoveGroupUsersV1Handler == nil {
+		unregistered = append(unregistered, "groups_v1.RemoveGroupUsersV1Handler")
 	}
 	if o.NotesV1UpdateNoteHandler == nil {
 		unregistered = append(unregistered, "notes_v1.UpdateNoteHandler")
@@ -343,6 +416,18 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/v1/groups/{group_id}/members"] = groups_v1.NewAddGroupUsersV1(o.context, o.GroupsV1AddGroupUsersV1Handler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/v1/groups"] = groups_v1.NewCreateGroupV1(o.context, o.GroupsV1CreateGroupV1Handler)
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/v1/groups/{group_id}"] = groups_v1.NewDeleteGroupV1(o.context, o.GroupsV1DeleteGroupV1Handler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
@@ -362,11 +447,27 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
+	o.handlers["GET"]["/v1/groups/{group_id}"] = groups_v1.NewGetGroupInfoV1(o.context, o.GroupsV1GetGroupInfoV1Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/groups/{group_id}/members"] = groups_v1.NewGetGroupUsersV1(o.context, o.GroupsV1GetGroupUsersV1Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/groups"] = groups_v1.NewGetGroupsV1(o.context, o.GroupsV1GetGroupsV1Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/notes/{comment_id}/comments"] = notes_v1.NewGetNoteComments(o.context, o.NotesV1GetNoteCommentsHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
 	o.handlers["GET"]["/v1/notes/{id}/members"] = notes_v1.NewGetNoteMembers(o.context, o.NotesV1GetNoteMembersHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/v1/getuser/{username}"] = user_mgmt_v1.NewGetUserV1(o.context, o.UserMgmtV1GetUserV1Handler)
+	o.handlers["GET"]["/v1/user"] = user_mgmt_v1.NewGetUserV1(o.context, o.UserMgmtV1GetUserV1Handler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
@@ -379,6 +480,14 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/v1/comments"] = comments_v1.NewPostCommentsV1(o.context, o.CommentsV1PostCommentsV1Handler)
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/v1/comments/{comment_id}"] = comments_v1.NewRemoveComnentV1(o.context, o.CommentsV1RemoveComnentV1Handler)
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/v1/groups/{group_id}/members"] = groups_v1.NewRemoveGroupUsersV1(o.context, o.GroupsV1RemoveGroupUsersV1Handler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
@@ -386,11 +495,11 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["PATCH"] == nil {
 		o.handlers["PATCH"] = make(map[string]http.Handler)
 	}
-	o.handlers["PATCH"]["/v1/updatepassword/{password}"] = user_mgmt_v1.NewUpdatePasswordV1(o.context, o.UserMgmtV1UpdatePasswordV1Handler)
+	o.handlers["PATCH"]["/v1/password/{password}"] = user_mgmt_v1.NewUpdatePasswordV1(o.context, o.UserMgmtV1UpdatePasswordV1Handler)
 	if o.handlers["PATCH"] == nil {
 		o.handlers["PATCH"] = make(map[string]http.Handler)
 	}
-	o.handlers["PATCH"]["/v1/updateuserinfo"] = user_mgmt_v1.NewUpdateUserInfoV1(o.context, o.UserMgmtV1UpdateUserInfoV1Handler)
+	o.handlers["PATCH"]["/v1/user"] = user_mgmt_v1.NewUpdateUserInfoV1(o.context, o.UserMgmtV1UpdateUserInfoV1Handler)
 }
 
 // Serve creates a http handler to serve the API over HTTP
