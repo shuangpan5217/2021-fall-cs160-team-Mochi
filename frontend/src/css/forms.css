@@ -1,0 +1,29 @@
+.text-input-box{
+    border: 1px solid var(--txt-input-border-color);
+    border-radius: 10px;
+    padding-left: 10px;
+    width: 475px;
+    margin-top: 15px;
+}
+
+.btn.link{
+    color: var(--link-color);
+}
+
+.btn.primary, .btn.secondary{
+    border-radius: 18px;
+    padding: 6px 20px;
+    color: var(--btn-txt-color);
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.btn.primary{
+    background-color: var(--primary-btn-color);
+    border: 1px solid var(--primary-btn-border-color);
+}
+
+.btn.secondary{
+    background-color: var(--secondary-btn-color);
+    border: 1px solid var(--secondary-btn-border-color);
+}

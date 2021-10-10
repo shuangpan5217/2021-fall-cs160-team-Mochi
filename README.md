@@ -63,9 +63,11 @@ The backend will listen to the `localhost:3000`
 Have `node`, `npm` installed
 
 <pre>
-1. npm install (for first run after a pulling)
+1. npm install
 2. npm start
 </pre>
+
+Note: If there are any issues with any node modules, try running `npm cache clean --force` and deleting the `node_modules` folder before retrying the steps outlined above.
 
 Listen to a different port if needed when run `npm start`.
 Open your browser and input `localhost:front_end_port_number`

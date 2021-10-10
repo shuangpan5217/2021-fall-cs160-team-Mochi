@@ -1,0 +1,11 @@
+.continuo-lg{
+    font-size: 57px;
+}
+
+.continuo{
+    font-family: continuo,sans-serif;
+    font-weight: 400;
+    font-size: 45px;
+    font-style: normal;
+    color: var(--logo-color);
+}
