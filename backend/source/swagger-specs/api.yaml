@@ -366,7 +366,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/findByGroupname:
+  /v1/notes/groupname/{group_name}:
     get: 
       tags: 
       - notesV1
@@ -376,8 +376,13 @@ paths:
       produces:
           - application/json
       parameters:
-        - name: groupname
-          in: query
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: group_name
+          in: path
           description: groupname to filter by
           required: true
           type: string
@@ -410,7 +415,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/note/{id}:
+  /v1/notes/{id}:
     delete: 
       tags: 
       - notesV1
@@ -515,7 +520,57 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/comments/:
+  /v1/notes/{id}/members:
+    get:
+      description: get members of notes
+      produces:
+        - application/json
+      tags:
+      - notesV1
+      summary: get members of notes
+      operationId: getNoteMembers
+      parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: id
+          in: path
+          description: title to filter by
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/getNoteMembersResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+
+  /v1/comments:
     post:
       description: add comment
       produces:
@@ -600,6 +655,9 @@ definitions:
   userObj:
     type: object
     properties:
+      username: 
+        description: username of the user
+        type: string
       description:
         description: description of the user
         type: string
@@ -614,6 +672,18 @@ definitions:
         type: string
       email: 
         description: email of the user
+  groupObj:
+    type: object
+    properties:
+      group_name:
+        description: group name
+        type: string
+      description:
+        description: group's desciption
+        type: string
+      group_owner:
+        description: group owner
+        type: string
   noteObject:
     description: array of notes
     required:
@@ -673,6 +743,17 @@ definitions:
       note_id:
         description: id of note
         type: integer
+  getNoteMembersResponse:
+    type: object
+    properties:
+      users: 
+        type: array
+        items:
+          $ref: '#/definitions/userObj'
+      groups:
+        type: array
+        items: 
+          $ref: '#/definitions/groupObj'
   commentResponse:
     type: object
     properties:

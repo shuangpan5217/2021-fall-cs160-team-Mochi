@@ -21,7 +21,7 @@ type UserObj struct {
 	Description string `json:"description,omitempty"`
 
 	// email of the user
-	Email string `json:"email,omitempty"`
+	Email interface{} `json:"email,omitempty"`
 
 	// first name of the user
 	FirstName string `json:"first_name,omitempty"`
@@ -31,6 +31,9 @@ type UserObj struct {
 
 	// middle name of the user
 	MiddleName string `json:"middle_name,omitempty"`
+
+	// username of the user
+	Username string `json:"username,omitempty"`
 }
 
 // Validate validates this user obj
