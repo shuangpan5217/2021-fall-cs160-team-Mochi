@@ -232,7 +232,7 @@ paths:
         description: Bearer token based Authorization
         type: string
         in: header
-        required: false
+        required: true
       - name: body
         in: body
         description: note object
@@ -268,7 +268,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/findByUsername:
+  /v1/notes/username/{username}:
     get: 
       tags: 
       - notesV1
@@ -279,7 +279,7 @@ paths:
           - application/json
       parameters:
         - name: username
-          in: query
+          in: path
           description: username to filter by
           required: true
           type: string
@@ -312,7 +312,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/findByTags:
+  /v1/notes/tag/{tag}:
     get: 
       tags: 
       - notesV1
@@ -323,7 +323,7 @@ paths:
           - application/json
       parameters:
         - name: tag
-          in: query
+          in: path
           description: tag to filter by
           required: true
           type: string
@@ -400,7 +400,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/deleteNote:
+  /v1/notes/note/{id}:
     delete: 
       tags: 
       - notesV1
@@ -409,11 +409,14 @@ paths:
       operationId: "deleteNote"
       produces:
           - application/json
-      consumes:
-          - application/json
       parameters:
-        - name: title
-          in: query
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: id
+          in: path
           description: title to filter by
           required: true
           type: string
@@ -446,20 +449,24 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/updateNote:
     put: 
       tags: 
       - notesV1
-      summary: delete note
-      description: user update note by title
+      summary: update note
+      description: user update note by id
       operationId: "updateNote"
       produces:
           - application/json
       consumes:
           - application/json
       parameters:
-        - name: title
-          in: query
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: id
+          in: path
           description: title to filter by
           required: true
           type: string
@@ -508,7 +515,7 @@ paths:
         description: Bearer token based Authorization
         type: string
         in: header
-        required: false
+        required: true
       - name: body
         in: body
         description: comment object
@@ -592,14 +599,16 @@ definitions:
       email: 
         description: email of the user
   noteObject:
-    type: object
+    type: array
+    items: 
+      $ref: "#/definitions/noteObject"
+    description: array of notes
     required:
-    - username
-    - note_id
+    - note_owner
+    - tag
     properties:
-      note_id: 
-        description: unique id of the note
-        type: integer
+      note_owner: 
+        description: the owner of note
       desc:
         description: description of the note
         type: string
@@ -608,9 +617,6 @@ definitions:
         type: string
       category: 
         description: note category
-        type: string
-      notelink: 
-        description: link to the note
         type: string
       type: 
         description: type of the note file
@@ -622,7 +628,8 @@ definitions:
     type: object
     required:
     - username
-    - comment_id
+    - note_id
+    - content
     properties:
       comment_id: 
         description: unique id of the comment
@@ -660,7 +667,6 @@ definitions:
       note_id:
         description: id of note
         type: integer
-  
   errResponse:
     type: object
     properties:
