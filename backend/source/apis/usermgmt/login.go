@@ -1,49 +1,49 @@
-package login
+package usermgmt
 
 import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/dbpackages"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
-	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/login_v1"
+	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_mgmt_v1"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/jinzhu/gorm"
 )
 
-func LoginV1Handler(db *gorm.DB) login_v1.LoginV1HandlerFunc {
-	return func(params login_v1.LoginV1Params) (responder middleware.Responder) {
+func LoginV1Handler(db *gorm.DB) user_mgmt_v1.LoginV1HandlerFunc {
+	return func(params user_mgmt_v1.LoginV1Params) (responder middleware.Responder) {
 		loginResp, errResp := processLoginRequest(db, params)
 		if errResp != nil {
 			switch errResp.StatusCode {
 			case http.StatusBadRequest:
-				return login_v1.NewLoginV1BadRequest().WithPayload(errResp)
+				return user_mgmt_v1.NewLoginV1BadRequest().WithPayload(errResp)
 			case http.StatusUnauthorized:
-				return login_v1.NewLoginV1Unauthorized().WithPayload(errResp)
+				return user_mgmt_v1.NewLoginV1Unauthorized().WithPayload(errResp)
 			case http.StatusForbidden:
-				return login_v1.NewLoginV1Forbidden().WithPayload(errResp)
+				return user_mgmt_v1.NewLoginV1Forbidden().WithPayload(errResp)
 			case http.StatusNotFound:
-				return login_v1.NewLoginV1NotFound().WithPayload(errResp)
+				return user_mgmt_v1.NewLoginV1NotFound().WithPayload(errResp)
 			case http.StatusConflict:
-				return login_v1.NewLoginV1Conflict().WithPayload(errResp)
+				return user_mgmt_v1.NewLoginV1Conflict().WithPayload(errResp)
 			default:
-				return login_v1.NewLoginV1InternalServerError().WithPayload(errResp)
+				return user_mgmt_v1.NewLoginV1InternalServerError().WithPayload(errResp)
 			}
 		}
-		resp := login_v1.NewLoginV1OK()
+		resp := user_mgmt_v1.NewLoginV1OK()
 		resp.SetPayload(loginResp)
 		return resp
 	}
 }
 
-func processLoginRequest(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.LoginResponse, errResp *models.ErrResponse) {
+func processLoginRequest(db *gorm.DB, params user_mgmt_v1.LoginV1Params) (resp *models.LoginResponse, errResp *models.ErrResponse) {
 	if *params.Signup {
 		return handleSignup(db, params)
 	}
 	return handleLogin(db, params)
 }
 
-func handleLogin(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.LoginResponse, errResp *models.ErrResponse) {
+func handleLogin(db *gorm.DB, params user_mgmt_v1.LoginV1Params) (resp *models.LoginResponse, errResp *models.ErrResponse) {
 	username := *params.Body.Username
 	password := *params.Body.Password
 
@@ -65,7 +65,7 @@ func handleLogin(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.Login
 	return
 }
 
-func handleSignup(db *gorm.DB, params login_v1.LoginV1Params) (resp *models.LoginResponse, errResp *models.ErrResponse) {
+func handleSignup(db *gorm.DB, params user_mgmt_v1.LoginV1Params) (resp *models.LoginResponse, errResp *models.ErrResponse) {
 	body := *params.Body
 	username := *body.Username
 	password := *body.Password

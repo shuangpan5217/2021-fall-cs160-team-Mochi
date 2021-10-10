@@ -19,7 +19,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/login_v1"
+	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_mgmt_v1"
 )
 
 // NewCoreapiAPI creates a new Coreapi instance
@@ -44,8 +44,17 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
-		LoginV1LoginV1Handler: login_v1.LoginV1HandlerFunc(func(params login_v1.LoginV1Params) middleware.Responder {
-			return middleware.NotImplemented("operation login_v1.LoginV1 has not yet been implemented")
+		UserMgmtV1GetUserV1Handler: user_mgmt_v1.GetUserV1HandlerFunc(func(params user_mgmt_v1.GetUserV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_mgmt_v1.GetUserV1 has not yet been implemented")
+		}),
+		UserMgmtV1LoginV1Handler: user_mgmt_v1.LoginV1HandlerFunc(func(params user_mgmt_v1.LoginV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_mgmt_v1.LoginV1 has not yet been implemented")
+		}),
+		UserMgmtV1UpdatePasswordV1Handler: user_mgmt_v1.UpdatePasswordV1HandlerFunc(func(params user_mgmt_v1.UpdatePasswordV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_mgmt_v1.UpdatePasswordV1 has not yet been implemented")
+		}),
+		UserMgmtV1UpdateUserInfoV1Handler: user_mgmt_v1.UpdateUserInfoV1HandlerFunc(func(params user_mgmt_v1.UpdateUserInfoV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_mgmt_v1.UpdateUserInfoV1 has not yet been implemented")
 		}),
 	}
 }
@@ -83,8 +92,14 @@ type CoreapiAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
-	// LoginV1LoginV1Handler sets the operation handler for the login v1 operation
-	LoginV1LoginV1Handler login_v1.LoginV1Handler
+	// UserMgmtV1GetUserV1Handler sets the operation handler for the get user v1 operation
+	UserMgmtV1GetUserV1Handler user_mgmt_v1.GetUserV1Handler
+	// UserMgmtV1LoginV1Handler sets the operation handler for the login v1 operation
+	UserMgmtV1LoginV1Handler user_mgmt_v1.LoginV1Handler
+	// UserMgmtV1UpdatePasswordV1Handler sets the operation handler for the update password v1 operation
+	UserMgmtV1UpdatePasswordV1Handler user_mgmt_v1.UpdatePasswordV1Handler
+	// UserMgmtV1UpdateUserInfoV1Handler sets the operation handler for the update user info v1 operation
+	UserMgmtV1UpdateUserInfoV1Handler user_mgmt_v1.UpdateUserInfoV1Handler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -162,8 +177,17 @@ func (o *CoreapiAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.LoginV1LoginV1Handler == nil {
-		unregistered = append(unregistered, "login_v1.LoginV1Handler")
+	if o.UserMgmtV1GetUserV1Handler == nil {
+		unregistered = append(unregistered, "user_mgmt_v1.GetUserV1Handler")
+	}
+	if o.UserMgmtV1LoginV1Handler == nil {
+		unregistered = append(unregistered, "user_mgmt_v1.LoginV1Handler")
+	}
+	if o.UserMgmtV1UpdatePasswordV1Handler == nil {
+		unregistered = append(unregistered, "user_mgmt_v1.UpdatePasswordV1Handler")
+	}
+	if o.UserMgmtV1UpdateUserInfoV1Handler == nil {
+		unregistered = append(unregistered, "user_mgmt_v1.UpdateUserInfoV1Handler")
 	}
 
 	if len(unregistered) > 0 {
@@ -253,10 +277,22 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/getuser/{username}"] = user_mgmt_v1.NewGetUserV1(o.context, o.UserMgmtV1GetUserV1Handler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/v1/login"] = login_v1.NewLoginV1(o.context, o.LoginV1LoginV1Handler)
+	o.handlers["POST"]["/v1/login"] = user_mgmt_v1.NewLoginV1(o.context, o.UserMgmtV1LoginV1Handler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
+	}
+	o.handlers["PATCH"]["/v1/updatepassword/{password}"] = user_mgmt_v1.NewUpdatePasswordV1(o.context, o.UserMgmtV1UpdatePasswordV1Handler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
+	}
+	o.handlers["PATCH"]["/v1/updateuserinfo"] = user_mgmt_v1.NewUpdateUserInfoV1(o.context, o.UserMgmtV1UpdateUserInfoV1Handler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

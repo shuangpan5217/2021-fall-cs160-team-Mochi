@@ -14,6 +14,18 @@ func InsertTables(db *gorm.DB) error {
 	if err == nil {
 		err = db.AutoMigrate(dbpackages.GroupUser{}).Error
 	}
+	if err == nil {
+		err = db.AutoMigrate(dbpackages.Note{}).Error
+	}
+	if err == nil {
+		err = db.AutoMigrate(dbpackages.UserNote{}).Error
+	}
+	if err == nil {
+		err = db.AutoMigrate(dbpackages.GroupNote{}).Error
+	}
+	if err == nil {
+		err = db.AutoMigrate(dbpackages.Comment{}).Error
+	}
 	return err
 }
 

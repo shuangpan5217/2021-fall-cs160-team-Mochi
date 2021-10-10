@@ -29,6 +29,79 @@ func init() {
     "version": "1.0.0"
   },
   "paths": {
+    "/v1/getuser/{username}": {
+      "get": {
+        "description": "get user info",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Get user info",
+        "operationId": "getUserV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "username",
+            "name": "username",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/login": {
       "post": {
         "description": "handle login request, username and password",
@@ -39,7 +112,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "LoginV1"
+          "UserMgmtV1"
         ],
         "summary": "Sign up or log in",
         "operationId": "loginV1",
@@ -56,7 +129,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/userObject"
+              "$ref": "#/definitions/createUserObject"
             }
           },
           {
@@ -112,37 +185,160 @@ func init() {
           }
         }
       }
+    },
+    "/v1/updatepassword/{password}": {
+      "patch": {
+        "description": "update password",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Update password",
+        "operationId": "updatePasswordV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "password",
+            "name": "password",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/updateuserinfo": {
+      "patch": {
+        "description": "update user info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Update user info",
+        "operationId": "updateUserInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "new user info body",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "errResponse": {
-      "type": "object",
-      "properties": {
-        "errMessage": {
-          "description": "error message",
-          "type": "string"
-        },
-        "status_code": {
-          "description": "http error code",
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "loginResponse": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "description": "jwt",
-          "type": "string"
-        },
-        "username": {
-          "description": "username of the user",
-          "type": "string"
-        }
-      }
-    },
-    "userObject": {
+    "createUserObject": {
       "type": "object",
       "required": [
         "username",
@@ -175,6 +371,58 @@ func init() {
         },
         "username": {
           "description": "username of the user",
+          "type": "string"
+        }
+      }
+    },
+    "errResponse": {
+      "type": "object",
+      "properties": {
+        "errMessage": {
+          "description": "error message",
+          "type": "string"
+        },
+        "status_code": {
+          "description": "http error code",
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "loginResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "description": "jwt",
+          "type": "string"
+        },
+        "username": {
+          "description": "username of the user",
+          "type": "string"
+        }
+      }
+    },
+    "userObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "description of the user",
+          "type": "string"
+        },
+        "email": {
+          "description": "email of the user",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "first name of the user",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "last name of the user",
+          "type": "string"
+        },
+        "middle_name": {
+          "description": "middle name of the user",
           "type": "string"
         }
       }
@@ -193,6 +441,79 @@ func init() {
     "version": "1.0.0"
   },
   "paths": {
+    "/v1/getuser/{username}": {
+      "get": {
+        "description": "get user info",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Get user info",
+        "operationId": "getUserV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "username",
+            "name": "username",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/login": {
       "post": {
         "description": "handle login request, username and password",
@@ -203,7 +524,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "LoginV1"
+          "UserMgmtV1"
         ],
         "summary": "Sign up or log in",
         "operationId": "loginV1",
@@ -220,7 +541,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/userObject"
+              "$ref": "#/definitions/createUserObject"
             }
           },
           {
@@ -276,37 +597,160 @@ func init() {
           }
         }
       }
+    },
+    "/v1/updatepassword/{password}": {
+      "patch": {
+        "description": "update password",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Update password",
+        "operationId": "updatePasswordV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "password",
+            "name": "password",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/updateuserinfo": {
+      "patch": {
+        "description": "update user info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Update user info",
+        "operationId": "updateUserInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "new user info body",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "errResponse": {
-      "type": "object",
-      "properties": {
-        "errMessage": {
-          "description": "error message",
-          "type": "string"
-        },
-        "status_code": {
-          "description": "http error code",
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "loginResponse": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "description": "jwt",
-          "type": "string"
-        },
-        "username": {
-          "description": "username of the user",
-          "type": "string"
-        }
-      }
-    },
-    "userObject": {
+    "createUserObject": {
       "type": "object",
       "required": [
         "username",
@@ -339,6 +783,58 @@ func init() {
         },
         "username": {
           "description": "username of the user",
+          "type": "string"
+        }
+      }
+    },
+    "errResponse": {
+      "type": "object",
+      "properties": {
+        "errMessage": {
+          "description": "error message",
+          "type": "string"
+        },
+        "status_code": {
+          "description": "http error code",
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "loginResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "description": "jwt",
+          "type": "string"
+        },
+        "username": {
+          "description": "username of the user",
+          "type": "string"
+        }
+      }
+    },
+    "userObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "description of the user",
+          "type": "string"
+        },
+        "email": {
+          "description": "email of the user",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "first name of the user",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "last name of the user",
+          "type": "string"
+        },
+        "middle_name": {
+          "description": "middle name of the user",
           "type": "string"
         }
       }

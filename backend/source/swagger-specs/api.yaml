@@ -17,7 +17,7 @@ paths:
       consumes:
         - application/json
       tags:
-      - LoginV1
+      - UserMgmtV1
       summary: Sign up or log in
       operationId: loginV1
       parameters:
@@ -31,7 +31,7 @@ paths:
         description: user object
         required: true
         schema:
-          $ref: '#/definitions/userObject'
+          $ref: '#/definitions/createUserObject'
       - name: signup
         default: false
         type: boolean
@@ -66,9 +66,158 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
+  /v1/getuser/{username}:
+    get:
+      description: get user info
+      produces:
+        - application/json
+      tags:
+      - UserMgmtV1
+      summary: Get user info
+      operationId: getUserV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: username
+        description: username
+        type: string
+        in: path
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/userObj'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/updatepassword/{password}:
+    patch:
+      description: update password
+      produces:
+        - application/json
+      tags:
+      - UserMgmtV1
+      summary: Update password
+      operationId: updatePasswordV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: password
+        description: password
+        type: string
+        in: path
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/userObj'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/updateuserinfo:
+    patch:
+      description: update user info
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - UserMgmtV1
+      summary: Update user info
+      operationId: updateUserInfoV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: body
+        description: new user info body
+        in: body
+        schema:
+          $ref: '#/definitions/userObj'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/userObj'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
 
 definitions:
-  userObject:
+  createUserObject:
     type: object
     required:
     - username
@@ -80,6 +229,24 @@ definitions:
       password:
         description: password of the user
         type: string
+      description:
+        description: description of the user
+        type: string
+      first_name: 
+        description: first name of the user
+        type: string
+      middle_name: 
+        description: middle name of the user
+        type: string
+      last_name: 
+        description: last name of the user
+        type: string
+      email: 
+        description: email of the user
+        type: string
+  userObj:
+    type: object
+    properties:
       description:
         description: description of the user
         type: string
