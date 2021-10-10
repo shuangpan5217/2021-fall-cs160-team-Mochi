@@ -327,6 +327,11 @@ paths:
       produces:
           - application/json
       parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
         - name: tag
           in: path
           description: tag to filter by
@@ -475,6 +480,12 @@ paths:
           description: title to filter by
           required: true
           type: string
+        - name: body
+          in: body
+          description: note object
+          required: true
+          schema:
+            $ref: '#/definitions/noteObject'
       responses:
         200:
           description: Success
@@ -663,6 +674,15 @@ definitions:
       note_id:
         description: id of note
         type: integer
+  commentResponse:
+    type: object
+    properties:
+      note_id: 
+        description: the note corresponding to comment_id
+        type: string
+      username:
+        description: user who submit the comment
+        type: string
   errResponse:
     type: object
     properties:
