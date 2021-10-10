@@ -216,6 +216,359 @@ paths:
           schema:
             $ref: '#/definitions/errResponse'
 
+  /v1/notes:
+    post:
+      description: add note 
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - notesV1
+      summary: add note
+      operationId: notesV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: body
+        in: body
+        description: note object
+        required: true
+        schema:
+          $ref: '#/definitions/noteObject'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/noteGetResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/notes/username/{username}:
+    get: 
+      tags: 
+      - notesV1
+      summary: find notes by username
+      description: one username can be provided to search
+      operationId: "findByUsername"
+      produces:
+          - application/json
+      parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: username
+          in: path
+          description: username to filter by
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/noteGetResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/notes/tag/{tag}:
+    get: 
+      tags: 
+      - notesV1
+      summary: find notes by tags
+      description: one tag can be provided to search
+      operationId: "findByTags"
+      produces:
+          - application/json
+      parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: tag
+          in: path
+          description: tag to filter by
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/noteGetResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/notes/findByGroupname:
+    get: 
+      tags: 
+      - notesV1
+      summary: find notes by Groupname
+      description: one groupname can be provided to search
+      operationId: "findByGroupname"
+      produces:
+          - application/json
+      parameters:
+        - name: groupname
+          in: query
+          description: groupname to filter by
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/noteGetResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/notes/note/{id}:
+    delete: 
+      tags: 
+      - notesV1
+      summary: delete note
+      description: user delete note by title
+      operationId: "deleteNote"
+      produces:
+          - application/json
+      parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: id
+          in: path
+          description: title to filter by
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/noteDeleteResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+    put: 
+      tags: 
+      - notesV1
+      summary: update note
+      description: user update note by id
+      operationId: "updateNote"
+      produces:
+          - application/json
+      consumes:
+          - application/json
+      parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: id
+          in: path
+          description: title to filter by
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: note object
+          required: true
+          schema:
+            $ref: '#/definitions/noteObject'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/noteDeleteResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/comments/:
+    post:
+      description: add comment
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - commentsV1
+      summary: add comment
+      operationId: postCommentsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: body
+        in: body
+        description: comment object
+        required: true
+        schema:
+          $ref: '#/definitions/commentObject'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/commentResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+
+
 definitions:
   createUserObject:
     type: object
@@ -261,6 +614,44 @@ definitions:
         type: string
       email: 
         description: email of the user
+  noteObject:
+    description: array of notes
+    required:
+    - note_owner
+    - tag
+    properties:
+      note_owner: 
+        description: the owner of note
+      desc:
+        description: description of the note
+        type: string
+      title:
+        description: title of the note
+        type: string
+      category: 
+        description: note category
+        type: string
+      type: 
+        description: type of the note file
+        type: string
+      tag: 
+        description: tags of the note
+        type: string
+  commentObject:
+    type: object
+    required:
+    - username
+    - note_id
+    - content
+    properties:
+      note_id: 
+        description: the note corresponding to comment_id
+        type: string
+      content:
+        description: content of the comment
+        type: string
+      username:
+        description: user who submit the comment
         type: string
   loginResponse:
     type: object
@@ -270,6 +661,26 @@ definitions:
         type: string
       token:
         description: jwt
+        type: string
+  noteGetResponse:
+    type: array
+    items: 
+      $ref: "#/definitions/noteObject"
+    description: array of note
+  noteDeleteResponse:
+    type: object
+    properties:
+      note_id:
+        description: id of note
+        type: integer
+  commentResponse:
+    type: object
+    properties:
+      note_id: 
+        description: the note corresponding to comment_id
+        type: string
+      username:
+        description: user who submit the comment
         type: string
   errResponse:
     type: object
@@ -281,3 +692,4 @@ definitions:
         description: http error code
         type: integer
         format: int32
+  
