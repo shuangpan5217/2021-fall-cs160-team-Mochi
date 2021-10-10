@@ -278,6 +278,11 @@ paths:
       produces:
           - application/json
       parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
         - name: username
           in: path
           description: username to filter by
@@ -599,9 +604,7 @@ definitions:
       email: 
         description: email of the user
   noteObject:
-    type: array
-    items: 
-      $ref: "#/definitions/noteObject"
+    
     description: array of notes
     required:
     - note_owner
@@ -650,11 +653,10 @@ definitions:
         description: jwt
         type: string
   noteGetResponse:
-    type: object
-    properties:
-      note: 
-        description: note
-        type: object
+    type: array
+    items: 
+      $ref: "#/definitions/noteObject"
+    description: array of note
   noteDeleteResponse:
     type: object
     properties:
