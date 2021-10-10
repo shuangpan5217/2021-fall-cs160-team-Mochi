@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	// table names
+	// table names iteral
 	UserTable      = "users"
 	GroupTable     = "groups"
 	GroupUserTable = "group_users"
