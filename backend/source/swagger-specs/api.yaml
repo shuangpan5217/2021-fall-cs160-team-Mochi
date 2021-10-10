@@ -499,7 +499,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /V1/comments/addComments:
+  /v1/comments/:
     post:
       description: add comment
       produces:
@@ -509,7 +509,7 @@ paths:
       tags:
       - commentsV1
       summary: add comment
-      operationId: commentsV1
+      operationId: postCommentsV1
       parameters:
       - name: Authorization
         description: Bearer token based Authorization
@@ -631,20 +631,14 @@ definitions:
     - note_id
     - content
     properties:
-      comment_id: 
-        description: unique id of the comment
-        type: integer
       note_id: 
         description: the note corresponding to comment_id
-        type: integer
+        type: string
       content:
         description: content of the comment
         type: string
       username:
         description: user who submit the comment
-        type: string
-      replys_to: 
-        description: the username that the comment replys to
         type: string
   loginResponse:
     type: object
