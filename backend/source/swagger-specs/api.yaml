@@ -774,7 +774,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-
+            
       delete:
         tags:
           - groupsV1
