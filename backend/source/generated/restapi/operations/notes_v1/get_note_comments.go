@@ -29,7 +29,7 @@ func NewGetNoteComments(ctx *middleware.Context, handler GetNoteCommentsHandler)
 	return &GetNoteComments{Context: ctx, Handler: handler}
 }
 
-/* GetNoteComments swagger:route GET /v1/notes/{comment_id}/comments notesV1 getNoteComments
+/* GetNoteComments swagger:route GET /v1/notes/{note_id}/comments notesV1 getNoteComments
 
 get all comments of a note
 

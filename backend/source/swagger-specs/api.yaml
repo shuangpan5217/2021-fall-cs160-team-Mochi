@@ -585,7 +585,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/{comment_id}/comments:
+  /v1/notes/{note_id}/comments:
     get:
       description: get all comments of a note
       produces:
@@ -600,9 +600,9 @@ paths:
           type: string
           in: header
           required: true
-        - name: comment_id
+        - name: note_id
           in: path
-          description: comment id
+          description: note id
           required: true
           type: string
       responses:
@@ -1272,7 +1272,7 @@ definitions:
     properties:
       note_id:
         description: id of note
-        type: integer
+        type: string
   getNoteMembersResponse:
     type: object
     properties:

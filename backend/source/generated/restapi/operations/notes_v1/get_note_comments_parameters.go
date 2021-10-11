@@ -36,11 +36,11 @@ type GetNoteCommentsParams struct {
 	  In: header
 	*/
 	Authorization string
-	/*comment id
+	/*note id
 	  Required: true
 	  In: path
 	*/
-	CommentID string
+	NoteID string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -56,8 +56,8 @@ func (o *GetNoteCommentsParams) BindRequest(r *http.Request, route *middleware.M
 		res = append(res, err)
 	}
 
-	rCommentID, rhkCommentID, _ := route.Params.GetOK("comment_id")
-	if err := o.bindCommentID(rCommentID, rhkCommentID, route.Formats); err != nil {
+	rNoteID, rhkNoteID, _ := route.Params.GetOK("note_id")
+	if err := o.bindNoteID(rNoteID, rhkNoteID, route.Formats); err != nil {
 		res = append(res, err)
 	}
 	if len(res) > 0 {
@@ -86,8 +86,8 @@ func (o *GetNoteCommentsParams) bindAuthorization(rawData []string, hasKey bool,
 	return nil
 }
 
-// bindCommentID binds and validates parameter CommentID from path.
-func (o *GetNoteCommentsParams) bindCommentID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+// bindNoteID binds and validates parameter NoteID from path.
+func (o *GetNoteCommentsParams) bindNoteID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -95,7 +95,7 @@ func (o *GetNoteCommentsParams) bindCommentID(rawData []string, hasKey bool, for
 
 	// Required: true
 	// Parameter is provided by construction from the route
-	o.CommentID = raw
+	o.NoteID = raw
 
 	return nil
 }
