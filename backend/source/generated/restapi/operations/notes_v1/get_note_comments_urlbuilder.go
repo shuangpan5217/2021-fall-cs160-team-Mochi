@@ -14,7 +14,7 @@ import (
 
 // GetNoteCommentsURL generates an URL for the get note comments operation
 type GetNoteCommentsURL struct {
-	CommentID string
+	NoteID string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -40,13 +40,13 @@ func (o *GetNoteCommentsURL) SetBasePath(bp string) {
 func (o *GetNoteCommentsURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/v1/notes/{comment_id}/comments"
+	var _path = "/v1/notes/{note_id}/comments"
 
-	commentID := o.CommentID
-	if commentID != "" {
-		_path = strings.Replace(_path, "{comment_id}", commentID, -1)
+	noteID := o.NoteID
+	if noteID != "" {
+		_path = strings.Replace(_path, "{note_id}", noteID, -1)
 	} else {
-		return nil, errors.New("commentId is required on GetNoteCommentsURL")
+		return nil, errors.New("noteId is required on GetNoteCommentsURL")
 	}
 
 	_basePath := o._basePath
