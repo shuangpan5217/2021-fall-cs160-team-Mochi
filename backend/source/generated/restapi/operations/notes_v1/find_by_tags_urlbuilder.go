@@ -10,11 +10,18 @@ import (
 	"net/url"
 	golangswaggerpaths "path"
 	"strings"
+
+	"github.com/go-openapi/swag"
 )
 
 // FindByTagsURL generates an URL for the find by tags operation
 type FindByTagsURL struct {
 	Tag string
+
+	Limit     *int64
+	Offset    *int64
+	Type      *string
+	UpdatedAt *bool
 
 	_basePath string
 	// avoid unkeyed usage
@@ -51,6 +58,42 @@ func (o *FindByTagsURL) Build() (*url.URL, error) {
 
 	_basePath := o._basePath
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
+
+	qs := make(url.Values)
+
+	var limitQ string
+	if o.Limit != nil {
+		limitQ = swag.FormatInt64(*o.Limit)
+	}
+	if limitQ != "" {
+		qs.Set("limit", limitQ)
+	}
+
+	var offsetQ string
+	if o.Offset != nil {
+		offsetQ = swag.FormatInt64(*o.Offset)
+	}
+	if offsetQ != "" {
+		qs.Set("offset", offsetQ)
+	}
+
+	var typeVarQ string
+	if o.Type != nil {
+		typeVarQ = *o.Type
+	}
+	if typeVarQ != "" {
+		qs.Set("type", typeVarQ)
+	}
+
+	var updatedAtQ string
+	if o.UpdatedAt != nil {
+		updatedAtQ = swag.FormatBool(*o.UpdatedAt)
+	}
+	if updatedAtQ != "" {
+		qs.Set("updated_at", updatedAtQ)
+	}
+
+	_result.RawQuery = qs.Encode()
 
 	return &_result, nil
 }
