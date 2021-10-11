@@ -4,3 +4,4 @@ backend/source/generated/cmd/coreapi-server/coreapi-server
 backend/source/generated/restapi/configure_coreapi.go
 .vscode/
 frontend/node_modules
+backend/source/generated/cmd/coreapi-server/coreapi-server.exe
