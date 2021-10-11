@@ -1,4 +1,3 @@
-
 .form-signup {
   width: 100%;
   max-width: 330px;
@@ -6,22 +5,34 @@
   margin: auto;
 }
 
-.form-signup .checkbox {
-  font-weight: 400;
+.form-inputs {
+  margin-bottom: 0.5rem;
+  width: 80%;
 }
 
-.form-signup .form-floating:focus-within {
-  z-index: 2;
+.form-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
 }
 
-.form-signup input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+.form-input-login {
+  font-size: 0.8rem;
+  margin-top: 10px;
+  width: 80%;
+  text-align: center;
 }
 
-.form-signup input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.form-input-login a {
+  text-decoration: none;
+  color: #27cdff;
+  font-weight: 600;
+}
+
+.bglayout {
+  width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+  background-size: cover;
+  background-position: fixed;
 }
