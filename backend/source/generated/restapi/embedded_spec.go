@@ -1569,7 +1569,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/userObj"
+              "$ref": "#/definitions/updateUserObj"
             }
           }
         ],
@@ -1870,6 +1870,31 @@ func init() {
         },
         "group_owner": {
           "description": "group owner",
+          "type": "string"
+        }
+      }
+    },
+    "updateUserObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "description of the user",
+          "type": "string"
+        },
+        "email": {
+          "description": "email of the user",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "first name of the user",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "last name of the user",
+          "type": "string"
+        },
+        "middle_name": {
+          "description": "middle name of the user",
           "type": "string"
         }
       }
@@ -3456,7 +3481,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/userObj"
+              "$ref": "#/definitions/updateUserObj"
             }
           }
         ],
@@ -3757,6 +3782,31 @@ func init() {
         },
         "group_owner": {
           "description": "group owner",
+          "type": "string"
+        }
+      }
+    },
+    "updateUserObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "description of the user",
+          "type": "string"
+        },
+        "email": {
+          "description": "email of the user",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "first name of the user",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "last name of the user",
+          "type": "string"
+        },
+        "middle_name": {
+          "description": "middle name of the user",
           "type": "string"
         }
       }

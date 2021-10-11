@@ -130,7 +130,7 @@ paths:
         description: new user info body
         in: body
         schema:
-          $ref: '#/definitions/userObj'
+          $ref: '#/definitions/updateUserObj'
       responses:
         200:
           description: Success
@@ -1096,6 +1096,24 @@ definitions:
       password:
         description: password of the user
         type: string
+      description:
+        description: description of the user
+        type: string
+      first_name: 
+        description: first name of the user
+        type: string
+      middle_name: 
+        description: middle name of the user
+        type: string
+      last_name: 
+        description: last name of the user
+        type: string
+      email: 
+        description: email of the user
+        type: string
+  updateUserObj:
+    type: object
+    properties:
       description:
         description: description of the user
         type: string
