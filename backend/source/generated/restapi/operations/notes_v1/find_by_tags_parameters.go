@@ -9,17 +9,29 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // NewFindByTagsParams creates a new FindByTagsParams object
-//
-// There are no default values defined in the spec.
+// with the default values initialized.
 func NewFindByTagsParams() FindByTagsParams {
 
-	return FindByTagsParams{}
+	var (
+		// initialize parameters with default values
+
+		limitDefault  = int64(10)
+		offsetDefault = int64(0)
+	)
+
+	return FindByTagsParams{
+		Limit: &limitDefault,
+
+		Offset: &offsetDefault,
+	}
 }
 
 // FindByTagsParams contains all the bound params for the find by tags operation
@@ -36,11 +48,29 @@ type FindByTagsParams struct {
 	  In: header
 	*/
 	Authorization string
+	/*limit of files
+	  In: query
+	  Default: 10
+	*/
+	Limit *int64
+	/*offset of files
+	  In: query
+	  Default: 0
+	*/
+	Offset *int64
 	/*tag to filter by
 	  Required: true
 	  In: path
 	*/
 	Tag string
+	/*type of note
+	  In: query
+	*/
+	Type *string
+	/*updated at
+	  In: query
+	*/
+	UpdatedAt *bool
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -52,12 +82,34 @@ func (o *FindByTagsParams) BindRequest(r *http.Request, route *middleware.Matche
 
 	o.HTTPRequest = r
 
+	qs := runtime.Values(r.URL.Query())
+
 	if err := o.bindAuthorization(r.Header[http.CanonicalHeaderKey("Authorization")], true, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qLimit, qhkLimit, _ := qs.GetOK("limit")
+	if err := o.bindLimit(qLimit, qhkLimit, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qOffset, qhkOffset, _ := qs.GetOK("offset")
+	if err := o.bindOffset(qOffset, qhkOffset, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
 	rTag, rhkTag, _ := route.Params.GetOK("tag")
 	if err := o.bindTag(rTag, rhkTag, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qType, qhkType, _ := qs.GetOK("type")
+	if err := o.bindType(qType, qhkType, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qUpdatedAt, qhkUpdatedAt, _ := qs.GetOK("updated_at")
+	if err := o.bindUpdatedAt(qUpdatedAt, qhkUpdatedAt, route.Formats); err != nil {
 		res = append(res, err)
 	}
 	if len(res) > 0 {
@@ -86,6 +138,54 @@ func (o *FindByTagsParams) bindAuthorization(rawData []string, hasKey bool, form
 	return nil
 }
 
+// bindLimit binds and validates parameter Limit from query.
+func (o *FindByTagsParams) bindLimit(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+
+	if raw == "" { // empty values pass all other validations
+		// Default values have been previously initialized by NewFindByTagsParams()
+		return nil
+	}
+
+	value, err := swag.ConvertInt64(raw)
+	if err != nil {
+		return errors.InvalidType("limit", "query", "int64", raw)
+	}
+	o.Limit = &value
+
+	return nil
+}
+
+// bindOffset binds and validates parameter Offset from query.
+func (o *FindByTagsParams) bindOffset(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+
+	if raw == "" { // empty values pass all other validations
+		// Default values have been previously initialized by NewFindByTagsParams()
+		return nil
+	}
+
+	value, err := swag.ConvertInt64(raw)
+	if err != nil {
+		return errors.InvalidType("offset", "query", "int64", raw)
+	}
+	o.Offset = &value
+
+	return nil
+}
+
 // bindTag binds and validates parameter Tag from path.
 func (o *FindByTagsParams) bindTag(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
@@ -96,6 +196,47 @@ func (o *FindByTagsParams) bindTag(rawData []string, hasKey bool, formats strfmt
 	// Required: true
 	// Parameter is provided by construction from the route
 	o.Tag = raw
+
+	return nil
+}
+
+// bindType binds and validates parameter Type from query.
+func (o *FindByTagsParams) bindType(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+
+	if raw == "" { // empty values pass all other validations
+		return nil
+	}
+	o.Type = &raw
+
+	return nil
+}
+
+// bindUpdatedAt binds and validates parameter UpdatedAt from query.
+func (o *FindByTagsParams) bindUpdatedAt(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+
+	if raw == "" { // empty values pass all other validations
+		return nil
+	}
+
+	value, err := swag.ConvertBool(raw)
+	if err != nil {
+		return errors.InvalidType("updated_at", "query", "bool", raw)
+	}
+	o.UpdatedAt = &value
 
 	return nil
 }

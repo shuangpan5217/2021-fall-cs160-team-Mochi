@@ -20,6 +20,9 @@ type GroupObj struct {
 	// group's desciption
 	Description string `json:"description,omitempty"`
 
+	// group id
+	GroupID string `json:"group_id,omitempty"`
+
 	// group name
 	GroupName string `json:"group_name,omitempty"`
 

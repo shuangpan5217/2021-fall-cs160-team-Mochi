@@ -29,7 +29,7 @@ func NewUpdatePasswordV1(ctx *middleware.Context, handler UpdatePasswordV1Handle
 	return &UpdatePasswordV1{Context: ctx, Handler: handler}
 }
 
-/* UpdatePasswordV1 swagger:route PATCH /v1/updatepassword/{password} UserMgmtV1 updatePasswordV1
+/* UpdatePasswordV1 swagger:route PATCH /v1/password/{password} UserMgmtV1 updatePasswordV1
 
 Update password
 

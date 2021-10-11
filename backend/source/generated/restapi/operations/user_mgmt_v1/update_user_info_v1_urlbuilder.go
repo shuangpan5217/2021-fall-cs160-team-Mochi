@@ -35,7 +35,7 @@ func (o *UpdateUserInfoV1URL) SetBasePath(bp string) {
 func (o *UpdateUserInfoV1URL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/v1/updateuserinfo"
+	var _path = "/v1/user"
 
 	_basePath := o._basePath
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)

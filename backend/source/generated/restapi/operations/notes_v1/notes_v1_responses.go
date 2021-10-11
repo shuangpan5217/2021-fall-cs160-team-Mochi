@@ -25,7 +25,7 @@ type NotesV1OK struct {
 	/*
 	  In: Body
 	*/
-	Payload models.NoteGetResponse `json:"body,omitempty"`
+	Payload *models.NoteResponse `json:"body,omitempty"`
 }
 
 // NewNotesV1OK creates NotesV1OK with default headers values
@@ -35,13 +35,13 @@ func NewNotesV1OK() *NotesV1OK {
 }
 
 // WithPayload adds the payload to the notes v1 o k response
-func (o *NotesV1OK) WithPayload(payload models.NoteGetResponse) *NotesV1OK {
+func (o *NotesV1OK) WithPayload(payload *models.NoteResponse) *NotesV1OK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the notes v1 o k response
-func (o *NotesV1OK) SetPayload(payload models.NoteGetResponse) {
+func (o *NotesV1OK) SetPayload(payload *models.NoteResponse) {
 	o.Payload = payload
 }
 
@@ -49,14 +49,11 @@ func (o *NotesV1OK) SetPayload(payload models.NoteGetResponse) {
 func (o *NotesV1OK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(200)
-	payload := o.Payload
-	if payload == nil {
-		// return empty array
-		payload = models.NoteGetResponse{}
-	}
-
-	if err := producer.Produce(rw, payload); err != nil {
-		panic(err) // let the recovery middleware deal with this
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
 	}
 }
 

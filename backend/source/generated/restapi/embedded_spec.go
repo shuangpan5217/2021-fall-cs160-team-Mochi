@@ -107,17 +107,17 @@ func init() {
         }
       }
     },
-    "/v1/getuser/{username}": {
-      "get": {
-        "description": "get user info",
+    "/v1/comments/{comment_id}": {
+      "delete": {
+        "description": "delete comment",
         "produces": [
           "application/json"
         ],
         "tags": [
-          "UserMgmtV1"
+          "commentsV1"
         ],
-        "summary": "Get user info",
-        "operationId": "getUserV1",
+        "summary": "delete a comment",
+        "operationId": "removeComnentV1",
         "parameters": [
           {
             "type": "string",
@@ -128,8 +128,8 @@ func init() {
           },
           {
             "type": "string",
-            "description": "username",
-            "name": "username",
+            "description": "comment id",
+            "name": "comment_id",
             "in": "path",
             "required": true
           }
@@ -138,7 +138,523 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/userObj"
+              "$ref": "#/definitions/commentResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/groups": {
+      "get": {
+        "description": "get all groups",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "getGroupsV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getAllGroupsObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "create a group",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "createGroupV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "group object",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/postGroupObj"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/groups/{group_id}": {
+      "get": {
+        "description": "get a group info",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "getGroupInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete a group",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "deleteGroupV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/groups/{group_id}/members": {
+      "get": {
+        "description": "get group users",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "getGroupUsersV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupMembersObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "add group users",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "addGroupUsersV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "array of users",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/groupMembers"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "remove group users",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "removeGroupUsersV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "array of users",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/groupMembers"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupResponse"
             }
           },
           "400": {
@@ -300,7 +816,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/noteResponse"
             }
           },
           "400": {
@@ -440,6 +956,32 @@ func init() {
             "name": "tag",
             "in": "path",
             "required": true
+          },
+          {
+            "type": "string",
+            "description": "type of note",
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 10,
+            "description": "limit of files",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 0,
+            "description": "offset of files",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "updated at",
+            "name": "updated_at",
+            "in": "query"
           }
         ],
         "responses": {
@@ -520,6 +1062,79 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/noteGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/{comment_id}/comments": {
+      "get": {
+        "description": "get all comments of a note",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get all comments of a note",
+        "operationId": "getNoteComments",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "comment id",
+            "name": "comment_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteCommentsResponse"
             }
           },
           "400": {
@@ -790,7 +1405,7 @@ func init() {
         }
       }
     },
-    "/v1/updatepassword/{password}": {
+    "/v1/password/{password}": {
       "patch": {
         "description": "update password",
         "produces": [
@@ -863,7 +1478,71 @@ func init() {
         }
       }
     },
-    "/v1/updateuserinfo": {
+    "/v1/user": {
+      "get": {
+        "description": "get user info",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Get user info",
+        "operationId": "getUserV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
       "patch": {
         "description": "update user info",
         "consumes": [
@@ -890,7 +1569,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/userObj"
+              "$ref": "#/definitions/updateUserObj"
             }
           }
         ],
@@ -970,10 +1649,6 @@ func init() {
         "note_id": {
           "description": "the note corresponding to comment_id",
           "type": "string"
-        },
-        "username": {
-          "description": "user who submit the comment",
-          "type": "string"
         }
       }
     },
@@ -1028,6 +1703,13 @@ func init() {
         }
       }
     },
+    "getAllGroupsObject": {
+      "description": "array of groups by username",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/groupObj"
+      }
+    },
     "getNoteMembersResponse": {
       "type": "object",
       "properties": {
@@ -1045,11 +1727,29 @@ func init() {
         }
       }
     },
+    "groupMembers": {
+      "description": "array of group users",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/groupUser"
+      }
+    },
+    "groupMembersObject": {
+      "description": "array of group users",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/userObj"
+      }
+    },
     "groupObj": {
       "type": "object",
       "properties": {
         "description": {
           "description": "group's desciption",
+          "type": "string"
+        },
+        "group_id": {
+          "description": "group id",
           "type": "string"
         },
         "group_name": {
@@ -1058,6 +1758,24 @@ func init() {
         },
         "group_owner": {
           "description": "group owner",
+          "type": "string"
+        }
+      }
+    },
+    "groupResponse": {
+      "type": "object",
+      "properties": {
+        "group_id": {
+          "description": "group_id",
+          "type": "string"
+        }
+      }
+    },
+    "groupUser": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "description": "username of the user",
           "type": "string"
         }
       }
@@ -1073,6 +1791,13 @@ func init() {
           "description": "username of the user",
           "type": "string"
         }
+      }
+    },
+    "noteCommentsResponse": {
+      "description": "array of comments of a note",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/commentObject"
       }
     },
     "noteDeleteResponse": {
@@ -1092,7 +1817,7 @@ func init() {
       }
     },
     "noteObject": {
-      "description": "array of notes",
+      "description": "note obj",
       "required": [
         "note_owner",
         "tag"
@@ -1119,6 +1844,57 @@ func init() {
         },
         "type": {
           "description": "type of the note file",
+          "type": "string"
+        }
+      }
+    },
+    "noteResponse": {
+      "type": "object",
+      "properties": {
+        "note_id": {
+          "description": "note id",
+          "type": "string"
+        }
+      }
+    },
+    "postGroupObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "group's desciption",
+          "type": "string"
+        },
+        "group_name": {
+          "description": "group name",
+          "type": "string"
+        },
+        "group_owner": {
+          "description": "group owner",
+          "type": "string"
+        }
+      }
+    },
+    "updateUserObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "description of the user",
+          "type": "string"
+        },
+        "email": {
+          "description": "email of the user",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "first name of the user",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "last name of the user",
+          "type": "string"
+        },
+        "middle_name": {
+          "description": "middle name of the user",
           "type": "string"
         }
       }
@@ -1243,17 +2019,17 @@ func init() {
         }
       }
     },
-    "/v1/getuser/{username}": {
-      "get": {
-        "description": "get user info",
+    "/v1/comments/{comment_id}": {
+      "delete": {
+        "description": "delete comment",
         "produces": [
           "application/json"
         ],
         "tags": [
-          "UserMgmtV1"
+          "commentsV1"
         ],
-        "summary": "Get user info",
-        "operationId": "getUserV1",
+        "summary": "delete a comment",
+        "operationId": "removeComnentV1",
         "parameters": [
           {
             "type": "string",
@@ -1264,8 +2040,8 @@ func init() {
           },
           {
             "type": "string",
-            "description": "username",
-            "name": "username",
+            "description": "comment id",
+            "name": "comment_id",
             "in": "path",
             "required": true
           }
@@ -1274,7 +2050,523 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/userObj"
+              "$ref": "#/definitions/commentResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/groups": {
+      "get": {
+        "description": "get all groups",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "getGroupsV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getAllGroupsObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "create a group",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "createGroupV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "group object",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/postGroupObj"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/groups/{group_id}": {
+      "get": {
+        "description": "get a group info",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "getGroupInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "delete a group",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "deleteGroupV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/groups/{group_id}/members": {
+      "get": {
+        "description": "get group users",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "getGroupUsersV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupMembersObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "add group users",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "addGroupUsersV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "array of users",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/groupMembers"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "remove group users",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "removeGroupUsersV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "array of users",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/groupMembers"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupResponse"
             }
           },
           "400": {
@@ -1436,7 +2728,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/noteResponse"
             }
           },
           "400": {
@@ -1576,6 +2868,32 @@ func init() {
             "name": "tag",
             "in": "path",
             "required": true
+          },
+          {
+            "type": "string",
+            "description": "type of note",
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 10,
+            "description": "limit of files",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 0,
+            "description": "offset of files",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "updated at",
+            "name": "updated_at",
+            "in": "query"
           }
         ],
         "responses": {
@@ -1656,6 +2974,79 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/noteGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/{comment_id}/comments": {
+      "get": {
+        "description": "get all comments of a note",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get all comments of a note",
+        "operationId": "getNoteComments",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "comment id",
+            "name": "comment_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteCommentsResponse"
             }
           },
           "400": {
@@ -1926,7 +3317,7 @@ func init() {
         }
       }
     },
-    "/v1/updatepassword/{password}": {
+    "/v1/password/{password}": {
       "patch": {
         "description": "update password",
         "produces": [
@@ -1999,7 +3390,71 @@ func init() {
         }
       }
     },
-    "/v1/updateuserinfo": {
+    "/v1/user": {
+      "get": {
+        "description": "get user info",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "UserMgmtV1"
+        ],
+        "summary": "Get user info",
+        "operationId": "getUserV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
       "patch": {
         "description": "update user info",
         "consumes": [
@@ -2026,7 +3481,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/userObj"
+              "$ref": "#/definitions/updateUserObj"
             }
           }
         ],
@@ -2106,10 +3561,6 @@ func init() {
         "note_id": {
           "description": "the note corresponding to comment_id",
           "type": "string"
-        },
-        "username": {
-          "description": "user who submit the comment",
-          "type": "string"
         }
       }
     },
@@ -2164,6 +3615,13 @@ func init() {
         }
       }
     },
+    "getAllGroupsObject": {
+      "description": "array of groups by username",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/groupObj"
+      }
+    },
     "getNoteMembersResponse": {
       "type": "object",
       "properties": {
@@ -2181,11 +3639,29 @@ func init() {
         }
       }
     },
+    "groupMembers": {
+      "description": "array of group users",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/groupUser"
+      }
+    },
+    "groupMembersObject": {
+      "description": "array of group users",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/userObj"
+      }
+    },
     "groupObj": {
       "type": "object",
       "properties": {
         "description": {
           "description": "group's desciption",
+          "type": "string"
+        },
+        "group_id": {
+          "description": "group id",
           "type": "string"
         },
         "group_name": {
@@ -2194,6 +3670,24 @@ func init() {
         },
         "group_owner": {
           "description": "group owner",
+          "type": "string"
+        }
+      }
+    },
+    "groupResponse": {
+      "type": "object",
+      "properties": {
+        "group_id": {
+          "description": "group_id",
+          "type": "string"
+        }
+      }
+    },
+    "groupUser": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "description": "username of the user",
           "type": "string"
         }
       }
@@ -2209,6 +3703,13 @@ func init() {
           "description": "username of the user",
           "type": "string"
         }
+      }
+    },
+    "noteCommentsResponse": {
+      "description": "array of comments of a note",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/commentObject"
       }
     },
     "noteDeleteResponse": {
@@ -2228,7 +3729,7 @@ func init() {
       }
     },
     "noteObject": {
-      "description": "array of notes",
+      "description": "note obj",
       "required": [
         "note_owner",
         "tag"
@@ -2255,6 +3756,57 @@ func init() {
         },
         "type": {
           "description": "type of the note file",
+          "type": "string"
+        }
+      }
+    },
+    "noteResponse": {
+      "type": "object",
+      "properties": {
+        "note_id": {
+          "description": "note id",
+          "type": "string"
+        }
+      }
+    },
+    "postGroupObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "group's desciption",
+          "type": "string"
+        },
+        "group_name": {
+          "description": "group name",
+          "type": "string"
+        },
+        "group_owner": {
+          "description": "group owner",
+          "type": "string"
+        }
+      }
+    },
+    "updateUserObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "description of the user",
+          "type": "string"
+        },
+        "email": {
+          "description": "email of the user",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "first name of the user",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "last name of the user",
+          "type": "string"
+        },
+        "middle_name": {
+          "description": "middle name of the user",
           "type": "string"
         }
       }

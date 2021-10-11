@@ -40,7 +40,7 @@ func (o *UpdatePasswordV1URL) SetBasePath(bp string) {
 func (o *UpdatePasswordV1URL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/v1/updatepassword/{password}"
+	var _path = "/v1/password/{password}"
 
 	password := o.Password
 	if password != "" {

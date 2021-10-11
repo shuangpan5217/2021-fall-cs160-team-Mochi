@@ -19,9 +19,6 @@ type CommentResponse struct {
 
 	// the note corresponding to comment_id
 	NoteID string `json:"note_id,omitempty"`
-
-	// user who submit the comment
-	Username string `json:"username,omitempty"`
 }
 
 // Validate validates this comment response

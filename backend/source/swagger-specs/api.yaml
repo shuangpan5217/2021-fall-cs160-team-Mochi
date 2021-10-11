@@ -66,7 +66,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/getuser/{username}:
+  /v1/user:
     get:
       description: get user info
       produces:
@@ -81,11 +81,6 @@ paths:
         type: string
         in: header
         required: true
-      - name: username
-        description: username
-        type: string
-        in: path
-        required: true
       responses:
         200:
           description: Success
@@ -115,56 +110,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/updatepassword/{password}:
-    patch:
-      description: update password
-      produces:
-        - application/json
-      tags:
-      - UserMgmtV1
-      summary: Update password
-      operationId: updatePasswordV1
-      parameters:
-      - name: Authorization
-        description: Bearer token based Authorization
-        type: string
-        in: header
-        required: true
-      - name: password
-        description: password
-        type: string
-        in: path
-        required: true
-      responses:
-        200:
-          description: Success
-          schema:
-            $ref: '#/definitions/userObj'
-        400:
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/errResponse'
-        401:
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/errResponse'
-        403:
-          description: "Forbidden"
-          schema:
-            $ref: '#/definitions/errResponse'
-        404:
-          description: "Not Found"
-          schema:
-            $ref: '#/definitions/errResponse'
-        409:
-          description: Conflict
-          schema:
-            $ref: '#/definitions/errResponse'
-        500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/errResponse'
-  /v1/updateuserinfo:
     patch:
       description: update user info
       produces:
@@ -185,7 +130,56 @@ paths:
         description: new user info body
         in: body
         schema:
-          $ref: '#/definitions/userObj'
+          $ref: '#/definitions/updateUserObj'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/userObj'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/password/{password}:
+    patch:
+      description: update password
+      produces:
+        - application/json
+      tags:
+      - UserMgmtV1
+      summary: Update password
+      operationId: updatePasswordV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: password
+        description: password
+        type: string
+        in: path
+        required: true
       responses:
         200:
           description: Success
@@ -243,7 +237,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteGetResponse'
+            $ref: '#/definitions/noteResponse'
         400:
           description: Bad Request
           schema:
@@ -337,6 +331,28 @@ paths:
           description: tag to filter by
           required: true
           type: string
+        - name: type
+          description: type of note
+          in: query
+          type: string
+          required: false
+        - name: limit
+          description: limit of files
+          default: 10
+          in: query
+          type: integer
+          required: false
+        - name: offset
+          description: offset of files
+          in: query
+          required: false
+          default: 0
+          type: integer
+        - name: updated_at
+          description: updated at
+          in: query
+          required: false
+          type: boolean
       responses:
         200:
           description: Success
@@ -471,9 +487,9 @@ paths:
       description: user update note by id
       operationId: "updateNote"
       produces:
-          - application/json
+        - application/json
       consumes:
-          - application/json
+        - application/json
       parameters:
         - name: Authorization
           description: Bearer token based Authorization
@@ -569,6 +585,55 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
+  /v1/notes/{comment_id}/comments:
+    get:
+      description: get all comments of a note
+      produces:
+        - application/json
+      tags:
+      - notesV1
+      summary: get all comments of a note 
+      operationId: getNoteComments
+      parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: comment_id
+          in: path
+          description: comment id
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/noteCommentsResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
 
   /v1/comments:
     post:
@@ -622,8 +687,402 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
+  /v1/comments/{comment_id}:
+    delete:
+      description: delete comment
+      produces: 
+        - application/json      
+      tags:
+      - commentsV1
+      summary: delete a comment
+      operationId: removeComnentV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: comment_id
+        in: path
+        description: comment id
+        required: true
+        type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/commentResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
 
+  /v1/groups:
+    post:
+      description: create a group
+      operationId: createGroupV1
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - groupsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: body
+        in: body
+        description: group object
+        required: true
+        schema:
+          $ref: "#/definitions/postGroupObj"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/groupResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+    get:
+      description: get all groups
+      operationId: getGroupsV1
+      produces:
+        - application/json
+      tags:
+      - groupsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/getAllGroupsObject'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/groups/{group_id}:
+    delete:
+      description: delete a group
+      operationId: deleteGroupV1
+      produces:
+        - application/json
+      tags:
+      - groupsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: group_id
+        type: string
+        in: path
+        description: group id
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/groupResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+    get:
+      description: get a group info
+      operationId: getGroupInfoV1
+      produces:
+        - application/json
+      tags:
+      - groupsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: group_id
+        type: string
+        in: path
+        description: group id
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/groupObj'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/groups/{group_id}/members:
+    get:
+      description: get group users
+      operationId: getGroupUsersV1
+      produces:
+        - application/json
+      tags:
+      - groupsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: group_id
+        type: string
+        in: path
+        description: group id
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/groupMembersObject'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+    post:
+      description: add group users
+      operationId: addGroupUsersV1
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - groupsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: group_id
+        type: string
+        in: path
+        description: group id
+        required: true
+      - name: body
+        in: body
+        description: array of users
+        schema:
+          $ref: '#/definitions/groupMembers'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/groupResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+    delete:
+      description: remove group users
+      operationId: removeGroupUsersV1
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - groupsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: group_id
+        type: string
+        in: path
+        description: group id
+        required: true
+      - name: body
+        in: body
+        description: array of users
+        schema:
+          $ref: '#/definitions/groupMembers'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/groupResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
 
+     
 definitions:
   createUserObject:
     type: object
@@ -637,6 +1096,24 @@ definitions:
       password:
         description: password of the user
         type: string
+      description:
+        description: description of the user
+        type: string
+      first_name: 
+        description: first name of the user
+        type: string
+      middle_name: 
+        description: middle name of the user
+        type: string
+      last_name: 
+        description: last name of the user
+        type: string
+      email: 
+        description: email of the user
+        type: string
+  updateUserObj:
+    type: object
+    properties:
       description:
         description: description of the user
         type: string
@@ -672,7 +1149,18 @@ definitions:
         type: string
       email: 
         description: email of the user
-  groupObj:
+  groupUser:
+    type: object
+    properties:
+      username: 
+        description: username of the user
+        type: string
+  groupMembers:
+    type: array
+    items:
+      $ref: '#/definitions/groupUser'
+    description: array of group users
+  postGroupObj:
     type: object
     properties:
       group_name:
@@ -684,8 +1172,39 @@ definitions:
       group_owner:
         description: group owner
         type: string
+  groupObj:
+    type: object
+    properties:
+      group_id: 
+        type: string
+        description: group id
+      group_name:
+        description: group name
+        type: string
+      description:
+        description: group's desciption
+        type: string
+      group_owner:
+        description: group owner
+        type: string
+  groupMembersObject:
+    type: array
+    items:
+      $ref: '#/definitions/userObj'
+    description: array of group users
+  getAllGroupsObject:
+    type: array
+    items:
+      $ref: '#/definitions/groupObj'
+    description: array of groups by username
+  groupResponse: 
+    type: object
+    properties:
+      group_id:
+        type: string
+        description: group_id
   noteObject:
-    description: array of notes
+    description: note obj
     required:
     - note_owner
     - tag
@@ -707,6 +1226,11 @@ definitions:
       tag: 
         description: tags of the note
         type: string
+  noteCommentsResponse:
+    type: array
+    items:
+      $ref: "#/definitions/commentObject"
+    description: array of comments of a note
   commentObject:
     type: object
     required:
@@ -737,6 +1261,12 @@ definitions:
     items: 
       $ref: "#/definitions/noteObject"
     description: array of note
+  noteResponse:
+    type: object
+    properties:
+      note_id:
+        description: note id
+        type: string
   noteDeleteResponse:
     type: object
     properties:
@@ -760,9 +1290,6 @@ definitions:
       note_id: 
         description: the note corresponding to comment_id
         type: string
-      username:
-        description: user who submit the comment
-        type: string
   errResponse:
     type: object
     properties:
@@ -773,4 +1300,3 @@ definitions:
         description: http error code
         type: integer
         format: int32
-  
