@@ -270,7 +270,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/groupObj"
+              "$ref": "#/definitions/postGroupObj"
             }
           }
         ],
@@ -816,7 +816,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/noteResponse"
             }
           },
           "400": {
@@ -956,6 +956,32 @@ func init() {
             "name": "tag",
             "in": "path",
             "required": true
+          },
+          {
+            "type": "string",
+            "description": "type of note",
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 10,
+            "description": "limit of files",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 0,
+            "description": "offset of files",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "updated at",
+            "name": "updated_at",
+            "in": "query"
           }
         ],
         "responses": {
@@ -1791,7 +1817,7 @@ func init() {
       }
     },
     "noteObject": {
-      "description": "array of notes",
+      "description": "note obj",
       "required": [
         "note_owner",
         "tag"
@@ -1818,6 +1844,32 @@ func init() {
         },
         "type": {
           "description": "type of the note file",
+          "type": "string"
+        }
+      }
+    },
+    "noteResponse": {
+      "type": "object",
+      "properties": {
+        "note_id": {
+          "description": "note id",
+          "type": "string"
+        }
+      }
+    },
+    "postGroupObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "group's desciption",
+          "type": "string"
+        },
+        "group_name": {
+          "description": "group name",
+          "type": "string"
+        },
+        "group_owner": {
+          "description": "group owner",
           "type": "string"
         }
       }
@@ -2105,7 +2157,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/groupObj"
+              "$ref": "#/definitions/postGroupObj"
             }
           }
         ],
@@ -2651,7 +2703,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/noteResponse"
             }
           },
           "400": {
@@ -2791,6 +2843,32 @@ func init() {
             "name": "tag",
             "in": "path",
             "required": true
+          },
+          {
+            "type": "string",
+            "description": "type of note",
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 10,
+            "description": "limit of files",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 0,
+            "description": "offset of files",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "updated at",
+            "name": "updated_at",
+            "in": "query"
           }
         ],
         "responses": {
@@ -3626,7 +3704,7 @@ func init() {
       }
     },
     "noteObject": {
-      "description": "array of notes",
+      "description": "note obj",
       "required": [
         "note_owner",
         "tag"
@@ -3653,6 +3731,32 @@ func init() {
         },
         "type": {
           "description": "type of the note file",
+          "type": "string"
+        }
+      }
+    },
+    "noteResponse": {
+      "type": "object",
+      "properties": {
+        "note_id": {
+          "description": "note id",
+          "type": "string"
+        }
+      }
+    },
+    "postGroupObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "group's desciption",
+          "type": "string"
+        },
+        "group_name": {
+          "description": "group name",
+          "type": "string"
+        },
+        "group_owner": {
+          "description": "group owner",
           "type": "string"
         }
       }

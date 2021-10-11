@@ -237,7 +237,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteGetResponse'
+            $ref: '#/definitions/noteResponse'
         400:
           description: Bad Request
           schema:
@@ -331,6 +331,28 @@ paths:
           description: tag to filter by
           required: true
           type: string
+        - name: type
+          description: type of note
+          in: query
+          type: string
+          required: false
+        - name: limit
+          description: limit of files
+          default: 10
+          in: query
+          type: integer
+          required: false
+        - name: offset
+          description: offset of files
+          in: query
+          required: false
+          default: 0
+          type: integer
+        - name: updated_at
+          description: updated at
+          in: query
+          required: false
+          type: boolean
       responses:
         200:
           description: Success
@@ -736,7 +758,7 @@ paths:
         description: group object
         required: true
         schema:
-          $ref: "#/definitions/groupObj"
+          $ref: "#/definitions/postGroupObj"
       responses:
         200:
           description: Success
@@ -1120,6 +1142,18 @@ definitions:
     items:
       $ref: '#/definitions/groupUser'
     description: array of group users
+  postGroupObj:
+    type: object
+    properties:
+      group_name:
+        description: group name
+        type: string
+      description:
+        description: group's desciption
+        type: string
+      group_owner:
+        description: group owner
+        type: string
   groupObj:
     type: object
     properties:
@@ -1152,7 +1186,7 @@ definitions:
         type: string
         description: group_id
   noteObject:
-    description: array of notes
+    description: note obj
     required:
     - note_owner
     - tag
@@ -1209,6 +1243,12 @@ definitions:
     items: 
       $ref: "#/definitions/noteObject"
     description: array of note
+  noteResponse:
+    type: object
+    properties:
+      note_id:
+        description: note id
+        type: string
   noteDeleteResponse:
     type: object
     properties:
