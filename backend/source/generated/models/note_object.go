@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// NoteObject array of notes
+// NoteObject note obj
 //
 // swagger:model noteObject
 type NoteObject struct {

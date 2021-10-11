@@ -33,10 +33,10 @@ function LoginWindow(props) {
   return (
     <div className="d-flex flex-column align-items-center">
       <ModalHeader title="Welcome to MochiNote!" />
-      <InputBox placeholder="username" onChange={setUsername} />
-      <InputBox placeholder="password" onChange={setPassword} />
+      <InputBox placeholder="Username" onChange={setUsername} />
+      <InputBox placeholder="Password" onChange={setPassword} />
       <Button
-        title="forgot your password?"
+        title="Forgot your password?"
         type="link"
         clicked={() => alert("Username: test, Password: 1234")}
       />

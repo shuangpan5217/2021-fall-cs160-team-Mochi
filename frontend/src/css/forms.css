@@ -16,6 +16,7 @@
     color: var(--btn-txt-color);
     margin-left: 15px;
     margin-right: 15px;
+    margin-top: 20px;
 }
 
 .btn.primary{
