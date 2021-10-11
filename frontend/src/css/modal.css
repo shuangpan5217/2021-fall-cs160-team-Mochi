@@ -1,0 +1,16 @@
+.modal-container{
+    background-color: var(--modal-panel-color);
+    border: 1px solid var(--modal-border-color);
+    border-radius: 15px;
+    padding: 40px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.centered{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
