@@ -6,7 +6,6 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/notes_v1"
 	"io/ioutil"
 	"net/http"
-	"strings"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/jinzhu/gorm"
@@ -38,15 +37,15 @@ func GetFileV1Handler(db *gorm.DB) notes_v1.GetFileV1HandlerFunc {
 }
 
 func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *models.GetFileResponse, errResp *models.ErrResponse) {
-	payload, errResp := commonutils.ExtractJWT(params.HTTPRequest)
+	_, errResp = commonutils.ExtractJWT(params.HTTPRequest)
 	if errResp != nil {
 		return
 	}
-	username := payload.Username
-	if !strings.HasPrefix(params.Path, username) {
-		errResp = commonutils.GenerateErrResp(http.StatusBadRequest, "Bad file path")
-		return
-	}
+	// username := payload.Username
+	// if !strings.HasPrefix(params.Path, username) {
+	// 	errResp = commonutils.GenerateErrResp(http.StatusBadRequest, "Bad file path")
+	// 	return
+	// }
 	mochiNoteDir, errResp := commonutils.GetMochiNoteFilesDir()
 	if errResp != nil {
 		return
