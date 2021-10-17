@@ -858,6 +858,82 @@ func init() {
         }
       }
     },
+    "/v1/notes/file/upload": {
+      "post": {
+        "description": "post a pdf file",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "post a pdf file",
+        "operationId": "postFileV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "note file",
+            "name": "noteFile",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/postFileResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/notes/groupname/{group_name}": {
       "get": {
         "description": "one groupname can be provided to search",
@@ -1805,7 +1881,7 @@ func init() {
       "properties": {
         "note_id": {
           "description": "id of note",
-          "type": "integer"
+          "type": "string"
         }
       }
     },
@@ -1834,6 +1910,10 @@ func init() {
         "note_owner": {
           "description": "the owner of note"
         },
+        "note_reference": {
+          "description": "path of file",
+          "type": "string"
+        },
         "tag": {
           "description": "tags of the note",
           "type": "string"
@@ -1843,7 +1923,7 @@ func init() {
           "type": "string"
         },
         "type": {
-          "description": "type of the note file",
+          "description": "type of the note file, public, shared, private",
           "type": "string"
         }
       }
@@ -1853,6 +1933,15 @@ func init() {
       "properties": {
         "note_id": {
           "description": "note id",
+          "type": "string"
+        }
+      }
+    },
+    "postFileResponse": {
+      "type": "object",
+      "properties": {
+        "note_reference": {
+          "description": "path of file",
           "type": "string"
         }
       }
@@ -2770,6 +2859,82 @@ func init() {
         }
       }
     },
+    "/v1/notes/file/upload": {
+      "post": {
+        "description": "post a pdf file",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "post a pdf file",
+        "operationId": "postFileV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "note file",
+            "name": "noteFile",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/postFileResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/notes/groupname/{group_name}": {
       "get": {
         "description": "one groupname can be provided to search",
@@ -3717,7 +3882,7 @@ func init() {
       "properties": {
         "note_id": {
           "description": "id of note",
-          "type": "integer"
+          "type": "string"
         }
       }
     },
@@ -3746,6 +3911,10 @@ func init() {
         "note_owner": {
           "description": "the owner of note"
         },
+        "note_reference": {
+          "description": "path of file",
+          "type": "string"
+        },
         "tag": {
           "description": "tags of the note",
           "type": "string"
@@ -3755,7 +3924,7 @@ func init() {
           "type": "string"
         },
         "type": {
-          "description": "type of the note file",
+          "description": "type of the note file, public, shared, private",
           "type": "string"
         }
       }
@@ -3765,6 +3934,15 @@ func init() {
       "properties": {
         "note_id": {
           "description": "note id",
+          "type": "string"
+        }
+      }
+    },
+    "postFileResponse": {
+      "type": "object",
+      "properties": {
+        "note_reference": {
+          "description": "path of file",
           "type": "string"
         }
       }
