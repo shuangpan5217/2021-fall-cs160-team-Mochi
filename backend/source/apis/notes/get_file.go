@@ -46,6 +46,14 @@ func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *
 	// 	errResp = commonutils.GenerateErrResp(http.StatusBadRequest, "Bad file path")
 	// 	return
 	// }
+	// Should handle this way
+	// if note is public, return file (notes table, type field)
+	// if note is private or shared
+	//    check user_notes table
+	//    if presented (username <==> note_id (note table))
+	//       return file
+	//    else
+	//       return error
 	mochiNoteDir, errResp := commonutils.GetMochiNoteFilesDir()
 	if errResp != nil {
 		return
