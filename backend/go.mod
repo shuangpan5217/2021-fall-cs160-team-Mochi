@@ -14,6 +14,7 @@ require (
 	github.com/go-openapi/validate v0.20.2
 	github.com/google/uuid v1.3.0
 	github.com/jinzhu/gorm v1.9.16
+	github.com/spf13/cast v1.4.1
 	github.com/spf13/pflag v1.0.5
 	golang.org/x/net v0.0.0-20210924151903-3ad01bbaa167
 )

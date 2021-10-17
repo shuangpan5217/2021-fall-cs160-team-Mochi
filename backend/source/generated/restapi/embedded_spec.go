@@ -858,7 +858,7 @@ func init() {
         }
       }
     },
-    "/v1/notes/file/upload": {
+    "/v1/notes/file": {
       "post": {
         "description": "post a pdf file",
         "consumes": [
@@ -893,6 +893,157 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/postFileResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/file/{path}": {
+      "get": {
+        "description": "get a pdf file",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get a pdf file",
+        "operationId": "getFileV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "file path",
+            "name": "path",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFileResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/files": {
+      "post": {
+        "description": "get multiple pdf files",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get multiple pdf files",
+        "operationId": "getMultipleFilesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "path array",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/getFilesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFilesResponse"
             }
           },
           "400": {
@@ -1784,6 +1935,53 @@ func init() {
       "type": "array",
       "items": {
         "$ref": "#/definitions/groupObj"
+      }
+    },
+    "getFileRequest": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "path of file",
+          "type": "string"
+        }
+      }
+    },
+    "getFileResponse": {
+      "type": "object",
+      "properties": {
+        "pdf_data": {
+          "description": "pdf content",
+          "type": "object"
+        }
+      }
+    },
+    "getFilesRequest": {
+      "type": "object",
+      "properties": {
+        "filePaths": {
+          "description": "file paths array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileRequest"
+          }
+        }
+      }
+    },
+    "getFilesResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "count of files",
+          "type": "integer",
+          "format": "int32"
+        },
+        "filesData": {
+          "description": "files data array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileResponse"
+          }
+        }
       }
     },
     "getNoteMembersResponse": {
@@ -2859,7 +3057,7 @@ func init() {
         }
       }
     },
-    "/v1/notes/file/upload": {
+    "/v1/notes/file": {
       "post": {
         "description": "post a pdf file",
         "consumes": [
@@ -2894,6 +3092,157 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/postFileResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/file/{path}": {
+      "get": {
+        "description": "get a pdf file",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get a pdf file",
+        "operationId": "getFileV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "file path",
+            "name": "path",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFileResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/files": {
+      "post": {
+        "description": "get multiple pdf files",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get multiple pdf files",
+        "operationId": "getMultipleFilesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "path array",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/getFilesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFilesResponse"
             }
           },
           "400": {
@@ -3785,6 +4134,53 @@ func init() {
       "type": "array",
       "items": {
         "$ref": "#/definitions/groupObj"
+      }
+    },
+    "getFileRequest": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "path of file",
+          "type": "string"
+        }
+      }
+    },
+    "getFileResponse": {
+      "type": "object",
+      "properties": {
+        "pdf_data": {
+          "description": "pdf content",
+          "type": "object"
+        }
+      }
+    },
+    "getFilesRequest": {
+      "type": "object",
+      "properties": {
+        "filePaths": {
+          "description": "file paths array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileRequest"
+          }
+        }
+      }
+    },
+    "getFilesResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "count of files",
+          "type": "integer",
+          "format": "int32"
+        },
+        "filesData": {
+          "description": "files data array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileResponse"
+          }
+        }
       }
     },
     "getNoteMembersResponse": {

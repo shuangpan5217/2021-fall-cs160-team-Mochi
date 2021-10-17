@@ -29,7 +29,7 @@ func NewPostFileV1(ctx *middleware.Context, handler PostFileV1Handler) *PostFile
 	return &PostFileV1{Context: ctx, Handler: handler}
 }
 
-/* PostFileV1 swagger:route POST /v1/notes/file/upload notesV1 postFileV1
+/* PostFileV1 swagger:route POST /v1/notes/file notesV1 postFileV1
 
 post a pdf file
 
