@@ -70,17 +70,7 @@ func processUpdateUserInfoRequest(db *gorm.DB, params user_mgmt_v1.UpdateUserInf
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
-	resp, errResp = GetUserInfoObj(db, username)
+	resp, errResp = GetUserObj(db, username)
 
-	return
-}
-
-func GetUserInfoObj(db *gorm.DB, username string) (resp *models.UserObj, errResp *models.ErrResponse) {
-	resp = &models.UserObj{}
-	err := db.Table(dbpackages.UserTable).Where("username = ?", username).First(resp).Error
-	if err != nil {
-		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
-		return
-	}
 	return
 }
