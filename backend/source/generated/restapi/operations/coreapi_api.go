@@ -43,7 +43,8 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		APIKeyAuthenticator: security.APIKeyAuth,
 		BearerAuthenticator: security.BearerAuth,
 
-		JSONConsumer: runtime.JSONConsumer(),
+		JSONConsumer:          runtime.JSONConsumer(),
+		MultipartformConsumer: runtime.DiscardConsumer,
 
 		JSONProducer: runtime.JSONProducer(),
 
@@ -95,6 +96,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		CommentsV1PostCommentsV1Handler: comments_v1.PostCommentsV1HandlerFunc(func(params comments_v1.PostCommentsV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation comments_v1.PostCommentsV1 has not yet been implemented")
 		}),
+		NotesV1PostFileV1Handler: notes_v1.PostFileV1HandlerFunc(func(params notes_v1.PostFileV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.PostFileV1 has not yet been implemented")
+		}),
 		CommentsV1RemoveComnentV1Handler: comments_v1.RemoveComnentV1HandlerFunc(func(params comments_v1.RemoveComnentV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation comments_v1.RemoveComnentV1 has not yet been implemented")
 		}),
@@ -141,6 +145,9 @@ type CoreapiAPI struct {
 	// JSONConsumer registers a consumer for the following mime types:
 	//   - application/json
 	JSONConsumer runtime.Consumer
+	// MultipartformConsumer registers a consumer for the following mime types:
+	//   - multipart/form-data
+	MultipartformConsumer runtime.Consumer
 
 	// JSONProducer registers a producer for the following mime types:
 	//   - application/json
@@ -178,6 +185,8 @@ type CoreapiAPI struct {
 	NotesV1NotesV1Handler notes_v1.NotesV1Handler
 	// CommentsV1PostCommentsV1Handler sets the operation handler for the post comments v1 operation
 	CommentsV1PostCommentsV1Handler comments_v1.PostCommentsV1Handler
+	// NotesV1PostFileV1Handler sets the operation handler for the post file v1 operation
+	NotesV1PostFileV1Handler notes_v1.PostFileV1Handler
 	// CommentsV1RemoveComnentV1Handler sets the operation handler for the remove comnent v1 operation
 	CommentsV1RemoveComnentV1Handler comments_v1.RemoveComnentV1Handler
 	// GroupsV1RemoveGroupUsersV1Handler sets the operation handler for the remove group users v1 operation
@@ -260,6 +269,9 @@ func (o *CoreapiAPI) Validate() error {
 	if o.JSONConsumer == nil {
 		unregistered = append(unregistered, "JSONConsumer")
 	}
+	if o.MultipartformConsumer == nil {
+		unregistered = append(unregistered, "MultipartformConsumer")
+	}
 
 	if o.JSONProducer == nil {
 		unregistered = append(unregistered, "JSONProducer")
@@ -313,6 +325,9 @@ func (o *CoreapiAPI) Validate() error {
 	if o.CommentsV1PostCommentsV1Handler == nil {
 		unregistered = append(unregistered, "comments_v1.PostCommentsV1Handler")
 	}
+	if o.NotesV1PostFileV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.PostFileV1Handler")
+	}
 	if o.CommentsV1RemoveComnentV1Handler == nil {
 		unregistered = append(unregistered, "comments_v1.RemoveComnentV1Handler")
 	}
@@ -359,6 +374,8 @@ func (o *CoreapiAPI) ConsumersFor(mediaTypes []string) map[string]runtime.Consum
 		switch mt {
 		case "application/json":
 			result["application/json"] = o.JSONConsumer
+		case "multipart/form-data":
+			result["multipart/form-data"] = o.MultipartformConsumer
 		}
 
 		if c, ok := o.customConsumers[mt]; ok {
@@ -480,6 +497,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/v1/comments"] = comments_v1.NewPostCommentsV1(o.context, o.CommentsV1PostCommentsV1Handler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/v1/notes/file/upload"] = notes_v1.NewPostFileV1(o.context, o.NotesV1PostFileV1Handler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}

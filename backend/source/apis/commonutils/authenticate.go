@@ -20,7 +20,7 @@ func GenerateJWT(username string) (tokenString string, errResp *models.ErrRespon
 
 	claims["authorized"] = true
 	claims["username"] = username
-	claims["exp"] = time.Now().Add(time.Minute * 60).Unix()
+	claims["exp"] = time.Now().Add(time.Minute * 1440).Unix()
 	/*
 		In real world, we need to move "secret_token_key" into something like "secret.json" file of Kubernetes etc
 	*/

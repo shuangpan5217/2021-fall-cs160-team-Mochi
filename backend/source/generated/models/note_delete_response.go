@@ -18,7 +18,7 @@ import (
 type NoteDeleteResponse struct {
 
 	// id of note
-	NoteID int64 `json:"note_id,omitempty"`
+	NoteID string `json:"note_id,omitempty"`
 }
 
 // Validate validates this note delete response
