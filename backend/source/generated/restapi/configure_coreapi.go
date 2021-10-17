@@ -61,6 +61,8 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 
 	// notes
 	api.NotesV1PostFileV1Handler = notes.PostFileV1Handler(db)
+	api.NotesV1GetFileV1Handler = notes.GetFileV1Handler(db)
+	api.NotesV1GetMultipleFilesV1Handler = notes.GetMultipleFilesV1Handler(db)
 
 	api.PreServerShutdown = func() {}
 

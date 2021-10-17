@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
 )
 
@@ -58,11 +58,11 @@ func processPostFileRequest(db *gorm.DB, params notes_v1.PostFileV1Params) (resp
 	}
 
 	// file dir
-	fileDir, errResp := commonutils.GetFileDir(payload.Username)
+	fileDir, errResp := commonutils.GetMochiNoteFilesDir()
 	if errResp != nil {
 		return
 	}
-	fileName := time.Now().UTC().String() + ".pdf"
+	fileName := payload.Username + uuid.New().String() + ".pdf"
 
 	// write dir and files
 	err = os.MkdirAll(fileDir, 0777)
@@ -76,7 +76,7 @@ func processPostFileRequest(db *gorm.DB, params notes_v1.PostFileV1Params) (resp
 		return
 	}
 	resp = &models.PostFileResponse{
-		NoteReference: commonutils.GetFileReferende(fileName, payload.Username),
+		NoteReference: fileName,
 	}
 	return
 }

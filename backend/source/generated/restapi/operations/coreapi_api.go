@@ -69,6 +69,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		NotesV1FindByUsernameHandler: notes_v1.FindByUsernameHandlerFunc(func(params notes_v1.FindByUsernameParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.FindByUsername has not yet been implemented")
 		}),
+		NotesV1GetFileV1Handler: notes_v1.GetFileV1HandlerFunc(func(params notes_v1.GetFileV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.GetFileV1 has not yet been implemented")
+		}),
 		GroupsV1GetGroupInfoV1Handler: groups_v1.GetGroupInfoV1HandlerFunc(func(params groups_v1.GetGroupInfoV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.GetGroupInfoV1 has not yet been implemented")
 		}),
@@ -77,6 +80,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		}),
 		GroupsV1GetGroupsV1Handler: groups_v1.GetGroupsV1HandlerFunc(func(params groups_v1.GetGroupsV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.GetGroupsV1 has not yet been implemented")
+		}),
+		NotesV1GetMultipleFilesV1Handler: notes_v1.GetMultipleFilesV1HandlerFunc(func(params notes_v1.GetMultipleFilesV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.GetMultipleFilesV1 has not yet been implemented")
 		}),
 		NotesV1GetNoteCommentsHandler: notes_v1.GetNoteCommentsHandlerFunc(func(params notes_v1.GetNoteCommentsParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.GetNoteComments has not yet been implemented")
@@ -167,12 +173,16 @@ type CoreapiAPI struct {
 	NotesV1FindByTagsHandler notes_v1.FindByTagsHandler
 	// NotesV1FindByUsernameHandler sets the operation handler for the find by username operation
 	NotesV1FindByUsernameHandler notes_v1.FindByUsernameHandler
+	// NotesV1GetFileV1Handler sets the operation handler for the get file v1 operation
+	NotesV1GetFileV1Handler notes_v1.GetFileV1Handler
 	// GroupsV1GetGroupInfoV1Handler sets the operation handler for the get group info v1 operation
 	GroupsV1GetGroupInfoV1Handler groups_v1.GetGroupInfoV1Handler
 	// GroupsV1GetGroupUsersV1Handler sets the operation handler for the get group users v1 operation
 	GroupsV1GetGroupUsersV1Handler groups_v1.GetGroupUsersV1Handler
 	// GroupsV1GetGroupsV1Handler sets the operation handler for the get groups v1 operation
 	GroupsV1GetGroupsV1Handler groups_v1.GetGroupsV1Handler
+	// NotesV1GetMultipleFilesV1Handler sets the operation handler for the get multiple files v1 operation
+	NotesV1GetMultipleFilesV1Handler notes_v1.GetMultipleFilesV1Handler
 	// NotesV1GetNoteCommentsHandler sets the operation handler for the get note comments operation
 	NotesV1GetNoteCommentsHandler notes_v1.GetNoteCommentsHandler
 	// NotesV1GetNoteMembersHandler sets the operation handler for the get note members operation
@@ -298,6 +308,9 @@ func (o *CoreapiAPI) Validate() error {
 	if o.NotesV1FindByUsernameHandler == nil {
 		unregistered = append(unregistered, "notes_v1.FindByUsernameHandler")
 	}
+	if o.NotesV1GetFileV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.GetFileV1Handler")
+	}
 	if o.GroupsV1GetGroupInfoV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.GetGroupInfoV1Handler")
 	}
@@ -306,6 +319,9 @@ func (o *CoreapiAPI) Validate() error {
 	}
 	if o.GroupsV1GetGroupsV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.GetGroupsV1Handler")
+	}
+	if o.NotesV1GetMultipleFilesV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.GetMultipleFilesV1Handler")
 	}
 	if o.NotesV1GetNoteCommentsHandler == nil {
 		unregistered = append(unregistered, "notes_v1.GetNoteCommentsHandler")
@@ -464,6 +480,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
+	o.handlers["GET"]["/v1/notes/file/{path}"] = notes_v1.NewGetFileV1(o.context, o.NotesV1GetFileV1Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
 	o.handlers["GET"]["/v1/groups/{group_id}"] = groups_v1.NewGetGroupInfoV1(o.context, o.GroupsV1GetGroupInfoV1Handler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -473,6 +493,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/v1/groups"] = groups_v1.NewGetGroupsV1(o.context, o.GroupsV1GetGroupsV1Handler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/v1/notes/files"] = notes_v1.NewGetMultipleFilesV1(o.context, o.NotesV1GetMultipleFilesV1Handler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -500,7 +524,7 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/v1/notes/file/upload"] = notes_v1.NewPostFileV1(o.context, o.NotesV1PostFileV1Handler)
+	o.handlers["POST"]["/v1/notes/file"] = notes_v1.NewPostFileV1(o.context, o.NotesV1PostFileV1Handler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
