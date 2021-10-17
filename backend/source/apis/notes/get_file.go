@@ -54,6 +54,7 @@ func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *
 	//       return file
 	//    else
 	//       return error
+	// otherwise, create a file table with type [public, shared, private]
 	mochiNoteDir, errResp := commonutils.GetMochiNoteFilesDir()
 	if errResp != nil {
 		return
