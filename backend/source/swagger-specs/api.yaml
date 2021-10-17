@@ -734,6 +734,58 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
+  /v1/notes/files:
+    post:
+      description: get multiple pdf files
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - notesV1
+      summary: get multiple pdf files
+      operationId: getMultipleFilesV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: body
+        description: path array
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/getFilesRequest'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/getFilesResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
 
   /v1/comments:
     post:
@@ -1414,9 +1466,29 @@ definitions:
       pdf_data:
         type: object
         description: pdf content
+  getFilesResponse:
+    type: object
+    properties:
+      filesData:
+        type: array
+        items:
+          $ref: '#/definitions/getFileResponse'
+        description: files data array
+      count:
+        type: integer
+        format: int32
+        description: count of files
   getFileRequest:
     type: object
     properties:
       path:
         type: string
         description: path of file
+  getFilesRequest:
+    type: object
+    properties:
+      filePaths:
+        type: array
+        items:
+          $ref: '#/definitions/getFileRequest'
+        description: file paths array

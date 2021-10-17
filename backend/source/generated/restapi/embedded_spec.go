@@ -1007,6 +1007,84 @@ func init() {
         }
       }
     },
+    "/v1/notes/files": {
+      "post": {
+        "description": "get multiple pdf files",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get multiple pdf files",
+        "operationId": "getMultipleFilesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "path array",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/getFilesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFilesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/notes/groupname/{group_name}": {
       "get": {
         "description": "one groupname can be provided to search",
@@ -1874,6 +1952,35 @@ func init() {
         "pdf_data": {
           "description": "pdf content",
           "type": "object"
+        }
+      }
+    },
+    "getFilesRequest": {
+      "type": "object",
+      "properties": {
+        "filePaths": {
+          "description": "file paths array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileRequest"
+          }
+        }
+      }
+    },
+    "getFilesResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "count of files",
+          "type": "integer",
+          "format": "int32"
+        },
+        "filesData": {
+          "description": "files data array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileResponse"
+          }
         }
       }
     },
@@ -3099,6 +3206,84 @@ func init() {
         }
       }
     },
+    "/v1/notes/files": {
+      "post": {
+        "description": "get multiple pdf files",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get multiple pdf files",
+        "operationId": "getMultipleFilesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "path array",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/getFilesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFilesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/notes/groupname/{group_name}": {
       "get": {
         "description": "one groupname can be provided to search",
@@ -3966,6 +4151,35 @@ func init() {
         "pdf_data": {
           "description": "pdf content",
           "type": "object"
+        }
+      }
+    },
+    "getFilesRequest": {
+      "type": "object",
+      "properties": {
+        "filePaths": {
+          "description": "file paths array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileRequest"
+          }
+        }
+      }
+    },
+    "getFilesResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "count of files",
+          "type": "integer",
+          "format": "int32"
+        },
+        "filesData": {
+          "description": "files data array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileResponse"
+          }
         }
       }
     },
