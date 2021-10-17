@@ -63,7 +63,11 @@ func processPostFileRequest(db *gorm.DB, params notes_v1.PostFileV1Params) (resp
 		return
 	}
 	fileName := payload.Username + uuid.New().String() + ".pdf"
-
+	exist, err := Exists(fileName)
+	if exist || err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, commonutils.InternalServerError)
+		return
+	}
 	// write dir and files
 	err = os.MkdirAll(fileDir, 0777)
 	if err != nil {
@@ -79,4 +83,12 @@ func processPostFileRequest(db *gorm.DB, params notes_v1.PostFileV1Params) (resp
 		NoteReference: fileName,
 	}
 	return
+}
+
+func Exists(name string) (bool, error) {
+	_, err := os.Stat(name)
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return true, err
 }
