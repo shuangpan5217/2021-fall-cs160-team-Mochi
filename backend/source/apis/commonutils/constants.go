@@ -16,15 +16,6 @@ const (
 	SecretTokenKey = "secret_token_key"
 )
 
-func GetFileDir(username string) (path string, errResp *models.ErrResponse) {
-	userHomeDir, err := os.UserHomeDir()
-	if err != nil {
-		errResp = GenerateErrResp(http.StatusInternalServerError, err.Error())
-		return
-	}
-	return userHomeDir + "/mochiNote/" + username, nil
-}
-
 func GetMochiNoteFilesDir() (path string, errResp *models.ErrResponse) {
 	userHomeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -32,8 +23,4 @@ func GetMochiNoteFilesDir() (path string, errResp *models.ErrResponse) {
 		return
 	}
 	return userHomeDir + "/mochiNote", nil
-}
-
-func GetFileReferende(fileName, username string) string {
-	return username + "/" + fileName
 }

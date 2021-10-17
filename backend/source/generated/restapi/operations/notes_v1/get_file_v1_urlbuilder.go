@@ -9,11 +9,16 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
+	"strings"
 )
 
 // GetFileV1URL generates an URL for the get file v1 operation
 type GetFileV1URL struct {
+	Path string
+
 	_basePath string
+	// avoid unkeyed usage
+	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
@@ -35,7 +40,14 @@ func (o *GetFileV1URL) SetBasePath(bp string) {
 func (o *GetFileV1URL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/v1/notes/file"
+	var _path = "/v1/notes/file/{path}"
+
+	path := o.Path
+	if path != "" {
+		_path = strings.Replace(_path, "{path}", path, -1)
+	} else {
+		return nil, errors.New("path is required on GetFileV1URL")
+	}
 
 	_basePath := o._basePath
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)

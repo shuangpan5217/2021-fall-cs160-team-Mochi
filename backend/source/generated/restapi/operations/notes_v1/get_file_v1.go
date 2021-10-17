@@ -29,7 +29,7 @@ func NewGetFileV1(ctx *middleware.Context, handler GetFileV1Handler) *GetFileV1 
 	return &GetFileV1{Context: ctx, Handler: handler}
 }
 
-/* GetFileV1 swagger:route GET /v1/notes/file notesV1 getFileV1
+/* GetFileV1 swagger:route GET /v1/notes/file/{path} notesV1 getFileV1
 
 get a pdf file
 

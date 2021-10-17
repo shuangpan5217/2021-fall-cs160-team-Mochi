@@ -6,16 +6,12 @@ package notes_v1
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
-
-	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 )
 
 // NewGetFileV1Params creates a new GetFileV1Params object
@@ -40,10 +36,11 @@ type GetFileV1Params struct {
 	  In: header
 	*/
 	Authorization string
-	/*body that contains path
-	  In: body
+	/*file path
+	  Required: true
+	  In: path
 	*/
-	Body *models.GetFileRequest
+	Path string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -59,26 +56,9 @@ func (o *GetFileV1Params) BindRequest(r *http.Request, route *middleware.Matched
 		res = append(res, err)
 	}
 
-	if runtime.HasBody(r) {
-		defer r.Body.Close()
-		var body models.GetFileRequest
-		if err := route.Consumer.Consume(r.Body, &body); err != nil {
-			res = append(res, errors.NewParseError("body", "body", "", err))
-		} else {
-			// validate body object
-			if err := body.Validate(route.Formats); err != nil {
-				res = append(res, err)
-			}
-
-			ctx := validate.WithOperationRequest(context.Background())
-			if err := body.ContextValidate(ctx, route.Formats); err != nil {
-				res = append(res, err)
-			}
-
-			if len(res) == 0 {
-				o.Body = &body
-			}
-		}
+	rPath, rhkPath, _ := route.Params.GetOK("path")
+	if err := o.bindPath(rPath, rhkPath, route.Formats); err != nil {
+		res = append(res, err)
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
@@ -102,6 +82,20 @@ func (o *GetFileV1Params) bindAuthorization(rawData []string, hasKey bool, forma
 		return err
 	}
 	o.Authorization = raw
+
+	return nil
+}
+
+// bindPath binds and validates parameter Path from path.
+func (o *GetFileV1Params) bindPath(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: true
+	// Parameter is provided by construction from the route
+	o.Path = raw
 
 	return nil
 }

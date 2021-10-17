@@ -859,16 +859,19 @@ func init() {
       }
     },
     "/v1/notes/file": {
-      "get": {
-        "description": "get a pdf file",
+      "post": {
+        "description": "post a pdf file",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "produces": [
           "application/json"
         ],
         "tags": [
           "notesV1"
         ],
-        "summary": "get a pdf file",
-        "operationId": "getFileV1",
+        "summary": "post a pdf file",
+        "operationId": "postFileV1",
         "parameters": [
           {
             "type": "string",
@@ -878,19 +881,18 @@ func init() {
             "required": true
           },
           {
-            "description": "body that contains path",
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/getFileRequest"
-            }
+            "type": "file",
+            "description": "note file",
+            "name": "noteFile",
+            "in": "formData",
+            "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/getFileResponse"
+              "$ref": "#/definitions/postFileResponse"
             }
           },
           "400": {
@@ -930,20 +932,19 @@ func init() {
             }
           }
         }
-      },
-      "post": {
-        "description": "post a pdf file",
-        "consumes": [
-          "multipart/form-data"
-        ],
+      }
+    },
+    "/v1/notes/file/{path}": {
+      "get": {
+        "description": "get a pdf file",
         "produces": [
           "application/json"
         ],
         "tags": [
           "notesV1"
         ],
-        "summary": "post a pdf file",
-        "operationId": "postFileV1",
+        "summary": "get a pdf file",
+        "operationId": "getFileV1",
         "parameters": [
           {
             "type": "string",
@@ -953,10 +954,10 @@ func init() {
             "required": true
           },
           {
-            "type": "file",
-            "description": "note file",
-            "name": "noteFile",
-            "in": "formData",
+            "type": "string",
+            "description": "file path",
+            "name": "path",
+            "in": "path",
             "required": true
           }
         ],
@@ -964,7 +965,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/postFileResponse"
+              "$ref": "#/definitions/getFileResponse"
             }
           },
           "400": {
@@ -2950,16 +2951,19 @@ func init() {
       }
     },
     "/v1/notes/file": {
-      "get": {
-        "description": "get a pdf file",
+      "post": {
+        "description": "post a pdf file",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "produces": [
           "application/json"
         ],
         "tags": [
           "notesV1"
         ],
-        "summary": "get a pdf file",
-        "operationId": "getFileV1",
+        "summary": "post a pdf file",
+        "operationId": "postFileV1",
         "parameters": [
           {
             "type": "string",
@@ -2969,19 +2973,18 @@ func init() {
             "required": true
           },
           {
-            "description": "body that contains path",
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/getFileRequest"
-            }
+            "type": "file",
+            "description": "note file",
+            "name": "noteFile",
+            "in": "formData",
+            "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/getFileResponse"
+              "$ref": "#/definitions/postFileResponse"
             }
           },
           "400": {
@@ -3021,20 +3024,19 @@ func init() {
             }
           }
         }
-      },
-      "post": {
-        "description": "post a pdf file",
-        "consumes": [
-          "multipart/form-data"
-        ],
+      }
+    },
+    "/v1/notes/file/{path}": {
+      "get": {
+        "description": "get a pdf file",
         "produces": [
           "application/json"
         ],
         "tags": [
           "notesV1"
         ],
-        "summary": "post a pdf file",
-        "operationId": "postFileV1",
+        "summary": "get a pdf file",
+        "operationId": "getFileV1",
         "parameters": [
           {
             "type": "string",
@@ -3044,10 +3046,10 @@ func init() {
             "required": true
           },
           {
-            "type": "file",
-            "description": "note file",
-            "name": "noteFile",
-            "in": "formData",
+            "type": "string",
+            "description": "file path",
+            "name": "path",
+            "in": "path",
             "required": true
           }
         ],
@@ -3055,7 +3057,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/postFileResponse"
+              "$ref": "#/definitions/getFileResponse"
             }
           },
           "400": {

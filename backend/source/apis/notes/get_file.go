@@ -43,7 +43,7 @@ func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *
 		return
 	}
 	username := payload.Username
-	if !strings.HasPrefix(params.Body.Path, username+"/") {
+	if !strings.HasPrefix(params.Path, username) {
 		errResp = commonutils.GenerateErrResp(http.StatusBadRequest, "Bad file path")
 		return
 	}
@@ -51,7 +51,7 @@ func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *
 	if errResp != nil {
 		return
 	}
-	filePath := mochiNoteDir + "/" + params.Body.Path
+	filePath := mochiNoteDir + "/" + params.Path
 	pdfFileData, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
