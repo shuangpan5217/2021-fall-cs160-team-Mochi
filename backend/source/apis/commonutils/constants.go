@@ -35,5 +35,5 @@ func GetMochiNoteFilesDir() (path string, errResp *models.ErrResponse) {
 }
 
 func GetFileReferende(fileName, username string) string {
-	return "/mochiNote/" + username + "/" + fileName
+	return username + "/" + fileName
 }

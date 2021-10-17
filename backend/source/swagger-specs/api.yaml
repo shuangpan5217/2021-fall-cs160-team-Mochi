@@ -634,7 +634,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/file/upload:
+  /v1/notes/file:
     post:
       description: post a pdf file
       consumes:
@@ -661,6 +661,54 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/postFileResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+    get:
+      description: get a pdf file
+      produces:
+        - application/json
+      tags:
+      - notesV1
+      summary: get a pdf file
+      operationId: getFileV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: body
+        description: body that contains path
+        in: body
+        schema:
+          $ref: '#/definitions/getFileRequest'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/getFileResponse'
         400:
           description: Bad Request
           schema:
@@ -1360,3 +1408,15 @@ definitions:
       note_reference:
         description: path of file
         type: string
+  getFileResponse:
+    type: object
+    properties:
+      pdf_data:
+        type: object
+        description: pdf content
+  getFileRequest:
+    type: object
+    properties:
+      path:
+        type: string
+        description: path of file
