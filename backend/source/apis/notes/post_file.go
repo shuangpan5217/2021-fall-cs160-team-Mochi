@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
 )
 
@@ -62,7 +62,7 @@ func processPostFileRequest(db *gorm.DB, params notes_v1.PostFileV1Params) (resp
 	if errResp != nil {
 		return
 	}
-	fileName := payload.Username + strings.ReplaceAll(strings.ReplaceAll(strings.ReplaceAll(time.Now().UTC().String(), " ", ""), "/", ""), ":", "") + ".pdf"
+	fileName := payload.Username + uuid.New().String() + ".pdf"
 
 	// write dir and files
 	err = os.MkdirAll(fileDir, 0777)
