@@ -43,6 +43,7 @@ function SignUpWindow(props) {
       <InputBox placeholder="Email" onChange={setEmail} />
       <InputBox placeholder="Username" onChange={setUsername} />
       <InputBox placeholder="Password" onChange={setPassword} />
+      <InputBox placeholder="Confirm password" onChange={setPassword} />
       <div className="d-flex flex-row">
         <Button title="BACK" type="secondary" url="/login" />
         <Button title="SIGN UP" type="primary" clicked={attemptSignup} />
