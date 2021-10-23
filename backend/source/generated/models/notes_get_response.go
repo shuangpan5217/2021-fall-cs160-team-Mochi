@@ -14,13 +14,13 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NoteGetResponse array of note
+// NotesGetResponse array of note
 //
-// swagger:model noteGetResponse
-type NoteGetResponse []*NoteObject
+// swagger:model notesGetResponse
+type NotesGetResponse []*NoteObjectResponse
 
-// Validate validates this note get response
-func (m NoteGetResponse) Validate(formats strfmt.Registry) error {
+// Validate validates this notes get response
+func (m NotesGetResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	for i := 0; i < len(m); i++ {
@@ -45,8 +45,8 @@ func (m NoteGetResponse) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validate this note get response based on the context it is used
-func (m NoteGetResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validate this notes get response based on the context it is used
+func (m NotesGetResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	for i := 0; i < len(m); i++ {

@@ -48,6 +48,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	db.LogMode(true)
 	err = commonutils.InsertTables(db)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -64,6 +65,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.NotesV1PostFileV1Handler = notes.PostFileV1Handler(db)
 	api.NotesV1GetFileV1Handler = notes.GetFileV1Handler(db)
 	api.NotesV1GetMultipleFilesV1Handler = notes.GetMultipleFilesV1Handler(db)
+	api.NotesV1UploadNoteV1Handler = notes.UploadNoteV1Handler(db)
 
 	// comments
 	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)
@@ -98,6 +100,7 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	corsHandler := cors.Handler(cors.Options{
 		AllowedOrigins: []string{"*"},
+		AllowedHeaders: []string{"*"},
 	})
 
 	return corsHandler(handler)

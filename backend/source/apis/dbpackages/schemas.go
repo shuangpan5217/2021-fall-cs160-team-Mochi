@@ -3,7 +3,6 @@ package dbpackages
 import (
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
 )
 
@@ -55,7 +54,7 @@ type User struct {
 }
 
 type Group struct {
-	GroupID     uuid.UUID  `gorm:"primary_key;not null" json:"group_id"`
+	GroupID     string     `gorm:"primary_key;not null" json:"group_id"`
 	GroupName   string     `gorm:"not null" json:"group_name"` // unique for the same user
 	Description string     `json:"description"`
 	GroupOwner  string     `gorm:"index;not null" json:"group_owner"` // username of the user.
@@ -64,18 +63,18 @@ type Group struct {
 }
 
 type GroupUser struct {
-	GroupID  uuid.UUID `gorm:"index;not null" json:"group_id"` // once the group is deleted, all related group users will be deleted
-	Username string    `gorm:"index;not null" json:"username"` // once the user is deleted, all related group users will be deleted
+	GroupID  string `gorm:"index;not null" json:"group_id"` // once the group is deleted, all related group users will be deleted
+	Username string `gorm:"index;not null" json:"username"` // once the user is deleted, all related group users will be deleted
 }
 
 type Note struct {
-	NoteID        uuid.UUID  `gorm:"primary_key;not null" json:"note_id"`
+	NoteID        string     `gorm:"primary_key;not null" json:"note_id"`
 	NoteOwner     string     `gorm:"index;not null" json:"note_owner"` // username of note owner. Once deleted, all notes will be deleted
 	Description   string     `json:"description"`
 	Title         string     `json:"title"`
-	Category      string     `json:"category"`
+	Content       string     `json:"content"`
 	NoteReference string     `gorm:"not null" json:"note_reference"`
-	Type          string     `json:"type"`
+	Type          string     `gorm:"not null" json:"type"`
 	Tag           string     `gorm:"not null" json:"tag"`
 	CreatedAt     *time.Time `gorm:"default:CURRENT_TIMESTAMP;" json:"created_at"`
 	UpdatedAt     *time.Time `gorm:"default:CURRENT_TIMESTAMP;" json:"updated_at"`
@@ -83,19 +82,19 @@ type Note struct {
 
 // users have access to notes
 type UserNote struct {
-	Username string    `gorm:"index;not null" json:"username"`
-	NoteID   uuid.UUID `gorm:"index;not null" json:"note_id"`
+	Username string `gorm:"index;not null" json:"username"`
+	NoteID   string `gorm:"index;not null" json:"note_id"`
 }
 
 // groups have access to notes
 type GroupNote struct {
-	GroupID uuid.UUID `gorm:"index;not null" json:"group_id"`
-	NoteID  uuid.UUID `gorm:"index;not null" json:"note_id"`
+	GroupID string `gorm:"index;not null" json:"group_id"`
+	NoteID  string `gorm:"index;not null" json:"note_id"`
 }
 
 type Comment struct {
-	CommentID uuid.UUID  `gorm:"primary_key;not null" json:"comment_id"`
-	NoteID    uuid.UUID  `gorm:"index;not null" json:"note_id"` // once deleted, all comments will be deleted
+	CommentID string     `gorm:"primary_key;not null" json:"comment_id"`
+	NoteID    string     `gorm:"index;not null" json:"note_id"` // once deleted, all comments will be deleted
 	Username  string     `gorm:"not null" json:"username"`
 	Content   string     `gorm:"not null" json:"content"`
 	CreatedAt *time.Time `gorm:"default:CURRENT_TIMESTAMP;" json:"created_at"`

@@ -16,9 +16,9 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// NewFindByTagsParams creates a new FindByTagsParams object
+// NewFindNotesByTagsParams creates a new FindNotesByTagsParams object
 // with the default values initialized.
-func NewFindByTagsParams() FindByTagsParams {
+func NewFindNotesByTagsParams() FindNotesByTagsParams {
 
 	var (
 		// initialize parameters with default values
@@ -27,18 +27,18 @@ func NewFindByTagsParams() FindByTagsParams {
 		offsetDefault = int64(0)
 	)
 
-	return FindByTagsParams{
+	return FindNotesByTagsParams{
 		Limit: &limitDefault,
 
 		Offset: &offsetDefault,
 	}
 }
 
-// FindByTagsParams contains all the bound params for the find by tags operation
+// FindNotesByTagsParams contains all the bound params for the find notes by tags operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters findByTags
-type FindByTagsParams struct {
+// swagger:parameters findNotesByTags
+type FindNotesByTagsParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -76,8 +76,8 @@ type FindByTagsParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewFindByTagsParams() beforehand.
-func (o *FindByTagsParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewFindNotesByTagsParams() beforehand.
+func (o *FindNotesByTagsParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -119,7 +119,7 @@ func (o *FindByTagsParams) BindRequest(r *http.Request, route *middleware.Matche
 }
 
 // bindAuthorization binds and validates parameter Authorization from header.
-func (o *FindByTagsParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindNotesByTagsParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("Authorization", "header", rawData)
 	}
@@ -139,7 +139,7 @@ func (o *FindByTagsParams) bindAuthorization(rawData []string, hasKey bool, form
 }
 
 // bindLimit binds and validates parameter Limit from query.
-func (o *FindByTagsParams) bindLimit(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindNotesByTagsParams) bindLimit(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -149,7 +149,7 @@ func (o *FindByTagsParams) bindLimit(rawData []string, hasKey bool, formats strf
 	// AllowEmptyValue: false
 
 	if raw == "" { // empty values pass all other validations
-		// Default values have been previously initialized by NewFindByTagsParams()
+		// Default values have been previously initialized by NewFindNotesByTagsParams()
 		return nil
 	}
 
@@ -163,7 +163,7 @@ func (o *FindByTagsParams) bindLimit(rawData []string, hasKey bool, formats strf
 }
 
 // bindOffset binds and validates parameter Offset from query.
-func (o *FindByTagsParams) bindOffset(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindNotesByTagsParams) bindOffset(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -173,7 +173,7 @@ func (o *FindByTagsParams) bindOffset(rawData []string, hasKey bool, formats str
 	// AllowEmptyValue: false
 
 	if raw == "" { // empty values pass all other validations
-		// Default values have been previously initialized by NewFindByTagsParams()
+		// Default values have been previously initialized by NewFindNotesByTagsParams()
 		return nil
 	}
 
@@ -187,7 +187,7 @@ func (o *FindByTagsParams) bindOffset(rawData []string, hasKey bool, formats str
 }
 
 // bindTag binds and validates parameter Tag from path.
-func (o *FindByTagsParams) bindTag(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindNotesByTagsParams) bindTag(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -201,7 +201,7 @@ func (o *FindByTagsParams) bindTag(rawData []string, hasKey bool, formats strfmt
 }
 
 // bindType binds and validates parameter Type from query.
-func (o *FindByTagsParams) bindType(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindNotesByTagsParams) bindType(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -219,7 +219,7 @@ func (o *FindByTagsParams) bindType(rawData []string, hasKey bool, formats strfm
 }
 
 // bindUpdatedAt binds and validates parameter UpdatedAt from query.
-func (o *FindByTagsParams) bindUpdatedAt(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindNotesByTagsParams) bindUpdatedAt(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]

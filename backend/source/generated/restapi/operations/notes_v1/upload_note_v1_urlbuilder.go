@@ -11,15 +11,15 @@ import (
 	golangswaggerpaths "path"
 )
 
-// NotesV1URL generates an URL for the notes v1 operation
-type NotesV1URL struct {
+// UploadNoteV1URL generates an URL for the upload note v1 operation
+type UploadNoteV1URL struct {
 	_basePath string
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *NotesV1URL) WithBasePath(bp string) *NotesV1URL {
+func (o *UploadNoteV1URL) WithBasePath(bp string) *UploadNoteV1URL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -27,12 +27,12 @@ func (o *NotesV1URL) WithBasePath(bp string) *NotesV1URL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *NotesV1URL) SetBasePath(bp string) {
+func (o *UploadNoteV1URL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *NotesV1URL) Build() (*url.URL, error) {
+func (o *UploadNoteV1URL) Build() (*url.URL, error) {
 	var _result url.URL
 
 	var _path = "/v1/notes"
@@ -44,7 +44,7 @@ func (o *NotesV1URL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *NotesV1URL) Must(u *url.URL, err error) *url.URL {
+func (o *UploadNoteV1URL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -55,17 +55,17 @@ func (o *NotesV1URL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *NotesV1URL) String() string {
+func (o *UploadNoteV1URL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *NotesV1URL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *UploadNoteV1URL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on NotesV1URL")
+		return nil, errors.New("scheme is required for a full url on UploadNoteV1URL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on NotesV1URL")
+		return nil, errors.New("host is required for a full url on UploadNoteV1URL")
 	}
 
 	base, err := o.Build()
@@ -79,6 +79,6 @@ func (o *NotesV1URL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *NotesV1URL) StringFull(scheme, host string) string {
+func (o *UploadNoteV1URL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }
