@@ -1,6 +1,7 @@
 package usermgmt
 
 import (
+	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_mgmt_v1"
 	"net/http"
@@ -35,5 +36,12 @@ func GetUserV1Handler(db *gorm.DB) user_mgmt_v1.GetUserV1HandlerFunc {
 }
 
 func processGetUserRequest(db *gorm.DB, params user_mgmt_v1.GetUserV1Params) (resp *models.UserObj, errResp *models.ErrResponse) {
+	payload, errResp := commonutils.ExtractJWT(params.HTTPRequest)
+	if errResp != nil {
+		return
+	}
+	username := payload.Username
+
+	resp, errResp = GetUserObj(db, username)
 	return
 }
