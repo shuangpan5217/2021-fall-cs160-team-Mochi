@@ -14,8 +14,8 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// FindByTagsURL generates an URL for the find by tags operation
-type FindByTagsURL struct {
+// FindNotesByTagsURL generates an URL for the find notes by tags operation
+type FindNotesByTagsURL struct {
 	Tag string
 
 	Limit     *int64
@@ -31,7 +31,7 @@ type FindByTagsURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *FindByTagsURL) WithBasePath(bp string) *FindByTagsURL {
+func (o *FindNotesByTagsURL) WithBasePath(bp string) *FindNotesByTagsURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -39,12 +39,12 @@ func (o *FindByTagsURL) WithBasePath(bp string) *FindByTagsURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *FindByTagsURL) SetBasePath(bp string) {
+func (o *FindNotesByTagsURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *FindByTagsURL) Build() (*url.URL, error) {
+func (o *FindNotesByTagsURL) Build() (*url.URL, error) {
 	var _result url.URL
 
 	var _path = "/v1/notes/tag/{tag}"
@@ -53,7 +53,7 @@ func (o *FindByTagsURL) Build() (*url.URL, error) {
 	if tag != "" {
 		_path = strings.Replace(_path, "{tag}", tag, -1)
 	} else {
-		return nil, errors.New("tag is required on FindByTagsURL")
+		return nil, errors.New("tag is required on FindNotesByTagsURL")
 	}
 
 	_basePath := o._basePath
@@ -99,7 +99,7 @@ func (o *FindByTagsURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *FindByTagsURL) Must(u *url.URL, err error) *url.URL {
+func (o *FindNotesByTagsURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -110,17 +110,17 @@ func (o *FindByTagsURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *FindByTagsURL) String() string {
+func (o *FindNotesByTagsURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *FindByTagsURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *FindNotesByTagsURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on FindByTagsURL")
+		return nil, errors.New("scheme is required for a full url on FindNotesByTagsURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on FindByTagsURL")
+		return nil, errors.New("host is required for a full url on FindNotesByTagsURL")
 	}
 
 	base, err := o.Build()
@@ -134,6 +134,6 @@ func (o *FindByTagsURL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *FindByTagsURL) StringFull(scheme, host string) string {
+func (o *FindNotesByTagsURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }
