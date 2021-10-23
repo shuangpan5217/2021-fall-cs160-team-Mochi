@@ -14,19 +14,19 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// NewFindByUsernameParams creates a new FindByUsernameParams object
+// NewFindNotesByGroupnameParams creates a new FindNotesByGroupnameParams object
 //
 // There are no default values defined in the spec.
-func NewFindByUsernameParams() FindByUsernameParams {
+func NewFindNotesByGroupnameParams() FindNotesByGroupnameParams {
 
-	return FindByUsernameParams{}
+	return FindNotesByGroupnameParams{}
 }
 
-// FindByUsernameParams contains all the bound params for the find by username operation
+// FindNotesByGroupnameParams contains all the bound params for the find notes by groupname operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters findByUsername
-type FindByUsernameParams struct {
+// swagger:parameters findNotesByGroupname
+type FindNotesByGroupnameParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -36,18 +36,18 @@ type FindByUsernameParams struct {
 	  In: header
 	*/
 	Authorization string
-	/*username to filter by
+	/*groupname to filter by
 	  Required: true
 	  In: path
 	*/
-	Username string
+	GroupName string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewFindByUsernameParams() beforehand.
-func (o *FindByUsernameParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewFindNotesByGroupnameParams() beforehand.
+func (o *FindNotesByGroupnameParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -56,8 +56,8 @@ func (o *FindByUsernameParams) BindRequest(r *http.Request, route *middleware.Ma
 		res = append(res, err)
 	}
 
-	rUsername, rhkUsername, _ := route.Params.GetOK("username")
-	if err := o.bindUsername(rUsername, rhkUsername, route.Formats); err != nil {
+	rGroupName, rhkGroupName, _ := route.Params.GetOK("group_name")
+	if err := o.bindGroupName(rGroupName, rhkGroupName, route.Formats); err != nil {
 		res = append(res, err)
 	}
 	if len(res) > 0 {
@@ -67,7 +67,7 @@ func (o *FindByUsernameParams) BindRequest(r *http.Request, route *middleware.Ma
 }
 
 // bindAuthorization binds and validates parameter Authorization from header.
-func (o *FindByUsernameParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindNotesByGroupnameParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("Authorization", "header", rawData)
 	}
@@ -86,8 +86,8 @@ func (o *FindByUsernameParams) bindAuthorization(rawData []string, hasKey bool, 
 	return nil
 }
 
-// bindUsername binds and validates parameter Username from path.
-func (o *FindByUsernameParams) bindUsername(rawData []string, hasKey bool, formats strfmt.Registry) error {
+// bindGroupName binds and validates parameter GroupName from path.
+func (o *FindNotesByGroupnameParams) bindGroupName(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -95,7 +95,7 @@ func (o *FindByUsernameParams) bindUsername(rawData []string, hasKey bool, forma
 
 	// Required: true
 	// Parameter is provided by construction from the route
-	o.Username = raw
+	o.GroupName = raw
 
 	return nil
 }
