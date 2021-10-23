@@ -29,6 +29,9 @@ type NoteObject struct {
 	// Required: true
 	NoteOwner interface{} `json:"note_owner"`
 
+	// path of file
+	NoteReference string `json:"note_reference,omitempty"`
+
 	// tags of the note
 	// Required: true
 	Tag *string `json:"tag"`
@@ -36,7 +39,7 @@ type NoteObject struct {
 	// title of the note
 	Title string `json:"title,omitempty"`
 
-	// type of the note file
+	// type of the note file, public, shared, private
 	Type string `json:"type,omitempty"`
 }
 

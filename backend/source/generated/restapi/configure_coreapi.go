@@ -15,6 +15,7 @@ import (
 	"github.com/jinzhu/gorm"
 
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/notes"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/usermgmt"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations"
 )
@@ -52,10 +53,16 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	}
 	commonutils.AddFKConstraints(db)
 
+	// usr management
 	api.UserMgmtV1LoginV1Handler = usermgmt.LoginV1Handler(db)
 	api.UserMgmtV1GetUserV1Handler = usermgmt.GetUserV1Handler(db)
 	api.UserMgmtV1UpdatePasswordV1Handler = usermgmt.UpdatePasswordV1Handler(db)
 	api.UserMgmtV1UpdateUserInfoV1Handler = usermgmt.UpdateUserInfoV1Handler(db)
+
+	// notes
+	api.NotesV1PostFileV1Handler = notes.PostFileV1Handler(db)
+	api.NotesV1GetFileV1Handler = notes.GetFileV1Handler(db)
+	api.NotesV1GetMultipleFilesV1Handler = notes.GetMultipleFilesV1Handler(db)
 
 	api.PreServerShutdown = func() {}
 
