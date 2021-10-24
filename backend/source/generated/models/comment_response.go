@@ -18,7 +18,7 @@ import (
 type CommentResponse struct {
 
 	// the note corresponding to comment_id
-	NoteID string `json:"note_id,omitempty"`
+	CommentID string `json:"comment_id,omitempty"`
 }
 
 // Validate validates this comment response

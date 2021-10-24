@@ -1883,7 +1883,7 @@ func init() {
     "commentResponse": {
       "type": "object",
       "properties": {
-        "note_id": {
+        "comment_id": {
           "description": "the note corresponding to comment_id",
           "type": "string"
         }
@@ -4133,7 +4133,7 @@ func init() {
     "commentResponse": {
       "type": "object",
       "properties": {
-        "note_id": {
+        "comment_id": {
           "description": "the note corresponding to comment_id",
           "type": "string"
         }

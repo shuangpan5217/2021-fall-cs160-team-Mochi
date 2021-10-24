@@ -69,7 +69,7 @@ func processPostCommentRequest(db *gorm.DB, params comments_v1.PostCommentsV1Par
 		return
 	}
 	resp = &models.CommentResponse{
-		NoteID: noteID,
+		CommentID: commentID,
 	}
 	return
 }
