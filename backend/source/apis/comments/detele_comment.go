@@ -44,11 +44,7 @@ func processRemoveCommentRequest(db *gorm.DB, params comments_v1.RemoveComnentV1
 	username := payload.Username
 	commentID := params.CommentID
 
-	err := db.Table(dbpackages.CommentTable).Where("comment_id = ? and username = ?", commentID, username).Delete(&dbpackages.Comment{}).Error
-	if err != nil {
-		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
-		return
-	}
+	db = db.Table(dbpackages.CommentTable).Where("comment_id = ? and username = ?", commentID, username).Delete(&dbpackages.Comment{})
 	if db.Error != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, db.Error.Error())
 		return
