@@ -57,7 +57,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/commentObject"
+              "$ref": "#/definitions/commentObjectRequest"
             }
           }
         ],
@@ -1257,7 +1257,7 @@ func init() {
         }
       }
     },
-    "/v1/notes/username/{username}": {
+    "/v1/notes/username": {
       "get": {
         "description": "one username can be provided to search",
         "produces": [
@@ -1274,13 +1274,6 @@ func init() {
             "description": "Bearer token based Authorization",
             "name": "Authorization",
             "in": "header",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "username to filter by",
-            "name": "username",
-            "in": "path",
             "required": true
           }
         ],
@@ -1870,6 +1863,23 @@ func init() {
         }
       }
     },
+    "commentObjectRequest": {
+      "type": "object",
+      "required": [
+        "note_id",
+        "content"
+      ],
+      "properties": {
+        "content": {
+          "description": "content of the comment",
+          "type": "string"
+        },
+        "note_id": {
+          "description": "the note corresponding to comment_id",
+          "type": "string"
+        }
+      }
+    },
     "commentResponse": {
       "type": "object",
       "properties": {
@@ -2068,10 +2078,15 @@ func init() {
       }
     },
     "noteCommentsResponse": {
-      "description": "array of comments of a note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/commentObject"
+      "type": "object",
+      "properties": {
+        "comments": {
+          "description": "array of comments of a note",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commentObject"
+          }
+        }
       }
     },
     "noteDeleteResponse": {
@@ -2161,9 +2176,14 @@ func init() {
     },
     "notesGetResponse": {
       "description": "array of note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/noteObjectResponse"
+      "type": "object",
+      "properties": {
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/noteObjectResponse"
+          }
+        }
       }
     },
     "postFileResponse": {
@@ -2287,7 +2307,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/commentObject"
+              "$ref": "#/definitions/commentObjectRequest"
             }
           }
         ],
@@ -3487,7 +3507,7 @@ func init() {
         }
       }
     },
-    "/v1/notes/username/{username}": {
+    "/v1/notes/username": {
       "get": {
         "description": "one username can be provided to search",
         "produces": [
@@ -3504,13 +3524,6 @@ func init() {
             "description": "Bearer token based Authorization",
             "name": "Authorization",
             "in": "header",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "username to filter by",
-            "name": "username",
-            "in": "path",
             "required": true
           }
         ],
@@ -4100,6 +4113,23 @@ func init() {
         }
       }
     },
+    "commentObjectRequest": {
+      "type": "object",
+      "required": [
+        "note_id",
+        "content"
+      ],
+      "properties": {
+        "content": {
+          "description": "content of the comment",
+          "type": "string"
+        },
+        "note_id": {
+          "description": "the note corresponding to comment_id",
+          "type": "string"
+        }
+      }
+    },
     "commentResponse": {
       "type": "object",
       "properties": {
@@ -4298,10 +4328,15 @@ func init() {
       }
     },
     "noteCommentsResponse": {
-      "description": "array of comments of a note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/commentObject"
+      "type": "object",
+      "properties": {
+        "comments": {
+          "description": "array of comments of a note",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commentObject"
+          }
+        }
       }
     },
     "noteDeleteResponse": {
@@ -4391,9 +4426,14 @@ func init() {
     },
     "notesGetResponse": {
       "description": "array of note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/noteObjectResponse"
+      "type": "object",
+      "properties": {
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/noteObjectResponse"
+          }
+        }
       }
     },
     "postFileResponse": {

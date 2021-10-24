@@ -476,7 +476,7 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/v1/notes/username/{username}"] = notes_v1.NewFindNotesByUsername(o.context, o.NotesV1FindNotesByUsernameHandler)
+	o.handlers["GET"]["/v1/notes/username"] = notes_v1.NewFindNotesByUsername(o.context, o.NotesV1FindNotesByUsernameHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

@@ -25,7 +25,7 @@ type FindNotesByGroupnameOK struct {
 	/*
 	  In: Body
 	*/
-	Payload models.NotesGetResponse `json:"body,omitempty"`
+	Payload *models.NotesGetResponse `json:"body,omitempty"`
 }
 
 // NewFindNotesByGroupnameOK creates FindNotesByGroupnameOK with default headers values
@@ -35,13 +35,13 @@ func NewFindNotesByGroupnameOK() *FindNotesByGroupnameOK {
 }
 
 // WithPayload adds the payload to the find notes by groupname o k response
-func (o *FindNotesByGroupnameOK) WithPayload(payload models.NotesGetResponse) *FindNotesByGroupnameOK {
+func (o *FindNotesByGroupnameOK) WithPayload(payload *models.NotesGetResponse) *FindNotesByGroupnameOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the find notes by groupname o k response
-func (o *FindNotesByGroupnameOK) SetPayload(payload models.NotesGetResponse) {
+func (o *FindNotesByGroupnameOK) SetPayload(payload *models.NotesGetResponse) {
 	o.Payload = payload
 }
 
@@ -49,14 +49,11 @@ func (o *FindNotesByGroupnameOK) SetPayload(payload models.NotesGetResponse) {
 func (o *FindNotesByGroupnameOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(200)
-	payload := o.Payload
-	if payload == nil {
-		// return empty array
-		payload = models.NotesGetResponse{}
-	}
-
-	if err := producer.Produce(rw, payload); err != nil {
-		panic(err) // let the recovery middleware deal with this
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
 	}
 }
 

@@ -36,11 +36,6 @@ type FindNotesByUsernameParams struct {
 	  In: header
 	*/
 	Authorization string
-	/*username to filter by
-	  Required: true
-	  In: path
-	*/
-	Username string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -53,11 +48,6 @@ func (o *FindNotesByUsernameParams) BindRequest(r *http.Request, route *middlewa
 	o.HTTPRequest = r
 
 	if err := o.bindAuthorization(r.Header[http.CanonicalHeaderKey("Authorization")], true, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
-	rUsername, rhkUsername, _ := route.Params.GetOK("username")
-	if err := o.bindUsername(rUsername, rhkUsername, route.Formats); err != nil {
 		res = append(res, err)
 	}
 	if len(res) > 0 {
@@ -82,20 +72,6 @@ func (o *FindNotesByUsernameParams) bindAuthorization(rawData []string, hasKey b
 		return err
 	}
 	o.Authorization = raw
-
-	return nil
-}
-
-// bindUsername binds and validates parameter Username from path.
-func (o *FindNotesByUsernameParams) bindUsername(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: true
-	// Parameter is provided by construction from the route
-	o.Username = raw
 
 	return nil
 }

@@ -47,6 +47,7 @@ func processUploadNoteRequest(db *gorm.DB, params notes_v1.UploadNoteV1Params) (
 	if errResp != nil {
 		return
 	}
+	// insert notes
 	newNote := dbpackages.Note{
 		NoteID:        noteID,
 		NoteOwner:     payload.Username,
@@ -58,6 +59,16 @@ func processUploadNoteRequest(db *gorm.DB, params notes_v1.UploadNoteV1Params) (
 		Tag:           *params.Body.Tag,
 	}
 	err := db.Table(dbpackages.NoteTable).Save(&newNote).Error
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+	// insert user_notes
+	userNote := dbpackages.UserNote{
+		Username: payload.Username,
+		NoteID:   noteID,
+	}
+	err = db.Table(dbpackages.UserNoteTable).Save(&userNote).Error
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
