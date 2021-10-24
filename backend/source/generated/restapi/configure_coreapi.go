@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/jinzhu/gorm"
 
+	"2021-fall-cs160-team-Mochi/backend/source/apis/comments"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/notes"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/usermgmt"
@@ -65,6 +66,9 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.NotesV1GetFileV1Handler = notes.GetFileV1Handler(db)
 	api.NotesV1GetMultipleFilesV1Handler = notes.GetMultipleFilesV1Handler(db)
 	api.NotesV1UploadNoteV1Handler = notes.UploadNoteV1Handler(db)
+
+	// comments
+	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)
 
 	api.PreServerShutdown = func() {}
 
