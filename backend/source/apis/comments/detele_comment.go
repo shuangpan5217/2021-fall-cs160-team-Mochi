@@ -49,6 +49,13 @@ func processRemoveCommentRequest(db *gorm.DB, params comments_v1.RemoveComnentV1
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
+	if db.Error != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, db.Error.Error())
+		return
+	} else if db.RowsAffected < 1 {
+		errResp = commonutils.GenerateErrResp(http.StatusNotFound, "record not found")
+		return
+	}
 	resp = &models.CommentResponse{
 		CommentID: commentID,
 	}
