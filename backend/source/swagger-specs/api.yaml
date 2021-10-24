@@ -262,7 +262,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/username/{username}:
+  /v1/notes/username:
     get: 
       tags: 
       - notesV1
@@ -270,18 +270,13 @@ paths:
       description: one username can be provided to search
       operationId: "findNotesByUsername"
       produces:
-          - application/json
+        - application/json
       parameters:
         - name: Authorization
           description: Bearer token based Authorization
           type: string
           in: header
           required: true
-        - name: username
-          in: path
-          description: username to filter by
-          required: true
-          type: string
       responses:
         200:
           description: Success
@@ -809,7 +804,7 @@ paths:
         description: comment object
         required: true
         schema:
-          $ref: '#/definitions/commentObject'
+          $ref: '#/definitions/commentObjectRequest'
       responses:
         200:
           description: Success
@@ -1404,10 +1399,13 @@ definitions:
         description: path of file
         type: string
   noteCommentsResponse:
-    type: array
-    items:
-      $ref: "#/definitions/commentObject"
-    description: array of comments of a note
+    type: object
+    properties:
+      comments:
+        type: array
+        items:
+          $ref: "#/definitions/commentObject"
+        description: array of comments of a note
   commentObject:
     type: object
     required:
@@ -1424,6 +1422,18 @@ definitions:
       username:
         description: user who submit the comment
         type: string
+  commentObjectRequest:
+    type: object
+    required:
+    - note_id
+    - content
+    properties:
+      note_id: 
+        description: the note corresponding to comment_id
+        type: string
+      content:
+        description: content of the comment
+        type: string
   loginResponse:
     type: object
     properties:
@@ -1434,9 +1444,12 @@ definitions:
         description: jwt
         type: string
   notesGetResponse:
-    type: array
-    items: 
-      $ref: "#/definitions/noteObjectResponse"
+    type: object
+    properties:
+      notes:
+        type: array
+        items: 
+          $ref: "#/definitions/noteObjectResponse"
     description: array of note
   noteResponse:
     type: object

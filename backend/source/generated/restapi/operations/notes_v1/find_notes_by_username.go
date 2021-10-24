@@ -29,7 +29,7 @@ func NewFindNotesByUsername(ctx *middleware.Context, handler FindNotesByUsername
 	return &FindNotesByUsername{Context: ctx, Handler: handler}
 }
 
-/* FindNotesByUsername swagger:route GET /v1/notes/username/{username} notesV1 findNotesByUsername
+/* FindNotesByUsername swagger:route GET /v1/notes/username notesV1 findNotesByUsername
 
 find notes by username
 

@@ -9,16 +9,11 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
-	"strings"
 )
 
 // FindNotesByUsernameURL generates an URL for the find notes by username operation
 type FindNotesByUsernameURL struct {
-	Username string
-
 	_basePath string
-	// avoid unkeyed usage
-	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
@@ -40,14 +35,7 @@ func (o *FindNotesByUsernameURL) SetBasePath(bp string) {
 func (o *FindNotesByUsernameURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/v1/notes/username/{username}"
-
-	username := o.Username
-	if username != "" {
-		_path = strings.Replace(_path, "{username}", username, -1)
-	} else {
-		return nil, errors.New("username is required on FindNotesByUsernameURL")
-	}
+	var _path = "/v1/notes/username"
 
 	_basePath := o._basePath
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)

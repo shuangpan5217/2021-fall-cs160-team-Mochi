@@ -17,26 +17,18 @@ import (
 // NotesGetResponse array of note
 //
 // swagger:model notesGetResponse
-type NotesGetResponse []*NoteObjectResponse
+type NotesGetResponse struct {
+
+	// notes
+	Notes []*NoteObjectResponse `json:"notes"`
+}
 
 // Validate validates this notes get response
-func (m NotesGetResponse) Validate(formats strfmt.Registry) error {
+func (m *NotesGetResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	for i := 0; i < len(m); i++ {
-		if swag.IsZero(m[i]) { // not required
-			continue
-		}
-
-		if m[i] != nil {
-			if err := m[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName(strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
+	if err := m.validateNotes(formats); err != nil {
+		res = append(res, err)
 	}
 
 	if len(res) > 0 {
@@ -45,16 +37,20 @@ func (m NotesGetResponse) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validate this notes get response based on the context it is used
-func (m NotesGetResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
+func (m *NotesGetResponse) validateNotes(formats strfmt.Registry) error {
+	if swag.IsZero(m.Notes) { // not required
+		return nil
+	}
 
-	for i := 0; i < len(m); i++ {
+	for i := 0; i < len(m.Notes); i++ {
+		if swag.IsZero(m.Notes[i]) { // not required
+			continue
+		}
 
-		if m[i] != nil {
-			if err := m[i].ContextValidate(ctx, formats); err != nil {
+		if m.Notes[i] != nil {
+			if err := m.Notes[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName(strconv.Itoa(i))
+					return ve.ValidateName("notes" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -62,8 +58,55 @@ func (m NotesGetResponse) ContextValidate(ctx context.Context, formats strfmt.Re
 
 	}
 
+	return nil
+}
+
+// ContextValidate validate this notes get response based on the context it is used
+func (m *NotesGetResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateNotes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *NotesGetResponse) contextValidateNotes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Notes); i++ {
+
+		if m.Notes[i] != nil {
+			if err := m.Notes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("notes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *NotesGetResponse) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *NotesGetResponse) UnmarshalBinary(b []byte) error {
+	var res NotesGetResponse
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
 	return nil
 }
