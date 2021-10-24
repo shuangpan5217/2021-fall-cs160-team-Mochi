@@ -2,6 +2,7 @@ package comments
 
 import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/dbpackages"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/comments_v1"
 	"net/http"
@@ -36,13 +37,14 @@ func RemoveComnentV1Handler(db *gorm.DB) comments_v1.RemoveComnentV1HandlerFunc 
 }
 
 func processRemoveCommentRequest(db *gorm.DB, params comments_v1.RemoveComnentV1Params) (resp *models.CommentResponse, errResp *models.ErrResponse) {
-	_, errResp = commonutils.ExtractJWT(params.HTTPRequest)
+	payload, errResp := commonutils.ExtractJWT(params.HTTPRequest)
 	if errResp != nil {
 		return
 	}
+	username := payload.Username
 	commentID := params.CommentID
-	row := db.Raw("DELETE from comments where comment_id = ?", commentID).Row()
-	err := row.Scan(row)
+
+	err := db.Table(dbpackages.CommentTable).Where("comment_id = ? and username = ?", commentID, username).Delete(&dbpackages.Comment{}).Error
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
