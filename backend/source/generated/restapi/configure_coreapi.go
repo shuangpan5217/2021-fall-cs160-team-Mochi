@@ -70,6 +70,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 
 	// comments
 	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)
+	api.CommentsV1RemoveComnentV1Handler = comments.RemoveComnentV1Handler(db)
 
 	api.PreServerShutdown = func() {}
 
