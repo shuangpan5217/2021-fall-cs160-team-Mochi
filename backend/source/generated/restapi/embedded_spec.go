@@ -57,7 +57,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/commentObject"
+              "$ref": "#/definitions/commentObjectRequest"
             }
           }
         ],
@@ -793,7 +793,7 @@ func init() {
           "notesV1"
         ],
         "summary": "add note",
-        "operationId": "notesV1",
+        "operationId": "uploadNoteV1",
         "parameters": [
           {
             "type": "string",
@@ -808,7 +808,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/noteObject"
+              "$ref": "#/definitions/noteObjectRequest"
             }
           }
         ],
@@ -1095,7 +1095,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by Groupname",
-        "operationId": "findByGroupname",
+        "operationId": "findNotesByGroupname",
         "parameters": [
           {
             "type": "string",
@@ -1116,7 +1116,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -1168,7 +1168,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by tags",
-        "operationId": "findByTags",
+        "operationId": "findNotesByTags",
         "parameters": [
           {
             "type": "string",
@@ -1215,7 +1215,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -1257,7 +1257,7 @@ func init() {
         }
       }
     },
-    "/v1/notes/username/{username}": {
+    "/v1/notes/username": {
       "get": {
         "description": "one username can be provided to search",
         "produces": [
@@ -1267,7 +1267,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by username",
-        "operationId": "findByUsername",
+        "operationId": "findNotesByUsername",
         "parameters": [
           {
             "type": "string",
@@ -1275,20 +1275,13 @@ func init() {
             "name": "Authorization",
             "in": "header",
             "required": true
-          },
-          {
-            "type": "string",
-            "description": "username to filter by",
-            "name": "username",
-            "in": "path",
-            "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -1365,7 +1358,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/noteObject"
+              "$ref": "#/definitions/noteObjectRequest"
             }
           }
         ],
@@ -1870,10 +1863,27 @@ func init() {
         }
       }
     },
+    "commentObjectRequest": {
+      "type": "object",
+      "required": [
+        "note_id",
+        "content"
+      ],
+      "properties": {
+        "content": {
+          "description": "content of the comment",
+          "type": "string"
+        },
+        "note_id": {
+          "description": "the note corresponding to comment_id",
+          "type": "string"
+        }
+      }
+    },
     "commentResponse": {
       "type": "object",
       "properties": {
-        "note_id": {
+        "comment_id": {
           "description": "the note corresponding to comment_id",
           "type": "string"
         }
@@ -2068,10 +2078,15 @@ func init() {
       }
     },
     "noteCommentsResponse": {
-      "description": "array of comments of a note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/commentObject"
+      "type": "object",
+      "properties": {
+        "comments": {
+          "description": "array of comments of a note",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commentObject"
+          }
+        }
       }
     },
     "noteDeleteResponse": {
@@ -2083,30 +2098,54 @@ func init() {
         }
       }
     },
-    "noteGetResponse": {
-      "description": "array of note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/noteObject"
-      }
-    },
-    "noteObject": {
+    "noteObjectRequest": {
       "description": "note obj",
       "required": [
-        "note_owner",
-        "tag"
+        "tag",
+        "type",
+        "note_reference"
       ],
       "properties": {
-        "category": {
-          "description": "note category",
+        "content": {
+          "description": "note content",
           "type": "string"
         },
-        "desc": {
+        "description": {
+          "description": "description of the note",
+          "type": "string"
+        },
+        "note_reference": {
+          "description": "path of file",
+          "type": "string"
+        },
+        "tag": {
+          "description": "tags of the note",
+          "type": "string"
+        },
+        "title": {
+          "description": "title of the note",
+          "type": "string"
+        },
+        "type": {
+          "description": "type of the note file, public, shared, private",
+          "type": "string"
+        }
+      }
+    },
+    "noteObjectResponse": {
+      "description": "note obj response",
+      "properties": {
+        "content": {
+          "description": "note content",
+          "type": "string"
+        },
+        "description": {
           "description": "description of the note",
           "type": "string"
         },
         "note_owner": {
-          "description": "the owner of note"
+          "description": "owner of the note",
+          "type": "string"
         },
         "note_reference": {
           "description": "path of file",
@@ -2132,6 +2171,18 @@ func init() {
         "note_id": {
           "description": "note id",
           "type": "string"
+        }
+      }
+    },
+    "notesGetResponse": {
+      "description": "array of note",
+      "type": "object",
+      "properties": {
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/noteObjectResponse"
+          }
         }
       }
     },
@@ -2256,7 +2307,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/commentObject"
+              "$ref": "#/definitions/commentObjectRequest"
             }
           }
         ],
@@ -2992,7 +3043,7 @@ func init() {
           "notesV1"
         ],
         "summary": "add note",
-        "operationId": "notesV1",
+        "operationId": "uploadNoteV1",
         "parameters": [
           {
             "type": "string",
@@ -3007,7 +3058,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/noteObject"
+              "$ref": "#/definitions/noteObjectRequest"
             }
           }
         ],
@@ -3294,7 +3345,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by Groupname",
-        "operationId": "findByGroupname",
+        "operationId": "findNotesByGroupname",
         "parameters": [
           {
             "type": "string",
@@ -3315,7 +3366,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -3367,7 +3418,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by tags",
-        "operationId": "findByTags",
+        "operationId": "findNotesByTags",
         "parameters": [
           {
             "type": "string",
@@ -3414,7 +3465,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -3456,7 +3507,7 @@ func init() {
         }
       }
     },
-    "/v1/notes/username/{username}": {
+    "/v1/notes/username": {
       "get": {
         "description": "one username can be provided to search",
         "produces": [
@@ -3466,7 +3517,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by username",
-        "operationId": "findByUsername",
+        "operationId": "findNotesByUsername",
         "parameters": [
           {
             "type": "string",
@@ -3474,20 +3525,13 @@ func init() {
             "name": "Authorization",
             "in": "header",
             "required": true
-          },
-          {
-            "type": "string",
-            "description": "username to filter by",
-            "name": "username",
-            "in": "path",
-            "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -3564,7 +3608,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/noteObject"
+              "$ref": "#/definitions/noteObjectRequest"
             }
           }
         ],
@@ -4069,10 +4113,27 @@ func init() {
         }
       }
     },
+    "commentObjectRequest": {
+      "type": "object",
+      "required": [
+        "note_id",
+        "content"
+      ],
+      "properties": {
+        "content": {
+          "description": "content of the comment",
+          "type": "string"
+        },
+        "note_id": {
+          "description": "the note corresponding to comment_id",
+          "type": "string"
+        }
+      }
+    },
     "commentResponse": {
       "type": "object",
       "properties": {
-        "note_id": {
+        "comment_id": {
           "description": "the note corresponding to comment_id",
           "type": "string"
         }
@@ -4267,10 +4328,15 @@ func init() {
       }
     },
     "noteCommentsResponse": {
-      "description": "array of comments of a note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/commentObject"
+      "type": "object",
+      "properties": {
+        "comments": {
+          "description": "array of comments of a note",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commentObject"
+          }
+        }
       }
     },
     "noteDeleteResponse": {
@@ -4282,30 +4348,54 @@ func init() {
         }
       }
     },
-    "noteGetResponse": {
-      "description": "array of note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/noteObject"
-      }
-    },
-    "noteObject": {
+    "noteObjectRequest": {
       "description": "note obj",
       "required": [
-        "note_owner",
-        "tag"
+        "tag",
+        "type",
+        "note_reference"
       ],
       "properties": {
-        "category": {
-          "description": "note category",
+        "content": {
+          "description": "note content",
           "type": "string"
         },
-        "desc": {
+        "description": {
+          "description": "description of the note",
+          "type": "string"
+        },
+        "note_reference": {
+          "description": "path of file",
+          "type": "string"
+        },
+        "tag": {
+          "description": "tags of the note",
+          "type": "string"
+        },
+        "title": {
+          "description": "title of the note",
+          "type": "string"
+        },
+        "type": {
+          "description": "type of the note file, public, shared, private",
+          "type": "string"
+        }
+      }
+    },
+    "noteObjectResponse": {
+      "description": "note obj response",
+      "properties": {
+        "content": {
+          "description": "note content",
+          "type": "string"
+        },
+        "description": {
           "description": "description of the note",
           "type": "string"
         },
         "note_owner": {
-          "description": "the owner of note"
+          "description": "owner of the note",
+          "type": "string"
         },
         "note_reference": {
           "description": "path of file",
@@ -4331,6 +4421,18 @@ func init() {
         "note_id": {
           "description": "note id",
           "type": "string"
+        }
+      }
+    },
+    "notesGetResponse": {
+      "description": "array of note",
+      "type": "object",
+      "properties": {
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/noteObjectResponse"
+          }
         }
       }
     },
