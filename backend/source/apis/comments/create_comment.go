@@ -46,22 +46,19 @@ func processPostCommentRequest(db *gorm.DB, params comments_v1.PostCommentsV1Par
 	username := payload.Username
 	body := *params.Body
 	noteID := *body.NoteID
-	convertedNoteID, err := uuid.Parse(noteID)
-	if err != nil {
-		return
-	}
+	commentID := uuid.NewString()
+
 	content := *body.Content
-	commentID := uuid.New()
 
 	var comment dbpackages.Comment
 	comment = dbpackages.Comment{
 		CommentID: commentID,
-		NoteID:    convertedNoteID,
+		NoteID:    noteID,
 		Username:  username,
 		Content:   content,
 	}
 	tx := db.Begin()
-	err = tx.Save(&comment).Error
+	err := tx.Save(&comment).Error
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
