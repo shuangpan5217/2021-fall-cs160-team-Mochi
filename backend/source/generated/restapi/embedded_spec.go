@@ -57,7 +57,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/commentObject"
+              "$ref": "#/definitions/commentObjectRequest"
             }
           }
         ],
@@ -793,7 +793,7 @@ func init() {
           "notesV1"
         ],
         "summary": "add note",
-        "operationId": "notesV1",
+        "operationId": "uploadNoteV1",
         "parameters": [
           {
             "type": "string",
@@ -808,7 +808,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/noteObject"
+              "$ref": "#/definitions/noteObjectRequest"
             }
           }
         ],
@@ -817,6 +817,233 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/noteResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/file": {
+      "post": {
+        "description": "post a pdf file",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "post a pdf file",
+        "operationId": "postFileV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "note file",
+            "name": "noteFile",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/postFileResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/file/{path}": {
+      "get": {
+        "description": "get a pdf file",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get a pdf file",
+        "operationId": "getFileV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "file path",
+            "name": "path",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFileResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/files": {
+      "post": {
+        "description": "get multiple pdf files",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get multiple pdf files",
+        "operationId": "getMultipleFilesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "path array",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/getFilesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFilesResponse"
             }
           },
           "400": {
@@ -868,7 +1095,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by Groupname",
-        "operationId": "findByGroupname",
+        "operationId": "findNotesByGroupname",
         "parameters": [
           {
             "type": "string",
@@ -889,7 +1116,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -941,7 +1168,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by tags",
-        "operationId": "findByTags",
+        "operationId": "findNotesByTags",
         "parameters": [
           {
             "type": "string",
@@ -988,7 +1215,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -1030,7 +1257,7 @@ func init() {
         }
       }
     },
-    "/v1/notes/username/{username}": {
+    "/v1/notes/username": {
       "get": {
         "description": "one username can be provided to search",
         "produces": [
@@ -1040,7 +1267,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by username",
-        "operationId": "findByUsername",
+        "operationId": "findNotesByUsername",
         "parameters": [
           {
             "type": "string",
@@ -1048,93 +1275,13 @@ func init() {
             "name": "Authorization",
             "in": "header",
             "required": true
-          },
-          {
-            "type": "string",
-            "description": "username to filter by",
-            "name": "username",
-            "in": "path",
-            "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "409": {
-            "description": "Conflict",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          }
-        }
-      }
-    },
-    "/v1/notes/{comment_id}/comments": {
-      "get": {
-        "description": "get all comments of a note",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "notesV1"
-        ],
-        "summary": "get all comments of a note",
-        "operationId": "getNoteComments",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Bearer token based Authorization",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "comment id",
-            "name": "comment_id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/noteCommentsResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -1211,7 +1358,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/noteObject"
+              "$ref": "#/definitions/noteObjectUpdate"
             }
           }
         ],
@@ -1219,7 +1366,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteDeleteResponse"
+              "$ref": "#/definitions/noteObjectResponse"
             }
           },
           "400": {
@@ -1290,7 +1437,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteDeleteResponse"
+              "$ref": "#/definitions/noteResponse"
             }
           },
           "400": {
@@ -1364,6 +1511,79 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/getNoteMembersResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/{note_id}/comments": {
+      "get": {
+        "description": "get all comments of a note",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get all comments of a note",
+        "operationId": "getNoteComments",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "note id",
+            "name": "note_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteCommentsResponse"
             }
           },
           "400": {
@@ -1643,10 +1863,27 @@ func init() {
         }
       }
     },
+    "commentObjectRequest": {
+      "type": "object",
+      "required": [
+        "note_id",
+        "content"
+      ],
+      "properties": {
+        "content": {
+          "description": "content of the comment",
+          "type": "string"
+        },
+        "note_id": {
+          "description": "the note corresponding to comment_id",
+          "type": "string"
+        }
+      }
+    },
     "commentResponse": {
       "type": "object",
       "properties": {
-        "note_id": {
+        "comment_id": {
           "description": "the note corresponding to comment_id",
           "type": "string"
         }
@@ -1708,6 +1945,53 @@ func init() {
       "type": "array",
       "items": {
         "$ref": "#/definitions/groupObj"
+      }
+    },
+    "getFileRequest": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "path of file",
+          "type": "string"
+        }
+      }
+    },
+    "getFileResponse": {
+      "type": "object",
+      "properties": {
+        "pdf_data": {
+          "description": "pdf content",
+          "type": "object"
+        }
+      }
+    },
+    "getFilesRequest": {
+      "type": "object",
+      "properties": {
+        "filePaths": {
+          "description": "file paths array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileRequest"
+          }
+        }
+      }
+    },
+    "getFilesResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "count of files",
+          "type": "integer",
+          "format": "int32"
+        },
+        "filesData": {
+          "description": "files data array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileResponse"
+          }
+        }
       }
     },
     "getNoteMembersResponse": {
@@ -1794,45 +2078,41 @@ func init() {
       }
     },
     "noteCommentsResponse": {
-      "description": "array of comments of a note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/commentObject"
-      }
-    },
-    "noteDeleteResponse": {
       "type": "object",
       "properties": {
-        "note_id": {
-          "description": "id of note",
-          "type": "integer"
+        "comments": {
+          "description": "array of comments of a note",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commentObject"
+          }
         }
       }
     },
-    "noteGetResponse": {
-      "description": "array of note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/noteObject"
-      }
-    },
-    "noteObject": {
+    "noteObjectRequest": {
       "description": "note obj",
       "required": [
-        "note_owner",
-        "tag"
+        "tag",
+        "type",
+        "note_reference",
+        "style"
       ],
       "properties": {
-        "category": {
-          "description": "note category",
+        "content": {
+          "description": "note content",
           "type": "string"
         },
-        "desc": {
+        "description": {
           "description": "description of the note",
           "type": "string"
         },
-        "note_owner": {
-          "description": "the owner of note"
+        "note_reference": {
+          "description": "path of file",
+          "type": "string"
+        },
+        "style": {
+          "description": "style of the note",
+          "type": "string"
         },
         "tag": {
           "description": "tags of the note",
@@ -1843,7 +2123,73 @@ func init() {
           "type": "string"
         },
         "type": {
-          "description": "type of the note file",
+          "description": "type of the note file, public, shared, private",
+          "type": "string"
+        }
+      }
+    },
+    "noteObjectResponse": {
+      "description": "note obj response",
+      "properties": {
+        "content": {
+          "description": "note content",
+          "type": "string"
+        },
+        "description": {
+          "description": "description of the note",
+          "type": "string"
+        },
+        "note_owner": {
+          "description": "owner of the note",
+          "type": "string"
+        },
+        "note_reference": {
+          "description": "path of file",
+          "type": "string"
+        },
+        "style": {
+          "description": "style of the note",
+          "type": "string"
+        },
+        "tag": {
+          "description": "tags of the note",
+          "type": "string"
+        },
+        "title": {
+          "description": "title of the note",
+          "type": "string"
+        },
+        "type": {
+          "description": "type of the note file, public, shared, private",
+          "type": "string"
+        }
+      }
+    },
+    "noteObjectUpdate": {
+      "description": "note obj",
+      "properties": {
+        "content": {
+          "description": "note content",
+          "type": "string"
+        },
+        "description": {
+          "description": "description of the note",
+          "type": "string"
+        },
+        "style": {
+          "description": "style of the note",
+          "type": "string"
+        },
+        "tag": {
+          "description": "tags of the note",
+          "type": "string"
+        },
+        "title": {
+          "description": "title of the note",
+          "type": "string"
+        },
+        "type": {
+          "description": "type of the note file, public, shared, private",
           "type": "string"
         }
       }
@@ -1853,6 +2199,27 @@ func init() {
       "properties": {
         "note_id": {
           "description": "note id",
+          "type": "string"
+        }
+      }
+    },
+    "notesGetResponse": {
+      "description": "array of note",
+      "type": "object",
+      "properties": {
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/noteObjectResponse"
+          }
+        }
+      }
+    },
+    "postFileResponse": {
+      "type": "object",
+      "properties": {
+        "note_reference": {
+          "description": "path of file",
           "type": "string"
         }
       }
@@ -1969,7 +2336,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/commentObject"
+              "$ref": "#/definitions/commentObjectRequest"
             }
           }
         ],
@@ -2705,7 +3072,7 @@ func init() {
           "notesV1"
         ],
         "summary": "add note",
-        "operationId": "notesV1",
+        "operationId": "uploadNoteV1",
         "parameters": [
           {
             "type": "string",
@@ -2720,7 +3087,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/noteObject"
+              "$ref": "#/definitions/noteObjectRequest"
             }
           }
         ],
@@ -2729,6 +3096,233 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/noteResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/file": {
+      "post": {
+        "description": "post a pdf file",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "post a pdf file",
+        "operationId": "postFileV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "note file",
+            "name": "noteFile",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/postFileResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/file/{path}": {
+      "get": {
+        "description": "get a pdf file",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get a pdf file",
+        "operationId": "getFileV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "file path",
+            "name": "path",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFileResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/files": {
+      "post": {
+        "description": "get multiple pdf files",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get multiple pdf files",
+        "operationId": "getMultipleFilesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "path array",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/getFilesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFilesResponse"
             }
           },
           "400": {
@@ -2780,7 +3374,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by Groupname",
-        "operationId": "findByGroupname",
+        "operationId": "findNotesByGroupname",
         "parameters": [
           {
             "type": "string",
@@ -2801,7 +3395,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -2853,7 +3447,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by tags",
-        "operationId": "findByTags",
+        "operationId": "findNotesByTags",
         "parameters": [
           {
             "type": "string",
@@ -2900,7 +3494,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -2942,7 +3536,7 @@ func init() {
         }
       }
     },
-    "/v1/notes/username/{username}": {
+    "/v1/notes/username": {
       "get": {
         "description": "one username can be provided to search",
         "produces": [
@@ -2952,7 +3546,7 @@ func init() {
           "notesV1"
         ],
         "summary": "find notes by username",
-        "operationId": "findByUsername",
+        "operationId": "findNotesByUsername",
         "parameters": [
           {
             "type": "string",
@@ -2960,93 +3554,13 @@ func init() {
             "name": "Authorization",
             "in": "header",
             "required": true
-          },
-          {
-            "type": "string",
-            "description": "username to filter by",
-            "name": "username",
-            "in": "path",
-            "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteGetResponse"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "409": {
-            "description": "Conflict",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          }
-        }
-      }
-    },
-    "/v1/notes/{comment_id}/comments": {
-      "get": {
-        "description": "get all comments of a note",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "notesV1"
-        ],
-        "summary": "get all comments of a note",
-        "operationId": "getNoteComments",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Bearer token based Authorization",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "comment id",
-            "name": "comment_id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/noteCommentsResponse"
+              "$ref": "#/definitions/notesGetResponse"
             }
           },
           "400": {
@@ -3123,7 +3637,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/noteObject"
+              "$ref": "#/definitions/noteObjectUpdate"
             }
           }
         ],
@@ -3131,7 +3645,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteDeleteResponse"
+              "$ref": "#/definitions/noteObjectResponse"
             }
           },
           "400": {
@@ -3202,7 +3716,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteDeleteResponse"
+              "$ref": "#/definitions/noteResponse"
             }
           },
           "400": {
@@ -3276,6 +3790,79 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/getNoteMembersResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/{note_id}/comments": {
+      "get": {
+        "description": "get all comments of a note",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get all comments of a note",
+        "operationId": "getNoteComments",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "note id",
+            "name": "note_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteCommentsResponse"
             }
           },
           "400": {
@@ -3555,10 +4142,27 @@ func init() {
         }
       }
     },
+    "commentObjectRequest": {
+      "type": "object",
+      "required": [
+        "note_id",
+        "content"
+      ],
+      "properties": {
+        "content": {
+          "description": "content of the comment",
+          "type": "string"
+        },
+        "note_id": {
+          "description": "the note corresponding to comment_id",
+          "type": "string"
+        }
+      }
+    },
     "commentResponse": {
       "type": "object",
       "properties": {
-        "note_id": {
+        "comment_id": {
           "description": "the note corresponding to comment_id",
           "type": "string"
         }
@@ -3620,6 +4224,53 @@ func init() {
       "type": "array",
       "items": {
         "$ref": "#/definitions/groupObj"
+      }
+    },
+    "getFileRequest": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "path of file",
+          "type": "string"
+        }
+      }
+    },
+    "getFileResponse": {
+      "type": "object",
+      "properties": {
+        "pdf_data": {
+          "description": "pdf content",
+          "type": "object"
+        }
+      }
+    },
+    "getFilesRequest": {
+      "type": "object",
+      "properties": {
+        "filePaths": {
+          "description": "file paths array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileRequest"
+          }
+        }
+      }
+    },
+    "getFilesResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "count of files",
+          "type": "integer",
+          "format": "int32"
+        },
+        "filesData": {
+          "description": "files data array",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getFileResponse"
+          }
+        }
       }
     },
     "getNoteMembersResponse": {
@@ -3706,45 +4357,41 @@ func init() {
       }
     },
     "noteCommentsResponse": {
-      "description": "array of comments of a note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/commentObject"
-      }
-    },
-    "noteDeleteResponse": {
       "type": "object",
       "properties": {
-        "note_id": {
-          "description": "id of note",
-          "type": "integer"
+        "comments": {
+          "description": "array of comments of a note",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commentObject"
+          }
         }
       }
     },
-    "noteGetResponse": {
-      "description": "array of note",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/noteObject"
-      }
-    },
-    "noteObject": {
+    "noteObjectRequest": {
       "description": "note obj",
       "required": [
-        "note_owner",
-        "tag"
+        "tag",
+        "type",
+        "note_reference",
+        "style"
       ],
       "properties": {
-        "category": {
-          "description": "note category",
+        "content": {
+          "description": "note content",
           "type": "string"
         },
-        "desc": {
+        "description": {
           "description": "description of the note",
           "type": "string"
         },
-        "note_owner": {
-          "description": "the owner of note"
+        "note_reference": {
+          "description": "path of file",
+          "type": "string"
+        },
+        "style": {
+          "description": "style of the note",
+          "type": "string"
         },
         "tag": {
           "description": "tags of the note",
@@ -3755,7 +4402,73 @@ func init() {
           "type": "string"
         },
         "type": {
-          "description": "type of the note file",
+          "description": "type of the note file, public, shared, private",
+          "type": "string"
+        }
+      }
+    },
+    "noteObjectResponse": {
+      "description": "note obj response",
+      "properties": {
+        "content": {
+          "description": "note content",
+          "type": "string"
+        },
+        "description": {
+          "description": "description of the note",
+          "type": "string"
+        },
+        "note_owner": {
+          "description": "owner of the note",
+          "type": "string"
+        },
+        "note_reference": {
+          "description": "path of file",
+          "type": "string"
+        },
+        "style": {
+          "description": "style of the note",
+          "type": "string"
+        },
+        "tag": {
+          "description": "tags of the note",
+          "type": "string"
+        },
+        "title": {
+          "description": "title of the note",
+          "type": "string"
+        },
+        "type": {
+          "description": "type of the note file, public, shared, private",
+          "type": "string"
+        }
+      }
+    },
+    "noteObjectUpdate": {
+      "description": "note obj",
+      "properties": {
+        "content": {
+          "description": "note content",
+          "type": "string"
+        },
+        "description": {
+          "description": "description of the note",
+          "type": "string"
+        },
+        "style": {
+          "description": "style of the note",
+          "type": "string"
+        },
+        "tag": {
+          "description": "tags of the note",
+          "type": "string"
+        },
+        "title": {
+          "description": "title of the note",
+          "type": "string"
+        },
+        "type": {
+          "description": "type of the note file, public, shared, private",
           "type": "string"
         }
       }
@@ -3765,6 +4478,27 @@ func init() {
       "properties": {
         "note_id": {
           "description": "note id",
+          "type": "string"
+        }
+      }
+    },
+    "notesGetResponse": {
+      "description": "array of note",
+      "type": "object",
+      "properties": {
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/noteObjectResponse"
+          }
+        }
+      }
+    },
+    "postFileResponse": {
+      "type": "object",
+      "properties": {
+        "note_reference": {
+          "description": "path of file",
           "type": "string"
         }
       }

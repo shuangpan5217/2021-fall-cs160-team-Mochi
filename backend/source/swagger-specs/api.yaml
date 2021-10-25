@@ -220,7 +220,7 @@ paths:
       tags:
       - notesV1
       summary: add note
-      operationId: notesV1
+      operationId: uploadNoteV1
       parameters:
       - name: Authorization
         description: Bearer token based Authorization
@@ -232,7 +232,7 @@ paths:
         description: note object
         required: true
         schema:
-          $ref: '#/definitions/noteObject'
+          $ref: '#/definitions/noteObjectRequest'
       responses:
         200:
           description: Success
@@ -262,31 +262,26 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/username/{username}:
+  /v1/notes/username:
     get: 
       tags: 
       - notesV1
       summary: find notes by username
       description: one username can be provided to search
-      operationId: "findByUsername"
+      operationId: "findNotesByUsername"
       produces:
-          - application/json
+        - application/json
       parameters:
         - name: Authorization
           description: Bearer token based Authorization
           type: string
           in: header
           required: true
-        - name: username
-          in: path
-          description: username to filter by
-          required: true
-          type: string
       responses:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteGetResponse'
+            $ref: '#/definitions/notesGetResponse'
         400:
           description: Bad Request
           schema:
@@ -317,7 +312,7 @@ paths:
       - notesV1
       summary: find notes by tags
       description: one tag can be provided to search
-      operationId: "findByTags"
+      operationId: "findNotesByTags"
       produces:
           - application/json
       parameters:
@@ -357,7 +352,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteGetResponse'
+            $ref: '#/definitions/notesGetResponse'
         400:
           description: Bad Request
           schema:
@@ -388,7 +383,7 @@ paths:
       - notesV1
       summary: find notes by Groupname
       description: one groupname can be provided to search
-      operationId: "findByGroupname"
+      operationId: "findNotesByGroupname"
       produces:
           - application/json
       parameters:
@@ -406,7 +401,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteGetResponse'
+            $ref: '#/definitions/notesGetResponse'
         400:
           description: Bad Request
           schema:
@@ -455,7 +450,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteDeleteResponse'
+            $ref: '#/definitions/noteResponse'
         400:
           description: Bad Request
           schema:
@@ -506,12 +501,12 @@ paths:
           description: note object
           required: true
           schema:
-            $ref: '#/definitions/noteObject'
+            $ref: '#/definitions/noteObjectUpdate'
       responses:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteDeleteResponse'
+            $ref: '#/definitions/noteObjectResponse'
         400:
           description: Bad Request
           schema:
@@ -585,7 +580,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/{comment_id}/comments:
+  /v1/notes/{note_id}/comments:
     get:
       description: get all comments of a note
       produces:
@@ -600,9 +595,9 @@ paths:
           type: string
           in: header
           required: true
-        - name: comment_id
+        - name: note_id
           in: path
-          description: comment id
+          description: note id
           required: true
           type: string
       responses:
@@ -610,6 +605,158 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/noteCommentsResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/notes/file:
+    post:
+      description: post a pdf file
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      tags:
+      - notesV1
+      summary: post a pdf file
+      operationId: postFileV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: noteFile
+        description: note file
+        in: formData
+        type: file
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/postFileResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/notes/file/{path}:
+    get:
+      description: get a pdf file
+      produces:
+        - application/json
+      tags:
+      - notesV1
+      summary: get a pdf file
+      operationId: getFileV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: path
+        in: path
+        type: string
+        description: file path
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/getFileResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/notes/files:
+    post:
+      description: get multiple pdf files
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - notesV1
+      summary: get multiple pdf files
+      operationId: getMultipleFilesV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: body
+        description: path array
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/getFilesRequest'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/getFilesResponse'
         400:
           description: Bad Request
           schema:
@@ -657,7 +804,7 @@ paths:
         description: comment object
         required: true
         schema:
-          $ref: '#/definitions/commentObject'
+          $ref: '#/definitions/commentObjectRequest'
       responses:
         200:
           description: Success
@@ -1082,7 +1229,6 @@ paths:
           schema:
             $ref: '#/definitions/errResponse'
 
-     
 definitions:
   createUserObject:
     type: object
@@ -1203,34 +1349,91 @@ definitions:
       group_id:
         type: string
         description: group_id
-  noteObject:
+  noteObjectUpdate:
     description: note obj
-    required:
-    - note_owner
-    - tag
     properties:
-      note_owner: 
-        description: the owner of note
-      desc:
+      description:
         description: description of the note
         type: string
       title:
         description: title of the note
         type: string
-      category: 
-        description: note category
+      content: 
+        description: note content
         type: string
       type: 
-        description: type of the note file
+        description: type of the note file, public, shared, private
         type: string
       tag: 
         description: tags of the note
         type: string
+      style: 
+        description: style of the note
+        type: string
+  noteObjectRequest:
+    description: note obj
+    required:
+    - tag
+    - type
+    - note_reference
+    - style
+    properties:
+      description:
+        description: description of the note
+        type: string
+      title:
+        description: title of the note
+        type: string
+      content: 
+        description: note content
+        type: string
+      type: 
+        description: type of the note file, public, shared, private
+        type: string
+      tag: 
+        description: tags of the note
+        type: string
+      note_reference:
+        description: path of file
+        type: string
+      style: 
+        description: style of the note
+        type: string
+  noteObjectResponse: 
+    description: note obj response
+    properties:
+      note_owner:
+        description: owner of the note
+        type: string
+      description:
+        description: description of the note
+        type: string
+      title:
+        description: title of the note
+        type: string
+      content: 
+        description: note content
+        type: string
+      type: 
+        description: type of the note file, public, shared, private
+        type: string
+      tag: 
+        description: tags of the note
+        type: string
+      note_reference:
+        description: path of file
+        type: string
+      style: 
+        description: style of the note
+        type: string
   noteCommentsResponse:
-    type: array
-    items:
-      $ref: "#/definitions/commentObject"
-    description: array of comments of a note
+    type: object
+    properties:
+      comments:
+        type: array
+        items:
+          $ref: "#/definitions/commentObject"
+        description: array of comments of a note
   commentObject:
     type: object
     required:
@@ -1247,6 +1450,18 @@ definitions:
       username:
         description: user who submit the comment
         type: string
+  commentObjectRequest:
+    type: object
+    required:
+    - note_id
+    - content
+    properties:
+      note_id: 
+        description: the note corresponding to comment_id
+        type: string
+      content:
+        description: content of the comment
+        type: string
   loginResponse:
     type: object
     properties:
@@ -1256,10 +1471,13 @@ definitions:
       token:
         description: jwt
         type: string
-  noteGetResponse:
-    type: array
-    items: 
-      $ref: "#/definitions/noteObject"
+  notesGetResponse:
+    type: object
+    properties:
+      notes:
+        type: array
+        items: 
+          $ref: "#/definitions/noteObjectResponse"
     description: array of note
   noteResponse:
     type: object
@@ -1267,12 +1485,6 @@ definitions:
       note_id:
         description: note id
         type: string
-  noteDeleteResponse:
-    type: object
-    properties:
-      note_id:
-        description: id of note
-        type: integer
   getNoteMembersResponse:
     type: object
     properties:
@@ -1287,7 +1499,7 @@ definitions:
   commentResponse:
     type: object
     properties:
-      note_id: 
+      comment_id: 
         description: the note corresponding to comment_id
         type: string
   errResponse:
@@ -1300,3 +1512,41 @@ definitions:
         description: http error code
         type: integer
         format: int32
+  postFileResponse:
+    type: object
+    properties:
+      note_reference:
+        description: path of file
+        type: string
+  getFileResponse:
+    type: object
+    properties:
+      pdf_data:
+        type: object
+        description: pdf content
+  getFilesResponse:
+    type: object
+    properties:
+      filesData:
+        type: array
+        items:
+          $ref: '#/definitions/getFileResponse'
+        description: files data array
+      count:
+        type: integer
+        format: int32
+        description: count of files
+  getFileRequest:
+    type: object
+    properties:
+      path:
+        type: string
+        description: path of file
+  getFilesRequest:
+    type: object
+    properties:
+      filePaths:
+        type: array
+        items:
+          $ref: '#/definitions/getFileRequest'
+        description: file paths array

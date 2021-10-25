@@ -14,7 +14,9 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/jinzhu/gorm"
 
+	"2021-fall-cs160-team-Mochi/backend/source/apis/comments"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/notes"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/usermgmt"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations"
 )
@@ -46,16 +48,29 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	db.LogMode(true)
 	err = commonutils.InsertTables(db)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 	commonutils.AddFKConstraints(db)
 
+	// usr management
 	api.UserMgmtV1LoginV1Handler = usermgmt.LoginV1Handler(db)
 	api.UserMgmtV1GetUserV1Handler = usermgmt.GetUserV1Handler(db)
 	api.UserMgmtV1UpdatePasswordV1Handler = usermgmt.UpdatePasswordV1Handler(db)
 	api.UserMgmtV1UpdateUserInfoV1Handler = usermgmt.UpdateUserInfoV1Handler(db)
+
+	// notes
+	api.NotesV1PostFileV1Handler = notes.PostFileV1Handler(db)
+	api.NotesV1GetFileV1Handler = notes.GetFileV1Handler(db)
+	api.NotesV1GetMultipleFilesV1Handler = notes.GetMultipleFilesV1Handler(db)
+	api.NotesV1UploadNoteV1Handler = notes.UploadNoteV1Handler(db)
+	api.NotesV1FindNotesByUsernameHandler = notes.GetNotesByUsernameHandler(db)
+
+	// comments
+	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)
+	api.CommentsV1RemoveComnentV1Handler = comments.RemoveComnentV1Handler(db)
 
 	api.PreServerShutdown = func() {}
 
@@ -87,6 +102,7 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	corsHandler := cors.Handler(cors.Options{
 		AllowedOrigins: []string{"*"},
+		AllowedHeaders: []string{"*"},
 	})
 
 	return corsHandler(handler)
