@@ -12,22 +12,16 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NoteObjectResponse note obj response
+// NoteObjectUpdate note obj
 //
-// swagger:model noteObjectResponse
-type NoteObjectResponse struct {
+// swagger:model noteObjectUpdate
+type NoteObjectUpdate struct {
 
 	// note content
 	Content string `json:"content,omitempty"`
 
 	// description of the note
 	Description string `json:"description,omitempty"`
-
-	// owner of the note
-	NoteOwner string `json:"note_owner,omitempty"`
-
-	// path of file
-	NoteReference string `json:"note_reference,omitempty"`
 
 	// style of the note
 	Style string `json:"style,omitempty"`
@@ -42,18 +36,18 @@ type NoteObjectResponse struct {
 	Type string `json:"type,omitempty"`
 }
 
-// Validate validates this note object response
-func (m *NoteObjectResponse) Validate(formats strfmt.Registry) error {
+// Validate validates this note object update
+func (m *NoteObjectUpdate) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validates this note object response based on context it is used
-func (m *NoteObjectResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validates this note object update based on context it is used
+func (m *NoteObjectUpdate) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
 // MarshalBinary interface implementation
-func (m *NoteObjectResponse) MarshalBinary() ([]byte, error) {
+func (m *NoteObjectUpdate) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -61,8 +55,8 @@ func (m *NoteObjectResponse) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *NoteObjectResponse) UnmarshalBinary(b []byte) error {
-	var res NoteObjectResponse
+func (m *NoteObjectUpdate) UnmarshalBinary(b []byte) error {
+	var res NoteObjectUpdate
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

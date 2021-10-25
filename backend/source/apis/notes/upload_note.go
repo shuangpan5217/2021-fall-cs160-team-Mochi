@@ -53,7 +53,7 @@ func processUploadNoteRequest(db *gorm.DB, params notes_v1.UploadNoteV1Params) (
 		NoteOwner:     payload.Username,
 		Description:   params.Body.Description,
 		Title:         params.Body.Title,
-		Content:       params.Body.Content,
+		Style:         *params.Body.Style,
 		NoteReference: *params.Body.NoteReference,
 		Type:          *params.Body.Type,
 		Tag:           *params.Body.Tag,

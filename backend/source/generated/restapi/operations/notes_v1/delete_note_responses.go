@@ -25,7 +25,7 @@ type DeleteNoteOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.NoteDeleteResponse `json:"body,omitempty"`
+	Payload *models.NoteResponse `json:"body,omitempty"`
 }
 
 // NewDeleteNoteOK creates DeleteNoteOK with default headers values
@@ -35,13 +35,13 @@ func NewDeleteNoteOK() *DeleteNoteOK {
 }
 
 // WithPayload adds the payload to the delete note o k response
-func (o *DeleteNoteOK) WithPayload(payload *models.NoteDeleteResponse) *DeleteNoteOK {
+func (o *DeleteNoteOK) WithPayload(payload *models.NoteResponse) *DeleteNoteOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the delete note o k response
-func (o *DeleteNoteOK) SetPayload(payload *models.NoteDeleteResponse) {
+func (o *DeleteNoteOK) SetPayload(payload *models.NoteResponse) {
 	o.Payload = payload
 }
 
