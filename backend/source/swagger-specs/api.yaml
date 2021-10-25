@@ -501,7 +501,7 @@ paths:
           description: note object
           required: true
           schema:
-            $ref: '#/definitions/noteObjectRequest'
+            $ref: '#/definitions/noteObjectUpdate'
       responses:
         200:
           description: Success
@@ -1349,6 +1349,24 @@ definitions:
       group_id:
         type: string
         description: group_id
+  noteObjectUpdate:
+    description: note obj
+    properties:
+      description:
+        description: description of the note
+        type: string
+      title:
+        description: title of the note
+        type: string
+      content: 
+        description: note content
+        type: string
+      type: 
+        description: type of the note file, public, shared, private
+        type: string
+      tag: 
+        description: tags of the note
+        type: string
   noteObjectRequest:
     description: note obj
     required:

@@ -1358,7 +1358,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/noteObjectRequest"
+              "$ref": "#/definitions/noteObjectUpdate"
             }
           }
         ],
@@ -2149,6 +2149,31 @@ func init() {
         },
         "note_reference": {
           "description": "path of file",
+          "type": "string"
+        },
+        "tag": {
+          "description": "tags of the note",
+          "type": "string"
+        },
+        "title": {
+          "description": "title of the note",
+          "type": "string"
+        },
+        "type": {
+          "description": "type of the note file, public, shared, private",
+          "type": "string"
+        }
+      }
+    },
+    "noteObjectUpdate": {
+      "description": "note obj",
+      "properties": {
+        "content": {
+          "description": "note content",
+          "type": "string"
+        },
+        "description": {
+          "description": "description of the note",
           "type": "string"
         },
         "tag": {
@@ -3608,7 +3633,7 @@ func init() {
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/noteObjectRequest"
+              "$ref": "#/definitions/noteObjectUpdate"
             }
           }
         ],
@@ -4399,6 +4424,31 @@ func init() {
         },
         "note_reference": {
           "description": "path of file",
+          "type": "string"
+        },
+        "tag": {
+          "description": "tags of the note",
+          "type": "string"
+        },
+        "title": {
+          "description": "title of the note",
+          "type": "string"
+        },
+        "type": {
+          "description": "type of the note file, public, shared, private",
+          "type": "string"
+        }
+      }
+    },
+    "noteObjectUpdate": {
+      "description": "note obj",
+      "properties": {
+        "content": {
+          "description": "note content",
+          "type": "string"
+        },
+        "description": {
+          "description": "description of the note",
           "type": "string"
         },
         "tag": {

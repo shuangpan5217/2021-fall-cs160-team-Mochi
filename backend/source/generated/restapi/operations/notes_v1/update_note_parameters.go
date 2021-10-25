@@ -45,7 +45,7 @@ type UpdateNoteParams struct {
 	  Required: true
 	  In: body
 	*/
-	Body *models.NoteObjectRequest
+	Body *models.NoteObjectUpdate
 	/*title to filter by
 	  Required: true
 	  In: path
@@ -68,7 +68,7 @@ func (o *UpdateNoteParams) BindRequest(r *http.Request, route *middleware.Matche
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body models.NoteObjectRequest
+		var body models.NoteObjectUpdate
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			if err == io.EOF {
 				res = append(res, errors.Required("body", "body", ""))
