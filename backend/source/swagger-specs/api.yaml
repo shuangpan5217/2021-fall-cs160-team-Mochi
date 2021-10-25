@@ -220,7 +220,7 @@ paths:
       tags:
       - notesV1
       summary: add note
-      operationId: notesV1
+      operationId: uploadNoteV1
       parameters:
       - name: Authorization
         description: Bearer token based Authorization
@@ -232,7 +232,7 @@ paths:
         description: note object
         required: true
         schema:
-          $ref: '#/definitions/noteObject'
+          $ref: '#/definitions/noteObjectRequest'
       responses:
         200:
           description: Success
@@ -262,31 +262,26 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-  /v1/notes/username/{username}:
+  /v1/notes/username:
     get: 
       tags: 
       - notesV1
       summary: find notes by username
       description: one username can be provided to search
-      operationId: "findByUsername"
+      operationId: "findNotesByUsername"
       produces:
-          - application/json
+        - application/json
       parameters:
         - name: Authorization
           description: Bearer token based Authorization
           type: string
           in: header
           required: true
-        - name: username
-          in: path
-          description: username to filter by
-          required: true
-          type: string
       responses:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteGetResponse'
+            $ref: '#/definitions/notesGetResponse'
         400:
           description: Bad Request
           schema:
@@ -317,7 +312,7 @@ paths:
       - notesV1
       summary: find notes by tags
       description: one tag can be provided to search
-      operationId: "findByTags"
+      operationId: "findNotesByTags"
       produces:
           - application/json
       parameters:
@@ -357,7 +352,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteGetResponse'
+            $ref: '#/definitions/notesGetResponse'
         400:
           description: Bad Request
           schema:
@@ -388,7 +383,7 @@ paths:
       - notesV1
       summary: find notes by Groupname
       description: one groupname can be provided to search
-      operationId: "findByGroupname"
+      operationId: "findNotesByGroupname"
       produces:
           - application/json
       parameters:
@@ -406,7 +401,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteGetResponse'
+            $ref: '#/definitions/notesGetResponse'
         400:
           description: Bad Request
           schema:
@@ -455,7 +450,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteDeleteResponse'
+            $ref: '#/definitions/noteResponse'
         400:
           description: Bad Request
           schema:
@@ -506,12 +501,12 @@ paths:
           description: note object
           required: true
           schema:
-            $ref: '#/definitions/noteObject'
+            $ref: '#/definitions/noteObjectUpdate'
       responses:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteDeleteResponse'
+            $ref: '#/definitions/noteObjectResponse'
         400:
           description: Bad Request
           schema:
@@ -809,7 +804,7 @@ paths:
         description: comment object
         required: true
         schema:
-          $ref: '#/definitions/commentObject'
+          $ref: '#/definitions/commentObjectRequest'
       responses:
         200:
           description: Success
@@ -1354,22 +1349,43 @@ definitions:
       group_id:
         type: string
         description: group_id
-  noteObject:
+  noteObjectUpdate:
     description: note obj
-    required:
-    - note_owner
-    - tag
     properties:
-      note_owner: 
-        description: the owner of note
-      desc:
+      description:
         description: description of the note
         type: string
       title:
         description: title of the note
         type: string
-      category: 
-        description: note category
+      content: 
+        description: note content
+        type: string
+      type: 
+        description: type of the note file, public, shared, private
+        type: string
+      tag: 
+        description: tags of the note
+        type: string
+      style: 
+        description: style of the note
+        type: string
+  noteObjectRequest:
+    description: note obj
+    required:
+    - tag
+    - type
+    - note_reference
+    - style
+    properties:
+      description:
+        description: description of the note
+        type: string
+      title:
+        description: title of the note
+        type: string
+      content: 
+        description: note content
         type: string
       type: 
         description: type of the note file, public, shared, private
@@ -1380,11 +1396,44 @@ definitions:
       note_reference:
         description: path of file
         type: string
+      style: 
+        description: style of the note
+        type: string
+  noteObjectResponse: 
+    description: note obj response
+    properties:
+      note_owner:
+        description: owner of the note
+        type: string
+      description:
+        description: description of the note
+        type: string
+      title:
+        description: title of the note
+        type: string
+      content: 
+        description: note content
+        type: string
+      type: 
+        description: type of the note file, public, shared, private
+        type: string
+      tag: 
+        description: tags of the note
+        type: string
+      note_reference:
+        description: path of file
+        type: string
+      style: 
+        description: style of the note
+        type: string
   noteCommentsResponse:
-    type: array
-    items:
-      $ref: "#/definitions/commentObject"
-    description: array of comments of a note
+    type: object
+    properties:
+      comments:
+        type: array
+        items:
+          $ref: "#/definitions/commentObject"
+        description: array of comments of a note
   commentObject:
     type: object
     required:
@@ -1401,6 +1450,18 @@ definitions:
       username:
         description: user who submit the comment
         type: string
+  commentObjectRequest:
+    type: object
+    required:
+    - note_id
+    - content
+    properties:
+      note_id: 
+        description: the note corresponding to comment_id
+        type: string
+      content:
+        description: content of the comment
+        type: string
   loginResponse:
     type: object
     properties:
@@ -1410,22 +1471,19 @@ definitions:
       token:
         description: jwt
         type: string
-  noteGetResponse:
-    type: array
-    items: 
-      $ref: "#/definitions/noteObject"
+  notesGetResponse:
+    type: object
+    properties:
+      notes:
+        type: array
+        items: 
+          $ref: "#/definitions/noteObjectResponse"
     description: array of note
   noteResponse:
     type: object
     properties:
       note_id:
         description: note id
-        type: string
-  noteDeleteResponse:
-    type: object
-    properties:
-      note_id:
-        description: id of note
         type: string
   getNoteMembersResponse:
     type: object
@@ -1441,7 +1499,7 @@ definitions:
   commentResponse:
     type: object
     properties:
-      note_id: 
+      comment_id: 
         description: the note corresponding to comment_id
         type: string
   errResponse:

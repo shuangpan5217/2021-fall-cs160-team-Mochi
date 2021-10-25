@@ -45,7 +45,7 @@ type PostCommentsV1Params struct {
 	  Required: true
 	  In: body
 	*/
-	Body *models.CommentObject
+	Body *models.CommentObjectRequest
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -63,7 +63,7 @@ func (o *PostCommentsV1Params) BindRequest(r *http.Request, route *middleware.Ma
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body models.CommentObject
+		var body models.CommentObjectRequest
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			if err == io.EOF {
 				res = append(res, errors.Required("body", "body", ""))

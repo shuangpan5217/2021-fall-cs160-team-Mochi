@@ -3,7 +3,7 @@ import Template from "../components/template";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { useState } from 'react';
 
-function HomePage(props) {
+function HomePage({authToken}) {
 
   const [buttonUpload, setButtonUpload] = useState(false);
 
@@ -12,7 +12,7 @@ function HomePage(props) {
       <Template body={
         <div className="d-flex flex-row">
           <Button title="UPLOAD" type="primary" clicked={()=> setButtonUpload(true)} />
-          <UploadNotesWindow trigger={buttonUpload} setTrigger={setButtonUpload}>
+          <UploadNotesWindow authToken={authToken} trigger={buttonUpload} setTrigger={setButtonUpload}>
           </UploadNotesWindow>
         </div>
       }/>

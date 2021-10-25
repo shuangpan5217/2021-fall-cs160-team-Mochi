@@ -1,9 +1,9 @@
 import "../css/forms.css";
 
 function InputBox({ placeholder, onChange, label, textArea }) {
-  var labelStr = (<></>);
+  var LabelElem = (<></>);
   if (label != null) {
-    labelStr = (       
+    LabelElem = (       
       <label className="agenda small">
         {label }&nbsp; 
       </label>
@@ -12,7 +12,7 @@ function InputBox({ placeholder, onChange, label, textArea }) {
   if(textArea != null) {
     return (
       <div className="d-flex flex-row align-items-center">
-      {labelStr}
+      {LabelElem}
         <textarea
           type="text"
           className="agenda text-input-box"
@@ -25,7 +25,7 @@ function InputBox({ placeholder, onChange, label, textArea }) {
   } else {
   return (
     <div className="d-flex flex-row align-items-center">
-    {labelStr}
+    {LabelElem}
       <input
         type="text"
         className="agenda text-input-box"

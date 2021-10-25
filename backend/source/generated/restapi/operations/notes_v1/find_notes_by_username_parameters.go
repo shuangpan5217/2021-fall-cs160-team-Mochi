@@ -14,19 +14,19 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// NewFindByUsernameParams creates a new FindByUsernameParams object
+// NewFindNotesByUsernameParams creates a new FindNotesByUsernameParams object
 //
 // There are no default values defined in the spec.
-func NewFindByUsernameParams() FindByUsernameParams {
+func NewFindNotesByUsernameParams() FindNotesByUsernameParams {
 
-	return FindByUsernameParams{}
+	return FindNotesByUsernameParams{}
 }
 
-// FindByUsernameParams contains all the bound params for the find by username operation
+// FindNotesByUsernameParams contains all the bound params for the find notes by username operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters findByUsername
-type FindByUsernameParams struct {
+// swagger:parameters findNotesByUsername
+type FindNotesByUsernameParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -36,28 +36,18 @@ type FindByUsernameParams struct {
 	  In: header
 	*/
 	Authorization string
-	/*username to filter by
-	  Required: true
-	  In: path
-	*/
-	Username string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewFindByUsernameParams() beforehand.
-func (o *FindByUsernameParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewFindNotesByUsernameParams() beforehand.
+func (o *FindNotesByUsernameParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
 
 	if err := o.bindAuthorization(r.Header[http.CanonicalHeaderKey("Authorization")], true, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
-	rUsername, rhkUsername, _ := route.Params.GetOK("username")
-	if err := o.bindUsername(rUsername, rhkUsername, route.Formats); err != nil {
 		res = append(res, err)
 	}
 	if len(res) > 0 {
@@ -67,7 +57,7 @@ func (o *FindByUsernameParams) BindRequest(r *http.Request, route *middleware.Ma
 }
 
 // bindAuthorization binds and validates parameter Authorization from header.
-func (o *FindByUsernameParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindNotesByUsernameParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("Authorization", "header", rawData)
 	}
@@ -82,20 +72,6 @@ func (o *FindByUsernameParams) bindAuthorization(rawData []string, hasKey bool, 
 		return err
 	}
 	o.Authorization = raw
-
-	return nil
-}
-
-// bindUsername binds and validates parameter Username from path.
-func (o *FindByUsernameParams) bindUsername(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: true
-	// Parameter is provided by construction from the route
-	o.Username = raw
 
 	return nil
 }

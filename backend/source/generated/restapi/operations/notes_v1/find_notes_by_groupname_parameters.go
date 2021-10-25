@@ -6,32 +6,27 @@ package notes_v1
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-	"io"
 	"net/http"
 
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
-
-	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 )
 
-// NewNotesV1Params creates a new NotesV1Params object
+// NewFindNotesByGroupnameParams creates a new FindNotesByGroupnameParams object
 //
 // There are no default values defined in the spec.
-func NewNotesV1Params() NotesV1Params {
+func NewFindNotesByGroupnameParams() FindNotesByGroupnameParams {
 
-	return NotesV1Params{}
+	return FindNotesByGroupnameParams{}
 }
 
-// NotesV1Params contains all the bound params for the notes v1 operation
+// FindNotesByGroupnameParams contains all the bound params for the find notes by groupname operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters notesV1
-type NotesV1Params struct {
+// swagger:parameters findNotesByGroupname
+type FindNotesByGroupnameParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -41,18 +36,18 @@ type NotesV1Params struct {
 	  In: header
 	*/
 	Authorization string
-	/*note object
+	/*groupname to filter by
 	  Required: true
-	  In: body
+	  In: path
 	*/
-	Body *models.NoteObject
+	GroupName string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewNotesV1Params() beforehand.
-func (o *NotesV1Params) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewFindNotesByGroupnameParams() beforehand.
+func (o *FindNotesByGroupnameParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -61,32 +56,9 @@ func (o *NotesV1Params) BindRequest(r *http.Request, route *middleware.MatchedRo
 		res = append(res, err)
 	}
 
-	if runtime.HasBody(r) {
-		defer r.Body.Close()
-		var body models.NoteObject
-		if err := route.Consumer.Consume(r.Body, &body); err != nil {
-			if err == io.EOF {
-				res = append(res, errors.Required("body", "body", ""))
-			} else {
-				res = append(res, errors.NewParseError("body", "body", "", err))
-			}
-		} else {
-			// validate body object
-			if err := body.Validate(route.Formats); err != nil {
-				res = append(res, err)
-			}
-
-			ctx := validate.WithOperationRequest(context.Background())
-			if err := body.ContextValidate(ctx, route.Formats); err != nil {
-				res = append(res, err)
-			}
-
-			if len(res) == 0 {
-				o.Body = &body
-			}
-		}
-	} else {
-		res = append(res, errors.Required("body", "body", ""))
+	rGroupName, rhkGroupName, _ := route.Params.GetOK("group_name")
+	if err := o.bindGroupName(rGroupName, rhkGroupName, route.Formats); err != nil {
+		res = append(res, err)
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
@@ -95,7 +67,7 @@ func (o *NotesV1Params) BindRequest(r *http.Request, route *middleware.MatchedRo
 }
 
 // bindAuthorization binds and validates parameter Authorization from header.
-func (o *NotesV1Params) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindNotesByGroupnameParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("Authorization", "header", rawData)
 	}
@@ -110,6 +82,20 @@ func (o *NotesV1Params) bindAuthorization(rawData []string, hasKey bool, formats
 		return err
 	}
 	o.Authorization = raw
+
+	return nil
+}
+
+// bindGroupName binds and validates parameter GroupName from path.
+func (o *FindNotesByGroupnameParams) bindGroupName(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: true
+	// Parameter is provided by construction from the route
+	o.GroupName = raw
 
 	return nil
 }
