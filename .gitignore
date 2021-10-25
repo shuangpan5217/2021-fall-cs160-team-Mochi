@@ -3,3 +3,4 @@
 backend/source/generated/cmd/coreapi-server/coreapi-server
 .vscode/
 frontend/node_modules
+backend/source/generated/cmd/coreapi-server/coreapi-server.exe

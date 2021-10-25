@@ -39,6 +39,10 @@ html, body{
   color: var(--text-color);
 }
 
+.agenda.small {
+  font-size: 20px;
+}
+
 .section-header{
   font-size: 50px;
   color: var(--section-header-color);

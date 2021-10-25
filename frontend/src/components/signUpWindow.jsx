@@ -4,9 +4,8 @@ import ModalHeader from "./modalHeader.jsx";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-function SignUpWindow(props) {
+function SignUpWindow({setAuthToken}) {
   let history = useHistory();
-
   const [first_name, setFirstname] = useState("");
   const [last_name, setLastname] = useState("");
   const [username, setUsername] = useState("");
@@ -28,6 +27,7 @@ function SignUpWindow(props) {
 
     const responseJSON = await response.json();
     if (responseJSON.username) {
+      setAuthToken(responseJSON.token);
       history.push("/home");
     } else if (responseJSON.errMessage === "username already exists") {
       alert("That username already exists, please try again.");
@@ -43,6 +43,7 @@ function SignUpWindow(props) {
       <InputBox placeholder="Email" onChange={setEmail} />
       <InputBox placeholder="Username" onChange={setUsername} />
       <InputBox placeholder="Password" onChange={setPassword} />
+      <InputBox placeholder="Confirm password" onChange={setPassword} />
       <div className="d-flex flex-row">
         <Button title="BACK" type="secondary" url="/login" />
         <Button title="SIGN UP" type="primary" clicked={attemptSignup} />

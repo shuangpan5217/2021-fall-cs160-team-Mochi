@@ -3,16 +3,18 @@ import LoginPage from './pages/LoginPage.jsx';
 import SignUpPage from './pages/SignUpPage.jsx';
 import HomePage from './pages/HomePage.jsx';
 import './App.css';
+import { useState } from "react";
 
 function App() {
+  const [authToken, setAuthToken] = useState("");
   return (
     <>
     <Router>
       <Switch>
         <Redirect from="/" to="/login" exact />
-        <Route path="/login" component={(props) => <LoginPage />} />
-        <Route path="/signup" component={(props) => <SignUpPage />} />
-        <Route path="/home" component={(props) => <HomePage />} />
+        <Route path="/login" component={(props) => <LoginPage setAuthToken={setAuthToken}/>} />
+        <Route path="/signup" component={(props) => <SignUpPage setAuthToken={setAuthToken}/>} />
+        <Route path="/home" component={(props) => <HomePage authToken={authToken}/>} />
       </Switch>
     </Router>
   </>

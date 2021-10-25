@@ -2,10 +2,10 @@ import LoginWindow from "../components/loginWindow";
 import ModalWindow from "../components/modalWindow";
 import Template from "../components/template.jsx";
 
-function LoginPage(props) {
+function LoginPage({setAuthToken}) {
   return (
     <>
-      <Template body={<ModalWindow body={<LoginWindow />} />} />
+      <Template body={<ModalWindow body={<LoginWindow setAuthToken={setAuthToken} />} />} />
     </>
   );
 }

@@ -4,9 +4,8 @@ import ModalHeader from "./modalHeader";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 
-function LoginWindow(props) {
+function LoginWindow({setAuthToken}) {
   const history = useHistory();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,6 +21,7 @@ function LoginWindow(props) {
 
     const responseJSON = await response.json();
     if (!responseJSON.status_code) {
+      setAuthToken(responseJSON.token);
       history.push("/home");
     } else if (responseJSON.status_code === 401) {
       alert("Incorrect username or password.");
