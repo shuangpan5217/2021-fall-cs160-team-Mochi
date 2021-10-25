@@ -29,6 +29,10 @@ type NoteObjectRequest struct {
 	// Required: true
 	NoteReference *string `json:"note_reference"`
 
+	// style of the note
+	// Required: true
+	Style *string `json:"style"`
+
 	// tags of the note
 	// Required: true
 	Tag *string `json:"tag"`
@@ -49,6 +53,10 @@ func (m *NoteObjectRequest) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateStyle(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateTag(formats); err != nil {
 		res = append(res, err)
 	}
@@ -66,6 +74,15 @@ func (m *NoteObjectRequest) Validate(formats strfmt.Registry) error {
 func (m *NoteObjectRequest) validateNoteReference(formats strfmt.Registry) error {
 
 	if err := validate.Required("note_reference", "body", m.NoteReference); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *NoteObjectRequest) validateStyle(formats strfmt.Registry) error {
+
+	if err := validate.Required("style", "body", m.Style); err != nil {
 		return err
 	}
 

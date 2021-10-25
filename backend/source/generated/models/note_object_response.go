@@ -29,6 +29,9 @@ type NoteObjectResponse struct {
 	// path of file
 	NoteReference string `json:"note_reference,omitempty"`
 
+	// style of the note
+	Style string `json:"style,omitempty"`
+
 	// tags of the note
 	Tag string `json:"tag,omitempty"`
 

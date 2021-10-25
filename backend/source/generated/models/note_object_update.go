@@ -23,6 +23,9 @@ type NoteObjectUpdate struct {
 	// description of the note
 	Description string `json:"description,omitempty"`
 
+	// style of the note
+	Style string `json:"style,omitempty"`
+
 	// tags of the note
 	Tag string `json:"tag,omitempty"`
 

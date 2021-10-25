@@ -450,7 +450,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteDeleteResponse'
+            $ref: '#/definitions/noteResponse'
         400:
           description: Bad Request
           schema:
@@ -506,7 +506,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/noteDeleteResponse'
+            $ref: '#/definitions/noteObjectResponse'
         400:
           description: Bad Request
           schema:
@@ -1367,12 +1367,16 @@ definitions:
       tag: 
         description: tags of the note
         type: string
+      style: 
+        description: style of the note
+        type: string
   noteObjectRequest:
     description: note obj
     required:
     - tag
     - type
     - note_reference
+    - style
     properties:
       description:
         description: description of the note
@@ -1391,6 +1395,9 @@ definitions:
         type: string
       note_reference:
         description: path of file
+        type: string
+      style: 
+        description: style of the note
         type: string
   noteObjectResponse: 
     description: note obj response
@@ -1415,6 +1422,9 @@ definitions:
         type: string
       note_reference:
         description: path of file
+        type: string
+      style: 
+        description: style of the note
         type: string
   noteCommentsResponse:
     type: object
@@ -1474,12 +1484,6 @@ definitions:
     properties:
       note_id:
         description: note id
-        type: string
-  noteDeleteResponse:
-    type: object
-    properties:
-      note_id:
-        description: id of note
         type: string
   getNoteMembersResponse:
     type: object

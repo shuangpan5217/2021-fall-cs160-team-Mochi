@@ -1366,7 +1366,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteDeleteResponse"
+              "$ref": "#/definitions/noteObjectResponse"
             }
           },
           "400": {
@@ -1437,7 +1437,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteDeleteResponse"
+              "$ref": "#/definitions/noteResponse"
             }
           },
           "400": {
@@ -2089,21 +2089,13 @@ func init() {
         }
       }
     },
-    "noteDeleteResponse": {
-      "type": "object",
-      "properties": {
-        "note_id": {
-          "description": "id of note",
-          "type": "string"
-        }
-      }
-    },
     "noteObjectRequest": {
       "description": "note obj",
       "required": [
         "tag",
         "type",
-        "note_reference"
+        "note_reference",
+        "style"
       ],
       "properties": {
         "content": {
@@ -2116,6 +2108,10 @@ func init() {
         },
         "note_reference": {
           "description": "path of file",
+          "type": "string"
+        },
+        "style": {
+          "description": "style of the note",
           "type": "string"
         },
         "tag": {
@@ -2151,6 +2147,10 @@ func init() {
           "description": "path of file",
           "type": "string"
         },
+        "style": {
+          "description": "style of the note",
+          "type": "string"
+        },
         "tag": {
           "description": "tags of the note",
           "type": "string"
@@ -2174,6 +2174,10 @@ func init() {
         },
         "description": {
           "description": "description of the note",
+          "type": "string"
+        },
+        "style": {
+          "description": "style of the note",
           "type": "string"
         },
         "tag": {
@@ -3641,7 +3645,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteDeleteResponse"
+              "$ref": "#/definitions/noteObjectResponse"
             }
           },
           "400": {
@@ -3712,7 +3716,7 @@ func init() {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/noteDeleteResponse"
+              "$ref": "#/definitions/noteResponse"
             }
           },
           "400": {
@@ -4364,21 +4368,13 @@ func init() {
         }
       }
     },
-    "noteDeleteResponse": {
-      "type": "object",
-      "properties": {
-        "note_id": {
-          "description": "id of note",
-          "type": "string"
-        }
-      }
-    },
     "noteObjectRequest": {
       "description": "note obj",
       "required": [
         "tag",
         "type",
-        "note_reference"
+        "note_reference",
+        "style"
       ],
       "properties": {
         "content": {
@@ -4391,6 +4387,10 @@ func init() {
         },
         "note_reference": {
           "description": "path of file",
+          "type": "string"
+        },
+        "style": {
+          "description": "style of the note",
           "type": "string"
         },
         "tag": {
@@ -4426,6 +4426,10 @@ func init() {
           "description": "path of file",
           "type": "string"
         },
+        "style": {
+          "description": "style of the note",
+          "type": "string"
+        },
         "tag": {
           "description": "tags of the note",
           "type": "string"
@@ -4449,6 +4453,10 @@ func init() {
         },
         "description": {
           "description": "description of the note",
+          "type": "string"
+        },
+        "style": {
+          "description": "style of the note",
           "type": "string"
         },
         "tag": {
