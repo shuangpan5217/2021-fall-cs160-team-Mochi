@@ -5,7 +5,7 @@ import Template from "../components/template.jsx";
 function LoginPage({setAuthToken}) {
   return (
     <>
-      <Template body={<ModalWindow body={<LoginWindow setAuthToken={setAuthToken} />} />} />
+      <Template showSearch={false} showProfile={false} body={<ModalWindow body={<LoginWindow setAuthToken={setAuthToken} />} />} />
     </>
   );
 }
