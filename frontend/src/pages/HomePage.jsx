@@ -9,11 +9,10 @@ function HomePage({authToken}) {
 
   return (
     <>
-      <Template body={
+      <Template showSearch={false} showProfile={true} body={
         <div className="d-flex flex-row">
           <Button title="UPLOAD" type="primary" clicked={()=> setButtonUpload(true)} />
-          <UploadNotesWindow authToken={authToken} trigger={buttonUpload} setTrigger={setButtonUpload}>
-          </UploadNotesWindow>
+          <UploadNotesWindow authToken={authToken} trigger={buttonUpload} setTrigger={setButtonUpload}/>
         </div>
       }/>
     </>

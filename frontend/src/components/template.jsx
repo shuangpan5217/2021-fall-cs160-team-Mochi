@@ -1,9 +1,9 @@
 import Header from "./header.jsx";
 
-function Template({ body }) {
+function Template({ body, showSearch, showProfile}) {
   return (
     <div className="d-flex flex-column full-width full-height justify-content-between">
-      <Header />
+      <Header showSearch={showSearch} showProfile={showProfile}/>
       <div>{body}</div>
     </div>
   );

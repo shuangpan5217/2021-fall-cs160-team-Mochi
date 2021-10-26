@@ -15,3 +15,32 @@
     justify-content: center;
     align-items: center;
 }
+
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -8px;
+    left: -1px;
+    position: relative;
+    background-color: white;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid var(--secondary-btn-border-color);
+}
+
+input[type='radio']:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -8px;
+    left: -1px;
+    position: relative;
+    background-color: var(--primary-btn-color);
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px var(--primary-btn-color);
+}
