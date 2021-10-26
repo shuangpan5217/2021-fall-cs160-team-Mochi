@@ -47,13 +47,13 @@ func processPostFileRequest(db *gorm.DB, params notes_v1.PostFileV1Params) (resp
 	// read file to bytes
 	fileBytes, err := ioutil.ReadAll(params.NoteFile)
 	if err != nil {
-		commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
 	// check file type
 	fileType := http.DetectContentType(fileBytes)
 	if !strings.Contains(fileType, "application/pdf") {
-		commonutils.GenerateErrResp(http.StatusBadRequest, "Only pdf file is allowed.")
+		errResp = commonutils.GenerateErrResp(http.StatusBadRequest, "Only pdf file is allowed.")
 		return
 	}
 
@@ -71,12 +71,12 @@ func processPostFileRequest(db *gorm.DB, params notes_v1.PostFileV1Params) (resp
 	// write dir and files
 	err = os.MkdirAll(fileDir, 0777)
 	if err != nil {
-		commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
 	err = os.WriteFile(fileDir+"/"+fileName, fileBytes, 0666)
 	if err != nil {
-		commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
 	resp = &models.PostFileResponse{

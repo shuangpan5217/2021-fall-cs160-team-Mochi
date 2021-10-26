@@ -4,7 +4,10 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_images_v1"
+	"io/ioutil"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/jinzhu/gorm"
@@ -37,9 +40,43 @@ func UploadUserImagesHandlerV1(db *gorm.DB) user_images_v1.PostUserImagesV1Handl
 }
 
 func processPostUserImagesRequest(db *gorm.DB, params user_images_v1.PostUserImagesV1Params) (resp *models.SuccessResponse, errResp *models.ErrResponse) {
-	_, errResp = commonutils.ExtractJWT(params.HTTPRequest)
+	payload, errResp := commonutils.ExtractJWT(params.HTTPRequest)
 	if errResp != nil {
 		return
+	}
+	// read file to bytes
+	fileBytes, err := ioutil.ReadAll(params.UserImage)
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+	// check file type
+	fileType := http.DetectContentType(fileBytes)
+	if !strings.Contains(fileType, "image/jpeg") {
+		errResp = commonutils.GenerateErrResp(http.StatusBadRequest, "Only image/jpeg type is allowed.")
+		return
+	}
+
+	// file dir
+	fileDir, errResp := commonutils.GetUserImagesDir()
+	if errResp != nil {
+		return
+	}
+	fileName := payload.Username
+	// write dir and files
+	err = os.MkdirAll(fileDir, 0777)
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+	err = os.WriteFile(fileDir+"/"+fileName, fileBytes, 0666)
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+	resp = &models.SuccessResponse{
+		Message:    "successfully upload profile picture",
+		StatusCode: http.StatusOK,
 	}
 	return
 }

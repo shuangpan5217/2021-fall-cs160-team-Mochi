@@ -2,8 +2,10 @@ package userImages
 
 import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/notes"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_images_v1"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -37,9 +39,33 @@ func GetUserImagesHandlerV1(db *gorm.DB) user_images_v1.GetUserImagesV1HandlerFu
 }
 
 func processGetUserImagesRequest(db *gorm.DB, params user_images_v1.GetUserImagesV1Params) (resp *models.UserImagesResponse, errResp *models.ErrResponse) {
-	_, errResp = commonutils.ExtractJWT(params.HTTPRequest)
+	payload, errResp := commonutils.ExtractJWT(params.HTTPRequest)
 	if errResp != nil {
 		return
+	}
+
+	// get file path
+	var userImageData []byte
+	userImagesDir, errResp := commonutils.GetUserImagesDir()
+	if errResp != nil {
+		return
+	}
+
+	// read file
+	exist, err := notes.Exists(userImagesDir + "/" + payload.Username)
+	if exist {
+		userImageData, err = ioutil.ReadFile(userImagesDir + "/" + payload.Username)
+	} else {
+		userImageData, err = ioutil.ReadFile(userImagesDir + "/default.jpeg")
+	}
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	// resp
+	resp = &models.UserImagesResponse{
+		UserImage: userImageData,
 	}
 	return
 }
