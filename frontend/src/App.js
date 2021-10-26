@@ -39,7 +39,7 @@ function App() {
         <Route path="/home" component={(props) => <HomePage authToken={authToken}/>} />
         <Route path="/search" component={(props) => <SearchResultsPage/>}/>
         <Route path="/view" component={(props) => <ViewNotesPage/>}/>
-        <Route path="/my_notes" component={(props) => <PersonalPage/>}/>
+        <Route path="/profile" component={(props) => <PersonalPage/>}/>
       </Switch>
     </Router>
   </AppContext.Provider>
