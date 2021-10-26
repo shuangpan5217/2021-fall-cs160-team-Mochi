@@ -5,6 +5,7 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/notes"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_images_v1"
+	"encoding/base64"
 	"io/ioutil"
 	"net/http"
 
@@ -55,17 +56,25 @@ func processGetUserImagesRequest(db *gorm.DB, params user_images_v1.GetUserImage
 	exist, err := notes.Exists(userImagesDir + "/" + payload.Username)
 	if exist {
 		userImageData, err = ioutil.ReadFile(userImagesDir + "/" + payload.Username)
+		if err != nil {
+			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+			return
+		}
 	} else {
-		userImageData, err = ioutil.ReadFile(userImagesDir + "/default.jpeg")
-	}
-	if err != nil {
-		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
-		return
+		// default jpeg
+		exist, err = notes.Exists(userImagesDir + "/default.jpeg")
+		if exist {
+			userImageData, err = ioutil.ReadFile(userImagesDir + "/default.jpeg")
+		}
+		if err != nil {
+			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+			return
+		}
 	}
 
 	// resp
 	resp = &models.UserImagesResponse{
-		UserImage: userImageData,
+		UserImage: base64.StdEncoding.EncodeToString(userImageData),
 	}
 	return
 }
