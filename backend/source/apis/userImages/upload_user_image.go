@@ -74,9 +74,6 @@ func processPostUserImagesRequest(db *gorm.DB, params user_images_v1.PostUserIma
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
-	resp = &models.SuccessResponse{
-		Message:    "successfully upload profile picture",
-		StatusCode: http.StatusOK,
-	}
+	resp = commonutils.GenerateSuccessResp(http.StatusOK, "successfully upload profile picture")
 	return
 }
