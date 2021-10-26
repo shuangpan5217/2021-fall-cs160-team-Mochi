@@ -1229,6 +1229,101 @@ paths:
           schema:
             $ref: '#/definitions/errResponse'
 
+  /v1/images:
+    post:
+      description: post a user image
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      tags:
+      - userImagesV1
+      summary: post a user image
+      operationId: postUserImagesV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: userImage
+        description: user image
+        in: formData
+        type: file
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/successResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+    get:
+      description: get a user image
+      produces:
+        - application/json
+      tags:
+      - userImagesV1
+      summary: get a user image
+      operationId: getUserImagesV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/userImagesResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+
 definitions:
   createUserObject:
     type: object
@@ -1502,6 +1597,16 @@ definitions:
       comment_id: 
         description: the note corresponding to comment_id
         type: string
+  successResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        description: success message
+      status_code:
+        type: integer
+        format: int32
+        description: status code
   errResponse:
     type: object
     properties:
@@ -1518,6 +1623,12 @@ definitions:
       note_reference:
         description: path of file
         type: string
+  userImagesResponse:
+    type: object
+    properties:
+      user_image:
+        type: object
+        description: user image
   getFileResponse:
     type: object
     properties:

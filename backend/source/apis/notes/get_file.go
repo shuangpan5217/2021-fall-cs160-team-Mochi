@@ -4,6 +4,7 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/notes_v1"
+	"encoding/base64"
 	"io/ioutil"
 	"net/http"
 
@@ -66,7 +67,7 @@ func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *
 		return
 	}
 	resp = &models.GetFileResponse{
-		PdfData: pdfFileData,
+		PdfData: base64.StdEncoding.EncodeToString(pdfFileData),
 	}
 	return
 }
