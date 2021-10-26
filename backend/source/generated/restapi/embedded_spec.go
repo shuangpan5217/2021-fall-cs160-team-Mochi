@@ -696,6 +696,146 @@ func init() {
         }
       }
     },
+    "/v1/images": {
+      "get": {
+        "description": "get a user image",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userImagesV1"
+        ],
+        "summary": "get a user image",
+        "operationId": "getUserImagesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userImagesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "post a user image",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userImagesV1"
+        ],
+        "summary": "post a user image",
+        "operationId": "postUserImagesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "user image",
+            "name": "userImage",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/successResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/login": {
       "post": {
         "description": "handle login request, username and password",
@@ -2241,6 +2381,20 @@ func init() {
         }
       }
     },
+    "successResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "success message",
+          "type": "string"
+        },
+        "status_code": {
+          "description": "status code",
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "updateUserObj": {
       "type": "object",
       "properties": {
@@ -2263,6 +2417,15 @@ func init() {
         "middle_name": {
           "description": "middle name of the user",
           "type": "string"
+        }
+      }
+    },
+    "userImagesResponse": {
+      "type": "object",
+      "properties": {
+        "user_image": {
+          "description": "user image",
+          "type": "object"
         }
       }
     },
@@ -2975,6 +3138,146 @@ func init() {
         }
       }
     },
+    "/v1/images": {
+      "get": {
+        "description": "get a user image",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userImagesV1"
+        ],
+        "summary": "get a user image",
+        "operationId": "getUserImagesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userImagesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "post a user image",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userImagesV1"
+        ],
+        "summary": "post a user image",
+        "operationId": "postUserImagesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "user image",
+            "name": "userImage",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/successResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/login": {
       "post": {
         "description": "handle login request, username and password",
@@ -4520,6 +4823,20 @@ func init() {
         }
       }
     },
+    "successResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "success message",
+          "type": "string"
+        },
+        "status_code": {
+          "description": "status code",
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "updateUserObj": {
       "type": "object",
       "properties": {
@@ -4542,6 +4859,15 @@ func init() {
         "middle_name": {
           "description": "middle name of the user",
           "type": "string"
+        }
+      }
+    },
+    "userImagesResponse": {
+      "type": "object",
+      "properties": {
+        "user_image": {
+          "description": "user image",
+          "type": "object"
         }
       }
     },

@@ -17,6 +17,7 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/comments"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/notes"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/userImages"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/usermgmt"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations"
 )
@@ -72,6 +73,9 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)
 	api.CommentsV1RemoveComnentV1Handler = comments.RemoveComnentV1Handler(db)
 
+	// user image
+	api.UserImagesV1PostUserImagesV1Handler = userImages.UploadUserImagesHandlerV1(db)
+	api.UserImagesV1GetUserImagesV1Handler = userImages.GetUserImagesHandlerV1(db)
 	api.PreServerShutdown = func() {}
 
 	api.ServerShutdown = func() {}
