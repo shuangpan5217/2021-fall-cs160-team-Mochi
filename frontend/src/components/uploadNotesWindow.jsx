@@ -13,6 +13,7 @@ function UploadNotesWindow({authToken,trigger, setTrigger}) {
   const [tag, setTag] = useState("");
   const [type, setType] = useState("");
   const [file, setFile] = useState(null);
+  const [style] = useState("outline");
 
   const setPublic = () => { 
     setType ("Public");
@@ -56,7 +57,8 @@ function UploadNotesWindow({authToken,trigger, setTrigger}) {
         description,
         tag,
         type,
-        note_reference
+        note_reference,
+        style,
       }),
     });
 

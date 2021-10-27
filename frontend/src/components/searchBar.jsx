@@ -46,7 +46,23 @@ function SearchBar({ showFilterBtn }) {
         }
     };
 
-    return (
+    if (showFilterBtn == null) {
+        return (
+            <div className="d-flex flex-row search-bar-big">
+                <input
+                    type="text"
+                    className={`agenda search-input ${
+                        showFilters ? "filter" : ""
+                    } ${showFilterBtn ? "" : "no-filter-btn"}`}
+                    placeholder="Search Notes"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                />
+            </div>
+        );
+    } else { 
+        return (
         <div className="d-flex flex-column">
             <div className="d-flex flex-row search-bar">
                 <input
@@ -116,6 +132,7 @@ function SearchBar({ showFilterBtn }) {
             )}
         </div>
     );
+    }
 }
 
 export default SearchBar;

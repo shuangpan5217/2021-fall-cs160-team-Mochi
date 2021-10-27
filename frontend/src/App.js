@@ -8,6 +8,7 @@ import SearchResultsPage from './pages/SearchResultsPage.jsx';
 import ViewNotesPage from './pages/ViewNotesPage.jsx';
 import AppContext from './components/AppContext';
 import PersonalPage from './pages/PersonalPage.jsx';
+import PersonalNotePage from './pages/PersonalNotePage.jsx';
 
 function App() {
   const [authToken, setAuthToken] = useState("");
@@ -40,6 +41,7 @@ function App() {
         <Route path="/search" component={(props) => <SearchResultsPage/>}/>
         <Route path="/view" component={(props) => <ViewNotesPage/>}/>
         <Route path="/profile" component={(props) => <PersonalPage/>}/>
+        <Route path="/my_notes" component={(props) => <PersonalNotePage/>}/>
       </Switch>
     </Router>
   </AppContext.Provider>
