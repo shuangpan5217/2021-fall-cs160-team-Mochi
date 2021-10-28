@@ -1572,16 +1572,17 @@ definitions:
   postfriends:
     type: object
     properties:
-      username:
-        description: user name
-        type: string
       username2:
         description: friend name
         type: string
   getFriendObject:
-    type: array
-    items: 
-      $ref: '#/definitions/userObj'
+    type: object
+    properties:
+      friends:
+        type: array
+        items:
+          $ref: "#/definitions/friendResponse"
+        description: array of friends username
   groupMembersObject:
     type: array
     items:
