@@ -10,7 +10,6 @@ import AppContext from './components/AppContext';
 import PersonalPage from './pages/PersonalPage.jsx';
 
 function App() {
-  const [authToken, setAuthToken] = useState("");
   const [filter, setFilter] = useState("");
   const [query, setQuery] = useState("");
 
@@ -22,7 +21,7 @@ function App() {
     setQuery(newQuery);
   };
 
-  const searchParams = {
+  const globalVars = {
     filter,
     query,
     setGlobalFilter,
@@ -30,13 +29,13 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={searchParams}>
+    <AppContext.Provider value={globalVars}>
     <Router>
       <Switch>
         <Redirect from="/" to="/login" exact />
-        <Route path="/login" component={(props) => <LoginPage setAuthToken={setAuthToken}/>} />
-        <Route path="/signup" component={(props) => <SignUpPage setAuthToken={setAuthToken}/>} />
-        <Route path="/home" component={(props) => <HomePage authToken={authToken}/>} />
+        <Route path="/login" component={(props) => <LoginPage/>} />
+        <Route path="/signup" component={(props) => <SignUpPage/>} />
+        <Route path="/home" component={(props) => <HomePage />} />
         <Route path="/search" component={(props) => <SearchResultsPage/>}/>
         <Route path="/view" component={(props) => <ViewNotesPage/>}/>
         <Route path="/profile" component={(props) => <PersonalPage/>}/>
