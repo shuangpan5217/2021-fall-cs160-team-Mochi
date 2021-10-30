@@ -53,10 +53,8 @@ func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *
 	if errResp != nil {
 		return
 	}
-	filePath := mochiNoteDir + "/" + params.Path
-	pdfFileData, err := ioutil.ReadFile(filePath)
-	if err != nil {
-		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+	pdfFileData, errResp := getFile(mochiNoteDir + "/" + params.Path)
+	if errResp != nil {
 		return
 	}
 	resp = &models.GetFileResponse{
@@ -82,6 +80,15 @@ func getNoteByFileName(db *gorm.DB, path string, username string) (note dbpackag
 		if errResp != nil {
 			return
 		}
+	}
+	return
+}
+
+func getFile(filePath string) (pdfFileData []byte, errResp *models.ErrResponse) {
+	pdfFileData, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
 	}
 	return
 }

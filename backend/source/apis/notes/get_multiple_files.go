@@ -5,7 +5,6 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/notes_v1"
 	"encoding/base64"
-	"io/ioutil"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -59,13 +58,16 @@ func processGetMultipleFilesRequest(db *gorm.DB, params notes_v1.GetMultipleFile
 		if errResp != nil {
 			return
 		}
-		pdfData, err := ioutil.ReadFile(mochiNoteDir + "/" + path.Path)
-		if err == nil {
-			fileResp := &models.GetFileResponse{
-				PdfData: base64.StdEncoding.EncodeToString(pdfData),
-			}
-			resp.FilesData = append(resp.FilesData, fileResp)
+
+		var pdfData []byte
+		pdfData, errResp = getFile(mochiNoteDir + "/" + path.Path)
+		if errResp != nil {
+			return
 		}
+		fileResp := &models.GetFileResponse{
+			PdfData: base64.StdEncoding.EncodeToString(pdfData),
+		}
+		resp.FilesData = append(resp.FilesData, fileResp)
 	}
 	resp.Count = cast.ToInt32(len(resp.FilesData))
 	return
