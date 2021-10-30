@@ -47,7 +47,7 @@ func processGetNotesByUsernameRequest(db *gorm.DB, params notes_v1.FindNotesByUs
 	}
 
 	// get both username's notes and its shared notes
-	rawSQL := `SELECT n.note_owner, n.description, n.title, n.content, n.note_reference, n.type, n.tag
+	rawSQL := `SELECT n.note_owner, n.description, n.title, n.note_reference, n.type, n.tag, n.note_id, n.style
 				FROM notes n, user_notes un
 				WHERE un.username = ? AND n.note_id = un.note_id`
 
@@ -56,8 +56,8 @@ func processGetNotesByUsernameRequest(db *gorm.DB, params notes_v1.FindNotesByUs
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
-	note := models.NoteObjectResponse{}
 	for rows.Next() {
+		note := models.NoteObjectResponse{}
 		err = db.ScanRows(rows, &note)
 		if err != nil {
 			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())

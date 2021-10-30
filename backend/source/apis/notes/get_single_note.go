@@ -86,9 +86,9 @@ func checkIfUsernameExists(db *gorm.DB, username, ID string) (errResp *models.Er
 	defer rows.Close()
 
 	// check if username exists in rows
-	user := models.UserObj{}
 	var exists = false
 	for rows.Next() {
+		user := models.UserObj{}
 		err = db.ScanRows(rows, &user)
 		if err != nil {
 			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
