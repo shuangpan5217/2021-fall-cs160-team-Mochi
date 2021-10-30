@@ -7,19 +7,19 @@ import { useState } from 'react';
 import "../css/homepage.css"
 
 function HomePage() {
-
   const [buttonUpload, setButtonUpload] = useState(false);
+  const [updateSearch, setUpdateSearch] = useState(false);
 
   return (
     <>
       <Template showSearch={false} showProfile={true} body={
-        <div className="d-flex flex-column style">
+        <div className="d-flex flex-column center-home-content">
           <ModalHeader title="Study Your Way" />
           <div className="d-flex flex-column align-items-center">
-            <SearchBar />
+            <SearchBar showFilterBtn={false} updateSearch={updateSearch}/>
             <div className="d-flex flex-row">
-              <Button title="UPLOAD" type="primary" clicked={()=> setButtonUpload(true)} />
-              <Button title="SERACH" type="secondary" url="/search" />
+              <Button title="UPLOAD" type="secondary" clicked={()=> setButtonUpload(true)} />
+              <Button title="SEARCH" type="primary" clicked={()=> setUpdateSearch(true)} />
               <UploadNotesWindow trigger={buttonUpload} setTrigger={setButtonUpload}/>
             </div>
           </div>
