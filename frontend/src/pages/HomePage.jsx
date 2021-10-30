@@ -6,7 +6,7 @@ import ModalHeader from "../components/modalHeader";
 import { useState } from 'react';
 import "../css/homepage.css"
 
-function HomePage({authToken}) {
+function HomePage() {
 
   const [buttonUpload, setButtonUpload] = useState(false);
 
@@ -20,7 +20,7 @@ function HomePage({authToken}) {
             <div className="d-flex flex-row">
               <Button title="UPLOAD" type="primary" clicked={()=> setButtonUpload(true)} />
               <Button title="SERACH" type="secondary" url="/search" />
-              <UploadNotesWindow authToken={authToken} trigger={buttonUpload} setTrigger={setButtonUpload}/>
+              <UploadNotesWindow trigger={buttonUpload} setTrigger={setButtonUpload}/>
             </div>
           </div>
         </div>
