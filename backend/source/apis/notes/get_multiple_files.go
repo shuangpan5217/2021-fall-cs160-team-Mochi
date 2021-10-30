@@ -39,7 +39,7 @@ func GetMultipleFilesV1Handler(db *gorm.DB) notes_v1.GetMultipleFilesV1HandlerFu
 }
 
 func processGetMultipleFilesRequest(db *gorm.DB, params notes_v1.GetMultipleFilesV1Params) (resp *models.GetFilesResponse, errResp *models.ErrResponse) {
-	_, errResp = commonutils.ExtractJWT(params.HTTPRequest)
+	payload, errResp := commonutils.ExtractJWT(params.HTTPRequest)
 	if errResp != nil {
 		return
 	}
@@ -55,15 +55,10 @@ func processGetMultipleFilesRequest(db *gorm.DB, params notes_v1.GetMultipleFile
 	}
 
 	for _, path := range paths {
-		// Should handle this way
-		// if note is public, return file (notes table, type field)
-		// if note is private or shared
-		//    check user_notes table
-		//    if presented (username <==> note_id (note table))
-		//       return file
-		//    else
-		//       return error
-		// otherwise, create a file table with type [public, shared, private]
+		_, errResp = getNoteByFileName(db, path.Path, payload.Username)
+		if errResp != nil {
+			return
+		}
 		pdfData, err := ioutil.ReadFile(mochiNoteDir + "/" + path.Path)
 		if err == nil {
 			fileResp := &models.GetFileResponse{
