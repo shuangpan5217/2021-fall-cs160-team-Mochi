@@ -1734,10 +1734,6 @@ definitions:
         description: array of comments of a note
   commentObject:
     type: object
-    required:
-    - username
-    - note_id
-    - content
     properties:
       note_id: 
         description: the note corresponding to comment_id
@@ -1747,6 +1743,9 @@ definitions:
         type: string
       username:
         description: user who submit the comment
+        type: string
+      comment_id:
+        description: comment id
         type: string
   commentObjectRequest:
     type: object
