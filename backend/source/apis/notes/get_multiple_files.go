@@ -4,7 +4,7 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/notes_v1"
-	"io/ioutil"
+	"encoding/base64"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -38,7 +38,7 @@ func GetMultipleFilesV1Handler(db *gorm.DB) notes_v1.GetMultipleFilesV1HandlerFu
 }
 
 func processGetMultipleFilesRequest(db *gorm.DB, params notes_v1.GetMultipleFilesV1Params) (resp *models.GetFilesResponse, errResp *models.ErrResponse) {
-	_, errResp = commonutils.ExtractJWT(params.HTTPRequest)
+	payload, errResp := commonutils.ExtractJWT(params.HTTPRequest)
 	if errResp != nil {
 		return
 	}
@@ -54,22 +54,20 @@ func processGetMultipleFilesRequest(db *gorm.DB, params notes_v1.GetMultipleFile
 	}
 
 	for _, path := range paths {
-		// Should handle this way
-		// if note is public, return file (notes table, type field)
-		// if note is private or shared
-		//    check user_notes table
-		//    if presented (username <==> note_id (note table))
-		//       return file
-		//    else
-		//       return error
-		// otherwise, create a file table with type [public, shared, private]
-		pdfData, err := ioutil.ReadFile(mochiNoteDir + "/" + path.Path)
-		if err == nil {
-			fileResp := &models.GetFileResponse{
-				PdfData: pdfData,
-			}
-			resp.FilesData = append(resp.FilesData, fileResp)
+		_, errResp = getNoteByFileName(db, path.Path, payload.Username)
+		if errResp != nil {
+			return
 		}
+
+		var pdfData []byte
+		pdfData, errResp = getFile(mochiNoteDir + "/" + path.Path)
+		if errResp != nil {
+			return
+		}
+		fileResp := &models.GetFileResponse{
+			PdfData: base64.StdEncoding.EncodeToString(pdfData),
+		}
+		resp.FilesData = append(resp.FilesData, fileResp)
 	}
 	resp.Count = cast.ToInt32(len(resp.FilesData))
 	return

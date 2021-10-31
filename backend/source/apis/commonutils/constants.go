@@ -24,3 +24,12 @@ func GetMochiNoteFilesDir() (path string, errResp *models.ErrResponse) {
 	}
 	return userHomeDir + "/mochiNote", nil
 }
+
+func GetUserImagesDir() (path string, errResp *models.ErrResponse) {
+	userHomeDir, err := os.UserHomeDir()
+	if err != nil {
+		errResp = GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+	return userHomeDir + "/mochiNote/userImages", nil
+}

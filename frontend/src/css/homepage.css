@@ -1,0 +1,10 @@
+.center-home-content{
+    position: fixed;
+    top: 25vh;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+}

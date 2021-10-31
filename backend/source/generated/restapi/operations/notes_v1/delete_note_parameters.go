@@ -36,7 +36,7 @@ type DeleteNoteParams struct {
 	  In: header
 	*/
 	Authorization string
-	/*title to filter by
+	/*id to filter by
 	  Required: true
 	  In: path
 	*/

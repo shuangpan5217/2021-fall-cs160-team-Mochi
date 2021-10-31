@@ -1,3 +1,20 @@
 .logo-spacing{
     margin-left: 10px;
 }
+
+.logo:hover{
+    cursor: pointer;
+}
+
+.profile-img{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+    margin-right: 20px;
+    border: 1px solid var(--profile-img-border-color);
+}
+
+.profile-img:hover{
+    cursor: pointer;
+}

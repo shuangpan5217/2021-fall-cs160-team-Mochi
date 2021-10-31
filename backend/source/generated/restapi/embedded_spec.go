@@ -180,6 +180,220 @@ func init() {
         }
       }
     },
+    "/v1/friends": {
+      "get": {
+        "description": "get friends info",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "friendsV1"
+        ],
+        "operationId": "getFriendsV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFriendObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "add friends",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "friendsV1"
+        ],
+        "operationId": "addFriendsV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "username and username2",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/postfriends"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/friendResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/friends/{username}": {
+      "delete": {
+        "description": "remove friends",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "friendsV1"
+        ],
+        "operationId": "removeFriendsV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "username",
+            "name": "username",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/friendResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/groups": {
       "get": {
         "description": "get all groups",
@@ -655,6 +869,146 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/groupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/images": {
+      "get": {
+        "description": "get a user image",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userImagesV1"
+        ],
+        "summary": "get a user image",
+        "operationId": "getUserImagesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userImagesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "post a user image",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userImagesV1"
+        ],
+        "summary": "post a user image",
+        "operationId": "postUserImagesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "user image",
+            "name": "userImage",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/successResponse"
             }
           },
           "400": {
@@ -1324,6 +1678,77 @@ func init() {
       }
     },
     "/v1/notes/{id}": {
+      "get": {
+        "description": "user",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get single note",
+        "operationId": "getSingleNoteV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "id to filter by",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteObjectResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
       "put": {
         "description": "user update note by id",
         "consumes": [
@@ -1408,7 +1833,7 @@ func init() {
         }
       },
       "delete": {
-        "description": "user delete note by title",
+        "description": "user delete note by id",
         "produces": [
           "application/json"
         ],
@@ -1427,7 +1852,7 @@ func init() {
           },
           {
             "type": "string",
-            "description": "title to filter by",
+            "description": "id to filter by",
             "name": "id",
             "in": "path",
             "required": true
@@ -1940,6 +2365,15 @@ func init() {
         }
       }
     },
+    "friendResponse": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "description": "username",
+          "type": "string"
+        }
+      }
+    },
     "getAllGroupsObject": {
       "description": "array of groups by username",
       "type": "array",
@@ -1990,6 +2424,18 @@ func init() {
           "type": "array",
           "items": {
             "$ref": "#/definitions/getFileResponse"
+          }
+        }
+      }
+    },
+    "getFriendObject": {
+      "type": "object",
+      "properties": {
+        "friends": {
+          "description": "array of friends username",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/friendResponse"
           }
         }
       }
@@ -2098,10 +2544,6 @@ func init() {
         "style"
       ],
       "properties": {
-        "content": {
-          "description": "note content",
-          "type": "string"
-        },
         "description": {
           "description": "description of the note",
           "type": "string"
@@ -2131,12 +2573,12 @@ func init() {
     "noteObjectResponse": {
       "description": "note obj response",
       "properties": {
-        "content": {
-          "description": "note content",
-          "type": "string"
-        },
         "description": {
           "description": "description of the note",
+          "type": "string"
+        },
+        "note_id": {
+          "description": "note id",
           "type": "string"
         },
         "note_owner": {
@@ -2168,10 +2610,6 @@ func init() {
     "noteObjectUpdate": {
       "description": "note obj",
       "properties": {
-        "content": {
-          "description": "note content",
-          "type": "string"
-        },
         "description": {
           "description": "description of the note",
           "type": "string"
@@ -2241,6 +2679,29 @@ func init() {
         }
       }
     },
+    "postfriends": {
+      "type": "object",
+      "properties": {
+        "username2": {
+          "description": "friend name",
+          "type": "string"
+        }
+      }
+    },
+    "successResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "success message",
+          "type": "string"
+        },
+        "status_code": {
+          "description": "status code",
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "updateUserObj": {
       "type": "object",
       "properties": {
@@ -2263,6 +2724,15 @@ func init() {
         "middle_name": {
           "description": "middle name of the user",
           "type": "string"
+        }
+      }
+    },
+    "userImagesResponse": {
+      "type": "object",
+      "properties": {
+        "user_image": {
+          "description": "user image",
+          "type": "object"
         }
       }
     },
@@ -2459,6 +2929,220 @@ func init() {
         }
       }
     },
+    "/v1/friends": {
+      "get": {
+        "description": "get friends info",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "friendsV1"
+        ],
+        "operationId": "getFriendsV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/getFriendObject"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "add friends",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "friendsV1"
+        ],
+        "operationId": "addFriendsV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "username and username2",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/postfriends"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/friendResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/friends/{username}": {
+      "delete": {
+        "description": "remove friends",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "friendsV1"
+        ],
+        "operationId": "removeFriendsV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "username",
+            "name": "username",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/friendResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/groups": {
       "get": {
         "description": "get all groups",
@@ -2934,6 +3618,146 @@ func init() {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/groupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/images": {
+      "get": {
+        "description": "get a user image",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userImagesV1"
+        ],
+        "summary": "get a user image",
+        "operationId": "getUserImagesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/userImagesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "post a user image",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userImagesV1"
+        ],
+        "summary": "post a user image",
+        "operationId": "postUserImagesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "user image",
+            "name": "userImage",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/successResponse"
             }
           },
           "400": {
@@ -3603,6 +4427,77 @@ func init() {
       }
     },
     "/v1/notes/{id}": {
+      "get": {
+        "description": "user",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get single note",
+        "operationId": "getSingleNoteV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "id to filter by",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/noteObjectResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      },
       "put": {
         "description": "user update note by id",
         "consumes": [
@@ -3687,7 +4582,7 @@ func init() {
         }
       },
       "delete": {
-        "description": "user delete note by title",
+        "description": "user delete note by id",
         "produces": [
           "application/json"
         ],
@@ -3706,7 +4601,7 @@ func init() {
           },
           {
             "type": "string",
-            "description": "title to filter by",
+            "description": "id to filter by",
             "name": "id",
             "in": "path",
             "required": true
@@ -4219,6 +5114,15 @@ func init() {
         }
       }
     },
+    "friendResponse": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "description": "username",
+          "type": "string"
+        }
+      }
+    },
     "getAllGroupsObject": {
       "description": "array of groups by username",
       "type": "array",
@@ -4269,6 +5173,18 @@ func init() {
           "type": "array",
           "items": {
             "$ref": "#/definitions/getFileResponse"
+          }
+        }
+      }
+    },
+    "getFriendObject": {
+      "type": "object",
+      "properties": {
+        "friends": {
+          "description": "array of friends username",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/friendResponse"
           }
         }
       }
@@ -4377,10 +5293,6 @@ func init() {
         "style"
       ],
       "properties": {
-        "content": {
-          "description": "note content",
-          "type": "string"
-        },
         "description": {
           "description": "description of the note",
           "type": "string"
@@ -4410,12 +5322,12 @@ func init() {
     "noteObjectResponse": {
       "description": "note obj response",
       "properties": {
-        "content": {
-          "description": "note content",
-          "type": "string"
-        },
         "description": {
           "description": "description of the note",
+          "type": "string"
+        },
+        "note_id": {
+          "description": "note id",
           "type": "string"
         },
         "note_owner": {
@@ -4447,10 +5359,6 @@ func init() {
     "noteObjectUpdate": {
       "description": "note obj",
       "properties": {
-        "content": {
-          "description": "note content",
-          "type": "string"
-        },
         "description": {
           "description": "description of the note",
           "type": "string"
@@ -4520,6 +5428,29 @@ func init() {
         }
       }
     },
+    "postfriends": {
+      "type": "object",
+      "properties": {
+        "username2": {
+          "description": "friend name",
+          "type": "string"
+        }
+      }
+    },
+    "successResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "success message",
+          "type": "string"
+        },
+        "status_code": {
+          "description": "status code",
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "updateUserObj": {
       "type": "object",
       "properties": {
@@ -4542,6 +5473,15 @@ func init() {
         "middle_name": {
           "description": "middle name of the user",
           "type": "string"
+        }
+      }
+    },
+    "userImagesResponse": {
+      "type": "object",
+      "properties": {
+        "user_image": {
+          "description": "user image",
+          "type": "object"
         }
       }
     },

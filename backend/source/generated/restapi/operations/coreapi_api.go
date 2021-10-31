@@ -20,8 +20,10 @@ import (
 	"github.com/go-openapi/swag"
 
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/comments_v1"
+	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/friends_v1"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/groups_v1"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/notes_v1"
+	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_images_v1"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_mgmt_v1"
 )
 
@@ -48,6 +50,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
+		FriendsV1AddFriendsV1Handler: friends_v1.AddFriendsV1HandlerFunc(func(params friends_v1.AddFriendsV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation friends_v1.AddFriendsV1 has not yet been implemented")
+		}),
 		GroupsV1AddGroupUsersV1Handler: groups_v1.AddGroupUsersV1HandlerFunc(func(params groups_v1.AddGroupUsersV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.AddGroupUsersV1 has not yet been implemented")
 		}),
@@ -72,6 +77,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		NotesV1GetFileV1Handler: notes_v1.GetFileV1HandlerFunc(func(params notes_v1.GetFileV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.GetFileV1 has not yet been implemented")
 		}),
+		FriendsV1GetFriendsV1Handler: friends_v1.GetFriendsV1HandlerFunc(func(params friends_v1.GetFriendsV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation friends_v1.GetFriendsV1 has not yet been implemented")
+		}),
 		GroupsV1GetGroupInfoV1Handler: groups_v1.GetGroupInfoV1HandlerFunc(func(params groups_v1.GetGroupInfoV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.GetGroupInfoV1 has not yet been implemented")
 		}),
@@ -90,6 +98,12 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		NotesV1GetNoteMembersHandler: notes_v1.GetNoteMembersHandlerFunc(func(params notes_v1.GetNoteMembersParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.GetNoteMembers has not yet been implemented")
 		}),
+		NotesV1GetSingleNoteV1Handler: notes_v1.GetSingleNoteV1HandlerFunc(func(params notes_v1.GetSingleNoteV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.GetSingleNoteV1 has not yet been implemented")
+		}),
+		UserImagesV1GetUserImagesV1Handler: user_images_v1.GetUserImagesV1HandlerFunc(func(params user_images_v1.GetUserImagesV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_images_v1.GetUserImagesV1 has not yet been implemented")
+		}),
 		UserMgmtV1GetUserV1Handler: user_mgmt_v1.GetUserV1HandlerFunc(func(params user_mgmt_v1.GetUserV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation user_mgmt_v1.GetUserV1 has not yet been implemented")
 		}),
@@ -102,8 +116,14 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		NotesV1PostFileV1Handler: notes_v1.PostFileV1HandlerFunc(func(params notes_v1.PostFileV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.PostFileV1 has not yet been implemented")
 		}),
+		UserImagesV1PostUserImagesV1Handler: user_images_v1.PostUserImagesV1HandlerFunc(func(params user_images_v1.PostUserImagesV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_images_v1.PostUserImagesV1 has not yet been implemented")
+		}),
 		CommentsV1RemoveComnentV1Handler: comments_v1.RemoveComnentV1HandlerFunc(func(params comments_v1.RemoveComnentV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation comments_v1.RemoveComnentV1 has not yet been implemented")
+		}),
+		FriendsV1RemoveFriendsV1Handler: friends_v1.RemoveFriendsV1HandlerFunc(func(params friends_v1.RemoveFriendsV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation friends_v1.RemoveFriendsV1 has not yet been implemented")
 		}),
 		GroupsV1RemoveGroupUsersV1Handler: groups_v1.RemoveGroupUsersV1HandlerFunc(func(params groups_v1.RemoveGroupUsersV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.RemoveGroupUsersV1 has not yet been implemented")
@@ -159,6 +179,8 @@ type CoreapiAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
+	// FriendsV1AddFriendsV1Handler sets the operation handler for the add friends v1 operation
+	FriendsV1AddFriendsV1Handler friends_v1.AddFriendsV1Handler
 	// GroupsV1AddGroupUsersV1Handler sets the operation handler for the add group users v1 operation
 	GroupsV1AddGroupUsersV1Handler groups_v1.AddGroupUsersV1Handler
 	// GroupsV1CreateGroupV1Handler sets the operation handler for the create group v1 operation
@@ -175,6 +197,8 @@ type CoreapiAPI struct {
 	NotesV1FindNotesByUsernameHandler notes_v1.FindNotesByUsernameHandler
 	// NotesV1GetFileV1Handler sets the operation handler for the get file v1 operation
 	NotesV1GetFileV1Handler notes_v1.GetFileV1Handler
+	// FriendsV1GetFriendsV1Handler sets the operation handler for the get friends v1 operation
+	FriendsV1GetFriendsV1Handler friends_v1.GetFriendsV1Handler
 	// GroupsV1GetGroupInfoV1Handler sets the operation handler for the get group info v1 operation
 	GroupsV1GetGroupInfoV1Handler groups_v1.GetGroupInfoV1Handler
 	// GroupsV1GetGroupUsersV1Handler sets the operation handler for the get group users v1 operation
@@ -187,6 +211,10 @@ type CoreapiAPI struct {
 	NotesV1GetNoteCommentsHandler notes_v1.GetNoteCommentsHandler
 	// NotesV1GetNoteMembersHandler sets the operation handler for the get note members operation
 	NotesV1GetNoteMembersHandler notes_v1.GetNoteMembersHandler
+	// NotesV1GetSingleNoteV1Handler sets the operation handler for the get single note v1 operation
+	NotesV1GetSingleNoteV1Handler notes_v1.GetSingleNoteV1Handler
+	// UserImagesV1GetUserImagesV1Handler sets the operation handler for the get user images v1 operation
+	UserImagesV1GetUserImagesV1Handler user_images_v1.GetUserImagesV1Handler
 	// UserMgmtV1GetUserV1Handler sets the operation handler for the get user v1 operation
 	UserMgmtV1GetUserV1Handler user_mgmt_v1.GetUserV1Handler
 	// UserMgmtV1LoginV1Handler sets the operation handler for the login v1 operation
@@ -195,8 +223,12 @@ type CoreapiAPI struct {
 	CommentsV1PostCommentsV1Handler comments_v1.PostCommentsV1Handler
 	// NotesV1PostFileV1Handler sets the operation handler for the post file v1 operation
 	NotesV1PostFileV1Handler notes_v1.PostFileV1Handler
+	// UserImagesV1PostUserImagesV1Handler sets the operation handler for the post user images v1 operation
+	UserImagesV1PostUserImagesV1Handler user_images_v1.PostUserImagesV1Handler
 	// CommentsV1RemoveComnentV1Handler sets the operation handler for the remove comnent v1 operation
 	CommentsV1RemoveComnentV1Handler comments_v1.RemoveComnentV1Handler
+	// FriendsV1RemoveFriendsV1Handler sets the operation handler for the remove friends v1 operation
+	FriendsV1RemoveFriendsV1Handler friends_v1.RemoveFriendsV1Handler
 	// GroupsV1RemoveGroupUsersV1Handler sets the operation handler for the remove group users v1 operation
 	GroupsV1RemoveGroupUsersV1Handler groups_v1.RemoveGroupUsersV1Handler
 	// NotesV1UpdateNoteHandler sets the operation handler for the update note operation
@@ -287,6 +319,9 @@ func (o *CoreapiAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.FriendsV1AddFriendsV1Handler == nil {
+		unregistered = append(unregistered, "friends_v1.AddFriendsV1Handler")
+	}
 	if o.GroupsV1AddGroupUsersV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.AddGroupUsersV1Handler")
 	}
@@ -311,6 +346,9 @@ func (o *CoreapiAPI) Validate() error {
 	if o.NotesV1GetFileV1Handler == nil {
 		unregistered = append(unregistered, "notes_v1.GetFileV1Handler")
 	}
+	if o.FriendsV1GetFriendsV1Handler == nil {
+		unregistered = append(unregistered, "friends_v1.GetFriendsV1Handler")
+	}
 	if o.GroupsV1GetGroupInfoV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.GetGroupInfoV1Handler")
 	}
@@ -329,6 +367,12 @@ func (o *CoreapiAPI) Validate() error {
 	if o.NotesV1GetNoteMembersHandler == nil {
 		unregistered = append(unregistered, "notes_v1.GetNoteMembersHandler")
 	}
+	if o.NotesV1GetSingleNoteV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.GetSingleNoteV1Handler")
+	}
+	if o.UserImagesV1GetUserImagesV1Handler == nil {
+		unregistered = append(unregistered, "user_images_v1.GetUserImagesV1Handler")
+	}
 	if o.UserMgmtV1GetUserV1Handler == nil {
 		unregistered = append(unregistered, "user_mgmt_v1.GetUserV1Handler")
 	}
@@ -341,8 +385,14 @@ func (o *CoreapiAPI) Validate() error {
 	if o.NotesV1PostFileV1Handler == nil {
 		unregistered = append(unregistered, "notes_v1.PostFileV1Handler")
 	}
+	if o.UserImagesV1PostUserImagesV1Handler == nil {
+		unregistered = append(unregistered, "user_images_v1.PostUserImagesV1Handler")
+	}
 	if o.CommentsV1RemoveComnentV1Handler == nil {
 		unregistered = append(unregistered, "comments_v1.RemoveComnentV1Handler")
+	}
+	if o.FriendsV1RemoveFriendsV1Handler == nil {
+		unregistered = append(unregistered, "friends_v1.RemoveFriendsV1Handler")
 	}
 	if o.GroupsV1RemoveGroupUsersV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.RemoveGroupUsersV1Handler")
@@ -452,6 +502,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
+	o.handlers["POST"]["/v1/friends"] = friends_v1.NewAddFriendsV1(o.context, o.FriendsV1AddFriendsV1Handler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
 	o.handlers["POST"]["/v1/groups/{group_id}/members"] = groups_v1.NewAddGroupUsersV1(o.context, o.GroupsV1AddGroupUsersV1Handler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
@@ -484,6 +538,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
+	o.handlers["GET"]["/v1/friends"] = friends_v1.NewGetFriendsV1(o.context, o.FriendsV1GetFriendsV1Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
 	o.handlers["GET"]["/v1/groups/{group_id}"] = groups_v1.NewGetGroupInfoV1(o.context, o.GroupsV1GetGroupInfoV1Handler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -508,6 +566,14 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
+	o.handlers["GET"]["/v1/notes/{id}"] = notes_v1.NewGetSingleNoteV1(o.context, o.NotesV1GetSingleNoteV1Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/images"] = user_images_v1.NewGetUserImagesV1(o.context, o.UserImagesV1GetUserImagesV1Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
 	o.handlers["GET"]["/v1/user"] = user_mgmt_v1.NewGetUserV1(o.context, o.UserMgmtV1GetUserV1Handler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
@@ -521,10 +587,18 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/v1/notes/file"] = notes_v1.NewPostFileV1(o.context, o.NotesV1PostFileV1Handler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/v1/images"] = user_images_v1.NewPostUserImagesV1(o.context, o.UserImagesV1PostUserImagesV1Handler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
 	o.handlers["DELETE"]["/v1/comments/{comment_id}"] = comments_v1.NewRemoveComnentV1(o.context, o.CommentsV1RemoveComnentV1Handler)
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/v1/friends/{username}"] = friends_v1.NewRemoveFriendsV1(o.context, o.FriendsV1RemoveFriendsV1Handler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}

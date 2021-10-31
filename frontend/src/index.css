@@ -17,9 +17,12 @@ html, body{
   --modal-border-color: var(--light-gray-transparent);
   --section-header-color: var(--blue);
   --txt-input-border-color: var(--dark-gray);
+  --filters-border-color: var(--dark-gray);
+  --profile-img-border-color: var(--dark-gray);
   --primary-btn-color: var(--light-mint);
   --primary-btn-border-color: var(--dark-teal);
   --secondary-btn-color: var(--pale-blue);
+  --filters-panel-color: var(--pale-blue-transparent);
   --secondary-btn-border-color: var(--light-gray);
   --btn-txt-color: var(--dark-gray);
 

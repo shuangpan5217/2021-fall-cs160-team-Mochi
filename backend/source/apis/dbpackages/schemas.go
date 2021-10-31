@@ -15,6 +15,7 @@ const (
 	UserNoteTable  = "user_notes"
 	GroupNoteTable = "group_notes"
 	CommentTable   = "comments"
+	FriendTable    = "friends"
 )
 
 // create foreign key constraints
@@ -39,6 +40,10 @@ const (
 
 	// notes and comments
 	note_comments_noteID_fk = `ALTER TABLE comments DROP CONSTRAINT IF EXISTS note_comments_noteID_fk; ALTER TABLE comments ADD CONSTRAINT note_comments_noteID_fk FOREIGN KEY (note_id) REFERENCES Notes(note_id) ON DELETE CASCADE`
+
+	// users and friends
+	user_friends_username_fk  = `ALTER TABLE friends DROP CONSTRAINT IF EXISTS user_friends_username_fk; ALTER TABLE friends ADD CONSTRAINT user_friends_username_fk FOREIGN KEY (username) REFERENCES Users(username) ON DELETE CASCADE;`
+	user_friends_username2_fk = `ALTER TABLE friends DROP CONSTRAINT IF EXISTS user_friends_username2_fk; ALTER TABLE friends ADD CONSTRAINT user_friends_username2_fk FOREIGN KEY (username2) REFERENCES Users(username) ON DELETE CASCADE;`
 )
 
 type User struct {
@@ -72,7 +77,7 @@ type Note struct {
 	NoteOwner     string     `gorm:"index;not null" json:"note_owner"` // username of note owner. Once deleted, all notes will be deleted
 	Description   string     `json:"description"`
 	Title         string     `json:"title"`
-	NoteReference string     `gorm:"not null" json:"note_reference"`
+	NoteReference string     `gorm:"not null, index" json:"note_reference"`
 	Style         string     `gorm:"not null" json:"style"`
 	Type          string     `gorm:"not null" json:"type"`
 	Tag           string     `gorm:"not null" json:"tag"`
@@ -101,6 +106,11 @@ type Comment struct {
 	UpdatedAt *time.Time `gorm:"default:CURRENT_TIMESTAMP;" json:"updated_at"`
 }
 
+type Friend struct {
+	Username  string `gorm:"index;not null" json:"username"`
+	Username2 string `gorm:"index;not null" json:"username2"`
+}
+
 func CreateFKConstraints(db *gorm.DB) {
 	// users and groups access
 	db.Exec(group_users_username_fk)
@@ -122,4 +132,8 @@ func CreateFKConstraints(db *gorm.DB) {
 
 	// notes and comments
 	db.Exec(note_comments_noteID_fk)
+
+	// users and friends
+	db.Exec(user_friends_username_fk)
+	db.Exec(user_friends_username2_fk)
 }
