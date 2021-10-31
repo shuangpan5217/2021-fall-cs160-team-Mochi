@@ -38,7 +38,7 @@ function App() {
         <Route path="/signup" component={(props) => <SignUpPage setAuthToken={setAuthToken}/>} />
         <Route path="/home" component={(props) => <HomePage authToken={authToken}/>} />
         <Route path="/search" component={(props) => <SearchResultsPage/>}/>
-        <Route path="/view" component={(props) => <ViewNotesPage/>}/>
+        <Route path="/note/:noteId" component={(props) => <ViewNotesPage authToken={authToken}/>}/>
         <Route path="/profile" component={(props) => <PersonalPage/>}/>
       </Switch>
     </Router>
