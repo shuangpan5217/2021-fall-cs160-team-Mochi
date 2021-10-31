@@ -2,6 +2,7 @@ package notes
 
 import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/dbpackages"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/notes_v1"
 	"encoding/base64"
@@ -38,36 +39,56 @@ func GetFileV1Handler(db *gorm.DB) notes_v1.GetFileV1HandlerFunc {
 }
 
 func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *models.GetFileResponse, errResp *models.ErrResponse) {
-	_, errResp = commonutils.ExtractJWT(params.HTTPRequest)
+	payload, errResp := commonutils.ExtractJWT(params.HTTPRequest)
 	if errResp != nil {
 		return
 	}
-	// username := payload.Username
-	// if !strings.HasPrefix(params.Path, username) {
-	// 	errResp = commonutils.GenerateErrResp(http.StatusBadRequest, "Bad file path")
-	// 	return
-	// }
-	// Should handle this way
-	// if note is public, return file (notes table, type field)
-	// if note is private or shared
-	//    check user_notes table
-	//    if presented (username <==> note_id (note table))
-	//       return file
-	//    else
-	//       return error
-	// otherwise, create a file table with type [public, shared, private]
+
+	_, errResp = getNoteByFileName(db, params.Path, payload.Username)
+	if errResp != nil {
+		return
+	}
+
 	mochiNoteDir, errResp := commonutils.GetMochiNoteFilesDir()
 	if errResp != nil {
 		return
 	}
-	filePath := mochiNoteDir + "/" + params.Path
-	pdfFileData, err := ioutil.ReadFile(filePath)
-	if err != nil {
-		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+	pdfFileData, errResp := getFile(mochiNoteDir + "/" + params.Path)
+	if errResp != nil {
 		return
 	}
 	resp = &models.GetFileResponse{
 		PdfData: base64.StdEncoding.EncodeToString(pdfFileData),
+	}
+	return
+}
+
+func getNoteByFileName(db *gorm.DB, path string, username string) (note dbpackages.Note, errResp *models.ErrResponse) {
+	err := db.Table(dbpackages.NoteTable).Where("note_reference = ?", path).First(&note).Error
+	if gorm.IsRecordNotFoundError(err) {
+		commonutils.GenerateErrResp(http.StatusNotFound, "record not found")
+		return
+	} else if err != nil {
+		commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if note.Type == "public" || note.NoteOwner == username {
+
+	} else {
+		errResp = checkIfUsernameExists(db, username, note.NoteID)
+		if errResp != nil {
+			return
+		}
+	}
+	return
+}
+
+func getFile(filePath string) (pdfFileData []byte, errResp *models.ErrResponse) {
+	pdfFileData, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
 	}
 	return
 }

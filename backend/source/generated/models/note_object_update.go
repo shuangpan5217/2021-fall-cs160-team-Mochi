@@ -17,9 +17,6 @@ import (
 // swagger:model noteObjectUpdate
 type NoteObjectUpdate struct {
 
-	// note content
-	Content string `json:"content,omitempty"`
-
 	// description of the note
 	Description string `json:"description,omitempty"`
 
