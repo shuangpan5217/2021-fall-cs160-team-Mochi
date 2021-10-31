@@ -43,10 +43,14 @@ func processUploadNoteRequest(db *gorm.DB, params notes_v1.UploadNoteV1Params) (
 		return
 	}
 	noteID := uuid.New().String()
-	errResp = checkIfNoteExists(db, noteID)
-	if errResp != nil {
+	_, err := checkIfNoteExists(db, noteID)
+	if gorm.IsRecordNotFoundError(err) {
+
+	} else if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
+
 	// insert notes
 	newNote := dbpackages.Note{
 		NoteID:        noteID,
@@ -58,7 +62,7 @@ func processUploadNoteRequest(db *gorm.DB, params notes_v1.UploadNoteV1Params) (
 		Type:          *params.Body.Type,
 		Tag:           *params.Body.Tag,
 	}
-	err := db.Table(dbpackages.NoteTable).Save(&newNote).Error
+	err = db.Table(dbpackages.NoteTable).Save(&newNote).Error
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
@@ -76,14 +80,7 @@ func processUploadNoteRequest(db *gorm.DB, params notes_v1.UploadNoteV1Params) (
 	return &models.NoteResponse{NoteID: noteID}, nil
 }
 
-func checkIfNoteExists(db *gorm.DB, noteID string) (errResp *models.ErrResponse) {
-	var note dbpackages.Note
-	err := db.Table(dbpackages.NoteTable).Where("note_id = ?", noteID).First(&note).Error
-	if gorm.IsRecordNotFoundError(err) {
-
-	} else if err != nil {
-		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
-		return
-	}
+func checkIfNoteExists(db *gorm.DB, noteID string) (note dbpackages.Note, err error) {
+	err = db.Table(dbpackages.NoteTable).Where("note_id = ?", noteID).First(&note).Error
 	return
 }

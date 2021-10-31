@@ -431,7 +431,7 @@ paths:
       tags: 
       - notesV1
       summary: delete note
-      description: user delete note by title
+      description: user delete note by id
       operationId: "deleteNote"
       produces:
           - application/json
@@ -443,7 +443,7 @@ paths:
           required: true
         - name: id
           in: path
-          description: title to filter by
+          description: id to filter by
           required: true
           type: string
       responses:
@@ -451,6 +451,54 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/noteResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+    get: 
+      tags: 
+      - notesV1
+      summary: get single note
+      description: user 
+      operationId: getSingleNoteV1
+      produces:
+          - application/json
+      parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: id
+          in: path
+          description: id to filter by
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/noteObjectResponse'
         400:
           description: Bad Request
           schema:
@@ -1228,7 +1276,148 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
-
+  /v1/friends:
+    post: 
+      description: add friends
+      operationId: addFriendsV1
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - friendsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: body
+        in: body
+        description: username and username2
+        schema:
+          $ref: '#/definitions/postfriends'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/friendResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+    get: 
+      description: get friends info
+      operationId: getFriendsV1
+      produces:
+        - application/json
+      tags:
+      - friendsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/getFriendObject'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+  /v1/friends/{username}:
+    delete: 
+      description: remove friends
+      operationId: removeFriendsV1
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      tags:
+      - friendsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: username
+        type: string
+        in: path
+        description: username
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/friendResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse' 
   /v1/images:
     post:
       description: post a user image
@@ -1428,6 +1617,20 @@ definitions:
       group_owner:
         description: group owner
         type: string
+  postfriends:
+    type: object
+    properties:
+      username2:
+        description: friend name
+        type: string
+  getFriendObject:
+    type: object
+    properties:
+      friends:
+        type: array
+        items:
+          $ref: "#/definitions/friendResponse"
+        description: array of friends username
   groupMembersObject:
     type: array
     items:
@@ -1444,6 +1647,12 @@ definitions:
       group_id:
         type: string
         description: group_id
+  friendResponse:
+    type: object
+    properties:   
+      username: 
+        type: string
+        description: username
   noteObjectUpdate:
     description: note obj
     properties:
@@ -1452,9 +1661,6 @@ definitions:
         type: string
       title:
         description: title of the note
-        type: string
-      content: 
-        description: note content
         type: string
       type: 
         description: type of the note file, public, shared, private
@@ -1479,9 +1685,6 @@ definitions:
       title:
         description: title of the note
         type: string
-      content: 
-        description: note content
-        type: string
       type: 
         description: type of the note file, public, shared, private
         type: string
@@ -1497,6 +1700,9 @@ definitions:
   noteObjectResponse: 
     description: note obj response
     properties:
+      note_id:
+        description: note id
+        type: string
       note_owner:
         description: owner of the note
         type: string
@@ -1505,9 +1711,6 @@ definitions:
         type: string
       title:
         description: title of the note
-        type: string
-      content: 
-        description: note content
         type: string
       type: 
         description: type of the note file, public, shared, private

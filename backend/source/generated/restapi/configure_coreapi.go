@@ -68,6 +68,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.NotesV1GetMultipleFilesV1Handler = notes.GetMultipleFilesV1Handler(db)
 	api.NotesV1UploadNoteV1Handler = notes.UploadNoteV1Handler(db)
 	api.NotesV1FindNotesByUsernameHandler = notes.GetNotesByUsernameHandler(db)
+	api.NotesV1GetSingleNoteV1Handler = notes.GetSingleNoteV1Handler(db)
 
 	// comments
 	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)

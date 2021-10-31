@@ -1,16 +1,20 @@
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import LoginPage from './pages/LoginPage.jsx';
-import SignUpPage from './pages/SignUpPage.jsx';
-import HomePage from './pages/HomePage.jsx';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import LoginPage from "./pages/LoginPage.jsx";
+import SignUpPage from "./pages/SignUpPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import "./App.css";
 import { useState } from "react";
-import SearchResultsPage from './pages/SearchResultsPage.jsx';
-import ViewNotesPage from './pages/ViewNotesPage.jsx';
-import AppContext from './components/AppContext';
-import PersonalPage from './pages/PersonalPage.jsx';
+import SearchResultsPage from "./pages/SearchResultsPage.jsx";
+import ViewNotesPage from "./pages/ViewNotesPage.jsx";
+import AppContext from "./components/AppContext";
+import PersonalPage from "./pages/PersonalPage.jsx";
 
 function App() {
-  const [authToken, setAuthToken] = useState("");
   const [filter, setFilter] = useState("");
   const [query, setQuery] = useState("");
 
@@ -22,27 +26,27 @@ function App() {
     setQuery(newQuery);
   };
 
-  const searchParams = {
+  const globalVars = {
     filter,
     query,
     setGlobalFilter,
-    setGlobalQuery
-  }
+    setGlobalQuery,
+  };
 
   return (
-    <AppContext.Provider value={searchParams}>
-    <Router>
-      <Switch>
-        <Redirect from="/" to="/login" exact />
-        <Route path="/login" component={(props) => <LoginPage setAuthToken={setAuthToken}/>} />
-        <Route path="/signup" component={(props) => <SignUpPage setAuthToken={setAuthToken}/>} />
-        <Route path="/home" component={(props) => <HomePage authToken={authToken}/>} />
-        <Route path="/search" component={(props) => <SearchResultsPage/>}/>
-        <Route path="/note/:noteId" component={(props) => <ViewNotesPage authToken={authToken}/>}/>
-        <Route path="/profile" component={(props) => <PersonalPage/>}/>
-      </Switch>
-    </Router>
-  </AppContext.Provider>
+    <AppContext.Provider value={globalVars}>
+      <Router>
+        <Switch>
+          <Redirect from="/" to="/login" exact />
+          <Route path="/login" component={(props) => <LoginPage />} />
+          <Route path="/signup" component={(props) => <SignUpPage />} />
+          <Route path="/home" component={(props) => <HomePage />} />
+          <Route path="/search" component={(props) => <SearchResultsPage />} />
+          <Route path="/note/:noteId" component={(props) => <ViewNotesPage/>}/>
+          <Route path="/my_notes" component={(props) => <PersonalPage />} />
+        </Switch>
+      </Router>
+    </AppContext.Provider>
   );
 }
 

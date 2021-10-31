@@ -1,15 +1,13 @@
 import Button from "./button";
 import InputBox from "./inputBox";
 import ModalHeader from "./modalHeader.jsx";
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import "../css/uploadNotesWindow.css";
 import RadioButton from "./radioButton";
 import ModalWindow from "./modalWindow";
 import UploadDropzone from "./uploadDropzone";
 
-function UploadNotesWindow({ authToken, trigger, setTrigger }) {
-    const history = useHistory();
+function UploadNotesWindow({ trigger, setTrigger }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [tag, setTag] = useState("");
@@ -35,7 +33,8 @@ function UploadNotesWindow({ authToken, trigger, setTrigger }) {
         const pdfResponse = await fetch("http://localhost:3000/v1/notes/file", {
             method: "POST",
             headers: {
-                Authorization: "bearer " + authToken,
+                Authorization:
+                    "bearer " + window.localStorage.getItem("authToken"),
             },
             body: formData,
         });
@@ -47,12 +46,13 @@ function UploadNotesWindow({ authToken, trigger, setTrigger }) {
         }
 
         const note_reference = pdfResponseJSON.note_reference;
-        const style = "dummy";
+
         const response = await fetch("http://localhost:3000/v1/notes/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "bearer " + authToken,
+                Authorization:
+                    "bearer " + window.localStorage.getItem("authToken"),
             },
             body: JSON.stringify({
                 title,
@@ -60,17 +60,15 @@ function UploadNotesWindow({ authToken, trigger, setTrigger }) {
                 tag,
                 type,
                 note_reference,
-                style,
             }),
         });
 
         const responseJSON = await response.json();
         if (responseJSON.note_id) {
             alert("Upload successfully!");
-            history.push("/note/" + note_reference); //should be note_id
+            setTrigger(false);
         } else {
             alert("Something went wrong with note upload!");
-            setTrigger(false);
         }
     };
 
