@@ -44,8 +44,8 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 
 	api.JSONConsumer = runtime.JSONConsumer()
 	api.JSONProducer = runtime.JSONProducer()
-
-	db, err := gorm.Open("postgres", "host=localhost port=5432 dbname=shuangpan user=shuangpan sslmode=disable")
+	db, err := gorm.Open("postgres", "host=localhost port=5432 dbname=mochinote user=postgres password=123456 sslmode=disable")
+	// db, err := gorm.Open("postgres", "host=localhost port=5432 dbname=shuangpan user=shuangpan sslmode=disable")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -68,6 +68,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.NotesV1GetMultipleFilesV1Handler = notes.GetMultipleFilesV1Handler(db)
 	api.NotesV1UploadNoteV1Handler = notes.UploadNoteV1Handler(db)
 	api.NotesV1FindNotesByUsernameHandler = notes.GetNotesByUsernameHandler(db)
+	api.NotesV1GetNoteCommentsHandler = notes.GetNoteCommentsHandler(db)
 
 	// comments
 	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)
