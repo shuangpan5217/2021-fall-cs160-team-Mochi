@@ -1,14 +1,24 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import AppContext from "./AppContext";
 import RadioButton from "./radioButton";
 import "../css/searchbar.css";
 
-function SearchBar({ showFilterBtn }) {
+function SearchBar({ showFilterBtn, updateSearch }) {
     const history = useHistory();
     const myContext = useContext(AppContext);
-    const [showFilters, toggleFilters] = useState(myContext.filter !== "");
+    const [showFilters, toggleFilters] = useState(
+        (myContext.filter !== "") & showFilterBtn
+    );
     const [query, setQuery] = useState(myContext.query);
+
+    useEffect(() => {
+        if (updateSearch) {
+            myContext.setGlobalQuery(query);
+            myContext.setGlobalFilter("");
+            history.push("/search");
+        }
+    }, [updateSearch]);
 
     const updateFilter = (filter) => {
         myContext.setGlobalQuery(query);
@@ -48,13 +58,21 @@ function SearchBar({ showFilterBtn }) {
 
     return (
         <div className="d-flex flex-column">
-            <div className="d-flex flex-row search-bar">
+            <div
+                className={`d-flex flex-row ${
+                    showFilterBtn ? "search-bar" : "search-bar-big"
+                }`}
+            >
                 <input
                     type="text"
                     className={`agenda search-input ${
                         showFilters ? "filter" : ""
                     } ${showFilterBtn ? "" : "no-filter-btn"}`}
-                    placeholder="Search by title, tag, or description"
+                    placeholder={
+                        showFilterBtn
+                            ? "Search by title, tag, or description"
+                            : "Search Notes"
+                    }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleKeyDown}
