@@ -1,6 +1,7 @@
 import Button from "./button";
 import InputBox from "./inputBox";
 import ModalHeader from "./modalHeader.jsx";
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import "../css/uploadNotesWindow.css";
 import RadioButton from "./radioButton";
@@ -8,6 +9,7 @@ import ModalWindow from "./modalWindow";
 import UploadDropzone from "./uploadDropzone";
 
 function UploadNotesWindow({ trigger, setTrigger }) {
+    const history = useHistory();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [tag, setTag] = useState("");
@@ -47,6 +49,7 @@ function UploadNotesWindow({ trigger, setTrigger }) {
 
         const note_reference = pdfResponseJSON.note_reference;
 
+        const style = "dummy";
         const response = await fetch("http://localhost:3000/v1/notes/", {
             method: "POST",
             headers: {
@@ -60,15 +63,16 @@ function UploadNotesWindow({ trigger, setTrigger }) {
                 tag,
                 type,
                 note_reference,
+                style
             }),
         });
 
         const responseJSON = await response.json();
         if (responseJSON.note_id) {
-            alert("Upload successfully!");
-            setTrigger(false);
+            history.push("/note/" + responseJSON.note_id);
         } else {
             alert("Something went wrong with note upload!");
+            setTrigger(false);
         }
     };
 
