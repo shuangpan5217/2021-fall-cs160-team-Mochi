@@ -44,8 +44,8 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 
 	api.JSONConsumer = runtime.JSONConsumer()
 	api.JSONProducer = runtime.JSONProducer()
-	db, err := gorm.Open("postgres", "host=localhost port=5432 dbname=mochinote user=postgres password=123456 sslmode=disable")
-	// db, err := gorm.Open("postgres", "host=localhost port=5432 dbname=shuangpan user=shuangpan sslmode=disable")
+
+	db, err := gorm.Open("postgres", "host=localhost port=5432 dbname=shuangpan user=shuangpan sslmode=disable")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
