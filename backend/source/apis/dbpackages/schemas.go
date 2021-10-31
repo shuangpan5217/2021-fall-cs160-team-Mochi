@@ -77,7 +77,7 @@ type Note struct {
 	NoteOwner     string     `gorm:"index;not null" json:"note_owner"` // username of note owner. Once deleted, all notes will be deleted
 	Description   string     `json:"description"`
 	Title         string     `json:"title"`
-	NoteReference string     `gorm:"not null" json:"note_reference"`
+	NoteReference string     `gorm:"not null, index" json:"note_reference"`
 	Style         string     `gorm:"not null" json:"style"`
 	Type          string     `gorm:"not null" json:"type"`
 	Tag           string     `gorm:"not null" json:"tag"`

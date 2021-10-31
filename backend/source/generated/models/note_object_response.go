@@ -17,11 +17,11 @@ import (
 // swagger:model noteObjectResponse
 type NoteObjectResponse struct {
 
-	// note content
-	Content string `json:"content,omitempty"`
-
 	// description of the note
 	Description string `json:"description,omitempty"`
+
+	// note id
+	NoteID string `json:"note_id,omitempty"`
 
 	// owner of the note
 	NoteOwner string `json:"note_owner,omitempty"`

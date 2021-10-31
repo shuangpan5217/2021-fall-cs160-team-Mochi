@@ -33,7 +33,7 @@ func NewDeleteNote(ctx *middleware.Context, handler DeleteNoteHandler) *DeleteNo
 
 delete note
 
-user delete note by title
+user delete note by id
 
 */
 type DeleteNote struct {
