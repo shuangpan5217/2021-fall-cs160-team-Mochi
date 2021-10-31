@@ -162,7 +162,6 @@ paths:
             $ref: '#/definitions/errResponse'
   /v1/user/username/{username}:
     get:
-      get:
       description: search by username
       produces:
         - application/json
