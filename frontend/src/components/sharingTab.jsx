@@ -16,7 +16,11 @@ function SharingTab({ members }) {
             <NoteActionHeader title="Shared with" />
             {memberElems}
             <div className="d-flex flex-column align-items-center full-width">
-                <InputBox placeholder="member" onChange={setAddMember} />
+                <InputBox
+                    placeholder="member"
+                    onChange={setAddMember}
+                    fullWidth
+                />
                 <NoteActionButton
                     title="Share"
                     onClick={() => console.log("share")}

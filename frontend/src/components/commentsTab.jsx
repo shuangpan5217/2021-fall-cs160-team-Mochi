@@ -63,6 +63,7 @@ function CommentsTab({ comments, noteId, owner }) {
                     onChange={setNewComment}
                     textArea
                     clear={newComment === ""}
+                    fullWidth
                 />
                 <NoteActionButton title="Post" onClick={postComment} />
             </div>
