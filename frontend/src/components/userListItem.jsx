@@ -1,12 +1,8 @@
 function UserListItem({ img, name }) {
     return (
-        <div className="d-flex flex-row">
-            <img
-                src={img}
-                alt="user"
-                style={{ width: "50px", height: "50px" }}
-            />
-            <p>{name}</p>
+        <div className="d-flex flex-row align-items-center">
+            <img src={img} alt="user" className="user-img" />
+            <p className="agenda small user-name">{name}</p>
         </div>
     );
 }

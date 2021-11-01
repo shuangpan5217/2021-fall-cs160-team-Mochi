@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import NoteActions from "../components/noteActions";
 import PDFViewer from "../components/PDFViewer";
 import SectionTitle from "../components/sectionTitle";
+import "../css/viewNotePage.css"
 import Template from "../components/template";
 
 function ViewNotesPage() {
@@ -55,7 +56,6 @@ function ViewNotesPage() {
                         console.error("Could not load note pdf.");
                     }
 
-                    // setTags(noteResponseJSON.tags.split(","));
                     setTags("test1,test2,test3".split(","));
                     setMembers("test1,test2,test3".split(","));
                     setComments("test1,test2,test3".split(","));
@@ -77,7 +77,7 @@ function ViewNotesPage() {
                 showProfile={true}
                 body={
                     <div className="d-flex flex-row">
-                        <div className="d-flex flex-column">
+                        <div className="d-flex flex-column left-container">
                             <SectionTitle
                                 title="Math Notes"
                                 subtitle="by Mochi"

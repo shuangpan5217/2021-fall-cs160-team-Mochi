@@ -1,8 +1,8 @@
 function SectionTitle({ title, subtitle }) {
     return (
         <>
-            <p>
-                {title} <span>{subtitle}</span>
+            <p className="agenda section-header">
+                {title} <span className="section-subheader">{subtitle}</span>
             </p>
         </>
     );

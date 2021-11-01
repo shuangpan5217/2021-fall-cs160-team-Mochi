@@ -15,11 +15,13 @@ function SharingTab({ members }) {
         <div className="d-flex flex-column">
             <NoteActionHeader title="Shared with" />
             {memberElems}
-            <InputBox placeholder="member" onChange={setAddMember} />
-            <NoteActionButton
-                title="Share"
-                onClick={() => console.log("share")}
-            />
+            <div className="d-flex flex-column align-items-center">
+                <InputBox placeholder="member" onChange={setAddMember} />
+                <NoteActionButton
+                    title="Share"
+                    onClick={() => console.log("share")}
+                />
+            </div>
         </div>
     );
 }

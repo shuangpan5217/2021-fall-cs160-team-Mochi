@@ -8,8 +8,8 @@ function NoteActions({ tags, members, comments }) {
     const [openTab, setOpenTab] = useState("Info");
 
     return (
-        <div className="d-flex flex-column">
-            <div className="d-flex flex-row">
+        <div className="d-flex flex-column note-actions-container">
+            <div className="d-flex flex-row justify-content-around">
                 <TabButton
                     title="Info"
                     selected={openTab === "Info"}

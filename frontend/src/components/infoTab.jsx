@@ -6,11 +6,9 @@ function InfoTab({ tags }) {
     return (
         <div className="d-flex flex-column">
             <NoteActionHeader title="Math Notes" />
-            <p>description</p>
+            <p className="agenda">description</p>
             <NoteActionHeader title="Tags" />
-            <div className="d-flex flex-row">
-                {tagElems}
-            </div>
+            <div className="d-flex flex-row">{tagElems}</div>
         </div>
     );
 }

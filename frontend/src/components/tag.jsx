@@ -1,9 +1,5 @@
 function Tag({ title }) {
-    return (
-        <>
-            <p>{title}</p>
-        </>
-    );
+    return <div className="agenda tag">{title}</div>;
 }
 
 export default Tag;

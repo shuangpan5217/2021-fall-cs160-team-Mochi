@@ -12,11 +12,17 @@ function CommentsTab({ comments }) {
 
     return (
         <div className="d-flex flex-column">
-            <InputBox placeholder="comment" onChange={setAddComment} textArea />
-            <NoteActionButton
-                title="Post"
-                onClick={() => console.log("post")}
-            />
+            <div className="d-flex flex-column align-items-center">
+                <InputBox
+                    placeholder="comment"
+                    onChange={setAddComment}
+                    textArea
+                />
+                <NoteActionButton
+                    title="Post"
+                    onClick={() => console.log("post")}
+                />
+            </div>
             {commentElems}
         </div>
     );

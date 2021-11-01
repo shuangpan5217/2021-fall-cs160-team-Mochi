@@ -3,7 +3,6 @@ import { useState } from "react";
 
 function PDFViewer({ pdf }) {
     const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
 
     function onDocumentLoadSuccess({ newNumPages }) {
         setNumPages(newNumPages);
@@ -14,12 +13,10 @@ function PDFViewer({ pdf }) {
             <Document
                 file={"data:application/pdf;base64," + pdf}
                 onLoadSuccess={onDocumentLoadSuccess}
+                className="pdf-container"
             >
-                <Page pageNumber={pageNumber} />
+                <Page pageNumber={1} className="pdf-page" scale={1.5}/>
             </Document>
-            <p>
-                Page {pageNumber} of {numPages}
-            </p>
         </>
     );
 }

@@ -1,7 +1,7 @@
 function NoteActionHeader({ title }) {
     return (
         <>
-            <p>{title}</p>
+            <p className="agenda section-header note-actions-header">{title}</p>
         </>
     );
 }
