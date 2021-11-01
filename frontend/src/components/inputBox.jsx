@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import "../css/forms.css";
 
-function InputBox({ placeholder, onChange, label, textArea, mask, clear }) {
+function InputBox({
+    placeholder,
+    onChange,
+    label,
+    textArea,
+    mask,
+    clear,
+    fullWidth,
+}) {
     const [value, setValue] = useState("");
     useEffect(() => {
         if (clear) {
@@ -19,10 +27,14 @@ function InputBox({ placeholder, onChange, label, textArea, mask, clear }) {
         LabelElem = <label className="agenda small">{label}&nbsp;</label>;
     }
 
-    if (textArea != null) {
-        return (
-            <div className="d-flex flex-row align-items-center full-width">
-                {LabelElem}
+    return (
+        <div
+            className={`d-flex flex-row align-items-center ${
+                fullWidth ? "full-width" : ""
+            }`}
+        >
+            {LabelElem}
+            {textArea ? (
                 <textarea
                     type="text"
                     className="agenda text-input-box"
@@ -31,12 +43,7 @@ function InputBox({ placeholder, onChange, label, textArea, mask, clear }) {
                     rows="3"
                     value={value}
                 />
-            </div>
-        );
-    } else {
-        return (
-            <div className="d-flex flex-row align-items-center full-width">
-                {LabelElem}
+            ) : (
                 <input
                     type={mask ? "password" : "text"}
                     className="agenda text-input-box"
@@ -44,9 +51,9 @@ function InputBox({ placeholder, onChange, label, textArea, mask, clear }) {
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
                 />
-            </div>
-        );
-    }
+            )}
+        </div>
+    );
 }
 
 export default InputBox;

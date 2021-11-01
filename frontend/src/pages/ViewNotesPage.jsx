@@ -139,7 +139,7 @@ function ViewNotesPage(props) {
                 showSearch={true}
                 showProfile={true}
                 body={
-                    <div className="d-flex flex-row">
+                    <div className="d-flex flex-row justify-content-center">
                         <div className="d-flex flex-column left-container">
                             <SectionTitle
                                 title={title}
