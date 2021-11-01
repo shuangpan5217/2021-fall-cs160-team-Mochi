@@ -160,6 +160,55 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
+  /v1/user/username/{username}:
+    get:
+      description: search by username
+      produces:
+        - application/json
+      tags:
+      - UserMgmtV1
+      summary: search by username
+      operationId: searchUserV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: username
+        description: username
+        type: string
+        in: path
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/userObj'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
   /v1/password/{password}:
     patch:
       description: update password
@@ -1734,10 +1783,6 @@ definitions:
         description: array of comments of a note
   commentObject:
     type: object
-    required:
-    - username
-    - note_id
-    - content
     properties:
       note_id: 
         description: the note corresponding to comment_id
@@ -1747,6 +1792,9 @@ definitions:
         type: string
       username:
         description: user who submit the comment
+        type: string
+      comment_id:
+        description: comment id
         type: string
   commentObjectRequest:
     type: object

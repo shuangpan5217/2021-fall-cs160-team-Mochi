@@ -42,7 +42,7 @@ function App() {
           <Route path="/signup" component={(props) => <SignUpPage />} />
           <Route path="/home" component={(props) => <HomePage />} />
           <Route path="/search" component={(props) => <SearchResultsPage />} />
-          <Route path="/view" component={(props) => <ViewNotesPage />} />
+          <Route path="/note/:noteId" component={(props) => <ViewNotesPage/>}/>
           <Route path="/my_notes" component={(props) => <PersonalPage />} />
         </Switch>
       </Router>

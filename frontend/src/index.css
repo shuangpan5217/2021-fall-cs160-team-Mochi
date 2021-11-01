@@ -2,6 +2,8 @@ html, body{
   --dark-blue: #151D29;
   --pale-blue: #eff7f6;
   --pale-blue-transparent: rgba(244, 246, 250, 0.95);
+  --pale-orange: #FFBDA0;
+  --dark-orange: #C4907A;
   --light-teal: #a0d3cd;
   --light-mint: #b2f7d7;
   --dark-teal: #7caca6;
@@ -13,6 +15,8 @@ html, body{
   --logo-color: var(--dark-blue);
   --text-color: var(--dark-blue);
   --link-color: var(--light-teal);
+  --tag-color: var(--pale-orange);
+  --tag-text-color: var(--dark-orange);
   --modal-panel-color: var(--pale-blue-transparent);
   --modal-border-color: var(--light-gray-transparent);
   --section-header-color: var(--blue);
