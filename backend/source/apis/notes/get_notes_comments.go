@@ -47,7 +47,7 @@ func processGetNoteCommentsRequest(db *gorm.DB, params notes_v1.GetNoteCommentsP
 		Comments: []*models.CommentObject{},
 	}
 
-	rawSQL := `SELECT content, note_ID, username 
+	rawSQL := `SELECT content, note_ID, username, comment_id 
 				FROM comments
 				WHERE note_id = ?`
 
@@ -56,8 +56,9 @@ func processGetNoteCommentsRequest(db *gorm.DB, params notes_v1.GetNoteCommentsP
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
-	comments := models.CommentObject{}
+
 	for rows.Next() {
+		comments := models.CommentObject{}
 		err = db.ScanRows(rows, &comments)
 		if err != nil {
 			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
