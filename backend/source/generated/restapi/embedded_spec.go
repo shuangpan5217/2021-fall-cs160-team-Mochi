@@ -2268,12 +2268,11 @@ func init() {
   "definitions": {
     "commentObject": {
       "type": "object",
-      "required": [
-        "username",
-        "note_id",
-        "content"
-      ],
       "properties": {
+        "comment_id": {
+          "description": "comment id",
+          "type": "string"
+        },
         "content": {
           "description": "content of the comment",
           "type": "string"
@@ -5017,12 +5016,11 @@ func init() {
   "definitions": {
     "commentObject": {
       "type": "object",
-      "required": [
-        "username",
-        "note_id",
-        "content"
-      ],
       "properties": {
+        "comment_id": {
+          "description": "comment id",
+          "type": "string"
+        },
         "content": {
           "description": "content of the comment",
           "type": "string"

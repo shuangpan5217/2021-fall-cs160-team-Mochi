@@ -8,10 +8,8 @@ package models
 import (
 	"context"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // CommentObject comment object
@@ -19,65 +17,21 @@ import (
 // swagger:model commentObject
 type CommentObject struct {
 
+	// comment id
+	CommentID string `json:"comment_id,omitempty"`
+
 	// content of the comment
-	// Required: true
-	Content *string `json:"content"`
+	Content string `json:"content,omitempty"`
 
 	// the note corresponding to comment_id
-	// Required: true
-	NoteID *string `json:"note_id"`
+	NoteID string `json:"note_id,omitempty"`
 
 	// user who submit the comment
-	// Required: true
-	Username *string `json:"username"`
+	Username string `json:"username,omitempty"`
 }
 
 // Validate validates this comment object
 func (m *CommentObject) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateContent(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateNoteID(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateUsername(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *CommentObject) validateContent(formats strfmt.Registry) error {
-
-	if err := validate.Required("content", "body", m.Content); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *CommentObject) validateNoteID(formats strfmt.Registry) error {
-
-	if err := validate.Required("note_id", "body", m.NoteID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *CommentObject) validateUsername(formats strfmt.Registry) error {
-
-	if err := validate.Required("username", "body", m.Username); err != nil {
-		return err
-	}
-
 	return nil
 }
 
