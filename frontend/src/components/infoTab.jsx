@@ -1,12 +1,12 @@
 import NoteActionHeader from "./noteActionHeader";
 import Tag from "./tag";
 
-function InfoTab({ tags }) {
+function InfoTab({ title, descr, tags }) {
     const tagElems = tags.map((tag) => <Tag title={tag} />);
     return (
-        <div className="d-flex flex-column">
-            <NoteActionHeader title="Math Notes" />
-            <p className="agenda">description</p>
+        <div className="d-flex flex-column full-width">
+            <NoteActionHeader title={title} />
+            <p className="agenda">{descr}</p>
             <NoteActionHeader title="Tags" />
             <div className="d-flex flex-row">{tagElems}</div>
         </div>

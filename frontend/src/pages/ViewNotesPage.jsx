@@ -3,12 +3,16 @@ import { useParams } from "react-router";
 import NoteActions from "../components/noteActions";
 import PDFViewer from "../components/PDFViewer";
 import SectionTitle from "../components/sectionTitle";
-import "../css/viewNotePage.css"
+import "../css/viewNotePage.css";
 import Template from "../components/template";
 
-function ViewNotesPage() {
+function ViewNotesPage(props) {
     const { noteId } = useParams();
     const [pdf, setPDF] = useState({});
+    const [title, setTitle] = useState("");
+    const [descr, setDescr] = useState("");
+    const [owner, setOwner] = useState("");
+    const [type, setType] = useState("");
     const [tags, setTags] = useState([]);
     const [members, setMembers] = useState([]);
     const [comments, setComments] = useState([]);
@@ -32,6 +36,12 @@ function ViewNotesPage() {
         if (success) {
             const noteResponseJSON = await noteResponse.json();
             if (noteResponseJSON.note_reference) {
+                setTitle(noteResponseJSON.title);
+                setDescr(noteResponseJSON.description);
+                setOwner(noteResponseJSON.note_owner);
+                setType(noteResponseJSON.type);
+                setTags(noteResponseJSON.tag.split(","));
+
                 const pdfResponse = await fetch(
                     "http://localhost:3000/v1/notes/file/" +
                         noteResponseJSON.note_reference,
@@ -55,13 +65,66 @@ function ViewNotesPage() {
                     } else {
                         console.error("Could not load note pdf.");
                     }
-
-                    setTags("test1,test2,test3".split(","));
-                    setMembers("test1,test2,test3".split(","));
-                    setComments("test1,test2,test3".split(","));
+                } else {
+                    return;
                 }
             } else {
                 console.error("Could not load note.");
+            }
+        }
+
+        getCommentData();
+        // getMemberData();
+    };
+
+    const getCommentData = async () => {
+        let success = true;
+        const commentResponse = await fetch(
+            "http://localhost:3000/v1/notes/" + noteId + "/comments",
+            {
+                method: "GET",
+                headers: {
+                    Authorization:
+                        "bearer " + window.localStorage.getItem("authToken"),
+                },
+            }
+        ).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const commentResponseJSON = await commentResponse.json();
+            if (commentResponseJSON.comments) {
+                setComments(commentResponseJSON.comments.reverse());
+            } else {
+                console.error("Could not load shared members of this note.");
+            }
+        }
+    };
+
+    const getMemberData = async () => {
+        let success = true;
+        const memberResponse = await fetch(
+            "http://localhost:3000/v1/notes/" + noteId + "/members",
+            {
+                method: "GET",
+                headers: {
+                    Authorization:
+                        "bearer " + window.localStorage.getItem("authToken"),
+                },
+            }
+        ).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const memberResponseJSON = await memberResponse.json();
+            if (memberResponseJSON.users) {
+                setMembers(memberResponseJSON.users);
+            } else {
+                console.error("Could not load shared members of this note.");
             }
         }
     };
@@ -79,15 +142,20 @@ function ViewNotesPage() {
                     <div className="d-flex flex-row">
                         <div className="d-flex flex-column left-container">
                             <SectionTitle
-                                title="Math Notes"
-                                subtitle="by Mochi"
+                                title={title}
+                                subtitle={`by ${owner}`}
                             />
                             <PDFViewer pdf={pdf} />
                         </div>
                         <NoteActions
+                            title={title}
+                            descr={descr}
+                            type={type}
                             tags={tags}
                             members={members}
                             comments={comments}
+                            noteId={noteId}
+                            owner={owner}
                         />
                     </div>
                 }

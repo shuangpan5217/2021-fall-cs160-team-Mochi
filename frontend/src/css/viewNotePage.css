@@ -32,8 +32,9 @@
     border: 1px solid var(--modal-border-color);
     border-radius: 20px;
     padding: 20px;
-    width: calc(100vw - 1020px);
-    height: calc(100vh - 200px);
+    width: 500px;
+    height: fit-content;
+    max-height: calc(100vh - 200px);
     margin-top: 40px;
 }
 
