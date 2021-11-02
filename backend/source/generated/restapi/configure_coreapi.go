@@ -16,6 +16,7 @@ import (
 
 	"2021-fall-cs160-team-Mochi/backend/source/apis/comments"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/friends"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/notes"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/userImages"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/usermgmt"
@@ -56,12 +57,15 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	}
 	commonutils.AddFKConstraints(db)
 
-	// usr management
+	// user management
 	api.UserMgmtV1LoginV1Handler = usermgmt.LoginV1Handler(db)
 	api.UserMgmtV1GetUserV1Handler = usermgmt.GetUserV1Handler(db)
 	api.UserMgmtV1UpdatePasswordV1Handler = usermgmt.UpdatePasswordV1Handler(db)
 	api.UserMgmtV1UpdateUserInfoV1Handler = usermgmt.UpdateUserInfoV1Handler(db)
 	api.UserMgmtV1SearchUserV1Handler = usermgmt.SearchUserV1Handler(db)
+
+	// friends
+	api.FriendsV1AddFriendsV1Handler = friends.AddFriendsV1Handler(db)
 
 	// notes
 	api.NotesV1PostFileV1Handler = notes.PostFileV1Handler(db)
