@@ -61,6 +61,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.UserMgmtV1GetUserV1Handler = usermgmt.GetUserV1Handler(db)
 	api.UserMgmtV1UpdatePasswordV1Handler = usermgmt.UpdatePasswordV1Handler(db)
 	api.UserMgmtV1UpdateUserInfoV1Handler = usermgmt.UpdateUserInfoV1Handler(db)
+	api.UserMgmtV1SearchUserV1Handler = usermgmt.SearchUserV1Handler(db)
 
 	// notes
 	api.NotesV1PostFileV1Handler = notes.PostFileV1Handler(db)
