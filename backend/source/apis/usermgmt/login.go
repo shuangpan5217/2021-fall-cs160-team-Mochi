@@ -95,6 +95,7 @@ func handleSignup(db *gorm.DB, params user_mgmt_v1.LoginV1Params) (resp *models.
 	err := tx.Save(&user).Error
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		tx.Rollback()
 		return
 	}
 	if err = tx.Commit().Error; err != nil {

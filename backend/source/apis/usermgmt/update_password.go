@@ -6,6 +6,7 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/user_mgmt_v1"
 	"net/http"
+	"strings"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/jinzhu/gorm"
@@ -42,6 +43,11 @@ func processUpdatePasswordRequest(db *gorm.DB, params user_mgmt_v1.UpdatePasswor
 		return
 	}
 	username := payload.Username
+
+	if strings.TrimSpace(params.Password) == "" {
+		errResp = commonutils.GenerateErrResp(http.StatusBadRequest, "empty password is not allowed")
+		return
+	}
 
 	m := map[string]string{
 		"password": params.Password,
