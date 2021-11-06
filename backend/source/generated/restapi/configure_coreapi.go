@@ -57,7 +57,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	}
 	commonutils.AddFKConstraints(db)
 
-	// usr management
+	// user management
 	api.UserMgmtV1LoginV1Handler = usermgmt.LoginV1Handler(db)
 	api.UserMgmtV1GetUserV1Handler = usermgmt.GetUserV1Handler(db)
 	api.UserMgmtV1UpdatePasswordV1Handler = usermgmt.UpdatePasswordV1Handler(db)
@@ -66,6 +66,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 
 	// friends
 	api.FriendsV1RemoveFriendsV1Handler = friends.RemoveFriendsV1Handler(db)
+	api.FriendsV1AddFriendsV1Handler = friends.AddFriendsV1Handler(db)
 
 	// notes
 	api.NotesV1PostFileV1Handler = notes.PostFileV1Handler(db)
