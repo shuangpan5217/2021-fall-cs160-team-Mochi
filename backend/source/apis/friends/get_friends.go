@@ -2,6 +2,7 @@ package friends
 
 import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/dbpackages"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/friends_v1"
 	"net/http"
@@ -46,22 +47,30 @@ func processGetfriendsRequest(db *gorm.DB, params friends_v1.GetFriendsV1Params)
 		Friends: []*models.FriendResponse{},
 	}
 
-	rawSQL := `SELECT username2 as username FROM friends WHERE username = ?`
+	rawSQL := `SELECT username2, username as username FROM friends WHERE username = ? or username2 = ?`
 
-	rows, err := db.Raw(rawSQL, username).Rows()
+	rows, err := db.Raw(rawSQL, username, username).Rows()
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
 
 	for rows.Next() {
-		friends := models.FriendResponse{}
+		friends := dbpackages.Friend{}
 		err = db.ScanRows(rows, &friends)
 		if err != nil {
 			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 			return
 		}
-		resp.Friends = append(resp.Friends, &friends)
+		newfriends := models.FriendResponse{}
+		if friends.Username == payload.Username {
+			newfriends.Username = friends.Username2
+			resp.Friends = append(resp.Friends, &newfriends)
+		}
+		if friends.Username2 == payload.Username {
+			newfriends.Username = friends.Username
+			resp.Friends = append(resp.Friends, &newfriends)
+		}
 
 	}
 	return
