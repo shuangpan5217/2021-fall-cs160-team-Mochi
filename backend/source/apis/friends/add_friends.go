@@ -46,6 +46,11 @@ func processAddfriendsRequest(db *gorm.DB, params friends_v1.AddFriendsV1Params)
 	body := *params.Body
 	username2 := body.Username2
 
+	if username == username2 {
+		errResp = commonutils.GenerateErrResp(http.StatusConflict, "Friend name and username cannot be the same")
+		return
+	}
+
 	friend, errResp := checkIfFriendExist(db, username, username2)
 	if errResp != nil {
 		return
@@ -59,9 +64,21 @@ func processAddfriendsRequest(db *gorm.DB, params friends_v1.AddFriendsV1Params)
 		Username:  username,
 		Username2: username2,
 	}
+
+	friends2 := dbpackages.Friend{
+		Username:  username2,
+		Username2: username,
+	}
 	tx := db.Begin()
 	err := tx.Save(&friends).Error
 	if err != nil {
+		tx.Rollback()
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+	err = tx.Save(&friends2).Error
+	if err != nil {
+		tx.Rollback()
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -78,7 +95,7 @@ func processAddfriendsRequest(db *gorm.DB, params friends_v1.AddFriendsV1Params)
 }
 
 func checkIfFriendExist(db *gorm.DB, username string, username2 string) (friend dbpackages.Friend, errResp *models.ErrResponse) {
-	err := db.Table("friends").Where("username = ? AND username2 = ?", username, username2).First(&friend).Error
+	err := db.Table("friends").Where("(username = ? AND username2 = ?) OR (username2 = ? AND username = ?)", username, username2, username, username2).First(&friend).Error
 	if gorm.IsRecordNotFoundError(err) {
 
 	} else if err != nil {
