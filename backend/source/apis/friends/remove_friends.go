@@ -43,7 +43,11 @@ func processRemovefriendsRequest(db *gorm.DB, params friends_v1.RemoveFriendsV1P
 	}
 	username := payload.Username
 	username2 := params.Username
-	db = db.Table(dbpackages.FriendTable).Where("username = ? and username2 = ?", username, username2).Delete(&dbpackages.Friend{})
+	if username == username2 {
+		errResp = commonutils.GenerateErrResp(http.StatusConflict, "Friend name and username cannot be the same")
+		return
+	}
+	db = db.Table(dbpackages.FriendTable).Where("(username = ? and username2 = ?) OR (username2 = ? and username = ?)", username, username2, username, username2).Delete(&dbpackages.Friend{})
 	if db.Error != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, db.Error.Error())
 		return
