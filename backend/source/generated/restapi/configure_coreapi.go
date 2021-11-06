@@ -65,6 +65,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.UserMgmtV1SearchUserV1Handler = usermgmt.SearchUserV1Handler(db)
 
 	// friends
+	api.FriendsV1RemoveFriendsV1Handler = friends.RemoveFriendsV1Handler(db)
 	api.FriendsV1AddFriendsV1Handler = friends.AddFriendsV1Handler(db)
 
 	// notes
