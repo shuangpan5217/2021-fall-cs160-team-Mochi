@@ -64,6 +64,10 @@ func processUpdatePasswordRequest(db *gorm.DB, params user_mgmt_v1.UpdatePasswor
 func GetUserObj(db *gorm.DB, username string) (userObj *models.UserObj, errResp *models.ErrResponse) {
 	userObj = &models.UserObj{}
 	err := db.Table(dbpackages.UserTable).Where("username = ?", username).First(userObj).Error
+	if gorm.IsRecordNotFoundError(err) {
+		errResp = commonutils.GenerateErrResp(http.StatusNotFound, err.Error())
+		return
+	}
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
