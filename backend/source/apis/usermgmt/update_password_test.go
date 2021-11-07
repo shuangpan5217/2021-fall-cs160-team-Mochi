@@ -14,11 +14,12 @@ import (
 
 func PrepareUsers(db *gorm.DB) {
 	user := &dbpackages.User{
-		Username:  "admin",
-		Password:  "password",
-		Email:     "email",
-		FirstName: "first",
-		LastName:  "last",
+		Username:   "admin",
+		Password:   "password",
+		Email:      "email",
+		MiddleName: "middle",
+		FirstName:  "first",
+		LastName:   "last",
 	}
 	db.Save(&user)
 }
@@ -85,6 +86,7 @@ func TestUpdatePasswordAPI(t *testing.T) {
 			}
 
 			body, err := ioutil.ReadAll(resp.Body)
+			defer resp.Body.Close()
 			if err != nil {
 				t.Errorf("Error reading resp. %s", err.Error())
 			}
