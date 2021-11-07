@@ -62,8 +62,8 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		GroupsV1DeleteGroupV1Handler: groups_v1.DeleteGroupV1HandlerFunc(func(params groups_v1.DeleteGroupV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.DeleteGroupV1 has not yet been implemented")
 		}),
-		NotesV1DeleteNoteHandler: notes_v1.DeleteNoteHandlerFunc(func(params notes_v1.DeleteNoteParams) middleware.Responder {
-			return middleware.NotImplemented("operation notes_v1.DeleteNote has not yet been implemented")
+		NotesV1DeleteNoteV1Handler: notes_v1.DeleteNoteV1HandlerFunc(func(params notes_v1.DeleteNoteV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.DeleteNoteV1 has not yet been implemented")
 		}),
 		NotesV1FindNotesByGroupnameHandler: notes_v1.FindNotesByGroupnameHandlerFunc(func(params notes_v1.FindNotesByGroupnameParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.FindNotesByGroupname has not yet been implemented")
@@ -190,8 +190,8 @@ type CoreapiAPI struct {
 	GroupsV1CreateGroupV1Handler groups_v1.CreateGroupV1Handler
 	// GroupsV1DeleteGroupV1Handler sets the operation handler for the delete group v1 operation
 	GroupsV1DeleteGroupV1Handler groups_v1.DeleteGroupV1Handler
-	// NotesV1DeleteNoteHandler sets the operation handler for the delete note operation
-	NotesV1DeleteNoteHandler notes_v1.DeleteNoteHandler
+	// NotesV1DeleteNoteV1Handler sets the operation handler for the delete note v1 operation
+	NotesV1DeleteNoteV1Handler notes_v1.DeleteNoteV1Handler
 	// NotesV1FindNotesByGroupnameHandler sets the operation handler for the find notes by groupname operation
 	NotesV1FindNotesByGroupnameHandler notes_v1.FindNotesByGroupnameHandler
 	// NotesV1FindNotesByTagsHandler sets the operation handler for the find notes by tags operation
@@ -336,8 +336,8 @@ func (o *CoreapiAPI) Validate() error {
 	if o.GroupsV1DeleteGroupV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.DeleteGroupV1Handler")
 	}
-	if o.NotesV1DeleteNoteHandler == nil {
-		unregistered = append(unregistered, "notes_v1.DeleteNoteHandler")
+	if o.NotesV1DeleteNoteV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.DeleteNoteV1Handler")
 	}
 	if o.NotesV1FindNotesByGroupnameHandler == nil {
 		unregistered = append(unregistered, "notes_v1.FindNotesByGroupnameHandler")
@@ -526,7 +526,7 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/v1/notes/{id}"] = notes_v1.NewDeleteNote(o.context, o.NotesV1DeleteNoteHandler)
+	o.handlers["DELETE"]["/v1/notes/{id}"] = notes_v1.NewDeleteNoteV1(o.context, o.NotesV1DeleteNoteV1Handler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

@@ -2,6 +2,7 @@ package notes
 
 import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/dbpackages"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/notes_v1"
 	"io/ioutil"
@@ -79,8 +80,28 @@ func processPostFileRequest(db *gorm.DB, params notes_v1.PostFileV1Params) (resp
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
+
+	errResp = addFile(db, payload.Username, fileName)
 	resp = &models.PostFileResponse{
 		NoteReference: fileName,
+	}
+	return
+}
+
+func addFile(db *gorm.DB, username, fileName string) (errResp *models.ErrResponse) {
+	file := dbpackages.File{
+		FileName:  fileName,
+		FileOwner: username,
+	}
+	tx := db.Begin()
+	err := db.Save(&file).Error
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+	if err = tx.Commit().Error; err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
 	}
 	return
 }

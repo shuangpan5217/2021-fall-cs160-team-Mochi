@@ -1841,7 +1841,7 @@ func init() {
           "notesV1"
         ],
         "summary": "delete note",
-        "operationId": "deleteNote",
+        "operationId": "deleteNoteV1",
         "parameters": [
           {
             "type": "string",
@@ -4662,7 +4662,7 @@ func init() {
           "notesV1"
         ],
         "summary": "delete note",
-        "operationId": "deleteNote",
+        "operationId": "deleteNoteV1",
         "parameters": [
           {
             "type": "string",
