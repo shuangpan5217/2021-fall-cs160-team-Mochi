@@ -1,73 +1,76 @@
-import { useMemo, useCallback } from "react";
-import {useDropzone} from 'react-dropzone';
+import { useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import styled from "styled-components";
 
-function UploadDropzone({setFile}){
-  const dropzoneStyle = {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    borderWidth: 3,
-    borderRadius: 2,
-    fontSize: 18,
-    borderColor: '#eeeeee',
-    borderStyle: 'dashed',
-    backgroundColor: '#fafafa',
-    color: '#bdbdbd',
-    outline: 'none',
-    transition: 'border .24s ease-in-out'
-  };
-    
-  const activeStyle = {
-    borderColor: '#2196f3'
-  };
-  
-  const acceptStyle = {
-    borderColor: '#00e676'
-  };
-  
-  const rejectStyle = {
-    borderColor: '#ff1744'
-  };
-  const onDrop = useCallback(acceptedFiles => {
-    setFile(acceptedFiles[0]);
-  }, [setFile])
-  const {
-    acceptedFiles,
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragAccept,
-    isDragReject
-  } = useDropzone({accept: 'application/pdf', maxFile: 1, onDrop});
+const getColor = (props) => {
+    if (props.isDragAccept) {
+        return "#00e676";
+    }
+    if (props.isDragReject) {
+        return "#ff1744";
+    }
+    if (props.isDragActive) {
+        return "#2196f3";
+    }
+    return "#eeeeee";
+};
 
-  const style = useMemo(() => ({
-    ...dropzoneStyle,
-    ...(isDragActive ? activeStyle : {}),
-    ...(isDragAccept ? acceptStyle : {}),
-    ...(isDragReject ? rejectStyle : {})
-  }), [
-    isDragActive,
-    isDragReject,
-    isDragAccept
-  ]);
+const Container = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-width: 2px;
+    border-radius: 2px;
+    border-color: ${(props) => getColor(props)};
+    border-style: dashed;
+    background-color: #fafafa;
+    color: #bdbdbd;
+    outline: none;
+    transition: border 0.24s ease-in-out;
+`;
 
-  const files = acceptedFiles.map(file => (
-    <li key={file.path}>
-      {file.path}
-    </li>
-  ));
+function UploadDropzone({ setFile, props }) {
+    const onDrop = useCallback(
+        (acceptedFiles) => {
+            setFile(acceptedFiles[0]);
+        },
+        [setFile]
+    );
+    const {
+        acceptedFiles,
+        getRootProps,
+        getInputProps,
+        isDragActive,
+        isDragAccept,
+        isDragReject,
+    } = useDropzone({ accept: "application/pdf", maxFile: 1, onDrop });
 
-  return(          
-    <>
-      <div {...getRootProps({style})}>
-      <input {...getInputProps()} />
-      <p>Drag and drop here</p>
-      <p>or</p>
-      <p>click to select files (PDF only, one file per upload )</p>
-      </div>
-      <ul>{files}</ul>
-    </>) 
+    const files = acceptedFiles.map((file) => (
+        <li key={file.path}>{file.path}</li>
+    ));
+
+    return (
+        <>
+            <div className="container">
+                <Container
+                    {...getRootProps({
+                        isDragActive,
+                        isDragAccept,
+                        isDragReject,
+                    })}
+                >
+                    <input {...getInputProps()} />
+                    <p>Drag and drop here</p>
+                    <p>or</p>
+                    <p>
+                        click to select files (PDF only, one file per upload )
+                    </p>
+                </Container>
+            </div>
+            <ul>{files}</ul>
+        </>
+    );
 }
 export default UploadDropzone;

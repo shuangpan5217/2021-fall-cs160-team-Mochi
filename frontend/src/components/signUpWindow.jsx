@@ -12,6 +12,7 @@ function SignUpWindow(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [description, setDescription] = useState("");
 
     useEffect(() => {
         window.localStorage.setItem("authToken", "");
@@ -43,6 +44,7 @@ function SignUpWindow(props) {
                     username,
                     email,
                     password,
+                    description,
                 }),
             }
         );
@@ -89,6 +91,7 @@ function SignUpWindow(props) {
                 onChange={setConfirmPassword}
                 mask
             />
+            <InputBox placeholder="Biography" onChange={setDescription} />
             <div className="d-flex flex-row">
                 <Button title="BACK" type="secondary" url="/login" />
                 <Button
