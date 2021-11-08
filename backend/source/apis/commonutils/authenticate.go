@@ -4,6 +4,7 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -33,6 +34,11 @@ func GenerateJWT(username string) (tokenString string, errResp *models.ErrRespon
 }
 
 func ExtractJWT(req *http.Request) (payload *Payload, errResp *models.ErrResponse) {
+	if checkTestingEnv() {
+		return &Payload{
+			Username: "admin",
+		}, nil
+	}
 	var tokenString = ""
 	tokenHeader := req.Header.Get("Authorization")
 	if strings.TrimSpace(tokenHeader) == "" {
@@ -66,4 +72,8 @@ func ExtractJWT(req *http.Request) (payload *Payload, errResp *models.ErrRespons
 		Username: claims["username"].(string),
 	}
 	return payload, nil
+}
+
+func checkTestingEnv() bool {
+	return os.Getenv("TESTING") == "true"
 }

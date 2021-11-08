@@ -3,6 +3,7 @@ package friends
 import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/dbpackages"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/usermgmt"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/friends_v1"
 	"net/http"
@@ -45,6 +46,12 @@ func processAddfriendsRequest(db *gorm.DB, params friends_v1.AddFriendsV1Params)
 
 	body := *params.Body
 	username2 := body.Username2
+
+	// check if username2 exists
+	_, errResp = usermgmt.GetUserObj(db, username2)
+	if errResp != nil {
+		return
+	}
 
 	if username == username2 {
 		errResp = commonutils.GenerateErrResp(http.StatusConflict, "Friend name and username cannot be the same")
