@@ -39,11 +39,6 @@ function LoginWindow(props) {
             <ModalHeader title="Welcome to MochiNote!" />
             <InputBox placeholder="Username" onChange={setUsername} />
             <InputBox placeholder="Password" onChange={setPassword} mask />
-            <Button
-                title="Forgot your password?"
-                type="link"
-                clicked={() => alert("Username: test, Password: 1234")}
-            />
             <div className="d-flex flex-row">
                 <Button title="SIGN UP" type="secondary" url="/signup" />
                 <Button title="LOG IN" type="primary" clicked={attemptLogin} />
