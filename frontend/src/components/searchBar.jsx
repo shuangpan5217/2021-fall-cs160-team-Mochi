@@ -18,7 +18,7 @@ function SearchBar({ showFilterBtn, updateSearch }) {
             myContext.setGlobalFilter("");
             history.push("/search");
         }
-    }, [updateSearch]);
+    }, [updateSearch, history, myContext, query]);
 
     const updateFilter = (filter) => {
         myContext.setGlobalQuery(query);
