@@ -636,7 +636,7 @@ paths:
       tags:
       - notesV1
       summary: get members of notes
-      operationId: getNoteMembers
+      operationId: getNoteMembersV1
       parameters:
         - name: Authorization
           description: Bearer token based Authorization

@@ -46,12 +46,20 @@ func processGetNotesByUsernameRequest(db *gorm.DB, params notes_v1.FindNotesByUs
 		Notes: []*models.NoteObjectResponse{},
 	}
 
-	// get both username's notes and its shared notes
+	// get both username's notes and its shared notes in users and group_users table
 	rawSQL := `SELECT n.note_owner, n.description, n.title, n.note_reference, n.type, n.tag, n.note_id, n.style
 				FROM notes n, user_notes un
-				WHERE un.username = ? AND n.note_id = un.note_id`
+				WHERE un.username = ? AND n.note_id = un.note_id
+				UNION
+				SELECT n.note_owner, n.description, n.title, n.note_reference, n.type, n.tag, n.note_id, n.style
+				FROM notes n, 
+				(
+					SELECT gu.username, gu.group_id, gn.note_id
+					FROM group_users gu inner join group_notes gn on gu.group_id = gn.group_id
+				) AS gun
+				WHERE gun.note_id = n.note_id AND gun.username = ?`
 
-	rows, err := db.Raw(rawSQL, username).Rows()
+	rows, err := db.Raw(rawSQL, username, username).Rows()
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return

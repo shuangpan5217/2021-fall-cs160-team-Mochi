@@ -1914,7 +1914,7 @@ func init() {
           "notesV1"
         ],
         "summary": "get members of notes",
-        "operationId": "getNoteMembers",
+        "operationId": "getNoteMembersV1",
         "parameters": [
           {
             "type": "string",
@@ -4735,7 +4735,7 @@ func init() {
           "notesV1"
         ],
         "summary": "get members of notes",
-        "operationId": "getNoteMembers",
+        "operationId": "getNoteMembersV1",
         "parameters": [
           {
             "type": "string",
