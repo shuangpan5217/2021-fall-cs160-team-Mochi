@@ -91,7 +91,11 @@ function SignUpWindow(props) {
                 onChange={setConfirmPassword}
                 mask
             />
-            <InputBox placeholder="Biography" onChange={setDescription} />
+            <InputBox
+                textArea
+                placeholder="Biography"
+                onChange={setDescription}
+            />
             <div className="d-flex flex-row">
                 <Button title="BACK" type="secondary" url="/login" />
                 <Button
