@@ -95,8 +95,8 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		NotesV1GetNoteCommentsHandler: notes_v1.GetNoteCommentsHandlerFunc(func(params notes_v1.GetNoteCommentsParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.GetNoteComments has not yet been implemented")
 		}),
-		NotesV1GetNoteMembersHandler: notes_v1.GetNoteMembersHandlerFunc(func(params notes_v1.GetNoteMembersParams) middleware.Responder {
-			return middleware.NotImplemented("operation notes_v1.GetNoteMembers has not yet been implemented")
+		NotesV1GetNoteMembersV1Handler: notes_v1.GetNoteMembersV1HandlerFunc(func(params notes_v1.GetNoteMembersV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.GetNoteMembersV1 has not yet been implemented")
 		}),
 		NotesV1GetSingleNoteV1Handler: notes_v1.GetSingleNoteV1HandlerFunc(func(params notes_v1.GetSingleNoteV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.GetSingleNoteV1 has not yet been implemented")
@@ -212,8 +212,8 @@ type CoreapiAPI struct {
 	NotesV1GetMultipleFilesV1Handler notes_v1.GetMultipleFilesV1Handler
 	// NotesV1GetNoteCommentsHandler sets the operation handler for the get note comments operation
 	NotesV1GetNoteCommentsHandler notes_v1.GetNoteCommentsHandler
-	// NotesV1GetNoteMembersHandler sets the operation handler for the get note members operation
-	NotesV1GetNoteMembersHandler notes_v1.GetNoteMembersHandler
+	// NotesV1GetNoteMembersV1Handler sets the operation handler for the get note members v1 operation
+	NotesV1GetNoteMembersV1Handler notes_v1.GetNoteMembersV1Handler
 	// NotesV1GetSingleNoteV1Handler sets the operation handler for the get single note v1 operation
 	NotesV1GetSingleNoteV1Handler notes_v1.GetSingleNoteV1Handler
 	// UserImagesV1GetUserImagesV1Handler sets the operation handler for the get user images v1 operation
@@ -369,8 +369,8 @@ func (o *CoreapiAPI) Validate() error {
 	if o.NotesV1GetNoteCommentsHandler == nil {
 		unregistered = append(unregistered, "notes_v1.GetNoteCommentsHandler")
 	}
-	if o.NotesV1GetNoteMembersHandler == nil {
-		unregistered = append(unregistered, "notes_v1.GetNoteMembersHandler")
+	if o.NotesV1GetNoteMembersV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.GetNoteMembersV1Handler")
 	}
 	if o.NotesV1GetSingleNoteV1Handler == nil {
 		unregistered = append(unregistered, "notes_v1.GetSingleNoteV1Handler")
@@ -570,7 +570,7 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/v1/notes/{id}/members"] = notes_v1.NewGetNoteMembers(o.context, o.NotesV1GetNoteMembersHandler)
+	o.handlers["GET"]["/v1/notes/{id}/members"] = notes_v1.NewGetNoteMembersV1(o.context, o.NotesV1GetNoteMembersV1Handler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
