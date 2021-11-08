@@ -69,7 +69,6 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.FriendsV1RemoveFriendsV1Handler = friends.RemoveFriendsV1Handler(db)
 	api.FriendsV1AddFriendsV1Handler = friends.AddFriendsV1Handler(db)
 
-
 	// notes
 	api.NotesV1PostFileV1Handler = notes.PostFileV1Handler(db)
 	api.NotesV1GetFileV1Handler = notes.GetFileV1Handler(db)
@@ -78,6 +77,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.NotesV1FindNotesByUsernameHandler = notes.GetNotesByUsernameHandler(db)
 	api.NotesV1GetNoteCommentsHandler = notes.GetNoteCommentsHandler(db)
 	api.NotesV1GetSingleNoteV1Handler = notes.GetSingleNoteV1Handler(db)
+	api.NotesV1DeleteNoteV1Handler = notes.DeleteNoteByIdV1Handler(db)
 
 	// comments
 	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)

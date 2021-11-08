@@ -16,6 +16,7 @@ const (
 	GroupNoteTable = "group_notes"
 	CommentTable   = "comments"
 	FriendTable    = "friends"
+	FileTable      = "files"
 )
 
 // create foreign key constraints
@@ -109,6 +110,11 @@ type Comment struct {
 type Friend struct {
 	Username  string `gorm:"index;not null" json:"username"`
 	Username2 string `gorm:"index;not null" json:"username2"`
+}
+
+type File struct {
+	FileName  string `gorm:"primary_key;not null" json:"file_name"`
+	FileOwner string `gorm:"index;not null" json:"file_owner"`
 }
 
 func CreateFKConstraints(db *gorm.DB) {

@@ -481,7 +481,7 @@ paths:
       - notesV1
       summary: delete note
       description: user delete note by id
-      operationId: "deleteNote"
+      operationId: "deleteNoteV1"
       produces:
           - application/json
       parameters:
