@@ -42,14 +42,13 @@ func processCreateGroupRequest(db *gorm.DB, params groups_v1.CreateGroupV1Params
 	if errResp != nil {
 		return
 	}
-	body := *params.Body
-	description := *&body.Description
-	groupname := *&body.GroupName
-	groupowner := *&body.GroupOwner
+	body := params.Body
+	description := body.Description
+	groupname := body.GroupName
+	groupowner := body.GroupOwner
 	groupID := uuid.NewString()
 
-	var group dbpackages.Group
-	group = dbpackages.Group{
+	var group = dbpackages.Group{
 		GroupID:     groupID,
 		GroupName:   groupname,
 		Description: description,
@@ -59,6 +58,7 @@ func processCreateGroupRequest(db *gorm.DB, params groups_v1.CreateGroupV1Params
 	err := tx.Save(&group).Error
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		tx.Rollback()
 		return
 	}
 	if err = tx.Commit().Error; err != nil {
