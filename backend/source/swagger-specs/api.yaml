@@ -1686,10 +1686,13 @@ definitions:
       $ref: '#/definitions/userObj'
     description: array of group users
   getAllGroupsObject:
-    type: array
-    items:
-      $ref: '#/definitions/groupObj'
-    description: array of groups by username
+    type: object
+    properties:
+      allGroups:
+        type: array
+        items:
+          $ref: '#/definitions/groupObj'
+        description: array of groups by username
   groupResponse: 
     type: object
     properties:
