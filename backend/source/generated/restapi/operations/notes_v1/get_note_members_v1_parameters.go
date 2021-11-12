@@ -14,19 +14,19 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// NewDeleteNoteParams creates a new DeleteNoteParams object
+// NewGetNoteMembersV1Params creates a new GetNoteMembersV1Params object
 //
 // There are no default values defined in the spec.
-func NewDeleteNoteParams() DeleteNoteParams {
+func NewGetNoteMembersV1Params() GetNoteMembersV1Params {
 
-	return DeleteNoteParams{}
+	return GetNoteMembersV1Params{}
 }
 
-// DeleteNoteParams contains all the bound params for the delete note operation
+// GetNoteMembersV1Params contains all the bound params for the get note members v1 operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters deleteNote
-type DeleteNoteParams struct {
+// swagger:parameters getNoteMembersV1
+type GetNoteMembersV1Params struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -36,7 +36,7 @@ type DeleteNoteParams struct {
 	  In: header
 	*/
 	Authorization string
-	/*id to filter by
+	/*title to filter by
 	  Required: true
 	  In: path
 	*/
@@ -46,8 +46,8 @@ type DeleteNoteParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewDeleteNoteParams() beforehand.
-func (o *DeleteNoteParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewGetNoteMembersV1Params() beforehand.
+func (o *GetNoteMembersV1Params) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -67,7 +67,7 @@ func (o *DeleteNoteParams) BindRequest(r *http.Request, route *middleware.Matche
 }
 
 // bindAuthorization binds and validates parameter Authorization from header.
-func (o *DeleteNoteParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *GetNoteMembersV1Params) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("Authorization", "header", rawData)
 	}
@@ -87,7 +87,7 @@ func (o *DeleteNoteParams) bindAuthorization(rawData []string, hasKey bool, form
 }
 
 // bindID binds and validates parameter ID from path.
-func (o *DeleteNoteParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *GetNoteMembersV1Params) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]

@@ -17,11 +17,14 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/comments"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/friends"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/groups"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/notes"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/userImages"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/usermgmt"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations"
 )
+
+var db *gorm.DB
 
 //go:generate swagger generate server --target ../../generated --name Coreapi --spec ../../swagger-specs/api.yaml --principal interface{} --exclude-main
 
@@ -46,16 +49,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.JSONConsumer = runtime.JSONConsumer()
 	api.JSONProducer = runtime.JSONProducer()
 
-	db, err := gorm.Open("postgres", "host=localhost port=5432 dbname=shuangpan user=shuangpan sslmode=disable")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	db.LogMode(true)
-	err = commonutils.InsertTables(db)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	commonutils.AddFKConstraints(db)
+	db = CreateDBConnection()
 
 	// user management
 	api.UserMgmtV1LoginV1Handler = usermgmt.LoginV1Handler(db)
@@ -69,7 +63,6 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.FriendsV1RemoveFriendsV1Handler = friends.RemoveFriendsV1Handler(db)
 	api.FriendsV1AddFriendsV1Handler = friends.AddFriendsV1Handler(db)
 
-
 	// notes
 	api.NotesV1PostFileV1Handler = notes.PostFileV1Handler(db)
 	api.NotesV1GetFileV1Handler = notes.GetFileV1Handler(db)
@@ -78,10 +71,17 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.NotesV1FindNotesByUsernameHandler = notes.GetNotesByUsernameHandler(db)
 	api.NotesV1GetNoteCommentsHandler = notes.GetNoteCommentsHandler(db)
 	api.NotesV1GetSingleNoteV1Handler = notes.GetSingleNoteV1Handler(db)
+	api.NotesV1DeleteNoteV1Handler = notes.DeleteNoteByIdV1Handler(db)
+	api.NotesV1GetNoteMembersV1Handler = notes.GetNoteMembersV1Handler(db)
 
 	// comments
 	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)
 	api.CommentsV1RemoveComnentV1Handler = comments.RemoveComnentV1Handler(db)
+
+	// Groups
+	api.GroupsV1CreateGroupV1Handler = groups.CreateGroupV1Handler(db)
+
+	api.GroupsV1GetGroupsV1Handler = groups.GetGroupsV1Handler(db)
 
 	// user image
 	api.UserImagesV1PostUserImagesV1Handler = userImages.UploadUserImagesHandlerV1(db)
@@ -120,4 +120,25 @@ func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	})
 
 	return corsHandler(handler)
+}
+
+func CreateDBConnection() (db *gorm.DB) {
+	db, err := gorm.Open("postgres", "host=localhost port=5432 dbname=shuangpan user=shuangpan sslmode=disable")
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	db.LogMode(true)
+	err = commonutils.InsertTables(db)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	commonutils.AddFKConstraints(db)
+	return db
+}
+
+func CloseDBConnection() {
+	err := db.Close()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 }

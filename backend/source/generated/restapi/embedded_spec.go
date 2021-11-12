@@ -1841,7 +1841,7 @@ func init() {
           "notesV1"
         ],
         "summary": "delete note",
-        "operationId": "deleteNote",
+        "operationId": "deleteNoteV1",
         "parameters": [
           {
             "type": "string",
@@ -1914,7 +1914,7 @@ func init() {
           "notesV1"
         ],
         "summary": "get members of notes",
-        "operationId": "getNoteMembers",
+        "operationId": "getNoteMembersV1",
         "parameters": [
           {
             "type": "string",
@@ -2447,10 +2447,15 @@ func init() {
       }
     },
     "getAllGroupsObject": {
-      "description": "array of groups by username",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/groupObj"
+      "type": "object",
+      "properties": {
+        "allGroups": {
+          "description": "array of groups by username",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupObj"
+          }
+        }
       }
     },
     "getFileRequest": {
@@ -4662,7 +4667,7 @@ func init() {
           "notesV1"
         ],
         "summary": "delete note",
-        "operationId": "deleteNote",
+        "operationId": "deleteNoteV1",
         "parameters": [
           {
             "type": "string",
@@ -4735,7 +4740,7 @@ func init() {
           "notesV1"
         ],
         "summary": "get members of notes",
-        "operationId": "getNoteMembers",
+        "operationId": "getNoteMembersV1",
         "parameters": [
           {
             "type": "string",
@@ -5268,10 +5273,15 @@ func init() {
       }
     },
     "getAllGroupsObject": {
-      "description": "array of groups by username",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/groupObj"
+      "type": "object",
+      "properties": {
+        "allGroups": {
+          "description": "array of groups by username",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupObj"
+          }
+        }
       }
     },
     "getFileRequest": {

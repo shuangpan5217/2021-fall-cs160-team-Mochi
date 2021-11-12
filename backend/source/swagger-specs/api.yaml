@@ -481,7 +481,7 @@ paths:
       - notesV1
       summary: delete note
       description: user delete note by id
-      operationId: "deleteNote"
+      operationId: "deleteNoteV1"
       produces:
           - application/json
       parameters:
@@ -636,7 +636,7 @@ paths:
       tags:
       - notesV1
       summary: get members of notes
-      operationId: getNoteMembers
+      operationId: getNoteMembersV1
       parameters:
         - name: Authorization
           description: Bearer token based Authorization
@@ -1686,10 +1686,13 @@ definitions:
       $ref: '#/definitions/userObj'
     description: array of group users
   getAllGroupsObject:
-    type: array
-    items:
-      $ref: '#/definitions/groupObj'
-    description: array of groups by username
+    type: object
+    properties:
+      allGroups:
+        type: array
+        items:
+          $ref: '#/definitions/groupObj'
+        description: array of groups by username
   groupResponse: 
     type: object
     properties:

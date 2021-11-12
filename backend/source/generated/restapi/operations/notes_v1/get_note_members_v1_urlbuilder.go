@@ -12,8 +12,8 @@ import (
 	"strings"
 )
 
-// DeleteNoteURL generates an URL for the delete note operation
-type DeleteNoteURL struct {
+// GetNoteMembersV1URL generates an URL for the get note members v1 operation
+type GetNoteMembersV1URL struct {
 	ID string
 
 	_basePath string
@@ -24,7 +24,7 @@ type DeleteNoteURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *DeleteNoteURL) WithBasePath(bp string) *DeleteNoteURL {
+func (o *GetNoteMembersV1URL) WithBasePath(bp string) *GetNoteMembersV1URL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -32,21 +32,21 @@ func (o *DeleteNoteURL) WithBasePath(bp string) *DeleteNoteURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *DeleteNoteURL) SetBasePath(bp string) {
+func (o *GetNoteMembersV1URL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *DeleteNoteURL) Build() (*url.URL, error) {
+func (o *GetNoteMembersV1URL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/v1/notes/{id}"
+	var _path = "/v1/notes/{id}/members"
 
 	id := o.ID
 	if id != "" {
 		_path = strings.Replace(_path, "{id}", id, -1)
 	} else {
-		return nil, errors.New("id is required on DeleteNoteURL")
+		return nil, errors.New("id is required on GetNoteMembersV1URL")
 	}
 
 	_basePath := o._basePath
@@ -56,7 +56,7 @@ func (o *DeleteNoteURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *DeleteNoteURL) Must(u *url.URL, err error) *url.URL {
+func (o *GetNoteMembersV1URL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -67,17 +67,17 @@ func (o *DeleteNoteURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *DeleteNoteURL) String() string {
+func (o *GetNoteMembersV1URL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *DeleteNoteURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *GetNoteMembersV1URL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on DeleteNoteURL")
+		return nil, errors.New("scheme is required for a full url on GetNoteMembersV1URL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on DeleteNoteURL")
+		return nil, errors.New("host is required for a full url on GetNoteMembersV1URL")
 	}
 
 	base, err := o.Build()
@@ -91,6 +91,6 @@ func (o *DeleteNoteURL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *DeleteNoteURL) StringFull(scheme, host string) string {
+func (o *GetNoteMembersV1URL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

@@ -26,6 +26,7 @@ func main() {
 	flag.Parse()
 
 	defer server.Shutdown()
+	defer restapi.CloseDBConnection()
 
 	server.ConfigureAPI()
 	if err := server.Serve(); err != nil {

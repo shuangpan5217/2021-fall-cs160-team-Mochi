@@ -58,7 +58,7 @@ func processUpdateUserInfoRequest(db *gorm.DB, params user_mgmt_v1.UpdateUserInf
 	}
 
 	if strings.TrimSpace(params.Body.LastName) != "" {
-		m["last_Name"] = params.Body.Description
+		m["last_Name"] = params.Body.LastName
 	}
 
 	if strings.TrimSpace(params.Body.MiddleName) != "" {
