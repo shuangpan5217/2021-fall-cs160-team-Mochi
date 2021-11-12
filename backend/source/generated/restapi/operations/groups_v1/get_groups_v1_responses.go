@@ -25,7 +25,7 @@ type GetGroupsV1OK struct {
 	/*
 	  In: Body
 	*/
-	Payload models.GetAllGroupsObject `json:"body,omitempty"`
+	Payload *models.GetAllGroupsObject `json:"body,omitempty"`
 }
 
 // NewGetGroupsV1OK creates GetGroupsV1OK with default headers values
@@ -35,13 +35,13 @@ func NewGetGroupsV1OK() *GetGroupsV1OK {
 }
 
 // WithPayload adds the payload to the get groups v1 o k response
-func (o *GetGroupsV1OK) WithPayload(payload models.GetAllGroupsObject) *GetGroupsV1OK {
+func (o *GetGroupsV1OK) WithPayload(payload *models.GetAllGroupsObject) *GetGroupsV1OK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get groups v1 o k response
-func (o *GetGroupsV1OK) SetPayload(payload models.GetAllGroupsObject) {
+func (o *GetGroupsV1OK) SetPayload(payload *models.GetAllGroupsObject) {
 	o.Payload = payload
 }
 
@@ -49,14 +49,11 @@ func (o *GetGroupsV1OK) SetPayload(payload models.GetAllGroupsObject) {
 func (o *GetGroupsV1OK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(200)
-	payload := o.Payload
-	if payload == nil {
-		// return empty array
-		payload = models.GetAllGroupsObject{}
-	}
-
-	if err := producer.Produce(rw, payload); err != nil {
-		panic(err) // let the recovery middleware deal with this
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
 	}
 }
 
