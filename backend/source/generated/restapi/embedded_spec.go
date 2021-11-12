@@ -2447,10 +2447,15 @@ func init() {
       }
     },
     "getAllGroupsObject": {
-      "description": "array of groups by username",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/groupObj"
+      "type": "object",
+      "properties": {
+        "allGroups": {
+          "description": "array of groups by username",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupObj"
+          }
+        }
       }
     },
     "getFileRequest": {
@@ -5268,10 +5273,15 @@ func init() {
       }
     },
     "getAllGroupsObject": {
-      "description": "array of groups by username",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/groupObj"
+      "type": "object",
+      "properties": {
+        "allGroups": {
+          "description": "array of groups by username",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupObj"
+          }
+        }
       }
     },
     "getFileRequest": {
