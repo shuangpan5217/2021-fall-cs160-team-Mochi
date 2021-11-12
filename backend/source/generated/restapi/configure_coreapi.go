@@ -80,6 +80,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 
 	// Groups
 	api.GroupsV1CreateGroupV1Handler = groups.CreateGroupV1Handler(db)
+
 	api.GroupsV1GetGroupsV1Handler = groups.GetGroupsV1Handler(db)
 
 	// user image

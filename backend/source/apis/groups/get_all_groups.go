@@ -43,7 +43,7 @@ func processGetAllGroupsRequest(db *gorm.DB, params groups_v1.GetGroupsV1Params)
 
 	username := payload.Username
 	resp = &models.GetAllGroupsObject{
-		&models.GroupObj{},
+		AllGroups: []*models.GroupObj{},
 	}
 	// groupusers := []dbpackages.GroupUser{}
 	// err :=db.Table(dbpackages.GroupUserTable).Where("username = ?", username).Find(&groupusers).Error
@@ -68,7 +68,7 @@ func processGetAllGroupsRequest(db *gorm.DB, params groups_v1.GetGroupsV1Params)
 			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 			return
 		}
-		resp = append(resp, &groups)
+		resp.AllGroups = append(resp.AllGroups, &groups)
 	}
 
 	return
