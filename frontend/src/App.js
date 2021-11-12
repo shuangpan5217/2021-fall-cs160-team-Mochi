@@ -13,6 +13,7 @@ import SearchResultsPage from "./pages/SearchResultsPage.jsx";
 import ViewNotesPage from "./pages/ViewNotesPage.jsx";
 import AppContext from "./components/AppContext";
 import PersonalPage from "./pages/PersonalPage.jsx";
+import GroupPage from "./pages/GroupPage.jsx";
 
 function App() {
   const [filter, setFilter] = useState("");
@@ -44,6 +45,7 @@ function App() {
           <Route path="/search" component={(props) => <SearchResultsPage />} />
           <Route path="/note/:noteId" component={(props) => <ViewNotesPage/>}/>
           <Route path="/my_notes" component={(props) => <PersonalPage />} />
+          <Route path="/my_groups" component={(props) => <GroupPage />} />
         </Switch>
       </Router>
     </AppContext.Provider>
