@@ -101,7 +101,7 @@ func processdeleteNoteByIdRequest(db *gorm.DB, params notes_v1.DeleteNoteV1Param
 
 	// commit
 	if err = tx.Commit().Error; err != nil {
-		commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		tx.Rollback()
 		return
 	}

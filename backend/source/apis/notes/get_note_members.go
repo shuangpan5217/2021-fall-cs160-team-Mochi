@@ -52,7 +52,7 @@ func processGetNoteMembersRequest(db *gorm.DB, params notes_v1.GetNoteMembersV1P
 
 	// only note owner can see all members
 	if note.NoteOwner == "" {
-		errResp = commonutils.GenerateErrResp(http.StatusForbidden, " no access to members of the note")
+		errResp = commonutils.GenerateErrResp(http.StatusForbidden, "no access to members of the note")
 		return
 	}
 
@@ -61,7 +61,7 @@ func processGetNoteMembersRequest(db *gorm.DB, params notes_v1.GetNoteMembersV1P
 		Groups: []*models.GroupObj{},
 	}
 
-	rawUsersSQL := `SELECT u.username, u.description, u.email, u.first_name, u.last_name, u.middle_name
+	rawUsersSQL := `SELECT DISTINCT(u.username), u.description, u.email, u.first_name, u.last_name, u.middle_name
 					FROM users u, user_notes un
 					WHERE un.note_id = ? AND un.username = u.username`
 	rows, err := db.Raw(rawUsersSQL, params.ID).Rows()
@@ -79,7 +79,7 @@ func processGetNoteMembersRequest(db *gorm.DB, params notes_v1.GetNoteMembersV1P
 		resp.Users = append(resp.Users, &user)
 	}
 
-	rawGroupsSQL := `SELECT g.group_name, g.group_owner, g.description, g.group_id
+	rawGroupsSQL := `SELECT DISTINCT(g.group_id), g.group_name, g.group_owner, g.description
 					FROM groups g, group_notes gn
 					WHERE gn.note_id = ? AND gn.group_id = g.group_id`
 	rows, err = db.Raw(rawGroupsSQL, params.ID).Rows()
