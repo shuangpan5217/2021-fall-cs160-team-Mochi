@@ -629,6 +629,62 @@ paths:
           schema:
             $ref: '#/definitions/errResponse'
   /v1/notes/{id}/members:
+    post:
+      description: add members of notes
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+      - notesV1
+      summary: add members of notes
+      operationId: addNoteMembersV1
+      parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: body
+          in: body
+          description: note members
+          required: true
+          schema:
+            $ref: '#/definitions/addNoteMembersRequest'
+        - name: id
+          in: path
+          description: note_id to filter by
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/noteResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
     get:
       description: get members of notes
       produces:
@@ -645,7 +701,7 @@ paths:
           required: true
         - name: id
           in: path
-          description: title to filter by
+          description: note_id to filter by
           required: true
           type: string
       responses:
@@ -1834,6 +1890,29 @@ definitions:
       note_id:
         description: note id
         type: string
+  noteUserRequest:
+    type: object
+    properties:
+      username:
+        type: string
+        description: username of a user
+  noteGroupRequest:
+    type: object
+    properties:
+      group_id:
+        type: string
+        description: group id of a group
+  addNoteMembersRequest:
+    type: object
+    properties:
+      users:
+        type: array
+        items: 
+          $ref: '#/definitions/noteUserRequest'
+      groups:
+        type: array
+        items: 
+          $ref: '#/definitions/noteGroupRequest'
   getNoteMembersResponse:
     type: object
     properties:

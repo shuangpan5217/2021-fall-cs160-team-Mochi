@@ -66,10 +66,10 @@ func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *
 func getNoteByFileName(db *gorm.DB, path string, username string) (note dbpackages.Note, errResp *models.ErrResponse) {
 	err := db.Table(dbpackages.NoteTable).Where("note_reference = ?", path).First(&note).Error
 	if gorm.IsRecordNotFoundError(err) {
-		commonutils.GenerateErrResp(http.StatusNotFound, "record not found")
+		errResp = commonutils.GenerateErrResp(http.StatusNotFound, "record not found")
 		return
 	} else if err != nil {
-		commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
 

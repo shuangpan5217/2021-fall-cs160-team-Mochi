@@ -56,6 +56,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		GroupsV1AddGroupUsersV1Handler: groups_v1.AddGroupUsersV1HandlerFunc(func(params groups_v1.AddGroupUsersV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.AddGroupUsersV1 has not yet been implemented")
 		}),
+		NotesV1AddNoteMembersV1Handler: notes_v1.AddNoteMembersV1HandlerFunc(func(params notes_v1.AddNoteMembersV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.AddNoteMembersV1 has not yet been implemented")
+		}),
 		GroupsV1CreateGroupV1Handler: groups_v1.CreateGroupV1HandlerFunc(func(params groups_v1.CreateGroupV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.CreateGroupV1 has not yet been implemented")
 		}),
@@ -186,6 +189,8 @@ type CoreapiAPI struct {
 	FriendsV1AddFriendsV1Handler friends_v1.AddFriendsV1Handler
 	// GroupsV1AddGroupUsersV1Handler sets the operation handler for the add group users v1 operation
 	GroupsV1AddGroupUsersV1Handler groups_v1.AddGroupUsersV1Handler
+	// NotesV1AddNoteMembersV1Handler sets the operation handler for the add note members v1 operation
+	NotesV1AddNoteMembersV1Handler notes_v1.AddNoteMembersV1Handler
 	// GroupsV1CreateGroupV1Handler sets the operation handler for the create group v1 operation
 	GroupsV1CreateGroupV1Handler groups_v1.CreateGroupV1Handler
 	// GroupsV1DeleteGroupV1Handler sets the operation handler for the delete group v1 operation
@@ -329,6 +334,9 @@ func (o *CoreapiAPI) Validate() error {
 	}
 	if o.GroupsV1AddGroupUsersV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.AddGroupUsersV1Handler")
+	}
+	if o.NotesV1AddNoteMembersV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.AddNoteMembersV1Handler")
 	}
 	if o.GroupsV1CreateGroupV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.CreateGroupV1Handler")
@@ -515,6 +523,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/v1/groups/{group_id}/members"] = groups_v1.NewAddGroupUsersV1(o.context, o.GroupsV1AddGroupUsersV1Handler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/v1/notes/{id}/members"] = notes_v1.NewAddNoteMembersV1(o.context, o.NotesV1AddNoteMembersV1Handler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}

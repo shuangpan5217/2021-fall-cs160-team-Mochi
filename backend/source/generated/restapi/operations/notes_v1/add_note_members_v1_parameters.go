@@ -6,27 +6,32 @@ package notes_v1
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+	"io"
 	"net/http"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
+
+	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 )
 
-// NewGetNoteMembersV1Params creates a new GetNoteMembersV1Params object
+// NewAddNoteMembersV1Params creates a new AddNoteMembersV1Params object
 //
 // There are no default values defined in the spec.
-func NewGetNoteMembersV1Params() GetNoteMembersV1Params {
+func NewAddNoteMembersV1Params() AddNoteMembersV1Params {
 
-	return GetNoteMembersV1Params{}
+	return AddNoteMembersV1Params{}
 }
 
-// GetNoteMembersV1Params contains all the bound params for the get note members v1 operation
+// AddNoteMembersV1Params contains all the bound params for the add note members v1 operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters getNoteMembersV1
-type GetNoteMembersV1Params struct {
+// swagger:parameters addNoteMembersV1
+type AddNoteMembersV1Params struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -36,6 +41,11 @@ type GetNoteMembersV1Params struct {
 	  In: header
 	*/
 	Authorization string
+	/*note members
+	  Required: true
+	  In: body
+	*/
+	Body *models.AddNoteMembersRequest
 	/*note_id to filter by
 	  Required: true
 	  In: path
@@ -46,14 +56,42 @@ type GetNoteMembersV1Params struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewGetNoteMembersV1Params() beforehand.
-func (o *GetNoteMembersV1Params) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewAddNoteMembersV1Params() beforehand.
+func (o *AddNoteMembersV1Params) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
 
 	if err := o.bindAuthorization(r.Header[http.CanonicalHeaderKey("Authorization")], true, route.Formats); err != nil {
 		res = append(res, err)
+	}
+
+	if runtime.HasBody(r) {
+		defer r.Body.Close()
+		var body models.AddNoteMembersRequest
+		if err := route.Consumer.Consume(r.Body, &body); err != nil {
+			if err == io.EOF {
+				res = append(res, errors.Required("body", "body", ""))
+			} else {
+				res = append(res, errors.NewParseError("body", "body", "", err))
+			}
+		} else {
+			// validate body object
+			if err := body.Validate(route.Formats); err != nil {
+				res = append(res, err)
+			}
+
+			ctx := validate.WithOperationRequest(context.Background())
+			if err := body.ContextValidate(ctx, route.Formats); err != nil {
+				res = append(res, err)
+			}
+
+			if len(res) == 0 {
+				o.Body = &body
+			}
+		}
+	} else {
+		res = append(res, errors.Required("body", "body", ""))
 	}
 
 	rID, rhkID, _ := route.Params.GetOK("id")
@@ -67,7 +105,7 @@ func (o *GetNoteMembersV1Params) BindRequest(r *http.Request, route *middleware.
 }
 
 // bindAuthorization binds and validates parameter Authorization from header.
-func (o *GetNoteMembersV1Params) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *AddNoteMembersV1Params) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("Authorization", "header", rawData)
 	}
@@ -87,7 +125,7 @@ func (o *GetNoteMembersV1Params) bindAuthorization(rawData []string, hasKey bool
 }
 
 // bindID binds and validates parameter ID from path.
-func (o *GetNoteMembersV1Params) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *AddNoteMembersV1Params) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
