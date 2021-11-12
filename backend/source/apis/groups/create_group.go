@@ -38,10 +38,11 @@ func CreateGroupV1Handler(db *gorm.DB) groups_v1.CreateGroupV1HandlerFunc {
 }
 
 func processCreateGroupRequest(db *gorm.DB, params groups_v1.CreateGroupV1Params) (resp *models.GroupResponse, errResp *models.ErrResponse) {
-	_, errResp = commonutils.ExtractJWT(params.HTTPRequest)
+	payload, errResp := commonutils.ExtractJWT(params.HTTPRequest)
 	if errResp != nil {
 		return
 	}
+	username := payload.Username
 	body := params.Body
 	description := body.Description
 	groupname := body.GroupName
@@ -56,6 +57,12 @@ func processCreateGroupRequest(db *gorm.DB, params groups_v1.CreateGroupV1Params
 	}
 	tx := db.Begin()
 	err := tx.Save(&group).Error
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		tx.Rollback()
+		return
+	}
+	err = tx.Save(&dbpackages.GroupUser{GroupID: groupID, Username: username}).Error
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		tx.Rollback()
