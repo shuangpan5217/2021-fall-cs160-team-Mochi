@@ -650,7 +650,63 @@ paths:
           description: note members
           required: true
           schema:
-            $ref: '#/definitions/addNoteMembersRequest'
+            $ref: '#/definitions/noteMembersRequest'
+        - name: id
+          in: path
+          description: note_id to filter by
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/noteResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
+    delete:
+      description: remove members of notes
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+      - notesV1
+      summary: remove members of notes
+      operationId: removeNoteMembersV1
+      parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: body
+          in: body
+          description: note members
+          required: true
+          schema:
+            $ref: '#/definitions/noteMembersRequest'
         - name: id
           in: path
           description: note_id to filter by
@@ -1902,7 +1958,7 @@ definitions:
       group_id:
         type: string
         description: group id of a group
-  addNoteMembersRequest:
+  noteMembersRequest:
     type: object
     properties:
       users:
