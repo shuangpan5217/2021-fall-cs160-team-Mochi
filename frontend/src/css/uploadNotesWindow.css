@@ -20,7 +20,7 @@ input[type="radio"]:after {
     width: 15px;
     height: 15px;
     border-radius: 15px;
-    top: -8px;
+    top: -7px;
     left: -1px;
     position: relative;
     background-color: white;
@@ -34,7 +34,7 @@ input[type="radio"]:checked:after {
     width: 15px;
     height: 15px;
     border-radius: 15px;
-    top: -8px;
+    top: -7px;
     left: -1px;
     position: relative;
     background-color: var(--primary-btn-color);
