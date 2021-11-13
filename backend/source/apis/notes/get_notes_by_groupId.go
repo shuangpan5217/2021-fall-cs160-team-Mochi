@@ -36,31 +36,6 @@ func GetGroupNotesV1Handler(db *gorm.DB) notes_v1.GetGroupNotesV1HandlerFunc {
 	}
 }
 
-// note_id:
-// description: note id
-//
-// note_owner:
-// description: owner of the note
-//
-// description:
-// description: description of the note
-//
-// title:
-// description: title of the note
-//
-// type:
-// description: type of the note file, public, shared, private
-//
-// tag:
-// description: tags of the note
-//
-// note_reference:
-// description: path of file
-//
-// style:
-// description: style of the note
-//
-
 func processGetGroupNotesRequest(db *gorm.DB, params notes_v1.GetGroupNotesV1Params) (resp *models.NotesGetResponse, errResp *models.ErrResponse) {
 	payload, errResp := commonutils.ExtractJWT(params.HTTPRequest)
 	if errResp != nil {
