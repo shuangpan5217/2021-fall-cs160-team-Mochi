@@ -40,7 +40,13 @@ function ViewNotesPage(props) {
                 setDescr(noteResponseJSON.description);
                 setOwner(noteResponseJSON.note_owner);
                 setType(noteResponseJSON.type);
-                setTags([noteResponseJSON.style,...noteResponseJSON.tag.split(",")]);
+                setTags([noteResponseJSON.style]);
+                if (noteResponseJSON.tag) {
+                    setTags([
+                        noteResponseJSON.style,
+                        ...noteResponseJSON.tag.split(","),
+                    ]);
+                }
 
                 const pdfResponse = await fetch(
                     "http://localhost:3000/v1/notes/file/" +
