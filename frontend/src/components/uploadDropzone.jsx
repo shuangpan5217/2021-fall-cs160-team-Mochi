@@ -47,12 +47,8 @@ function UploadDropzone({ setFile }) {
         isDragReject,
     } = useDropzone({ accept: "application/pdf", maxFile: 1, onDrop });
 
-    const files = acceptedFiles.map((file) => (
-        <li key={file.path}>{file.path}</li>
-    ));
-
     return (
-        <>
+        <div className="d-flex flex-column align-items-center">
             <div className="container">
                 <Container
                     {...getRootProps({
@@ -69,8 +65,8 @@ function UploadDropzone({ setFile }) {
                     </p>
                 </Container>
             </div>
-            <ul>{files}</ul>
-        </>
+            <p className="agenda small">{acceptedFiles[0].path}</p>
+        </div>
     );
 }
 export default UploadDropzone;
