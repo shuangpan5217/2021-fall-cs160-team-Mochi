@@ -76,6 +76,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.NotesV1AddNoteMembersV1Handler = notes.AddNoteMembersV1Handler(db)
 	api.NotesV1RemoveNoteMembersV1Handler = notes.RemoveNoteMembersV1Handler(db)
 	api.NotesV1GetGroupNotesV1Handler = notes.GetGroupNotesV1Handler(db)
+	api.NotesV1FindNotesByTagsHandler = notes.FindNoteByTagV1Handler(db)
 
 	// comments
 	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)

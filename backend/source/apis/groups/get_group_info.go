@@ -46,13 +46,14 @@ func processGetGroupInfoRequest(db *gorm.DB, params groups_v1.GetGroupInfoV1Para
 
 	_, err := CheckIfGroupUser(db, payload.Username, params.GroupID)
 	if gorm.IsRecordNotFoundError(err) {
-		errResp = commonutils.GenerateErrResp(http.StatusUnauthorized, " not a group member ")
+		errResp = commonutils.GenerateErrResp(http.StatusForbidden, " not a group member ")
 		return
 	} else if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
 	}
 
+	// this block of codes may be not required
 	err = db.Table(dbpackages.UserTable).Where("username = ?", username).Error
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())

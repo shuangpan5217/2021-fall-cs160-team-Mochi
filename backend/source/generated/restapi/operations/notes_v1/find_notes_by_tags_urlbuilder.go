@@ -16,11 +16,10 @@ import (
 
 // FindNotesByTagsURL generates an URL for the find notes by tags operation
 type FindNotesByTagsURL struct {
-	Tag string
+	Tags string
 
 	Limit     *int64
 	Offset    *int64
-	Type      *string
 	UpdatedAt *bool
 
 	_basePath string
@@ -47,13 +46,13 @@ func (o *FindNotesByTagsURL) SetBasePath(bp string) {
 func (o *FindNotesByTagsURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/v1/notes/tag/{tag}"
+	var _path = "/v1/notes/search/{tags}"
 
-	tag := o.Tag
-	if tag != "" {
-		_path = strings.Replace(_path, "{tag}", tag, -1)
+	tags := o.Tags
+	if tags != "" {
+		_path = strings.Replace(_path, "{tags}", tags, -1)
 	} else {
-		return nil, errors.New("tag is required on FindNotesByTagsURL")
+		return nil, errors.New("tags is required on FindNotesByTagsURL")
 	}
 
 	_basePath := o._basePath
@@ -75,14 +74,6 @@ func (o *FindNotesByTagsURL) Build() (*url.URL, error) {
 	}
 	if offsetQ != "" {
 		qs.Set("offset", offsetQ)
-	}
-
-	var typeVarQ string
-	if o.Type != nil {
-		typeVarQ = *o.Type
-	}
-	if typeVarQ != "" {
-		qs.Set("type", typeVarQ)
 	}
 
 	var updatedAtQ string
