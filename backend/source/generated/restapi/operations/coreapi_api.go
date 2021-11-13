@@ -86,6 +86,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		GroupsV1GetGroupInfoV1Handler: groups_v1.GetGroupInfoV1HandlerFunc(func(params groups_v1.GetGroupInfoV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.GetGroupInfoV1 has not yet been implemented")
 		}),
+		NotesV1GetGroupNotesV1Handler: notes_v1.GetGroupNotesV1HandlerFunc(func(params notes_v1.GetGroupNotesV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.GetGroupNotesV1 has not yet been implemented")
+		}),
 		GroupsV1GetGroupUsersV1Handler: groups_v1.GetGroupUsersV1HandlerFunc(func(params groups_v1.GetGroupUsersV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.GetGroupUsersV1 has not yet been implemented")
 		}),
@@ -130,6 +133,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		}),
 		GroupsV1RemoveGroupUsersV1Handler: groups_v1.RemoveGroupUsersV1HandlerFunc(func(params groups_v1.RemoveGroupUsersV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.RemoveGroupUsersV1 has not yet been implemented")
+		}),
+		NotesV1RemoveNoteMembersV1Handler: notes_v1.RemoveNoteMembersV1HandlerFunc(func(params notes_v1.RemoveNoteMembersV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.RemoveNoteMembersV1 has not yet been implemented")
 		}),
 		UserMgmtV1SearchUserV1Handler: user_mgmt_v1.SearchUserV1HandlerFunc(func(params user_mgmt_v1.SearchUserV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation user_mgmt_v1.SearchUserV1 has not yet been implemented")
@@ -209,6 +215,8 @@ type CoreapiAPI struct {
 	FriendsV1GetFriendsV1Handler friends_v1.GetFriendsV1Handler
 	// GroupsV1GetGroupInfoV1Handler sets the operation handler for the get group info v1 operation
 	GroupsV1GetGroupInfoV1Handler groups_v1.GetGroupInfoV1Handler
+	// NotesV1GetGroupNotesV1Handler sets the operation handler for the get group notes v1 operation
+	NotesV1GetGroupNotesV1Handler notes_v1.GetGroupNotesV1Handler
 	// GroupsV1GetGroupUsersV1Handler sets the operation handler for the get group users v1 operation
 	GroupsV1GetGroupUsersV1Handler groups_v1.GetGroupUsersV1Handler
 	// GroupsV1GetGroupsV1Handler sets the operation handler for the get groups v1 operation
@@ -239,6 +247,8 @@ type CoreapiAPI struct {
 	FriendsV1RemoveFriendsV1Handler friends_v1.RemoveFriendsV1Handler
 	// GroupsV1RemoveGroupUsersV1Handler sets the operation handler for the remove group users v1 operation
 	GroupsV1RemoveGroupUsersV1Handler groups_v1.RemoveGroupUsersV1Handler
+	// NotesV1RemoveNoteMembersV1Handler sets the operation handler for the remove note members v1 operation
+	NotesV1RemoveNoteMembersV1Handler notes_v1.RemoveNoteMembersV1Handler
 	// UserMgmtV1SearchUserV1Handler sets the operation handler for the search user v1 operation
 	UserMgmtV1SearchUserV1Handler user_mgmt_v1.SearchUserV1Handler
 	// NotesV1UpdateNoteHandler sets the operation handler for the update note operation
@@ -365,6 +375,9 @@ func (o *CoreapiAPI) Validate() error {
 	if o.GroupsV1GetGroupInfoV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.GetGroupInfoV1Handler")
 	}
+	if o.NotesV1GetGroupNotesV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.GetGroupNotesV1Handler")
+	}
 	if o.GroupsV1GetGroupUsersV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.GetGroupUsersV1Handler")
 	}
@@ -409,6 +422,9 @@ func (o *CoreapiAPI) Validate() error {
 	}
 	if o.GroupsV1RemoveGroupUsersV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.RemoveGroupUsersV1Handler")
+	}
+	if o.NotesV1RemoveNoteMembersV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.RemoveNoteMembersV1Handler")
 	}
 	if o.UserMgmtV1SearchUserV1Handler == nil {
 		unregistered = append(unregistered, "user_mgmt_v1.SearchUserV1Handler")
@@ -566,6 +582,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
+	o.handlers["GET"]["/v1/notes/group/{group_id}"] = notes_v1.NewGetGroupNotesV1(o.context, o.NotesV1GetGroupNotesV1Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
 	o.handlers["GET"]["/v1/groups/{group_id}/members"] = groups_v1.NewGetGroupUsersV1(o.context, o.GroupsV1GetGroupUsersV1Handler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -623,6 +643,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
 	o.handlers["DELETE"]["/v1/groups/{group_id}/members"] = groups_v1.NewRemoveGroupUsersV1(o.context, o.GroupsV1RemoveGroupUsersV1Handler)
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/v1/notes/{id}/members"] = notes_v1.NewRemoveNoteMembersV1(o.context, o.NotesV1RemoveNoteMembersV1Handler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

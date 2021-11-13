@@ -46,14 +46,13 @@ func processCreateGroupRequest(db *gorm.DB, params groups_v1.CreateGroupV1Params
 	body := params.Body
 	description := body.Description
 	groupname := body.GroupName
-	groupowner := body.GroupOwner
 	groupID := uuid.NewString()
 
 	var group = dbpackages.Group{
 		GroupID:     groupID,
-		GroupName:   groupname,
+		GroupName:   *groupname,
 		Description: description,
-		GroupOwner:  groupowner,
+		GroupOwner:  payload.Username,
 	}
 	tx := db.Begin()
 	err := tx.Save(&group).Error
