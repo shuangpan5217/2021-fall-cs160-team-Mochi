@@ -65,7 +65,11 @@ function UploadDropzone({ setFile }) {
                     </p>
                 </Container>
             </div>
-            <p className="agenda small">{acceptedFiles[0].path}</p>
+            {acceptedFiles.length > 0 ? (
+                <p className="agenda small">{acceptedFiles[0].path}</p>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }
