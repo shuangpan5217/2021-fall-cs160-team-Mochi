@@ -31,10 +31,10 @@ const Container = styled.div`
     transition: border 0.24s ease-in-out;
 `;
 
-function UploadDropzone({ setFile, props }) {
+function UploadDropzone({ setFile }) {
     const onDrop = useCallback(
-        (acceptedFiles) => {
-            setFile(acceptedFiles[0]);
+        (acceptFiles) => {
+            setFile(acceptFiles[0]);
         },
         [setFile]
     );

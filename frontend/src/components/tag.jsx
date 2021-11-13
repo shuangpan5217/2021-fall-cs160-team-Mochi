@@ -1,5 +1,9 @@
-function Tag({ title }) {
-    return <div className="agenda tag">{title}</div>;
+function Tag({ title, onClick }) {
+    return (
+        <div className="agenda tag" onClick={() => onClick(title)}>
+            {title}
+        </div>
+    );
 }
 
 export default Tag;
