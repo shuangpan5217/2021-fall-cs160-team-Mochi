@@ -789,6 +789,55 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
+  /v1/notes/group/{group_id}:
+    get:
+      description: get group notes
+      produces:
+        - application/json
+      tags:
+      - notesV1
+      summary: get group notes
+      operationId: getGroupNotesV1
+      parameters:
+        - name: Authorization
+          description: Bearer token based Authorization
+          type: string
+          in: header
+          required: true
+        - name: group_id
+          in: path
+          description: group_id to filter by
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/notesGetResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
   /v1/notes/{note_id}/comments:
     get:
       description: get all comments of a note
@@ -1752,6 +1801,8 @@ definitions:
       $ref: '#/definitions/groupUser'
     description: array of group users
   postGroupObj:
+    required:
+    - group_name
     type: object
     properties:
       group_name:
@@ -1759,9 +1810,6 @@ definitions:
         type: string
       description:
         description: group's desciption
-        type: string
-      group_owner:
-        description: group owner
         type: string
   groupObj:
     type: object

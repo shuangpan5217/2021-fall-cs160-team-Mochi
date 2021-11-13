@@ -47,7 +47,7 @@ func processGetNoteCommentsRequest(db *gorm.DB, params notes_v1.GetNoteCommentsP
 		Comments: []*models.CommentObject{},
 	}
 
-	rawSQL := `SELECT content, note_ID, username, comment_id 
+	rawSQL := `SELECT DISTINCT(comment_id), content, note_ID, username
 				FROM comments
 				WHERE note_id = ?`
 

@@ -86,6 +86,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		GroupsV1GetGroupInfoV1Handler: groups_v1.GetGroupInfoV1HandlerFunc(func(params groups_v1.GetGroupInfoV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.GetGroupInfoV1 has not yet been implemented")
 		}),
+		NotesV1GetGroupNotesV1Handler: notes_v1.GetGroupNotesV1HandlerFunc(func(params notes_v1.GetGroupNotesV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation notes_v1.GetGroupNotesV1 has not yet been implemented")
+		}),
 		GroupsV1GetGroupUsersV1Handler: groups_v1.GetGroupUsersV1HandlerFunc(func(params groups_v1.GetGroupUsersV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation groups_v1.GetGroupUsersV1 has not yet been implemented")
 		}),
@@ -212,6 +215,8 @@ type CoreapiAPI struct {
 	FriendsV1GetFriendsV1Handler friends_v1.GetFriendsV1Handler
 	// GroupsV1GetGroupInfoV1Handler sets the operation handler for the get group info v1 operation
 	GroupsV1GetGroupInfoV1Handler groups_v1.GetGroupInfoV1Handler
+	// NotesV1GetGroupNotesV1Handler sets the operation handler for the get group notes v1 operation
+	NotesV1GetGroupNotesV1Handler notes_v1.GetGroupNotesV1Handler
 	// GroupsV1GetGroupUsersV1Handler sets the operation handler for the get group users v1 operation
 	GroupsV1GetGroupUsersV1Handler groups_v1.GetGroupUsersV1Handler
 	// GroupsV1GetGroupsV1Handler sets the operation handler for the get groups v1 operation
@@ -369,6 +374,9 @@ func (o *CoreapiAPI) Validate() error {
 	}
 	if o.GroupsV1GetGroupInfoV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.GetGroupInfoV1Handler")
+	}
+	if o.NotesV1GetGroupNotesV1Handler == nil {
+		unregistered = append(unregistered, "notes_v1.GetGroupNotesV1Handler")
 	}
 	if o.GroupsV1GetGroupUsersV1Handler == nil {
 		unregistered = append(unregistered, "groups_v1.GetGroupUsersV1Handler")
@@ -571,6 +579,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/v1/groups/{group_id}"] = groups_v1.NewGetGroupInfoV1(o.context, o.GroupsV1GetGroupInfoV1Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/v1/notes/group/{group_id}"] = notes_v1.NewGetGroupNotesV1(o.context, o.NotesV1GetGroupNotesV1Handler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

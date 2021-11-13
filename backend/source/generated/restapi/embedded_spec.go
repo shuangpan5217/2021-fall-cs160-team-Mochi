@@ -1439,6 +1439,79 @@ func init() {
         }
       }
     },
+    "/v1/notes/group/{group_id}": {
+      "get": {
+        "description": "get group notes",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get group notes",
+        "operationId": "getGroupNotesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group_id to filter by",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/notesGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/notes/groupname/{group_name}": {
       "get": {
         "description": "one groupname can be provided to search",
@@ -2942,6 +3015,9 @@ func init() {
     },
     "postGroupObj": {
       "type": "object",
+      "required": [
+        "group_name"
+      ],
       "properties": {
         "description": {
           "description": "group's desciption",
@@ -2949,10 +3025,6 @@ func init() {
         },
         "group_name": {
           "description": "group name",
-          "type": "string"
-        },
-        "group_owner": {
-          "description": "group owner",
           "type": "string"
         }
       }
@@ -4466,6 +4538,79 @@ func init() {
         }
       }
     },
+    "/v1/notes/group/{group_id}": {
+      "get": {
+        "description": "get group notes",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "notesV1"
+        ],
+        "summary": "get group notes",
+        "operationId": "getGroupNotesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group_id to filter by",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/notesGetResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/notes/groupname/{group_name}": {
       "get": {
         "description": "one groupname can be provided to search",
@@ -5969,6 +6114,9 @@ func init() {
     },
     "postGroupObj": {
       "type": "object",
+      "required": [
+        "group_name"
+      ],
       "properties": {
         "description": {
           "description": "group's desciption",
@@ -5976,10 +6124,6 @@ func init() {
         },
         "group_name": {
           "description": "group name",
-          "type": "string"
-        },
-        "group_owner": {
-          "description": "group owner",
           "type": "string"
         }
       }
