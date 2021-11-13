@@ -30,8 +30,10 @@ function AddMemberWindow({ trigger, setTrigger }) {
 
         const responseJSON = await response.json();
         if (responseJSON.username) {
-            alert("Succefully adding member");
+            setTrigger(false);
             history.push("/my_groups");
+        } else if (responseJSON.status_code === 404) {
+            alert("There is no such group.");
         } else {
             alert("Something went wrong with adding group member!");
             setTrigger(false);

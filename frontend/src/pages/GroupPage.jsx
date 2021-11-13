@@ -1,18 +1,19 @@
 import Template from "../components/template";
 import ModalHeader from "../components/modalHeader.jsx";
-import ModalLeftWindow from "../components/modalLeftWindow";
+import LeftPanel from "../components/leftPanel";
 import Button from "../components/button";
 import { useState, React, useEffect } from "react";
 import AddMemberWindow from "../components/addMemberWindow";
 import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { useParams } from "react-router";
+import SectionTitle from "../components/sectionTitle.jsx";
 
 function GroupPage(props) {
     const [buttonAddMember, setButtonAddMember] = useState(false);
-    const [groupProfile, setButtonGroupProfile] = useState(false);
+    const [buttonGroupProfile, setButtonGroupProfile] = useState(false);
     const [members, setMembers] = useState([]);
-    const [allGroups, setGroups] = useState([]);
+    const [groups, setGroups] = useState([]);
     const [notes, setNotes] = useState([]);
     const [buttonUpload, setButtonUpload] = useState(false);
     const [group, setGroup] = useState("");
@@ -43,8 +44,6 @@ function GroupPage(props) {
             } else {
                 console.error("Could not get group information.");
             }
-        } else {
-            return;
         }
     };
 
@@ -72,8 +71,6 @@ function GroupPage(props) {
                     setMembers((arr) => [...arr, member]);
                 }
             }
-        } else {
-            return;
         }
     };
 
@@ -91,16 +88,16 @@ function GroupPage(props) {
                     <div className="d-flex flex-column left-side">
                         <ModalHeader title={`Hi Group ${group}`} />
                         <div className="d-flex flex-column align-items-left">
-                            <ModalLeftWindow
+                            <LeftPanel
                                 body={
-                                    <div className="d-flex flex row">
+                                    <div className="flex-row">
                                         <ModalHeader title="Members" />
                                         <div className="d-flex row agenda">
                                             {members.map((member) => (
                                                 <h3>{member.username}</h3>
                                             ))}
                                         </div>
-                                        <div className="d-flex">
+                                        <div className="flex-row">
                                             <Button
                                                 title="ADD MEMBER"
                                                 type="primary"
@@ -113,7 +110,7 @@ function GroupPage(props) {
                                                 setTrigger={setButtonAddMember}
                                             />
                                         </div>
-                                        <div className="d-flex">
+                                        <div className="flex-row">
                                             <Button
                                                 title="EDIT PROFILE"
                                                 type="secondary"
@@ -127,18 +124,12 @@ function GroupPage(props) {
                             />
                         </div>
                         <div className="d-flex flex-column right-side-top">
-                            <ModalHeader title="Our Group" />
-                            <div className="agenda-big">{groupDescription}</div>
+                            <SectionTitle title="Our Group" />
+                            <div className="agenda big">{groupDescription}</div>
                         </div>
-
                         <div className="d-flex right-side-middle">
-                            <ModalHeader title="Our Notes" />
+                            <SectionTitle title="Our Notes" />
                             <div className="d-flex flex-row right-side-down">
-                                <Button
-                                    title="BACK"
-                                    type="secondary"
-                                    url="/home"
-                                />
                                 <Button
                                     title="UPLOAD"
                                     type="primary"

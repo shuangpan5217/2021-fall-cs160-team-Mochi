@@ -65,7 +65,6 @@ function SignUpWindow(props) {
 
             const loginResponseJSON = await loginResponse.json();
             if (!loginResponseJSON.status_code) {
-                // window.localStorage.setItem("authToken", responseJSON.token);
                 history.push("/login");
             } else if (loginResponseJSON.status_code === 401) {
                 alert("Incorrect username or password.");

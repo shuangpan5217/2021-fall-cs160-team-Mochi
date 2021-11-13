@@ -30,8 +30,10 @@ function AddFriendWindow({ trigger, setTrigger }) {
 
         const responseJSON = await response.json();
         if (responseJSON.username) {
-            alert("Succefully adding friend");
+            setTrigger(false);
             history.push("/my_notes");
+        } else if (responseJSON.status_code === 404) {
+            alert("There is no such username.")
         } else {
             alert("Something went wrong with adding friend!");
             setTrigger(false);

@@ -1,6 +1,7 @@
 import Template from "../components/template";
 import ModalHeader from "../components/modalHeader.jsx";
-import ModalLeftWindow from "../components/modalLeftWindow";
+import SectionTitle from "../components/sectionTitle.jsx";
+import LeftPanel from "../components/leftPanel";
 import Button from "../components/button";
 import { useState, React, useEffect } from "react";
 import AddFriendWindow from "../components/addFriendWindow";
@@ -12,9 +13,9 @@ import PDFthumbnail from "../components/PDFthumbnail";
 function PersonalPage(props) {
     const [buttonAddFriend, setButtonAddFriend] = useState(false);
     const [buttonGroup, setButtonGroup] = useState(false);
-    const [personalProfile, setButtonPersonalProfile] = useState(false);
+    const [buttonPersonalProfile, setButtonPersonalProfile] = useState(false);
     const [friends, setFriends] = useState([]);
-    const [allGroups, setGroups] = useState([]);
+    const [groups, setGroups] = useState([]);
     const [notes, setNotes] = useState([]);
     const [buttonUpload, setButtonUpload] = useState(false);
     const [user, setUser] = useState("");
@@ -42,8 +43,6 @@ function PersonalPage(props) {
             } else {
                 console.error("Could not get user information.");
             }
-        } else {
-            return;
         }
     };
 
@@ -71,8 +70,6 @@ function PersonalPage(props) {
                     setFriends((arr) => [...arr, friend]);
                 }
             }
-        } else {
-            return;
         }
     };
 
@@ -96,11 +93,7 @@ function PersonalPage(props) {
                 for (const group of groupResponseJSON.allGroups) {
                     setGroups((arr) => [...arr, group]);
                 }
-            } else {
-                setGroups("Mochi Group");
             }
-        } else {
-            return;
         }
     };
 
@@ -176,16 +169,16 @@ function PersonalPage(props) {
                     <div className="d-flex flex-column left-side">
                         <ModalHeader title={`Hi ${user}`} />
                         <div className="d-flex flex-column align-items-left">
-                            <ModalLeftWindow
+                            <LeftPanel
                                 body={
-                                    <div className="d-flex flex row">
+                                    <div className="flex-row">
                                         <ModalHeader title="My Friends" />
                                         <div className="d-flex row agenda">
                                             {friends.map((friend) => (
                                                 <h3>{friend.username}</h3>
                                             ))}
                                         </div>
-                                        <div className="d-flex">
+                                        <div className="flex-row">
                                             <Button
                                                 title="ADD FRIEND"
                                                 type="primary"
@@ -199,8 +192,8 @@ function PersonalPage(props) {
                                             />
                                         </div>
                                         <ModalHeader title="My Groups" />
-                                        <div className="d-flex row agenda">
-                                            {allGroups.map((group) => (
+                                        <div className="flex-row agenda">
+                                            {groups.map((group) => (
                                                 <Link
                                                     to="/my_groups"
                                                     style={{
@@ -213,7 +206,7 @@ function PersonalPage(props) {
                                                 </Link>
                                             ))}
                                         </div>
-                                        <div className="d-flex">
+                                        <div className="flex-row">
                                             <Button
                                                 title="CREATE/JOIN GROUP"
                                                 type="primary"
@@ -222,7 +215,7 @@ function PersonalPage(props) {
                                                 }
                                             />
                                         </div>
-                                        <div className="d-flex">
+                                        <div className="flex-row">
                                             <Button
                                                 title="EDIT PROFILE"
                                                 type="secondary"
@@ -238,18 +231,13 @@ function PersonalPage(props) {
                             />
                         </div>
                         <div className="d-flex flex-column right-side-top">
-                            <ModalHeader title="Biography" />
-                            <div className="agenda-big">{userDescription}</div>
+                            <SectionTitle title="Biography" />
+                            <div className="agenda big">{userDescription}</div>
                         </div>
 
                         <div className="d-flex right-side-middle">
-                            <ModalHeader title="My Notes" />
+                            <SectionTitle title="My Notes" />
                             <div className="d-flex flex-row right-side-down">
-                                <Button
-                                    title="BACK"
-                                    type="secondary"
-                                    url="/home"
-                                />
                                 <Button
                                     title="UPLOAD"
                                     type="primary"
