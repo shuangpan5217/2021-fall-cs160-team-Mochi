@@ -1,8 +1,9 @@
 import Button from "./button";
+import Tag from "./tag";
 import InputBox from "./inputBox";
 import ModalHeader from "./modalHeader.jsx";
 import { useHistory } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../css/uploadNotesWindow.css";
 import RadioButton from "./radioButton";
 import ModalWindow from "./modalWindow";
@@ -13,19 +14,32 @@ function UploadNotesWindow({ trigger, setTrigger }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [tag, setTag] = useState("");
+    const [tags, setTags] = useState([]);
+    const [tagElems, setTagElems] = useState([]);
     const [type, setType] = useState("");
+    const [style, setStyle] = useState("");
     const [file, setFile] = useState(null);
 
-    const setPublic = () => {
-        setType("Public");
-    };
+    useEffect(() => {
+        const removeTag = (tagTitle) => {
+            const tempTags = tags.filter((t) => t !== tagTitle);
+            setTags(tempTags);
+        };
 
-    const setGroup = () => {
-        setType("Group");
-    };
+        setTagElems(
+            tags.map((tagTitle) => (
+                <Tag title={tagTitle} key={tagTitle} onClick={removeTag} />
+            ))
+        );
+    }, [tags]);
 
-    const setPrivate = () => {
-        setType("Private");
+    const addTag = () => {
+        if (tags.includes(tag)) {
+            alert("Please enter a unique tag.");
+        } else {
+            setTags([...tags, tag]);
+        }
+        setTag("");
     };
 
     const attemptUpload = async () => {
@@ -49,7 +63,6 @@ function UploadNotesWindow({ trigger, setTrigger }) {
 
         const note_reference = pdfResponseJSON.note_reference;
 
-        const style = "dummy";
         const response = await fetch("http://localhost:3000/v1/notes/", {
             method: "POST",
             headers: {
@@ -60,10 +73,10 @@ function UploadNotesWindow({ trigger, setTrigger }) {
             body: JSON.stringify({
                 title,
                 description,
-                tag,
+                tag: tags.join(","),
                 type,
                 note_reference,
-                style
+                style,
             }),
         });
 
@@ -82,7 +95,7 @@ function UploadNotesWindow({ trigger, setTrigger }) {
                 body={
                     <div className="d-flex flex-column align-items-center">
                         <ModalHeader title="Upload Notes" />
-                        <div className="d-flex flex-column align-items-end">
+                        <div className="d-flex flex-column align-items-start">
                             <InputBox
                                 label="Title"
                                 placeholder="title"
@@ -93,35 +106,83 @@ function UploadNotesWindow({ trigger, setTrigger }) {
                                 label="Description"
                                 placeholder="description"
                                 onChange={setDescription}
+                                size="large"
                             />
-                            <InputBox
-                                label="Tag"
-                                placeholder="tag"
-                                onChange={setTag}
-                            />
+                            <div className="d-flex flex-row">
+                                <InputBox
+                                    label="Tag"
+                                    placeholder="tag"
+                                    onChange={setTag}
+                                    clear={tag === ""}
+                                    onEnter={addTag}
+                                    size="small"
+                                />
+                                <div className="d-flex flex-row tag-wrapper flex-wrap">
+                                    {tagElems}
+                                </div>
+                            </div>
+                            <div className="d-flex flex-row">
+                                <label className="agenda small label-spacing radio-label-spacing">
+                                    Sharing
+                                </label>
+                                <RadioButton
+                                    group="sharing"
+                                    label="Public"
+                                    onChange={() => setType("Public")}
+                                />
+                                <RadioButton
+                                    group="sharing"
+                                    label="Group"
+                                    onChange={() => setType("Group")}
+                                />
+                                <RadioButton
+                                    group="sharing"
+                                    label="Private"
+                                    onChange={() => setType("Private")}
+                                />
+                            </div>
+                            <div className="d-flex flex-row">
+                                <label className="agenda small label-spacing radio-label-spacing">
+                                    Style
+                                </label>
+                                <RadioButton
+                                    group="style"
+                                    label="Outline"
+                                    onChange={() => setStyle("Outline")}
+                                />
+                                <RadioButton
+                                    group="style"
+                                    label="Cornell"
+                                    onChange={() => setStyle("Cornell")}
+                                />
+                                <RadioButton
+                                    group="style"
+                                    label="Boxing"
+                                    onChange={() => setStyle("Boxing")}
+                                />
+                                <RadioButton
+                                    group="style"
+                                    label="Charting"
+                                    onChange={() => setStyle("Charting")}
+                                />
+                                <RadioButton
+                                    group="style"
+                                    label="Mapping"
+                                    onChange={() => setStyle("Mapping")}
+                                />
+                                <RadioButton
+                                    group="style"
+                                    label="Sentence"
+                                    onChange={() => setStyle("Sentence")}
+                                />
+                            </div>
+                            <div className="d-flex flex-row">
+                                <label className="agenda small label-spacing">
+                                    Attach File
+                                </label>
+                                <UploadDropzone setFile={setFile} />
+                            </div>
                         </div>
-                        <br></br>
-                        <label className="agenda">Sharing</label>
-                        <div className="d-flex flex-row ">
-                            <RadioButton
-                                group="sharing"
-                                label="Public"
-                                onChange={setPublic}
-                            />
-                            <RadioButton
-                                group="sharing"
-                                label="Group"
-                                onChange={setGroup}
-                            />
-                            <RadioButton
-                                group="sharing"
-                                label="Private"
-                                onChange={setPrivate}
-                            />
-                        </div>
-                        <br></br>
-                        <label className="agenda">Attach File</label>
-                        <UploadDropzone setFile={setFile} />
                         <div className="d-flex flex-row ">
                             <Button
                                 title="CANCEL"

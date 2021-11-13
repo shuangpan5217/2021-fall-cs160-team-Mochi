@@ -2,8 +2,16 @@
     border: 1px solid var(--txt-input-border-color);
     border-radius: 10px;
     padding-left: 10px;
-    width: 475px;
-    margin-top: 20px;
+    width: 500px;
+    margin-bottom: 20px;
+}
+
+.sm-box{
+    width: 200px;
+}
+
+.lg-box{
+    width: 600px;
 }
 
 .btn.link{

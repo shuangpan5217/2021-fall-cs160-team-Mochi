@@ -9,6 +9,8 @@ function InputBox({
     mask,
     clear,
     fullWidth,
+    size,
+    onEnter,
 }) {
     const [value, setValue] = useState("");
     useEffect(() => {
@@ -21,15 +23,23 @@ function InputBox({
         onChange(value);
     }, [value, onChange]);
 
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter" && event.target.value !== "") {
+            onEnter();
+        }
+    };
+
     var LabelElem = <></>;
 
     if (label != null) {
-        LabelElem = <label className="agenda small">{label}&nbsp;</label>;
+        LabelElem = (
+            <label className="agenda small label-spacing">{label}</label>
+        );
     }
 
     return (
         <div
-            className={`d-flex flex-row align-items-center ${
+            className={`d-flex flex-row align-items-start ${
                 fullWidth ? "full-width" : ""
             }`}
         >
@@ -37,19 +47,25 @@ function InputBox({
             {textArea ? (
                 <textarea
                     type="text"
-                    className="agenda text-input-box"
+                    className={`agenda text-input-box ${
+                        size ? (size === "small" ? "sm-box" : "lg-box") : ""
+                    }`}
                     placeholder={placeholder}
                     onChange={(e) => setValue(e.target.value)}
                     rows="3"
                     value={value}
+                    onKeyDown={handleKeyDown}
                 />
             ) : (
                 <input
                     type={mask ? "password" : "text"}
-                    className="agenda text-input-box"
+                    className={`agenda text-input-box ${
+                        size ? (size === "small" ? "sm-box" : "lg-box") : ""
+                    }`}
                     placeholder={placeholder}
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
+                    onKeyDown={handleKeyDown}
                 />
             )}
         </div>
