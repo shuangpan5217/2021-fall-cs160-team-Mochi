@@ -53,17 +53,17 @@ func processGetSingleNoteRequest(db *gorm.DB, params notes_v1.GetSingleNoteV1Par
 		return
 	}
 
+	resp = &models.NoteObjectResponse{
+		Description:   note.Description,
+		NoteID:        note.NoteID,
+		NoteOwner:     note.NoteOwner,
+		NoteReference: note.NoteReference,
+		Type:          note.Type,
+		Title:         note.Title,
+		Tag:           note.Tag,
+		Style:         note.Style,
+	}
 	if note.Type == "public" || note.NoteOwner == username {
-		resp = &models.NoteObjectResponse{
-			Description:   note.Description,
-			NoteID:        note.NoteID,
-			NoteOwner:     note.NoteOwner,
-			NoteReference: note.NoteReference,
-			Type:          note.Type,
-			Title:         note.Title,
-			Tag:           note.Tag,
-			Style:         note.Style,
-		}
 		return
 	}
 
@@ -85,7 +85,7 @@ func checkIfUsernameExists(db *gorm.DB, username, ID string) (errResp *models.Er
 	}
 	defer rows.Close()
 
-	// check if username exists in rows
+	// check if username exists in user notes rows
 	var exists = false
 	for rows.Next() {
 		user := models.UserObj{}
@@ -99,10 +99,31 @@ func checkIfUsernameExists(db *gorm.DB, username, ID string) (errResp *models.Er
 			break
 		}
 	}
-	// not shared with user
-	if !exists {
+	// shared
+	if exists {
+		return
+	}
+
+	// check if username exists in group notes rows
+	rawSQL := `SELECT count(*)
+			FROM notes n, 
+			(
+				SELECT gu.username, gu.group_id, gn.note_id
+				FROM group_users gu inner join group_notes gn on gu.group_id = gn.group_id
+			) AS gun
+			WHERE gun.note_id = n.note_id AND gun.username = ?`
+	var totalCount int64 = 0
+	err = db.Raw(rawSQL, username).Count(&totalCount).Error
+	if err != nil {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	// not shared
+	if totalCount == 0 {
 		errResp = commonutils.GenerateErrResp(http.StatusForbidden, "Forbidden: No access to the note")
 		return
 	}
+
 	return
 }
