@@ -19,19 +19,19 @@ import (
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 )
 
-// NewAddNoteMembersV1Params creates a new AddNoteMembersV1Params object
+// NewRemoveNoteMembersV1Params creates a new RemoveNoteMembersV1Params object
 //
 // There are no default values defined in the spec.
-func NewAddNoteMembersV1Params() AddNoteMembersV1Params {
+func NewRemoveNoteMembersV1Params() RemoveNoteMembersV1Params {
 
-	return AddNoteMembersV1Params{}
+	return RemoveNoteMembersV1Params{}
 }
 
-// AddNoteMembersV1Params contains all the bound params for the add note members v1 operation
+// RemoveNoteMembersV1Params contains all the bound params for the remove note members v1 operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters addNoteMembersV1
-type AddNoteMembersV1Params struct {
+// swagger:parameters removeNoteMembersV1
+type RemoveNoteMembersV1Params struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -56,8 +56,8 @@ type AddNoteMembersV1Params struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewAddNoteMembersV1Params() beforehand.
-func (o *AddNoteMembersV1Params) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewRemoveNoteMembersV1Params() beforehand.
+func (o *RemoveNoteMembersV1Params) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -105,7 +105,7 @@ func (o *AddNoteMembersV1Params) BindRequest(r *http.Request, route *middleware.
 }
 
 // bindAuthorization binds and validates parameter Authorization from header.
-func (o *AddNoteMembersV1Params) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *RemoveNoteMembersV1Params) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("Authorization", "header", rawData)
 	}
@@ -125,7 +125,7 @@ func (o *AddNoteMembersV1Params) bindAuthorization(rawData []string, hasKey bool
 }
 
 // bindID binds and validates parameter ID from path.
-func (o *AddNoteMembersV1Params) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *RemoveNoteMembersV1Params) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]

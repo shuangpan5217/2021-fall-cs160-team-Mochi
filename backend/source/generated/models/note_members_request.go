@@ -14,10 +14,10 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// AddNoteMembersRequest add note members request
+// NoteMembersRequest note members request
 //
-// swagger:model addNoteMembersRequest
-type AddNoteMembersRequest struct {
+// swagger:model noteMembersRequest
+type NoteMembersRequest struct {
 
 	// groups
 	Groups []*NoteGroupRequest `json:"groups"`
@@ -26,8 +26,8 @@ type AddNoteMembersRequest struct {
 	Users []*NoteUserRequest `json:"users"`
 }
 
-// Validate validates this add note members request
-func (m *AddNoteMembersRequest) Validate(formats strfmt.Registry) error {
+// Validate validates this note members request
+func (m *NoteMembersRequest) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateGroups(formats); err != nil {
@@ -44,7 +44,7 @@ func (m *AddNoteMembersRequest) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *AddNoteMembersRequest) validateGroups(formats strfmt.Registry) error {
+func (m *NoteMembersRequest) validateGroups(formats strfmt.Registry) error {
 	if swag.IsZero(m.Groups) { // not required
 		return nil
 	}
@@ -68,7 +68,7 @@ func (m *AddNoteMembersRequest) validateGroups(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *AddNoteMembersRequest) validateUsers(formats strfmt.Registry) error {
+func (m *NoteMembersRequest) validateUsers(formats strfmt.Registry) error {
 	if swag.IsZero(m.Users) { // not required
 		return nil
 	}
@@ -92,8 +92,8 @@ func (m *AddNoteMembersRequest) validateUsers(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validate this add note members request based on the context it is used
-func (m *AddNoteMembersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validate this note members request based on the context it is used
+func (m *NoteMembersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateGroups(ctx, formats); err != nil {
@@ -110,7 +110,7 @@ func (m *AddNoteMembersRequest) ContextValidate(ctx context.Context, formats str
 	return nil
 }
 
-func (m *AddNoteMembersRequest) contextValidateGroups(ctx context.Context, formats strfmt.Registry) error {
+func (m *NoteMembersRequest) contextValidateGroups(ctx context.Context, formats strfmt.Registry) error {
 
 	for i := 0; i < len(m.Groups); i++ {
 
@@ -128,7 +128,7 @@ func (m *AddNoteMembersRequest) contextValidateGroups(ctx context.Context, forma
 	return nil
 }
 
-func (m *AddNoteMembersRequest) contextValidateUsers(ctx context.Context, formats strfmt.Registry) error {
+func (m *NoteMembersRequest) contextValidateUsers(ctx context.Context, formats strfmt.Registry) error {
 
 	for i := 0; i < len(m.Users); i++ {
 
@@ -147,7 +147,7 @@ func (m *AddNoteMembersRequest) contextValidateUsers(ctx context.Context, format
 }
 
 // MarshalBinary interface implementation
-func (m *AddNoteMembersRequest) MarshalBinary() ([]byte, error) {
+func (m *NoteMembersRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -155,8 +155,8 @@ func (m *AddNoteMembersRequest) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *AddNoteMembersRequest) UnmarshalBinary(b []byte) error {
-	var res AddNoteMembersRequest
+func (m *NoteMembersRequest) UnmarshalBinary(b []byte) error {
+	var res NoteMembersRequest
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

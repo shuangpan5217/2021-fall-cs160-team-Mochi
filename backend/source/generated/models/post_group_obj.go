@@ -8,8 +8,10 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // PostGroupObj post group obj
@@ -21,14 +23,30 @@ type PostGroupObj struct {
 	Description string `json:"description,omitempty"`
 
 	// group name
-	GroupName string `json:"group_name,omitempty"`
-
-	// group owner
-	GroupOwner string `json:"group_owner,omitempty"`
+	// Required: true
+	GroupName *string `json:"group_name"`
 }
 
 // Validate validates this post group obj
 func (m *PostGroupObj) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateGroupName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *PostGroupObj) validateGroupName(formats strfmt.Registry) error {
+
+	if err := validate.Required("group_name", "body", m.GroupName); err != nil {
+		return err
+	}
+
 	return nil
 }
 
