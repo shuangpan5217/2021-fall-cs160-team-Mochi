@@ -31,10 +31,10 @@ const Container = styled.div`
     transition: border 0.24s ease-in-out;
 `;
 
-function UploadDropzone({ setFile, props }) {
+function UploadDropzone({ setFile }) {
     const onDrop = useCallback(
-        (acceptedFiles) => {
-            setFile(acceptedFiles[0]);
+        (acceptFiles) => {
+            setFile(acceptFiles[0]);
         },
         [setFile]
     );
@@ -47,12 +47,8 @@ function UploadDropzone({ setFile, props }) {
         isDragReject,
     } = useDropzone({ accept: "application/pdf", maxFile: 1, onDrop });
 
-    const files = acceptedFiles.map((file) => (
-        <li key={file.path}>{file.path}</li>
-    ));
-
     return (
-        <>
+        <div className="d-flex flex-column align-items-center">
             <div className="container">
                 <Container
                     {...getRootProps({
@@ -69,8 +65,12 @@ function UploadDropzone({ setFile, props }) {
                     </p>
                 </Container>
             </div>
-            <ul>{files}</ul>
-        </>
+            {acceptedFiles.length > 0 ? (
+                <p className="agenda small">{acceptedFiles[0].path}</p>
+            ) : (
+                <></>
+            )}
+        </div>
     );
 }
 export default UploadDropzone;
