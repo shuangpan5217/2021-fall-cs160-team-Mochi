@@ -6,17 +6,17 @@ import { useState } from "react";
 import ModalWindow from "./modalWindow";
 import "../css/personalPage.css";
 
-function AddFriendWindow({ trigger, setTrigger }) {
+function AddMemberWindow({ trigger, setTrigger }) {
     const history = useHistory();
-    const [username2, setUsername2] = useState("");
+    const [username, setUsername] = useState("");
 
-    const attemptAddFriend = async () => {
-        if (username2 === "") {
-            alert("Please enter your friend's username.");
+    const attemptAddMember = async () => {
+        if (username === "") {
+            alert("Please enter a username.");
             return;
         }
 
-        const response = await fetch("http://localhost:3000/v1/friends/", {
+        const response = await fetch("http://localhost:3000/v1/group/members", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -24,16 +24,16 @@ function AddFriendWindow({ trigger, setTrigger }) {
                     "bearer " + window.localStorage.getItem("authToken"),
             },
             body: JSON.stringify({
-                username2,
+                username,
             }),
         });
 
         const responseJSON = await response.json();
         if (responseJSON.username) {
-            alert("Succefully adding friend");
-            history.push("/my_notes");
+            alert("Succefully adding member");
+            history.push("/my_groups");
         } else {
-            alert("Something went wrong with adding friend!");
+            alert("Something went wrong with adding group member!");
             setTrigger(false);
         }
     };
@@ -43,11 +43,11 @@ function AddFriendWindow({ trigger, setTrigger }) {
             <ModalWindow
                 body={
                     <div className="d-flex flex-column align-items-center">
-                        <ModalHeader title="Add friend" />
+                        <ModalHeader title="Add member" />
                         <div className="d-flex flex-column align-items-end">
                             <InputBox
                                 placeholder="Enter a Username"
-                                onChange={setUsername2}
+                                onChange={setUsername}
                             />
                         </div>
                         <br></br>
@@ -60,7 +60,7 @@ function AddFriendWindow({ trigger, setTrigger }) {
                             <Button
                                 title="ADD"
                                 type="primary"
-                                clicked={attemptAddFriend}
+                                clicked={attemptAddMember}
                             />
                         </div>
                     </div>
@@ -72,4 +72,4 @@ function AddFriendWindow({ trigger, setTrigger }) {
     );
 }
 
-export default AddFriendWindow;
+export default AddMemberWindow;
