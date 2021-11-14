@@ -3036,7 +3036,8 @@ func init() {
           "type": "string"
         },
         "email": {
-          "description": "email of the user"
+          "description": "email of the user",
+          "type": "string"
         },
         "first_name": {
           "description": "first name of the user",
@@ -6077,7 +6078,8 @@ func init() {
           "type": "string"
         },
         "email": {
-          "description": "email of the user"
+          "description": "email of the user",
+          "type": "string"
         },
         "first_name": {
           "description": "first name of the user",
