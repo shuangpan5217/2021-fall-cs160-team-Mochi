@@ -86,6 +86,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.GroupsV1CreateGroupV1Handler = groups.CreateGroupV1Handler(db)
 	api.GroupsV1GetGroupsV1Handler = groups.GetGroupsV1Handler(db)
 	api.GroupsV1GetGroupInfoV1Handler = groups.GetGroupInfoV1Handler(db)
+	api.GroupsV1AddGroupUsersV1Handler = groups.AddGroupMembersHandler(db)
 	api.GroupsV1DeleteGroupV1Handler = groups.DeleteGroupByIdV1Handler(db)
 
 	// user image
