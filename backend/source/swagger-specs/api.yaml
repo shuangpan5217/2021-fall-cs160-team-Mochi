@@ -1736,6 +1736,7 @@ definitions:
         type: string
       email: 
         description: email of the user
+        type: string
   groupUser:
     type: object
     properties:

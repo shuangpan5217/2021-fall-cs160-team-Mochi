@@ -21,7 +21,7 @@ type UserObj struct {
 	Description string `json:"description,omitempty"`
 
 	// email of the user
-	Email interface{} `json:"email,omitempty"`
+	Email string `json:"email,omitempty"`
 
 	// first name of the user
 	FirstName string `json:"first_name,omitempty"`
