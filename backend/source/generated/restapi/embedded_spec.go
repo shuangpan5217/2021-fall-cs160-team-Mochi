@@ -2696,17 +2696,27 @@ func init() {
       }
     },
     "groupMembers": {
-      "description": "array of group users",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/groupUser"
+      "type": "object",
+      "properties": {
+        "users": {
+          "description": "array of group users",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupUser"
+          }
+        }
       }
     },
     "groupMembersObject": {
-      "description": "array of group users",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/userObj"
+      "type": "object",
+      "properties": {
+        "users": {
+          "description": "array of group users",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userObj"
+          }
+        }
       }
     },
     "groupObj": {
@@ -3002,6 +3012,10 @@ func init() {
     "userImagesResponse": {
       "type": "object",
       "properties": {
+        "type": {
+          "description": "type of pic",
+          "type": "string"
+        },
         "user_image": {
           "description": "user image",
           "type": "object"
@@ -5717,17 +5731,27 @@ func init() {
       }
     },
     "groupMembers": {
-      "description": "array of group users",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/groupUser"
+      "type": "object",
+      "properties": {
+        "users": {
+          "description": "array of group users",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupUser"
+          }
+        }
       }
     },
     "groupMembersObject": {
-      "description": "array of group users",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/userObj"
+      "type": "object",
+      "properties": {
+        "users": {
+          "description": "array of group users",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userObj"
+          }
+        }
       }
     },
     "groupObj": {
@@ -6023,6 +6047,10 @@ func init() {
     "userImagesResponse": {
       "type": "object",
       "properties": {
+        "type": {
+          "description": "type of pic",
+          "type": "string"
+        },
         "user_image": {
           "description": "user image",
           "type": "object"

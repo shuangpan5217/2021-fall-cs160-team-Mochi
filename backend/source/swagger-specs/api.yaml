@@ -1743,10 +1743,13 @@ definitions:
         description: username of the user
         type: string
   groupMembers:
-    type: array
-    items:
-      $ref: '#/definitions/groupUser'
-    description: array of group users
+    type: object
+    properties:
+      users:
+        type: array
+        items:
+          $ref: '#/definitions/groupUser'
+        description: array of group users
   postGroupObj:
     required:
     - group_name
@@ -1788,10 +1791,13 @@ definitions:
           $ref: "#/definitions/friendResponse"
         description: array of friends username
   groupMembersObject:
-    type: array
-    items:
-      $ref: '#/definitions/userObj'
-    description: array of group users
+    type: object
+    properties:
+      users:
+        type: array
+        items:
+          $ref: '#/definitions/userObj'
+        description: array of group users
   getAllGroupsObject:
     type: object
     properties:
@@ -2013,6 +2019,9 @@ definitions:
       user_image:
         type: object
         description: user image
+      type:
+        type: string
+        description: type of pic
   getFileResponse:
     type: object
     properties:

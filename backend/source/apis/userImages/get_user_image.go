@@ -8,6 +8,7 @@ import (
 	"encoding/base64"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/jinzhu/gorm"
@@ -54,6 +55,12 @@ func processGetUserImagesRequest(db *gorm.DB, params user_images_v1.GetUserImage
 
 	// read file
 	exist, err := notes.Exists(userImagesDir + "/" + payload.Username)
+	if err != nil && !os.IsNotExist(err) {
+		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	// file exists
 	if exist {
 		userImageData, err = ioutil.ReadFile(userImagesDir + "/" + payload.Username)
 		if err != nil {
@@ -75,6 +82,7 @@ func processGetUserImagesRequest(db *gorm.DB, params user_images_v1.GetUserImage
 	// resp
 	resp = &models.UserImagesResponse{
 		UserImage: base64.StdEncoding.EncodeToString(userImageData),
+		Type:      http.DetectContentType(userImageData),
 	}
 	return
 }
