@@ -40,9 +40,10 @@ func processAddGroupUsersRequest(db *gorm.DB, params groups_v1.AddGroupUsersV1Pa
 	if errResp != nil {
 		return
 	}
-	_, err := CheckIfGroupUser(db, payload.Username, params.GroupID)
+	_, err := checkIfGroupOwner(db, payload.Username, params.GroupID)
 	if gorm.IsRecordNotFoundError(err) {
-
+		errResp = commonutils.GenerateErrResp(http.StatusForbidden, err.Error())
+		return
 	} else if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
