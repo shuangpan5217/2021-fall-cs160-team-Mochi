@@ -109,7 +109,7 @@ func TestUpdateUserInfoAPI(t *testing.T) {
 	}
 
 	db, testServer := testUtils.SetupTestServer()
-	PrepareUsers(db)
+	testUtils.PrepareUsers(db)
 
 	for _, collection := range collections {
 		t.Run(collection.name, func(t *testing.T) {
@@ -180,6 +180,6 @@ func TestUpdateUserInfoAPI(t *testing.T) {
 		})
 	}
 
-	CleanUsers(db)
+	testUtils.CleanUsers(db)
 	testUtils.ShutDownTestServer(db, testServer)
 }

@@ -1847,6 +1847,8 @@ definitions:
       type: 
         description: type of the note file, public, shared, private
         type: string
+        enum: [private,shared,public]
+        default: private
       tag: 
         description: tags of the note
         type: string
