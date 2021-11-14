@@ -17,6 +17,9 @@ import (
 // swagger:model userImagesResponse
 type UserImagesResponse struct {
 
+	// type of pic
+	Type string `json:"type,omitempty"`
+
 	// user image
 	UserImage interface{} `json:"user_image,omitempty"`
 }

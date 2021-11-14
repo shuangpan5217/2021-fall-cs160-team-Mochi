@@ -52,8 +52,8 @@ func processPostUserImagesRequest(db *gorm.DB, params user_images_v1.PostUserIma
 	}
 	// check file type
 	fileType := http.DetectContentType(fileBytes)
-	if !strings.Contains(fileType, "image/jpeg") {
-		errResp = commonutils.GenerateErrResp(http.StatusBadRequest, "Only image/jpeg type is allowed.")
+	if !strings.Contains(fileType, "image/jpeg") && !strings.Contains(fileType, "image/png") && !strings.Contains(fileType, "image/jpg") {
+		errResp = commonutils.GenerateErrResp(http.StatusBadRequest, "unsupported image type. Allow [jpeg, png]")
 		return
 	}
 

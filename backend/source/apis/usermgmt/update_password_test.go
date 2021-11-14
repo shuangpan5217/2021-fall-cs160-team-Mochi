@@ -8,25 +8,7 @@ import (
 	"net/http"
 	"strings"
 	"testing"
-
-	"github.com/jinzhu/gorm"
 )
-
-func PrepareUsers(db *gorm.DB) {
-	user := &dbpackages.User{
-		Username:   "admin",
-		Password:   "password",
-		Email:      "email",
-		MiddleName: "middle",
-		FirstName:  "first",
-		LastName:   "last",
-	}
-	db.Save(&user)
-}
-
-func CleanUsers(db *gorm.DB) {
-	db.Exec(`DELETE from users where username = ?`, "admin")
-}
 
 func TestUpdatePasswordAPI(t *testing.T) {
 
@@ -69,7 +51,7 @@ func TestUpdatePasswordAPI(t *testing.T) {
 	}
 
 	db, testServer := testUtils.SetupTestServer()
-	PrepareUsers(db)
+	testUtils.PrepareUsers(db)
 
 	for _, collection := range collections {
 		t.Run(collection.name, func(t *testing.T) {
@@ -112,6 +94,6 @@ func TestUpdatePasswordAPI(t *testing.T) {
 		})
 	}
 
-	CleanUsers(db)
+	testUtils.CleanUsers(db)
 	testUtils.ShutDownTestServer(db, testServer)
 }

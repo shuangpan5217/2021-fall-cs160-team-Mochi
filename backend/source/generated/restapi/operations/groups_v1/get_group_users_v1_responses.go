@@ -25,7 +25,7 @@ type GetGroupUsersV1OK struct {
 	/*
 	  In: Body
 	*/
-	Payload models.GroupMembersObject `json:"body,omitempty"`
+	Payload *models.GroupMembersObject `json:"body,omitempty"`
 }
 
 // NewGetGroupUsersV1OK creates GetGroupUsersV1OK with default headers values
@@ -35,13 +35,13 @@ func NewGetGroupUsersV1OK() *GetGroupUsersV1OK {
 }
 
 // WithPayload adds the payload to the get group users v1 o k response
-func (o *GetGroupUsersV1OK) WithPayload(payload models.GroupMembersObject) *GetGroupUsersV1OK {
+func (o *GetGroupUsersV1OK) WithPayload(payload *models.GroupMembersObject) *GetGroupUsersV1OK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get group users v1 o k response
-func (o *GetGroupUsersV1OK) SetPayload(payload models.GroupMembersObject) {
+func (o *GetGroupUsersV1OK) SetPayload(payload *models.GroupMembersObject) {
 	o.Payload = payload
 }
 
@@ -49,14 +49,11 @@ func (o *GetGroupUsersV1OK) SetPayload(payload models.GroupMembersObject) {
 func (o *GetGroupUsersV1OK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(200)
-	payload := o.Payload
-	if payload == nil {
-		// return empty array
-		payload = models.GroupMembersObject{}
-	}
-
-	if err := producer.Produce(rw, payload); err != nil {
-		panic(err) // let the recovery middleware deal with this
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
 	}
 }
 

@@ -52,7 +52,7 @@ func processGetAllGroupsRequest(db *gorm.DB, params groups_v1.GetGroupsV1Params)
 	// 	return
 	// }
 
-	rawSQL := `select g.group_id, g.group_name, g.group_owner, g.description
+	rawSQL := `select distinct g.group_id, g.group_name, g.group_owner, g.description
 				from group_users gu, groups g
 				where gu.username = ? and gu.group_id = g.group_id`
 

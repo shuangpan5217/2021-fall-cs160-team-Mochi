@@ -14,29 +14,21 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// GroupMembersObject array of group users
+// GroupMembersObject group members object
 //
 // swagger:model groupMembersObject
-type GroupMembersObject []*UserObj
+type GroupMembersObject struct {
+
+	// array of group users
+	Users []*UserObj `json:"users"`
+}
 
 // Validate validates this group members object
-func (m GroupMembersObject) Validate(formats strfmt.Registry) error {
+func (m *GroupMembersObject) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	for i := 0; i < len(m); i++ {
-		if swag.IsZero(m[i]) { // not required
-			continue
-		}
-
-		if m[i] != nil {
-			if err := m[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName(strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
+	if err := m.validateUsers(formats); err != nil {
+		res = append(res, err)
 	}
 
 	if len(res) > 0 {
@@ -45,16 +37,20 @@ func (m GroupMembersObject) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validate this group members object based on the context it is used
-func (m GroupMembersObject) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
+func (m *GroupMembersObject) validateUsers(formats strfmt.Registry) error {
+	if swag.IsZero(m.Users) { // not required
+		return nil
+	}
 
-	for i := 0; i < len(m); i++ {
+	for i := 0; i < len(m.Users); i++ {
+		if swag.IsZero(m.Users[i]) { // not required
+			continue
+		}
 
-		if m[i] != nil {
-			if err := m[i].ContextValidate(ctx, formats); err != nil {
+		if m.Users[i] != nil {
+			if err := m.Users[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName(strconv.Itoa(i))
+					return ve.ValidateName("users" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -62,8 +58,55 @@ func (m GroupMembersObject) ContextValidate(ctx context.Context, formats strfmt.
 
 	}
 
+	return nil
+}
+
+// ContextValidate validate this group members object based on the context it is used
+func (m *GroupMembersObject) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateUsers(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *GroupMembersObject) contextValidateUsers(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Users); i++ {
+
+		if m.Users[i] != nil {
+			if err := m.Users[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("users" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *GroupMembersObject) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *GroupMembersObject) UnmarshalBinary(b []byte) error {
+	var res GroupMembersObject
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
 	return nil
 }

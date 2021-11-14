@@ -43,7 +43,7 @@ type AddGroupUsersV1Params struct {
 	/*array of users
 	  In: body
 	*/
-	Body models.GroupMembers
+	Body *models.GroupMembers
 	/*group id
 	  Required: true
 	  In: path
@@ -81,7 +81,7 @@ func (o *AddGroupUsersV1Params) BindRequest(r *http.Request, route *middleware.M
 			}
 
 			if len(res) == 0 {
-				o.Body = body
+				o.Body = &body
 			}
 		}
 	}

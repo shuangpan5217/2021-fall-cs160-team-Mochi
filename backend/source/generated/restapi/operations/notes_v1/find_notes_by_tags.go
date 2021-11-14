@@ -29,7 +29,7 @@ func NewFindNotesByTags(ctx *middleware.Context, handler FindNotesByTagsHandler)
 	return &FindNotesByTags{Context: ctx, Handler: handler}
 }
 
-/* FindNotesByTags swagger:route GET /v1/notes/tag/{tag} notesV1 findNotesByTags
+/* FindNotesByTags swagger:route GET /v1/notes/search/{tags} notesV1 findNotesByTags
 
 find notes by tags
 

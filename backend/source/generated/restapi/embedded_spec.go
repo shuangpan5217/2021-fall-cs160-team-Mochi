@@ -1512,80 +1512,7 @@ func init() {
         }
       }
     },
-    "/v1/notes/groupname/{group_name}": {
-      "get": {
-        "description": "one groupname can be provided to search",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "notesV1"
-        ],
-        "summary": "find notes by Groupname",
-        "operationId": "findNotesByGroupname",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Bearer token based Authorization",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "groupname to filter by",
-            "name": "group_name",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/notesGetResponse"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "409": {
-            "description": "Conflict",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          }
-        }
-      }
-    },
-    "/v1/notes/tag/{tag}": {
+    "/v1/notes/search/{tags}": {
       "get": {
         "description": "one tag can be provided to search",
         "produces": [
@@ -1606,20 +1533,14 @@ func init() {
           },
           {
             "type": "string",
-            "description": "tag to filter by",
-            "name": "tag",
+            "description": "tags to filter by",
+            "name": "tags",
             "in": "path",
             "required": true
           },
           {
-            "type": "string",
-            "description": "type of note",
-            "name": "type",
-            "in": "query"
-          },
-          {
             "type": "integer",
-            "default": 10,
+            "default": 20,
             "description": "limit of files",
             "name": "limit",
             "in": "query"
@@ -1633,6 +1554,7 @@ func init() {
           },
           {
             "type": "boolean",
+            "default": true,
             "description": "updated at",
             "name": "updated_at",
             "in": "query"
@@ -2774,17 +2696,27 @@ func init() {
       }
     },
     "groupMembers": {
-      "description": "array of group users",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/groupUser"
+      "type": "object",
+      "properties": {
+        "users": {
+          "description": "array of group users",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupUser"
+          }
+        }
       }
     },
     "groupMembersObject": {
-      "description": "array of group users",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/userObj"
+      "type": "object",
+      "properties": {
+        "users": {
+          "description": "array of group users",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userObj"
+          }
+        }
       }
     },
     "groupObj": {
@@ -2908,7 +2840,13 @@ func init() {
         },
         "type": {
           "description": "type of the note file, public, shared, private",
-          "type": "string"
+          "type": "string",
+          "default": "private",
+          "enum": [
+            "private",
+            "shared",
+            "public"
+          ]
         }
       }
     },
@@ -3080,6 +3018,10 @@ func init() {
     "userImagesResponse": {
       "type": "object",
       "properties": {
+        "type": {
+          "description": "type of pic",
+          "type": "string"
+        },
         "user_image": {
           "description": "user image",
           "type": "object"
@@ -4611,80 +4553,7 @@ func init() {
         }
       }
     },
-    "/v1/notes/groupname/{group_name}": {
-      "get": {
-        "description": "one groupname can be provided to search",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "notesV1"
-        ],
-        "summary": "find notes by Groupname",
-        "operationId": "findNotesByGroupname",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Bearer token based Authorization",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "groupname to filter by",
-            "name": "group_name",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/notesGetResponse"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "409": {
-            "description": "Conflict",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/errResponse"
-            }
-          }
-        }
-      }
-    },
-    "/v1/notes/tag/{tag}": {
+    "/v1/notes/search/{tags}": {
       "get": {
         "description": "one tag can be provided to search",
         "produces": [
@@ -4705,20 +4574,14 @@ func init() {
           },
           {
             "type": "string",
-            "description": "tag to filter by",
-            "name": "tag",
+            "description": "tags to filter by",
+            "name": "tags",
             "in": "path",
             "required": true
           },
           {
-            "type": "string",
-            "description": "type of note",
-            "name": "type",
-            "in": "query"
-          },
-          {
             "type": "integer",
-            "default": 10,
+            "default": 20,
             "description": "limit of files",
             "name": "limit",
             "in": "query"
@@ -4732,6 +4595,7 @@ func init() {
           },
           {
             "type": "boolean",
+            "default": true,
             "description": "updated at",
             "name": "updated_at",
             "in": "query"
@@ -5873,17 +5737,27 @@ func init() {
       }
     },
     "groupMembers": {
-      "description": "array of group users",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/groupUser"
+      "type": "object",
+      "properties": {
+        "users": {
+          "description": "array of group users",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupUser"
+          }
+        }
       }
     },
     "groupMembersObject": {
-      "description": "array of group users",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/userObj"
+      "type": "object",
+      "properties": {
+        "users": {
+          "description": "array of group users",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userObj"
+          }
+        }
       }
     },
     "groupObj": {
@@ -6007,7 +5881,13 @@ func init() {
         },
         "type": {
           "description": "type of the note file, public, shared, private",
-          "type": "string"
+          "type": "string",
+          "default": "private",
+          "enum": [
+            "private",
+            "shared",
+            "public"
+          ]
         }
       }
     },
@@ -6179,6 +6059,10 @@ func init() {
     "userImagesResponse": {
       "type": "object",
       "properties": {
+        "type": {
+          "description": "type of pic",
+          "type": "string"
+        },
         "user_image": {
           "description": "user image",
           "type": "object"
