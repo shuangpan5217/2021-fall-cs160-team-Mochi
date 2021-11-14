@@ -50,6 +50,10 @@ html, body{
   font-size: 20px;
 }
 
+.smaller {
+    font-size: 12px;
+  }
+
 .agenda-big {
     font-family: agenda,sans-serif;
     font-weight: 400;
