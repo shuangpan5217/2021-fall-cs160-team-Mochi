@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -39,6 +40,7 @@ type NoteObjectRequest struct {
 
 	// type of the note file, public, shared, private
 	// Required: true
+	// Enum: [private shared public]
 	Type *string `json:"type"`
 }
 
@@ -95,9 +97,46 @@ func (m *NoteObjectRequest) validateTag(formats strfmt.Registry) error {
 	return nil
 }
 
+var noteObjectRequestTypeTypePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["private","shared","public"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		noteObjectRequestTypeTypePropEnum = append(noteObjectRequestTypeTypePropEnum, v)
+	}
+}
+
+const (
+
+	// NoteObjectRequestTypePrivate captures enum value "private"
+	NoteObjectRequestTypePrivate string = "private"
+
+	// NoteObjectRequestTypeShared captures enum value "shared"
+	NoteObjectRequestTypeShared string = "shared"
+
+	// NoteObjectRequestTypePublic captures enum value "public"
+	NoteObjectRequestTypePublic string = "public"
+)
+
+// prop value enum
+func (m *NoteObjectRequest) validateTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, noteObjectRequestTypeTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (m *NoteObjectRequest) validateType(formats strfmt.Registry) error {
 
 	if err := validate.Required("type", "body", m.Type); err != nil {
+		return err
+	}
+
+	// value enum
+	if err := m.validateTypeEnum("type", "body", *m.Type); err != nil {
 		return err
 	}
 

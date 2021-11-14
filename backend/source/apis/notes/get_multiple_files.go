@@ -62,7 +62,8 @@ func processGetMultipleFilesRequest(db *gorm.DB, params notes_v1.GetMultipleFile
 		var pdfData []byte
 		pdfData, errResp = getFile(mochiNoteDir + "/" + path.Path)
 		if errResp != nil {
-			return
+			// don't return errResp
+			continue
 		}
 		fileResp := &models.GetFileResponse{
 			PdfData: base64.StdEncoding.EncodeToString(pdfData),

@@ -2830,7 +2830,13 @@ func init() {
         },
         "type": {
           "description": "type of the note file, public, shared, private",
-          "type": "string"
+          "type": "string",
+          "default": "private",
+          "enum": [
+            "private",
+            "shared",
+            "public"
+          ]
         }
       }
     },
@@ -5851,7 +5857,13 @@ func init() {
         },
         "type": {
           "description": "type of the note file, public, shared, private",
-          "type": "string"
+          "type": "string",
+          "default": "private",
+          "enum": [
+            "private",
+            "shared",
+            "public"
+          ]
         }
       }
     },
