@@ -79,7 +79,9 @@ function UploadDropzone({ setFile, profile }) {
                     >
                         <input {...getInputProps()} />
                         {acceptedFiles.length > 0 ? (
-                            <p className="smaller text-center">{acceptedFiles[0].path}</p>
+                            <p className="smaller text-center">
+                                {acceptedFiles[0].path}
+                            </p>
                         ) : (
                             <p className="smaller text-center">profile photo</p>
                         )}

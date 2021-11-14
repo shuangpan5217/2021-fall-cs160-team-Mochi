@@ -67,8 +67,32 @@ function SignUpWindow(props) {
 
             const loginResponseJSON = await loginResponse.json();
             if (!loginResponseJSON.status_code) {
-                // window.localStorage.setItem("authToken", responseJSON.token);
-                history.push("/login");
+                window.localStorage.setItem(
+                    "authToken",
+                    loginResponseJSON.token
+                );
+                let formData = new FormData();
+                formData.append("userImage", file);
+
+                const imgResponse = await fetch(
+                    "http://localhost:3000/v1/images",
+                    {
+                        method: "POST",
+                        headers: {
+                            Authorization:
+                                "bearer " +
+                                window.localStorage.getItem("authToken"),
+                        },
+                        body: formData,
+                    }
+                );
+
+                const imgResponseJSON = await imgResponse.json();
+                if (!imgResponseJSON.message) {
+                    alert("Something went wrong with Image upload!");
+                } else {
+                    history.push("/login");
+                }
             } else if (loginResponseJSON.status_code === 401) {
                 alert("Incorrect username or password.");
             } else {
@@ -80,6 +104,7 @@ function SignUpWindow(props) {
             alert("Something went wrong");
         }
     };
+
     return (
         <div className="d-flex flex-column align-items-center">
             <ModalHeader title="Create New Account" />
