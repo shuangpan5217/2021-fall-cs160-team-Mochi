@@ -65,7 +65,6 @@ function PersonalPage(props) {
 
         if (success) {
             const friendResponseJSON = await friendsResponse.json();
-            setFriends([]);
             if (friendResponseJSON.friends) {
                 setFriends(friendResponseJSON.friends);
             }
@@ -87,7 +86,6 @@ function PersonalPage(props) {
 
         if (success) {
             const groupResponseJSON = await groupsResponse.json();
-            setGroups([]);
             if (groupResponseJSON.allGroups) {
                 setGroups(groupResponseJSON.allGroups);
             }
@@ -112,7 +110,6 @@ function PersonalPage(props) {
 
         if (success) {
             const userNoteResponseJSON = await userNotesResponse.json();
-            setNotes([]);
             if (userNoteResponseJSON.notes) {
                 setNotes(userNoteResponseJSON.notes);
 
@@ -172,7 +169,8 @@ function PersonalPage(props) {
                                             ))}
                                         </div>
                                         <div className="flex-row">
-                                            <Button small
+                                            <Button
+                                                small
                                                 title="ADD FRIEND"
                                                 type="primary"
                                                 clicked={() =>
@@ -199,7 +197,8 @@ function PersonalPage(props) {
                                             ))}
                                         </div>
                                         <div className="flex-row">
-                                            <Button small
+                                            <Button
+                                                small
                                                 title="CREATE GROUP"
                                                 type="primary"
                                                 clicked={() =>
@@ -208,7 +207,8 @@ function PersonalPage(props) {
                                             />
                                         </div>
                                         <div className="flex-row">
-                                            <Button small
+                                            <Button
+                                                small
                                                 title="EDIT PROFILE"
                                                 type="secondary"
                                                 clicked={() =>

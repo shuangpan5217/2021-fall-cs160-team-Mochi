@@ -64,7 +64,6 @@ function GroupPage(props) {
 
         if (success) {
             const memberResponseJSON = await membersResponse.json();
-            setMembers([]);
             if (memberResponseJSON.users) {
                 setMembers(memberResponseJSON.users);
             }
