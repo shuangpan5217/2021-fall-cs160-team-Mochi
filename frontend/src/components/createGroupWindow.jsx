@@ -34,7 +34,6 @@ function CreateGroupWindow({ trigger, setTrigger, groups, setGroups }) {
         if (responseJSON.group_id) {
             setGroups([...groups, { group_name }]);
             setTrigger(false);
-            history.push("/my_notes");
         } else {
             alert("Something went wrong with creating group!");
         }
@@ -48,8 +47,6 @@ function CreateGroupWindow({ trigger, setTrigger, groups, setGroups }) {
                     <ModalHeader title="Create a Group" />
                     <div className="d-flex flex-column align-items-end">
                         <InputBox placeholder="name" onChange={setGroupName} />
-                    </div>
-                    <div className="d-flex flex-column align-items-end">
                         <InputBox
                             placeholder="description"
                             onChange={setGroupDescription}

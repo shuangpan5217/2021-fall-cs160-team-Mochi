@@ -67,9 +67,7 @@ function PersonalPage(props) {
             const friendResponseJSON = await friendsResponse.json();
             setFriends([]);
             if (friendResponseJSON.friends) {
-                for (const friend of friendResponseJSON.friends) {
-                    setFriends((arr) => [...arr, friend]);
-                }
+                setFriends(friendResponseJSON.friends);
             }
         }
     };
@@ -91,9 +89,7 @@ function PersonalPage(props) {
             const groupResponseJSON = await groupsResponse.json();
             setGroups([]);
             if (groupResponseJSON.allGroups) {
-                for (const group of groupResponseJSON.allGroups) {
-                    setGroups((arr) => [...arr, group]);
-                }
+                setGroups(groupResponseJSON.allGroups);
             }
         }
     };
@@ -118,9 +114,7 @@ function PersonalPage(props) {
             const userNoteResponseJSON = await userNotesResponse.json();
             setNotes([]);
             if (userNoteResponseJSON.notes) {
-                for (const noteRef of userNoteResponseJSON.notes) {
-                    setNotes((arr) => [...arr, noteRef]);
-                }
+                setNotes(userNoteResponseJSON.notes);
 
                 const pdfResponse = await fetch(
                     "http://localhost:3000/v1/notes/file/" +
@@ -145,8 +139,6 @@ function PersonalPage(props) {
                     } else {
                         console.error("Could not load note pdf.");
                     }
-                } else {
-                    return;
                 }
             } else {
                 console.error("Could not load note.");
@@ -158,7 +150,7 @@ function PersonalPage(props) {
         getUserInfo();
         getMyFriends();
         getMyGroups();
-        getUserNotesRef();
+        // getUserNotesRef();
     }, []);
 
     return (
@@ -180,7 +172,7 @@ function PersonalPage(props) {
                                             ))}
                                         </div>
                                         <div className="flex-row">
-                                            <Button
+                                            <Button small
                                                 title="ADD FRIEND"
                                                 type="primary"
                                                 clicked={() =>
@@ -189,7 +181,7 @@ function PersonalPage(props) {
                                             />
                                         </div>
                                         <ModalHeader title="My Groups" />
-                                        <div className="flex-row agenda">
+                                        <div className="flex-column agenda">
                                             {groups.map((group) => (
                                                 <Link
                                                     to={
@@ -207,7 +199,7 @@ function PersonalPage(props) {
                                             ))}
                                         </div>
                                         <div className="flex-row">
-                                            <Button
+                                            <Button small
                                                 title="CREATE GROUP"
                                                 type="primary"
                                                 clicked={() =>
@@ -216,7 +208,7 @@ function PersonalPage(props) {
                                             />
                                         </div>
                                         <div className="flex-row">
-                                            <Button
+                                            <Button small
                                                 title="EDIT PROFILE"
                                                 type="secondary"
                                                 clicked={() =>
@@ -237,7 +229,7 @@ function PersonalPage(props) {
 
                         <div className="d-flex column right-side-middle">
                             <SectionTitle title="My Notes" />
-                            <PDFViewer thumbnail pdf={pdf} />
+                            {/* <PDFViewer thumbnail pdf={pdf} /> */}
                             <div className="d-flex flex-row right-side-down">
                                 <Button
                                     title="UPLOAD"

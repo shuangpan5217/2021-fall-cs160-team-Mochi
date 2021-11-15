@@ -13,7 +13,6 @@ function GroupPage(props) {
     const [buttonAddMember, setButtonAddMember] = useState(false);
     const [buttonGroupProfile, setButtonGroupProfile] = useState(false);
     const [members, setMembers] = useState([]);
-    const [groups, setGroups] = useState([]);
     const [notes, setNotes] = useState([]);
     const [buttonUpload, setButtonUpload] = useState(false);
     const [group, setGroup] = useState("");
@@ -67,9 +66,7 @@ function GroupPage(props) {
             const memberResponseJSON = await membersResponse.json();
             setMembers([]);
             if (memberResponseJSON.users) {
-                for (const member of memberResponseJSON.users) {
-                    setMembers((arr) => [...arr, member]);
-                }
+                setMembers(memberResponseJSON.users);
             }
         }
     };
@@ -99,6 +96,7 @@ function GroupPage(props) {
                                         </div>
                                         <div className="flex-row">
                                             <Button
+                                                small
                                                 title="ADD MEMBER"
                                                 type="primary"
                                                 clicked={() =>
@@ -108,6 +106,7 @@ function GroupPage(props) {
                                         </div>
                                         <div className="flex-row">
                                             <Button
+                                                small
                                                 title="EDIT PROFILE"
                                                 type="secondary"
                                                 clicked={() =>

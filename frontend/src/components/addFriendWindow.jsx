@@ -28,14 +28,13 @@ function AddFriendWindow({ trigger, setTrigger, friends, setFriends }) {
 
         const responseJSON = await response.json();
         if (responseJSON.username) {
-            setFriends([...friends, { username2 }]);
+            setFriends([...friends, { username: username2 }]);
             setTrigger(false);
         } else if (responseJSON.status_code === 404) {
             alert("There is no such username.");
         } else {
             alert("Something went wrong with adding friend!");
         }
-        console.log(friends);
     };
 
     return trigger ? (
