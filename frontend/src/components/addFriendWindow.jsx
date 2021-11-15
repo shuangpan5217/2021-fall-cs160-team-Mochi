@@ -1,13 +1,11 @@
 import Button from "./button";
 import InputBox from "./inputBox";
 import ModalHeader from "./modalHeader.jsx";
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import ModalWindow from "./modalWindow";
 import "../css/personalPage.css";
 
-function AddFriendWindow({ trigger, setTrigger }) {
-    const history = useHistory();
+function AddFriendWindow({ trigger, setTrigger, friends, setFriends }) {
     const [username2, setUsername2] = useState("");
 
     const attemptAddFriend = async () => {
@@ -30,45 +28,44 @@ function AddFriendWindow({ trigger, setTrigger }) {
 
         const responseJSON = await response.json();
         if (responseJSON.username) {
+            setFriends([...friends, { username2 }]);
             setTrigger(false);
-            history.push("/my_notes");
         } else if (responseJSON.status_code === 404) {
-            alert("There is no such username.")
+            alert("There is no such username.");
         } else {
             alert("Something went wrong with adding friend!");
-            setTrigger(false);
         }
+        console.log(friends);
     };
 
     return trigger ? (
-        <div className="popup-add">
-            <ModalWindow
-                body={
-                    <div className="d-flex flex-column align-items-center">
-                        <ModalHeader title="Add friend" />
-                        <div className="d-flex flex-column align-items-end">
-                            <InputBox
-                                placeholder="Enter a Username"
-                                onChange={setUsername2}
-                            />
-                        </div>
-                        <br></br>
-                        <div className="d-flex flex-row ">
-                            <Button
-                                title="BACK"
-                                type="secondary"
-                                clicked={() => setTrigger(false)}
-                            />
-                            <Button
-                                title="ADD"
-                                type="primary"
-                                clicked={attemptAddFriend}
-                            />
-                        </div>
+        <ModalWindow
+            blur
+            body={
+                <div className="d-flex flex-column align-items-center">
+                    <ModalHeader title="Add friend" />
+                    <div className="d-flex flex-column align-items-end">
+                        <InputBox
+                            placeholder="Enter a Username"
+                            onChange={setUsername2}
+                        />
                     </div>
-                }
-            />
-        </div>
+                    <br></br>
+                    <div className="d-flex flex-row ">
+                        <Button
+                            title="BACK"
+                            type="secondary"
+                            clicked={() => setTrigger(false)}
+                        />
+                        <Button
+                            title="ADD"
+                            type="primary"
+                            clicked={attemptAddFriend}
+                        />
+                    </div>
+                </div>
+            }
+        />
     ) : (
         ""
     );

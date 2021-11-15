@@ -3,7 +3,7 @@
     margin-right: 15px;
 }
 
-.label-spacing{
+.label-spacing {
     width: 120px;
     flex-shrink: 0;
     padding-top: 4px;
@@ -11,26 +11,13 @@
     text-align: right;
 }
 
-.radio-label-spacing{
+.radio-label-spacing {
     padding-top: 0px;
     margin-bottom: 20px;
 }
 
-.tag-wrapper{
+.tag-wrapper {
     max-width: 400px;
-}
-
-.popup {
-    position: absolute;
-    top: 20px;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    /* background-color: rgba(0,0,0,0.5); */
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 input[type="radio"]:after {
@@ -69,4 +56,4 @@ input[type="radio"]:checked:after {
     right: 0%;
     padding: 12px 16px;
     transform: translate(0%, -50%);
-  }
+}

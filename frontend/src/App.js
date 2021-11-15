@@ -58,7 +58,7 @@ function App() {
                         component={(props) => <PersonalPage />}
                     />
                     <Route
-                        path="/my_groups"
+                        path="/group/:groupId"
                         component={(props) => <GroupPage />}
                     />
                 </Switch>

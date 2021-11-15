@@ -33,16 +33,3 @@
     margin-left: 550px;
     margin-top: 750px;
 }
-
-.popup-add {
-    position: fixed;
-    top: -200px;
-    left: 80vh;
-    width: 100%;
-    height: 100vh;
-    /* background-color: rgba(0,0,0,0.5); */
-    /* backdrop-filter: blur(5px); */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}

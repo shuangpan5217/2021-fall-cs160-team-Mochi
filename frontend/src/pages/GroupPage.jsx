@@ -23,7 +23,7 @@ function GroupPage(props) {
     const getGroupInfo = async () => {
         let success = true;
         const groupInfoResponse = await fetch(
-            "http://localhost:3000/v1/group/" + groupId,
+            "http://localhost:3000/v1/groups/" + groupId,
             {
                 method: "GET",
                 headers: {
@@ -38,7 +38,7 @@ function GroupPage(props) {
 
         if (success) {
             const groupInfoResponseJSON = await groupInfoResponse.json();
-            if (groupInfoResponseJSON.group_name) {
+            if (groupInfoResponseJSON.group_id) {
                 setGroup(groupInfoResponseJSON.group_name);
                 setGroupDescription(groupInfoResponseJSON.description);
             } else {
@@ -50,7 +50,7 @@ function GroupPage(props) {
     const getGroupMembers = async () => {
         let success = true;
         const membersResponse = await fetch(
-            "http://localhost:3000/v1/group/" + groupId + "/members",
+            "http://localhost:3000/v1/groups/" + groupId + "/members",
             {
                 method: "GET",
                 headers: {
@@ -66,8 +66,8 @@ function GroupPage(props) {
         if (success) {
             const memberResponseJSON = await membersResponse.json();
             setMembers([]);
-            if (memberResponseJSON.members) {
-                for (const member of memberResponseJSON.members) {
+            if (memberResponseJSON.users) {
+                for (const member of memberResponseJSON.users) {
                     setMembers((arr) => [...arr, member]);
                 }
             }
@@ -105,10 +105,6 @@ function GroupPage(props) {
                                                     setButtonAddMember(true)
                                                 }
                                             />
-                                            <AddMemberWindow
-                                                trigger={buttonAddMember}
-                                                setTrigger={setButtonAddMember}
-                                            />
                                         </div>
                                         <div className="flex-row">
                                             <Button
@@ -135,12 +131,18 @@ function GroupPage(props) {
                                     type="primary"
                                     clicked={() => setButtonUpload(true)}
                                 />
-                                <UploadNotesWindow
-                                    trigger={buttonUpload}
-                                    setTrigger={setButtonUpload}
-                                />
                             </div>
                         </div>
+                        <AddMemberWindow
+                            members={members}
+                            setMembers={setMembers}
+                            trigger={buttonAddMember}
+                            setTrigger={setButtonAddMember}
+                        />
+                        <UploadNotesWindow
+                            trigger={buttonUpload}
+                            setTrigger={setButtonUpload}
+                        />
                     </div>
                 }
             />

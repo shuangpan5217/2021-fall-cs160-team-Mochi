@@ -9,7 +9,7 @@ import CreateGroupWindow from "../components/createGroupWindow";
 import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { Link } from "react-router-dom";
-import PDFthumbnail from "../components/PDFthumbnail";
+import PDFViewer from "../components/PDFViewer";
 
 function PersonalPage(props) {
     const [buttonAddFriend, setButtonAddFriend] = useState(false);
@@ -114,43 +114,44 @@ function PersonalPage(props) {
             success = false;
         });
 
-        // if (success) {
-        //     const userNoteResponseJSON = await userNotesResponse.json();
-        //     setNotes([]);
-        //     if (userNoteResponseJSON.note_reference) {
-        //         for (const noteRef of userNoteResponseJSON.note_reference) {
-        //             setNotes((arr) => [...arr, noteRef]);
-        //         }
-        //         const pdfResponse = await fetch(
-        //             "http://localhost:3000/v1/notes/file/" +
-        //                 notes[0].note_reference,
-        //             {
-        //                 method: "GET",
-        //                 headers: {
-        //                     Authorization:
-        //                         "bearer " +
-        //                         window.localStorage.getItem("authToken"),
-        //                 },
-        //             }
-        //         ).catch((err) => {
-        //             console.error(err);
-        //             success = false;
-        //         });
+        if (success) {
+            const userNoteResponseJSON = await userNotesResponse.json();
+            setNotes([]);
+            if (userNoteResponseJSON.notes) {
+                for (const noteRef of userNoteResponseJSON.notes) {
+                    setNotes((arr) => [...arr, noteRef]);
+                }
 
-        //         if (success) {
-        //             const pdfResponseJSON = await pdfResponse.json();
-        //             if (pdfResponseJSON.pdf_data) {
-        //                 setPDF(pdfResponseJSON.pdf_data);
-        //             } else {
-        //                 console.error("Could not load note pdf.");
-        //             }
-        //         } else {
-        //             return;
-        //         }
-        //     } else {
-        //         console.error("Could not load note.");
-        //     }
-        // }
+                const pdfResponse = await fetch(
+                    "http://localhost:3000/v1/notes/file/" +
+                        notes[0].note_reference,
+                    {
+                        method: "GET",
+                        headers: {
+                            Authorization:
+                                "bearer " +
+                                window.localStorage.getItem("authToken"),
+                        },
+                    }
+                ).catch((err) => {
+                    console.error(err);
+                    success = false;
+                });
+
+                if (success) {
+                    const pdfResponseJSON = await pdfResponse.json();
+                    if (pdfResponseJSON.pdf_data) {
+                        setPDF(pdfResponseJSON.pdf_data);
+                    } else {
+                        console.error("Could not load note pdf.");
+                    }
+                } else {
+                    return;
+                }
+            } else {
+                console.error("Could not load note.");
+            }
+        }
     };
 
     useEffect(() => {
@@ -160,7 +161,6 @@ function PersonalPage(props) {
         getUserNotesRef();
     }, []);
 
-    console.log(friends);
     return (
         <>
             <Template
@@ -187,16 +187,15 @@ function PersonalPage(props) {
                                                     setButtonAddFriend(true)
                                                 }
                                             />
-                                            <AddFriendWindow
-                                                trigger={buttonAddFriend}
-                                                setTrigger={setButtonAddFriend}
-                                            />
                                         </div>
                                         <ModalHeader title="My Groups" />
                                         <div className="flex-row agenda">
                                             {groups.map((group) => (
                                                 <Link
-                                                    to="/my_groups"
+                                                    to={
+                                                        "/group/" +
+                                                        group.group_id
+                                                    }
                                                     style={{
                                                         color: "inherit",
                                                         textDecoration:
@@ -214,10 +213,6 @@ function PersonalPage(props) {
                                                 clicked={() =>
                                                     setButtonGroup(true)
                                                 }
-                                            />
-                                            <CreateGroupWindow
-                                                trigger={buttonGroup}
-                                                setTrigger={setButtonGroup}
                                             />
                                         </div>
                                         <div className="flex-row">
@@ -240,20 +235,33 @@ function PersonalPage(props) {
                             <div className="agenda big">{userDescription}</div>
                         </div>
 
-                        <div className="d-flex right-side-middle">
+                        <div className="d-flex column right-side-middle">
                             <SectionTitle title="My Notes" />
+                            <PDFViewer thumbnail pdf={pdf} />
                             <div className="d-flex flex-row right-side-down">
                                 <Button
                                     title="UPLOAD"
                                     type="primary"
                                     clicked={() => setButtonUpload(true)}
                                 />
-                                <UploadNotesWindow
-                                    trigger={buttonUpload}
-                                    setTrigger={setButtonUpload}
-                                />
                             </div>
                         </div>
+                        <AddFriendWindow
+                            friends={friends}
+                            setFriends={setFriends}
+                            trigger={buttonAddFriend}
+                            setTrigger={setButtonAddFriend}
+                        />
+                        <CreateGroupWindow
+                            groups={groups}
+                            setGroups={setGroups}
+                            trigger={buttonGroup}
+                            setTrigger={setButtonGroup}
+                        />
+                        <UploadNotesWindow
+                            trigger={buttonUpload}
+                            setTrigger={setButtonUpload}
+                        />
                     </div>
                 }
             />

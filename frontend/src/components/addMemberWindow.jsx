@@ -5,10 +5,13 @@ import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import ModalWindow from "./modalWindow";
 import "../css/personalPage.css";
+import { useParams } from "react-router";
 
-function AddMemberWindow({ trigger, setTrigger }) {
+function AddMemberWindow({ trigger, setTrigger, members, setMembers }) {
     const history = useHistory();
     const [username, setUsername] = useState("");
+    const { groupId } = useParams();
+    const [users, setUsers] = useState("");
 
     const attemptAddMember = async () => {
         if (username === "") {
@@ -16,59 +19,58 @@ function AddMemberWindow({ trigger, setTrigger }) {
             return;
         }
 
-        const response = await fetch("http://localhost:3000/v1/group/members", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization:
-                    "bearer " + window.localStorage.getItem("authToken"),
-            },
-            body: JSON.stringify({
-                username,
-            }),
-        });
+        const response = await fetch(
+            "http://localhost:3000/v1/groups/" + groupId + "/members",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization:
+                        "bearer " + window.localStorage.getItem("authToken"),
+                },
+                body: JSON.stringify({
+                    users: [{ username }],
+                }),
+            }
+        );
 
         const responseJSON = await response.json();
-        if (responseJSON.username) {
+        if (responseJSON.group_id) {
+            setMembers([...members, { username }]);
             setTrigger(false);
-            history.push("/my_groups");
-        } else if (responseJSON.status_code === 404) {
-            alert("There is no such group.");
         } else {
             alert("Something went wrong with adding group member!");
-            setTrigger(false);
         }
     };
 
     return trigger ? (
-        <div className="popup-add">
-            <ModalWindow
-                body={
-                    <div className="d-flex flex-column align-items-center">
-                        <ModalHeader title="Add member" />
-                        <div className="d-flex flex-column align-items-end">
-                            <InputBox
-                                placeholder="Enter a Username"
-                                onChange={setUsername}
-                            />
-                        </div>
-                        <br></br>
-                        <div className="d-flex flex-row ">
-                            <Button
-                                title="BACK"
-                                type="secondary"
-                                clicked={() => setTrigger(false)}
-                            />
-                            <Button
-                                title="ADD"
-                                type="primary"
-                                clicked={attemptAddMember}
-                            />
-                        </div>
+        <ModalWindow
+            blur
+            body={
+                <div className="d-flex flex-column align-items-center">
+                    <ModalHeader title="Add member" />
+                    <div className="d-flex flex-column align-items-end">
+                        <InputBox
+                            placeholder="Enter a Username"
+                            onChange={setUsername}
+                        />
                     </div>
-                }
-            />
-        </div>
+                    <br></br>
+                    <div className="d-flex flex-row ">
+                        <Button
+                            title="BACK"
+                            type="secondary"
+                            clicked={() => setTrigger(false)}
+                        />
+                        <Button
+                            title="ADD"
+                            type="primary"
+                            clicked={attemptAddMember}
+                        />
+                    </div>
+                </div>
+            }
+        />
     ) : (
         ""
     );
