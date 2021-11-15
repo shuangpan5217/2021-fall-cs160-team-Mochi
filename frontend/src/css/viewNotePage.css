@@ -40,6 +40,7 @@
 
 .scrollable-container{
     overflow: scroll;
+    max-height: calc(100vh - 450px);
 }
 
 .tab-btn, .tab-btn:focus{
