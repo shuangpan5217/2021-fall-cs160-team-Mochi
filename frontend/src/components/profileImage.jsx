@@ -1,10 +1,38 @@
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 function ProfileImage(props) {
     const history = useHistory();
+    const [img, setImg] = useState({});
+    const [type, setType] = useState("");
 
-    const type = "waiting";
-    const img = "waiting";
+    const getImage = async () => {
+        let success = true;
+        const imgResponse = await fetch("http://localhost:3000/v1/images", {
+            method: "GET",
+            headers: {
+                Authorization:
+                    "bearer " + window.localStorage.getItem("authToken"),
+            },
+        }).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const imgResponseJSON = await imgResponse.json();
+            if (imgResponseJSON.user_image) {
+                setImg(imgResponseJSON.user_image);
+                setType(imgResponseJSON.type);
+            } else {
+                console.error("Could not load profile image.");
+            }
+        }
+    };
+
+    useEffect(() => {
+        getImage();
+    }, []);
 
     return (
         <img

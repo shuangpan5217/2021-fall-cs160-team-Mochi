@@ -1,12 +1,12 @@
 import UserListItem from "./userListItem";
 import InputBox from "./inputBox";
-import dummyProfile from "../media/mochi.jpeg";
 import NoteActionHeader from "./noteActionHeader";
 import { useState } from "react";
 import NoteActionButton from "./noteActionButton";
 
 function SharingTab({ members }) {
     const [addMember, setAddMember] = useState("");
+    const dummyProfile = null;
     const memberElems = members.map((member) => (
         <UserListItem img={dummyProfile} name={member.username} />
     ));

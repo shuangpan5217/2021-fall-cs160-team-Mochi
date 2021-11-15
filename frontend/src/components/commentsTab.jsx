@@ -1,11 +1,11 @@
 import { useState } from "react";
 import CommentListItem from "./commentListItem";
 import InputBox from "./inputBox";
-import dummyProfile from "../media/mochi.jpeg";
 import NoteActionButton from "./noteActionButton";
 
 function CommentsTab({ comments, noteId, owner }) {
     const [newComment, setNewComment] = useState("");
+    const dummyProfile = null;
     const [commentElems, setCommentElems] = useState(
         comments.map((comment) => (
             <CommentListItem

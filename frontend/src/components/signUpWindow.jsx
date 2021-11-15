@@ -53,50 +53,54 @@ function SignUpWindow(props) {
 
         const responseJSON = await response.json();
         if (responseJSON.username) {
-            const loginResponse = await fetch(
-                "http://localhost:3000/v1/login",
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        username,
-                        password,
-                    }),
-                }
-            );
-
-            const loginResponseJSON = await loginResponse.json();
-            if (!loginResponseJSON.status_code) {
-                window.localStorage.setItem(
-                    "authToken",
-                    loginResponseJSON.token
-                );
-                let formData = new FormData();
-                formData.append("userImage", file);
-
-                const imgResponse = await fetch(
-                    "http://localhost:3000/v1/images",
+            if (file != null) {
+                const loginResponse = await fetch(
+                    "http://localhost:3000/v1/login",
                     {
                         method: "POST",
-                        headers: {
-                            Authorization:
-                                "bearer " +
-                                window.localStorage.getItem("authToken"),
-                        },
-                        body: formData,
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            username,
+                            password,
+                        }),
                     }
                 );
 
-                const imgResponseJSON = await imgResponse.json();
-                if (!imgResponseJSON.message) {
-                    alert("Something went wrong with Image upload!");
+                const loginResponseJSON = await loginResponse.json();
+                if (!loginResponseJSON.status_code) {
+                    window.localStorage.setItem(
+                        "authToken",
+                        loginResponseJSON.token
+                    );
+                    let formData = new FormData();
+                    formData.append("userImage", file);
+
+                    const imgResponse = await fetch(
+                        "http://localhost:3000/v1/images",
+                        {
+                            method: "POST",
+                            headers: {
+                                Authorization:
+                                    "bearer " +
+                                    window.localStorage.getItem("authToken"),
+                            },
+                            body: formData,
+                        }
+                    );
+
+                    const imgResponseJSON = await imgResponse.json();
+                    if (!imgResponseJSON.message) {
+                        alert("Something went wrong with Image upload!");
+                    } else {
+                        history.push("/login");
+                    }
+                } else if (loginResponseJSON.status_code === 401) {
+                    alert("Incorrect username or password.");
                 } else {
-                    history.push("/login");
+                    alert("Something went wrong");
                 }
-            } else if (loginResponseJSON.status_code === 401) {
-                alert("Incorrect username or password.");
             } else {
-                alert("Something went wrong");
+                history.push("/login");
             }
         } else if (responseJSON.errMessage === "username already exists") {
             alert("That username already exists, please try again.");
