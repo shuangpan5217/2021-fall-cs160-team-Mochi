@@ -5,11 +5,11 @@ import NoteActionButton from "./noteActionButton";
 
 function CommentsTab({ comments, noteId, owner }) {
     const [newComment, setNewComment] = useState("");
-    const dummyProfile = null;
     const [commentElems, setCommentElems] = useState(
         comments.map((comment) => (
             <CommentListItem
-                img={dummyProfile}
+                img={comment.img.user_image}
+                type={comment.img.type}
                 name={comment.username}
                 comment={comment.content}
             />
@@ -42,8 +42,9 @@ function CommentsTab({ comments, noteId, owner }) {
             if (commentResponseJSON.comment_id) {
                 const newCommentElem = (
                     <CommentListItem
-                        img={dummyProfile}
-                        name={owner}
+                        img={owner.img.user_image}
+                        type={owner.img.type}
+                        name={owner.name}
                         comment={newComment}
                     />
                 );

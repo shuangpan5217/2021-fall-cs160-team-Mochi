@@ -11,7 +11,7 @@ function ViewNotesPage(props) {
     const [pdf, setPDF] = useState({});
     const [title, setTitle] = useState("");
     const [descr, setDescr] = useState("");
-    const [owner, setOwner] = useState("");
+    const [owner, setOwner] = useState({});
     const [type, setType] = useState("");
     const [tags, setTags] = useState([]);
     const [members, setMembers] = useState([]);
@@ -38,7 +38,6 @@ function ViewNotesPage(props) {
             if (noteResponseJSON.note_reference) {
                 setTitle(noteResponseJSON.title);
                 setDescr(noteResponseJSON.description);
-                setOwner(noteResponseJSON.note_owner);
                 setType(noteResponseJSON.type);
                 setTags([noteResponseJSON.style]);
                 if (noteResponseJSON.tag) {
@@ -47,40 +46,63 @@ function ViewNotesPage(props) {
                         ...noteResponseJSON.tag.split(","),
                     ]);
                 }
-
-                const pdfResponse = await fetch(
-                    "http://localhost:3000/v1/notes/file/" +
-                        noteResponseJSON.note_reference,
-                    {
-                        method: "GET",
-                        headers: {
-                            Authorization:
-                                "bearer " +
-                                window.localStorage.getItem("authToken"),
-                        },
-                    }
-                ).catch((err) => {
-                    console.error(err);
-                    success = false;
-                });
-
-                if (success) {
-                    const pdfResponseJSON = await pdfResponse.json();
-                    if (pdfResponseJSON.pdf_data) {
-                        setPDF(pdfResponseJSON.pdf_data);
-                    } else {
-                        console.error("Could not load note pdf.");
-                    }
-                } else {
-                    return;
-                }
+                await getPDF(noteResponseJSON.note_reference);
+                await getOwnerImage(noteResponseJSON.note_owner);
+                await getCommentData();
+                // getMemberData();
             } else {
                 console.error("Could not load note.");
             }
         }
+    };
 
-        getCommentData();
-        // getMemberData();
+    const getPDF = async (noteRef) => {
+        let success = true;
+        const pdfResponse = await fetch(
+            "http://localhost:3000/v1/notes/file/" + noteRef,
+            {
+                method: "GET",
+                headers: {
+                    Authorization:
+                        "bearer " + window.localStorage.getItem("authToken"),
+                },
+            }
+        ).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const pdfResponseJSON = await pdfResponse.json();
+            if (pdfResponseJSON.pdf_data) {
+                setPDF(pdfResponseJSON.pdf_data);
+            } else {
+                console.error("Could not load note pdf.");
+            }
+        }
+    };
+
+    const getOwnerImage = async (noteOwner) => {
+        let success = true;
+        const imgResponse = await fetch("http://localhost:3000/v1/images", {
+            method: "GET",
+            headers: {
+                Authorization:
+                    "bearer " + window.localStorage.getItem("authToken"),
+            },
+        }).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const imgResponseJSON = await imgResponse.json();
+            if (imgResponseJSON.user_image != null) {
+                setOwner({ name: noteOwner, img: imgResponseJSON });
+            } else {
+                console.error("Could not load profile image.");
+            }
+        }
     };
 
     const getCommentData = async () => {
@@ -102,23 +124,31 @@ function ViewNotesPage(props) {
         if (success) {
             const commentResponseJSON = await commentResponse.json();
             if (commentResponseJSON.comments) {
-                setComments(commentResponseJSON.comments.reverse());
+                await getUserImages(commentResponseJSON.comments.reverse());
             } else {
-                console.error("Could not load shared members of this note.");
+                console.error("Could not load comments of this note.");
             }
         }
     };
 
-    const getMemberData = async () => {
+    const getUserImages = async (commentArr) => {
+        const users = commentArr.map((commentElem) => ({
+            username: commentElem.username,
+        }));
+
         let success = true;
-        const memberResponse = await fetch(
-            "http://localhost:3000/v1/notes/" + noteId + "/members",
+        const imgResponse = await fetch(
+            "http://localhost:3000/v1/images/multiple",
             {
-                method: "GET",
+                method: "POST",
                 headers: {
+                    "Content-Type": "application/json",
                     Authorization:
                         "bearer " + window.localStorage.getItem("authToken"),
                 },
+                body: JSON.stringify({
+                    users,
+                }),
             }
         ).catch((err) => {
             console.error(err);
@@ -126,14 +156,43 @@ function ViewNotesPage(props) {
         });
 
         if (success) {
-            const memberResponseJSON = await memberResponse.json();
-            if (memberResponseJSON.users) {
-                setMembers(memberResponseJSON.users);
+            const imgResponseJSON = await imgResponse.json();
+            if (imgResponseJSON.images) {
+                for (let i = 0; i < commentArr.length; i++) {
+                    commentArr[i].img = imgResponseJSON.images[i];
+                }
+                setComments(commentArr);
             } else {
-                console.error("Could not load shared members of this note.");
+                console.error("Could not load comments of this note.");
             }
         }
     };
+
+    // const getMemberData = async () => {
+    //     let success = true;
+    //     const memberResponse = await fetch(
+    //         "http://localhost:3000/v1/notes/" + noteId + "/members",
+    //         {
+    //             method: "GET",
+    //             headers: {
+    //                 Authorization:
+    //                     "bearer " + window.localStorage.getItem("authToken"),
+    //             },
+    //         }
+    //     ).catch((err) => {
+    //         console.error(err);
+    //         success = false;
+    //     });
+
+    //     if (success) {
+    //         const memberResponseJSON = await memberResponse.json();
+    //         if (memberResponseJSON.users) {
+    //             setMembers(memberResponseJSON.users);
+    //         } else {
+    //             console.error("Could not load shared members of this note.");
+    //         }
+    //     }
+    // };
 
     useEffect(() => {
         getNoteData();
@@ -149,7 +208,7 @@ function ViewNotesPage(props) {
                         <div className="d-flex flex-column left-container">
                             <SectionTitle
                                 title={title}
-                                subtitle={`by ${owner}`}
+                                subtitle={`by ${owner.name}`}
                             />
                             <PDFViewer pdf={pdf} />
                         </div>

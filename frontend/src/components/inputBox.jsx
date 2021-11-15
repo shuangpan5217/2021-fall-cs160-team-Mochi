@@ -24,7 +24,7 @@ function InputBox({
     }, [value, onChange]);
 
     const handleKeyDown = (event) => {
-        if (event.key === "Enter" && event.target.value !== "") {
+        if (onEnter && event.key === "Enter" && event.target.value !== "") {
             onEnter();
         }
     };

@@ -22,7 +22,7 @@ function ProfileImage(props) {
 
         if (success) {
             const imgResponseJSON = await imgResponse.json();
-            if (imgResponseJSON.user_image) {
+            if (imgResponseJSON.user_image != null) {
                 setImg(imgResponseJSON.user_image);
                 setType(imgResponseJSON.type);
             } else {

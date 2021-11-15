@@ -166,7 +166,6 @@ function PersonalPage(props) {
         getUserNotesRef();
     }, []);
 
-    console.log(friends);
     return (
         <>
             <Template
