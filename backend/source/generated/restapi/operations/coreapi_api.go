@@ -95,6 +95,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		NotesV1GetMultipleFilesV1Handler: notes_v1.GetMultipleFilesV1HandlerFunc(func(params notes_v1.GetMultipleFilesV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.GetMultipleFilesV1 has not yet been implemented")
 		}),
+		UserImagesV1GetMultipleUserImagesV1Handler: user_images_v1.GetMultipleUserImagesV1HandlerFunc(func(params user_images_v1.GetMultipleUserImagesV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation user_images_v1.GetMultipleUserImagesV1 has not yet been implemented")
+		}),
 		NotesV1GetNoteCommentsHandler: notes_v1.GetNoteCommentsHandlerFunc(func(params notes_v1.GetNoteCommentsParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.GetNoteComments has not yet been implemented")
 		}),
@@ -218,6 +221,8 @@ type CoreapiAPI struct {
 	GroupsV1GetGroupsV1Handler groups_v1.GetGroupsV1Handler
 	// NotesV1GetMultipleFilesV1Handler sets the operation handler for the get multiple files v1 operation
 	NotesV1GetMultipleFilesV1Handler notes_v1.GetMultipleFilesV1Handler
+	// UserImagesV1GetMultipleUserImagesV1Handler sets the operation handler for the get multiple user images v1 operation
+	UserImagesV1GetMultipleUserImagesV1Handler user_images_v1.GetMultipleUserImagesV1Handler
 	// NotesV1GetNoteCommentsHandler sets the operation handler for the get note comments operation
 	NotesV1GetNoteCommentsHandler notes_v1.GetNoteCommentsHandler
 	// NotesV1GetNoteMembersV1Handler sets the operation handler for the get note members v1 operation
@@ -378,6 +383,9 @@ func (o *CoreapiAPI) Validate() error {
 	}
 	if o.NotesV1GetMultipleFilesV1Handler == nil {
 		unregistered = append(unregistered, "notes_v1.GetMultipleFilesV1Handler")
+	}
+	if o.UserImagesV1GetMultipleUserImagesV1Handler == nil {
+		unregistered = append(unregistered, "user_images_v1.GetMultipleUserImagesV1Handler")
 	}
 	if o.NotesV1GetNoteCommentsHandler == nil {
 		unregistered = append(unregistered, "notes_v1.GetNoteCommentsHandler")
@@ -583,6 +591,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/v1/notes/files"] = notes_v1.NewGetMultipleFilesV1(o.context, o.NotesV1GetMultipleFilesV1Handler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/v1/images/multiple"] = user_images_v1.NewGetMultipleUserImagesV1(o.context, o.UserImagesV1GetMultipleUserImagesV1Handler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
