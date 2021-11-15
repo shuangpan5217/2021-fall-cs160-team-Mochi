@@ -1669,6 +1669,57 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
+  /v1/images/multiple:
+    post:
+      description: get multiple user images
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+      - userImagesV1
+      summary: get multiple user images
+      operationId: getMultipleUserImagesV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: body
+        in: body
+        description: array of users
+        schema:
+          $ref: '#/definitions/groupMembers'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/multipleUserImagesResponse'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
 
 definitions:
   createUserObject:
@@ -2025,6 +2076,18 @@ definitions:
       type:
         type: string
         description: type of pic
+  multipleUserImagesResponse:
+    type: object
+    properties:
+      images:
+        type: array
+        items:
+          $ref: '#/definitions/userImagesResponse'
+        description: multiple user images
+      count:
+        type: integer
+        format: int32
+        description: count of user images
   getFileResponse:
     type: object
     properties:
