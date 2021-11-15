@@ -90,115 +90,114 @@ function UploadNotesWindow({ trigger, setTrigger }) {
     };
 
     return trigger ? (
-        <div className="popup">
-            <ModalWindow
-                body={
-                    <div className="d-flex flex-column align-items-center">
-                        <ModalHeader title="Upload Notes" />
-                        <div className="d-flex flex-column align-items-start">
+        <ModalWindow
+            blur
+            body={
+                <div className="d-flex flex-column align-items-center">
+                    <ModalHeader title="Upload Notes" />
+                    <div className="d-flex flex-column align-items-start">
+                        <InputBox
+                            label="Title"
+                            placeholder="title"
+                            onChange={setTitle}
+                        />
+                        <InputBox
+                            textArea
+                            label="Description"
+                            placeholder="description"
+                            onChange={setDescription}
+                            size="large"
+                        />
+                        <div className="d-flex flex-row">
                             <InputBox
-                                label="Title"
-                                placeholder="title"
-                                onChange={setTitle}
+                                label="Tag"
+                                placeholder="tag"
+                                onChange={setTag}
+                                clear={tag === ""}
+                                onEnter={addTag}
+                                size="small"
                             />
-                            <InputBox
-                                textArea
-                                label="Description"
-                                placeholder="description"
-                                onChange={setDescription}
-                                size="large"
-                            />
-                            <div className="d-flex flex-row">
-                                <InputBox
-                                    label="Tag"
-                                    placeholder="tag"
-                                    onChange={setTag}
-                                    clear={tag === ""}
-                                    onEnter={addTag}
-                                    size="small"
-                                />
-                                <div className="d-flex flex-row tag-wrapper flex-wrap">
-                                    {tagElems}
-                                </div>
-                            </div>
-                            <div className="d-flex flex-row">
-                                <label className="agenda small label-spacing radio-label-spacing">
-                                    Sharing
-                                </label>
-                                <RadioButton
-                                    group="sharing"
-                                    label="Public"
-                                    onChange={() => setType("public")}
-                                />
-                                <RadioButton
-                                    group="sharing"
-                                    label="Shared"
-                                    onChange={() => setType("shared")}
-                                />
-                                <RadioButton
-                                    group="sharing"
-                                    label="Private"
-                                    onChange={() => setType("Private")}
-                                />
-                            </div>
-                            <div className="d-flex flex-row">
-                                <label className="agenda small label-spacing radio-label-spacing">
-                                    Style
-                                </label>
-                                <RadioButton
-                                    group="style"
-                                    label="Outline"
-                                    onChange={() => setStyle("Outline")}
-                                />
-                                <RadioButton
-                                    group="style"
-                                    label="Cornell"
-                                    onChange={() => setStyle("Cornell")}
-                                />
-                                <RadioButton
-                                    group="style"
-                                    label="Boxing"
-                                    onChange={() => setStyle("Boxing")}
-                                />
-                                <RadioButton
-                                    group="style"
-                                    label="Charting"
-                                    onChange={() => setStyle("Charting")}
-                                />
-                                <RadioButton
-                                    group="style"
-                                    label="Mapping"
-                                    onChange={() => setStyle("Mapping")}
-                                />
-                                <RadioButton
-                                    group="style"
-                                    label="Sentence"
-                                    onChange={() => setStyle("Sentence")}
-                                />
-                            </div>
-                            <div className="d-flex flex-row">
-                                <label className="agenda small label-spacing">
-                                    Attach File
-                                </label>
-                                <UploadDropzone setFile={setFile} />
+                            <div className="d-flex flex-row tag-wrapper flex-wrap">
+                                {tagElems}
                             </div>
                         </div>
-                        <div className="d-flex flex-row ">
-                            <Button
-                                title="CANCEL"
-                                type="secondary"
-                                clicked={() => setTrigger(false)}
+                        <div className="d-flex flex-row">
+                            <label className="agenda small label-spacing radio-label-spacing">
+                                Sharing
+                            </label>
+                            <RadioButton
+                                group="sharing"
+                                label="Public"
+                                onChange={() => setType("public")}
                             />
-                            <Button
-                                title="UPLOAD"
-                                type="primary"
-                                clicked={attemptUpload}
+                            <RadioButton
+                                group="sharing"
+                                label="Shared"
+                                onChange={() => setType("shared")}
                             />
+                            <RadioButton
+                                group="sharing"
+                                label="Private"
+                                onChange={() => setType("private")}
+                            />
+                        </div>
+                        <div className="d-flex flex-row">
+                            <label className="agenda small label-spacing radio-label-spacing">
+                                Style
+                            </label>
+                            <RadioButton
+                                group="style"
+                                label="Outline"
+                                onChange={() => setStyle("Outline")}
+                            />
+                            <RadioButton
+                                group="style"
+                                label="Cornell"
+                                onChange={() => setStyle("Cornell")}
+                            />
+                            <RadioButton
+                                group="style"
+                                label="Boxing"
+                                onChange={() => setStyle("Boxing")}
+                            />
+                            <RadioButton
+                                group="style"
+                                label="Charting"
+                                onChange={() => setStyle("Charting")}
+                            />
+                            <RadioButton
+                                group="style"
+                                label="Mapping"
+                                onChange={() => setStyle("Mapping")}
+                            />
+                            <RadioButton
+                                group="style"
+                                label="Sentence"
+                                onChange={() => setStyle("Sentence")}
+                            />
+                        </div>
+                        <div className="d-flex flex-row">
+                            <label className="agenda small label-spacing">
+                                Attach File
+                            </label>
+                            <UploadDropzone setFile={setFile} />
                         </div>
                     </div>
-                }
-            />
-        </div>
+                    <div className="d-flex flex-row ">
+                        <Button
+                            title="CANCEL"
+                            type="secondary"
+                            clicked={() => setTrigger(false)}
+                        />
+                        <Button
+                            title="UPLOAD"
+                            type="primary"
+                            clicked={attemptUpload}
+                        />
+                    </div>
+                </div>
+            }
+        />
     ) : (
         ""
     );
