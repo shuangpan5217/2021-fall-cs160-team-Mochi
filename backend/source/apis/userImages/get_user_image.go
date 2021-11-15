@@ -8,7 +8,6 @@ import (
 	"encoding/base64"
 	"io/ioutil"
 	"net/http"
-	"os"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/jinzhu/gorm"
@@ -53,36 +52,31 @@ func processGetUserImagesRequest(db *gorm.DB, params user_images_v1.GetUserImage
 		return
 	}
 
-	// read file
-	exist, err := notes.Exists(userImagesDir + "/" + payload.Username)
-	if err != nil && !os.IsNotExist(err) {
-		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	// file exists
-	if exist {
-		userImageData, err = ioutil.ReadFile(userImagesDir + "/" + payload.Username)
-		if err != nil {
-			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
-			return
-		}
-	} else {
-		// default jpeg
-		exist, err = notes.Exists(userImagesDir + "/default.jpeg")
-		if exist {
-			userImageData, err = ioutil.ReadFile(userImagesDir + "/default.jpeg")
-		}
-		if err != nil {
-			errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
-			return
-		}
-	}
+	// get user image
+	userImageData = readUserImage(userImagesDir, userImageData, payload.Username)
 
 	// resp
 	resp = &models.UserImagesResponse{
 		UserImage: base64.StdEncoding.EncodeToString(userImageData),
 		Type:      http.DetectContentType(userImageData),
+		Name:      payload.Username,
 	}
 	return
+}
+
+func readUserImage(userImagesDir string, userImageData []byte, username string) []byte {
+	// read file
+	exist, _ := notes.Exists(userImagesDir + "/" + username)
+
+	// file exists
+	if exist {
+		userImageData, _ = ioutil.ReadFile(userImagesDir + "/" + username)
+	} else {
+		// default jpeg
+		exist, _ = notes.Exists(userImagesDir + "/default.jpeg")
+		if exist {
+			userImageData, _ = ioutil.ReadFile(userImagesDir + "/default.jpeg")
+		}
+	}
+	return userImageData
 }

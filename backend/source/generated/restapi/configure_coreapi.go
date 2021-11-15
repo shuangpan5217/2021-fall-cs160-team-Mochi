@@ -94,6 +94,8 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	// user image
 	api.UserImagesV1PostUserImagesV1Handler = userImages.UploadUserImagesHandlerV1(db)
 	api.UserImagesV1GetUserImagesV1Handler = userImages.GetUserImagesHandlerV1(db)
+	api.UserImagesV1GetMultipleUserImagesV1Handler = userImages.GetMultipleUserImages(db)
+
 	api.PreServerShutdown = func() {}
 
 	api.ServerShutdown = func() {}

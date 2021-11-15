@@ -1050,6 +1050,83 @@ func init() {
         }
       }
     },
+    "/v1/images/multiple": {
+      "post": {
+        "description": "get multiple user images",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userImagesV1"
+        ],
+        "summary": "get multiple user images",
+        "operationId": "getMultipleUserImagesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "array of users",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/groupMembers"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/multipleUserImagesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/login": {
       "post": {
         "description": "handle login request, username and password",
@@ -2771,6 +2848,23 @@ func init() {
         }
       }
     },
+    "multipleUserImagesResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "count of user images",
+          "type": "integer",
+          "format": "int32"
+        },
+        "images": {
+          "description": "multiple user images",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userImagesResponse"
+          }
+        }
+      }
+    },
     "noteCommentsResponse": {
       "type": "object",
       "properties": {
@@ -3018,6 +3112,10 @@ func init() {
     "userImagesResponse": {
       "type": "object",
       "properties": {
+        "name": {
+          "description": "pic name",
+          "type": "string"
+        },
         "type": {
           "description": "type of pic",
           "type": "string"
@@ -4092,6 +4190,83 @@ func init() {
         }
       }
     },
+    "/v1/images/multiple": {
+      "post": {
+        "description": "get multiple user images",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userImagesV1"
+        ],
+        "summary": "get multiple user images",
+        "operationId": "getMultipleUserImagesV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "description": "array of users",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/groupMembers"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/multipleUserImagesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
+      }
+    },
     "/v1/login": {
       "post": {
         "description": "handle login request, username and password",
@@ -5813,6 +5988,23 @@ func init() {
         }
       }
     },
+    "multipleUserImagesResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "count of user images",
+          "type": "integer",
+          "format": "int32"
+        },
+        "images": {
+          "description": "multiple user images",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userImagesResponse"
+          }
+        }
+      }
+    },
     "noteCommentsResponse": {
       "type": "object",
       "properties": {
@@ -6060,6 +6252,10 @@ func init() {
     "userImagesResponse": {
       "type": "object",
       "properties": {
+        "name": {
+          "description": "pic name",
+          "type": "string"
+        },
         "type": {
           "description": "type of pic",
           "type": "string"
