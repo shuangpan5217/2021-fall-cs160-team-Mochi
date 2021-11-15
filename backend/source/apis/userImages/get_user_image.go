@@ -59,6 +59,7 @@ func processGetUserImagesRequest(db *gorm.DB, params user_images_v1.GetUserImage
 	resp = &models.UserImagesResponse{
 		UserImage: base64.StdEncoding.EncodeToString(userImageData),
 		Type:      http.DetectContentType(userImageData),
+		Name:      payload.Username,
 	}
 	return
 }

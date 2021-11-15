@@ -63,6 +63,7 @@ func processGetMultipleUserImagesRequest(db *gorm.DB,
 		imageData := &models.UserImagesResponse{
 			UserImage: base64.StdEncoding.EncodeToString(userImageData),
 			Type:      http.DetectContentType(userImageData),
+			Name:      user.Username,
 		}
 		resp.Images = append(resp.Images, imageData)
 	}

@@ -2076,6 +2076,9 @@ definitions:
       type:
         type: string
         description: type of pic
+      name: 
+        type: string
+        description: pic name
   multipleUserImagesResponse:
     type: object
     properties:
