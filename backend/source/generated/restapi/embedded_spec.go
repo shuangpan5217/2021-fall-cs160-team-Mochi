@@ -3112,6 +3112,10 @@ func init() {
     "userImagesResponse": {
       "type": "object",
       "properties": {
+        "name": {
+          "description": "pic name",
+          "type": "string"
+        },
         "type": {
           "description": "type of pic",
           "type": "string"
@@ -6248,6 +6252,10 @@ func init() {
     "userImagesResponse": {
       "type": "object",
       "properties": {
+        "name": {
+          "description": "pic name",
+          "type": "string"
+        },
         "type": {
           "description": "type of pic",
           "type": "string"
