@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import defaultImg from "../media/default.jpeg";
 
 function ProfileImage(props) {
     const history = useHistory();
@@ -36,7 +37,7 @@ function ProfileImage(props) {
 
     return (
         <img
-            src={`data:image/${type};base64, ${img}`}
+            src={type === "" ? defaultImg : `data:image/${type};base64, ${img}`}
             alt="profile"
             className="profile-img"
             onClick={() => history.push("/my_notes")}
