@@ -38,7 +38,6 @@ function AddMemberWindow({ trigger, setTrigger, members, setMembers }) {
         if (responseJSON.group_id) {
             setMembers([...members, { username }]);
             setTrigger(false);
-            history.push("/my_notes");
         } else {
             alert("Something went wrong with adding group member!");
         }
