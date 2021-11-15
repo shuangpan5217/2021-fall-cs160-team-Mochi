@@ -1,7 +1,7 @@
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { useState } from "react";
 
-function PDFViewer({ pdf }) {
+function PDFViewer({ pdf, thumbnail }) {
     const [numPages, setNumPages] = useState(null);
 
     function onDocumentLoadSuccess({ newNumPages }) {
@@ -13,9 +13,13 @@ function PDFViewer({ pdf }) {
             <Document
                 file={"data:application/pdf;base64," + pdf}
                 onLoadSuccess={onDocumentLoadSuccess}
-                className="pdf-container"
+                className={thumbnail ? "" : "pdf-container"}
             >
-                <Page pageNumber={1} className="pdf-page" scale={1.5}/>
+                <Page
+                    pageNumber={1}
+                    className="pdf-page"
+                    scale={thumbnail ? 0.5 : 1.5}
+                />
             </Document>
         </>
     );
