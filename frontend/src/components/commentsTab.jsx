@@ -68,7 +68,7 @@ function CommentsTab({ comments, noteId, owner }) {
                 />
                 <NoteActionButton title="Post" onClick={postComment} />
             </div>
-            {commentElems}
+            <div className="scrollable-container">{commentElems}</div>
         </div>
     );
 }

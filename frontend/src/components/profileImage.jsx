@@ -37,7 +37,7 @@ function ProfileImage(props) {
 
     return (
         <img
-            src={type === "" ? defaultImg : `data:image/${type};base64, ${img}`}
+            src={img === "" ? defaultImg : `data:image/${type};base64, ${img}`}
             alt="profile"
             className="profile-img"
             onClick={() => history.push("/my_notes")}

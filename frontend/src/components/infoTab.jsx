@@ -4,7 +4,7 @@ import Tag from "./tag";
 function InfoTab({ title, descr, tags }) {
     const tagElems = tags.map((tag) => <Tag title={tag} key={tag} />);
     return (
-        <div className="d-flex flex-column full-width">
+        <div className="d-flex flex-column full-width scrollable-container">
             <NoteActionHeader title={title} />
             <p className="agenda">{descr}</p>
             <NoteActionHeader title="Tags" />

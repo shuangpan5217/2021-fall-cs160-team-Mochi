@@ -14,8 +14,8 @@ function ViewNotesPage(props) {
     const [owner, setOwner] = useState({});
     const [type, setType] = useState("");
     const [tags, setTags] = useState([]);
-    const [members, setMembers] = useState([]);
     const [comments, setComments] = useState([]);
+    const [hasAccess, setHasAccess] = useState(true);
 
     const getNoteData = async () => {
         let success = true;
@@ -49,7 +49,11 @@ function ViewNotesPage(props) {
                 await getPDF(noteResponseJSON.note_reference);
                 await getOwnerImage(noteResponseJSON.note_owner);
                 await getCommentData();
-                // getMemberData();
+            } else if (
+                noteResponseJSON.errMessage ===
+                "Forbidden: No access to the note"
+            ) {
+                setHasAccess(false);
             } else {
                 console.error("Could not load note.");
             }
@@ -132,9 +136,13 @@ function ViewNotesPage(props) {
     };
 
     const getUserImages = async (commentArr) => {
-        const users = commentArr.map((commentElem) => ({
-            username: commentElem.username,
-        }));
+        const users = [
+            ...new Set(
+                commentArr.map((commentElem) => ({
+                    username: commentElem.username,
+                }))
+            ),
+        ];
 
         let success = true;
         const imgResponse = await fetch(
@@ -158,41 +166,24 @@ function ViewNotesPage(props) {
         if (success) {
             const imgResponseJSON = await imgResponse.json();
             if (imgResponseJSON.images) {
-                for (let i = 0; i < commentArr.length; i++) {
-                    commentArr[i].img = imgResponseJSON.images[i];
+                let userImgs = {};
+                for (let imgObj of imgResponseJSON.images) {
+                    userImgs[imgObj.name] = {
+                        user_image: imgObj.user_image,
+                        type: imgObj.type,
+                    };
+                }
+                for (let commentObj of commentArr) {
+                    commentObj.img = userImgs[commentObj.username];
                 }
                 setComments(commentArr);
             } else {
-                console.error("Could not load comments of this note.");
+                console.error(
+                    "Could not load profile images for the comments of this note."
+                );
             }
         }
     };
-
-    // const getMemberData = async () => {
-    //     let success = true;
-    //     const memberResponse = await fetch(
-    //         "http://localhost:3000/v1/notes/" + noteId + "/members",
-    //         {
-    //             method: "GET",
-    //             headers: {
-    //                 Authorization:
-    //                     "bearer " + window.localStorage.getItem("authToken"),
-    //             },
-    //         }
-    //     ).catch((err) => {
-    //         console.error(err);
-    //         success = false;
-    //     });
-
-    //     if (success) {
-    //         const memberResponseJSON = await memberResponse.json();
-    //         if (memberResponseJSON.users) {
-    //             setMembers(memberResponseJSON.users);
-    //         } else {
-    //             console.error("Could not load shared members of this note.");
-    //         }
-    //     }
-    // };
 
     useEffect(() => {
         getNoteData();
@@ -205,23 +196,30 @@ function ViewNotesPage(props) {
                 showProfile={true}
                 body={
                     <div className="d-flex flex-row justify-content-center">
-                        <div className="d-flex flex-column left-container">
-                            <SectionTitle
-                                title={title}
-                                subtitle={`by ${owner.name}`}
-                            />
-                            <PDFViewer pdf={pdf} />
-                        </div>
-                        <NoteActions
-                            title={title}
-                            descr={descr}
-                            type={type}
-                            tags={tags}
-                            members={members}
-                            comments={comments}
-                            noteId={noteId}
-                            owner={owner}
-                        />
+                        {hasAccess ? (
+                            <>
+                                <div className="d-flex flex-column left-container">
+                                    <SectionTitle
+                                        title={title}
+                                        subtitle={`by ${owner.name}`}
+                                    />
+                                    <PDFViewer pdf={pdf} />
+                                </div>
+                                <NoteActions
+                                    title={title}
+                                    descr={descr}
+                                    type={type}
+                                    tags={tags}
+                                    comments={comments}
+                                    noteId={noteId}
+                                    owner={owner}
+                                />
+                            </>
+                        ) : (
+                            <p className="agenda">
+                                You don't have access to this note.
+                            </p>
+                        )}
                     </div>
                 }
             />

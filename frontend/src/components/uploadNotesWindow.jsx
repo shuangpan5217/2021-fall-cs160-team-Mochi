@@ -132,8 +132,8 @@ function UploadNotesWindow({ trigger, setTrigger }) {
                                 />
                                 <RadioButton
                                     group="sharing"
-                                    label="Group"
-                                    onChange={() => setType("Group")}
+                                    label="Shared"
+                                    onChange={() => setType("shared")}
                                 />
                                 <RadioButton
                                     group="sharing"
