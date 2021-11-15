@@ -5,6 +5,7 @@ import LeftPanel from "../components/leftPanel";
 import Button from "../components/button";
 import { useState, React, useEffect } from "react";
 import AddFriendWindow from "../components/addFriendWindow";
+import CreateGroupWindow from "../components/createGroupWindow";
 import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { Link } from "react-router-dom";
@@ -208,11 +209,15 @@ function PersonalPage(props) {
                                         </div>
                                         <div className="flex-row">
                                             <Button
-                                                title="CREATE/JOIN GROUP"
+                                                title="CREATE GROUP"
                                                 type="primary"
                                                 clicked={() =>
                                                     setButtonGroup(true)
                                                 }
+                                            />
+                                            <CreateGroupWindow
+                                                trigger={buttonGroup}
+                                                setTrigger={setButtonGroup}
                                             />
                                         </div>
                                         <div className="flex-row">
