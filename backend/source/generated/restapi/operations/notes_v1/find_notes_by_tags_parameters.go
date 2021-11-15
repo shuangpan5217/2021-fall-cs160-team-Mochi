@@ -23,14 +23,18 @@ func NewFindNotesByTagsParams() FindNotesByTagsParams {
 	var (
 		// initialize parameters with default values
 
-		limitDefault  = int64(10)
+		limitDefault  = int64(20)
 		offsetDefault = int64(0)
+
+		updatedAtDefault = bool(true)
 	)
 
 	return FindNotesByTagsParams{
 		Limit: &limitDefault,
 
 		Offset: &offsetDefault,
+
+		UpdatedAt: &updatedAtDefault,
 	}
 }
 
@@ -50,7 +54,7 @@ type FindNotesByTagsParams struct {
 	Authorization string
 	/*limit of files
 	  In: query
-	  Default: 10
+	  Default: 20
 	*/
 	Limit *int64
 	/*offset of files
@@ -58,17 +62,14 @@ type FindNotesByTagsParams struct {
 	  Default: 0
 	*/
 	Offset *int64
-	/*tag to filter by
+	/*tags to filter by
 	  Required: true
 	  In: path
 	*/
-	Tag string
-	/*type of note
-	  In: query
-	*/
-	Type *string
+	Tags string
 	/*updated at
 	  In: query
+	  Default: true
 	*/
 	UpdatedAt *bool
 }
@@ -98,13 +99,8 @@ func (o *FindNotesByTagsParams) BindRequest(r *http.Request, route *middleware.M
 		res = append(res, err)
 	}
 
-	rTag, rhkTag, _ := route.Params.GetOK("tag")
-	if err := o.bindTag(rTag, rhkTag, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
-	qType, qhkType, _ := qs.GetOK("type")
-	if err := o.bindType(qType, qhkType, route.Formats); err != nil {
+	rTags, rhkTags, _ := route.Params.GetOK("tags")
+	if err := o.bindTags(rTags, rhkTags, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -186,8 +182,8 @@ func (o *FindNotesByTagsParams) bindOffset(rawData []string, hasKey bool, format
 	return nil
 }
 
-// bindTag binds and validates parameter Tag from path.
-func (o *FindNotesByTagsParams) bindTag(rawData []string, hasKey bool, formats strfmt.Registry) error {
+// bindTags binds and validates parameter Tags from path.
+func (o *FindNotesByTagsParams) bindTags(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -195,25 +191,7 @@ func (o *FindNotesByTagsParams) bindTag(rawData []string, hasKey bool, formats s
 
 	// Required: true
 	// Parameter is provided by construction from the route
-	o.Tag = raw
-
-	return nil
-}
-
-// bindType binds and validates parameter Type from query.
-func (o *FindNotesByTagsParams) bindType(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-	// AllowEmptyValue: false
-
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-	o.Type = &raw
+	o.Tags = raw
 
 	return nil
 }
@@ -229,6 +207,7 @@ func (o *FindNotesByTagsParams) bindUpdatedAt(rawData []string, hasKey bool, for
 	// AllowEmptyValue: false
 
 	if raw == "" { // empty values pass all other validations
+		// Default values have been previously initialized by NewFindNotesByTagsParams()
 		return nil
 	}
 

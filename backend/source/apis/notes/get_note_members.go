@@ -61,9 +61,10 @@ func processGetNoteMembersRequest(db *gorm.DB, params notes_v1.GetNoteMembersV1P
 		Groups: []*models.GroupObj{},
 	}
 
-	rawUsersSQL := `SELECT DISTINCT(u.username), u.description, u.email, u.first_name, u.last_name, u.middle_name
+	rawUsersSQL := `SELECT DISTINCT on (u.username) u.username, u.description, u.email, u.first_name, u.last_name, u.middle_name
 					FROM users u, user_notes un
-					WHERE un.note_id = ? AND un.username = u.username`
+					WHERE un.note_id = ? AND un.username = u.username
+					ORDER BY u.username`
 	rows, err := db.Raw(rawUsersSQL, params.ID).Rows()
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
@@ -79,9 +80,10 @@ func processGetNoteMembersRequest(db *gorm.DB, params notes_v1.GetNoteMembersV1P
 		resp.Users = append(resp.Users, &user)
 	}
 
-	rawGroupsSQL := `SELECT DISTINCT(g.group_id), g.group_name, g.group_owner, g.description
+	rawGroupsSQL := `SELECT DISTINCT(g.group_id) group_id, g.group_name, g.group_owner, g.description
 					FROM groups g, group_notes gn
-					WHERE gn.note_id = ? AND gn.group_id = g.group_id`
+					WHERE gn.note_id = ? AND gn.group_id = g.group_id
+					ORDER by g.group_id`
 	rows, err = db.Raw(rawGroupsSQL, params.ID).Rows()
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())

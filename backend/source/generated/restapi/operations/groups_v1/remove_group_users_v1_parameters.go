@@ -43,7 +43,7 @@ type RemoveGroupUsersV1Params struct {
 	/*array of users
 	  In: body
 	*/
-	Body models.GroupMembers
+	Body *models.GroupMembers
 	/*group id
 	  Required: true
 	  In: path
@@ -81,7 +81,7 @@ func (o *RemoveGroupUsersV1Params) BindRequest(r *http.Request, route *middlewar
 			}
 
 			if len(res) == 0 {
-				o.Body = body
+				o.Body = &body
 			}
 		}
 	}

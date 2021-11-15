@@ -53,12 +53,12 @@ func processGetGroupNotesRequest(db *gorm.DB, params notes_v1.GetGroupNotesV1Par
 	}
 
 	// get all group notes
-	selectColumns := `DISTINCT(notes.note_id), notes.note_owner, notes.description, notes.title,
+	selectColumns := `DISTINCT on (notes.note_id) notes.note_id, notes.note_owner, notes.description, notes.title,
 					notes.type, notes.tag, notes.note_reference, notes.style`
 	rows, err := db.Table(dbpackages.NoteTable).
 		Joins("inner join group_notes gn on notes.note_id = gn.note_id").
 		Select(selectColumns).
-		Where("gn.group_id = ?", params.GroupID).Rows()
+		Where("gn.group_id = ?", params.GroupID).Order("notes.note_id").Rows()
 	if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return

@@ -69,7 +69,7 @@ func TestPostFileAPI(t *testing.T) {
 			},
 		},
 	}
-	_, testServer := testUtils.SetupTestServer()
+	db, testServer := testUtils.SetupTestServer()
 
 	for _, collection := range collections {
 		t.Run(collection.name, func(t *testing.T) {
@@ -146,6 +146,9 @@ func TestPostFileAPI(t *testing.T) {
 	}
 	// remove files
 	CleanCreatedFiles(t)
+
+	//shutdown
+	testUtils.ShutDownTestServer(db, testServer)
 }
 
 func GetCountFileFromDirectory(t *testing.T) {

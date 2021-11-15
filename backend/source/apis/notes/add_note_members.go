@@ -43,12 +43,16 @@ func processAddNoteMembersRequest(db *gorm.DB, params notes_v1.AddNoteMembersV1P
 	}
 
 	// check if user note exists
-	_, err := checkIfUserIsNoteOwner(db, params.ID, payload.Username)
+	note, err := checkIfUserIsNoteOwner(db, params.ID, payload.Username)
 	if gorm.IsRecordNotFoundError(err) {
 		errResp = commonutils.GenerateErrResp(http.StatusForbidden, " no access to the note ")
 		return
 	} else if err != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
+		return
+	}
+	if note.Type != "shared" {
+		errResp = commonutils.GenerateErrResp(http.StatusBadRequest, " only shared notes with 'shared' type note")
 		return
 	}
 

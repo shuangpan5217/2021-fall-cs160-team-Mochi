@@ -65,7 +65,7 @@ func processdeleteNoteByIdRequest(db *gorm.DB, params notes_v1.DeleteNoteV1Param
 
 	noteRef := note.NoteReference
 	// check file owner
-	file, err := checkFileOwner(tx, noteRef)
+	file, err := checkFileOwner(tx, noteRef, username)
 	if gorm.IsRecordNotFoundError(err) {
 
 	} else if err != nil {
@@ -92,7 +92,7 @@ func processdeleteNoteByIdRequest(db *gorm.DB, params notes_v1.DeleteNoteV1Param
 
 	if file.FileName != "" {
 		// remove filename and fileowner from files table
-		errResp = removeFileFormFileTable(tx, noteRef)
+		errResp = removeFileFormFileTable(tx, noteRef, username)
 		if errResp != nil {
 			tx.Rollback()
 			return
@@ -112,13 +112,13 @@ func processdeleteNoteByIdRequest(db *gorm.DB, params notes_v1.DeleteNoteV1Param
 	return
 }
 
-func checkFileOwner(db *gorm.DB, fileName string) (file dbpackages.File, err error) {
-	err = db.Table(dbpackages.FileTable).Where("file_name = ?", fileName).First(&file).Error
+func checkFileOwner(db *gorm.DB, fileName, username string) (file dbpackages.File, err error) {
+	err = db.Table(dbpackages.FileTable).Where("file_name = ? AND file_owner = ?", fileName, username).First(&file).Error
 	return file, err
 }
 
-func removeFileFormFileTable(db *gorm.DB, fileName string) (errResp *models.ErrResponse) {
-	result := db.Table(dbpackages.FileTable).Where("file_name = ?", fileName).Delete(&dbpackages.File{})
+func removeFileFormFileTable(db *gorm.DB, fileName, username string) (errResp *models.ErrResponse) {
+	result := db.Table(dbpackages.FileTable).Where("file_name = ? AND file_owner = ?", fileName, username).Delete(&dbpackages.File{})
 	if result.Error != nil {
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, result.Error.Error())
 	} else if result.RowsAffected < 1 {

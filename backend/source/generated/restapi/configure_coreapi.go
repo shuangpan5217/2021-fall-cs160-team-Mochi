@@ -76,6 +76,7 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.NotesV1AddNoteMembersV1Handler = notes.AddNoteMembersV1Handler(db)
 	api.NotesV1RemoveNoteMembersV1Handler = notes.RemoveNoteMembersV1Handler(db)
 	api.NotesV1GetGroupNotesV1Handler = notes.GetGroupNotesV1Handler(db)
+	api.NotesV1FindNotesByTagsHandler = notes.FindNoteByTagV1Handler(db)
 
 	// comments
 	api.CommentsV1PostCommentsV1Handler = comments.PostCommentsV1Handler(db)
@@ -85,6 +86,10 @@ func configureAPI(api *operations.CoreapiAPI) http.Handler {
 	api.GroupsV1CreateGroupV1Handler = groups.CreateGroupV1Handler(db)
 	api.GroupsV1GetGroupsV1Handler = groups.GetGroupsV1Handler(db)
 	api.GroupsV1GetGroupInfoV1Handler = groups.GetGroupInfoV1Handler(db)
+	api.GroupsV1AddGroupUsersV1Handler = groups.AddGroupMembersHandler(db)
+	api.GroupsV1DeleteGroupV1Handler = groups.DeleteGroupByIdV1Handler(db)
+	api.GroupsV1RemoveGroupUsersV1Handler = groups.RemoveGroupMembersHandler(db)
+	api.GroupsV1GetGroupUsersV1Handler = groups.GetGroupMembersHandler(db)
 
 	// user image
 	api.UserImagesV1PostUserImagesV1Handler = userImages.UploadUserImagesHandlerV1(db)

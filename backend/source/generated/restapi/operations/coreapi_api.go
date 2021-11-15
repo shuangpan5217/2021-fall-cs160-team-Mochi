@@ -68,9 +68,6 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		NotesV1DeleteNoteV1Handler: notes_v1.DeleteNoteV1HandlerFunc(func(params notes_v1.DeleteNoteV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.DeleteNoteV1 has not yet been implemented")
 		}),
-		NotesV1FindNotesByGroupnameHandler: notes_v1.FindNotesByGroupnameHandlerFunc(func(params notes_v1.FindNotesByGroupnameParams) middleware.Responder {
-			return middleware.NotImplemented("operation notes_v1.FindNotesByGroupname has not yet been implemented")
-		}),
 		NotesV1FindNotesByTagsHandler: notes_v1.FindNotesByTagsHandlerFunc(func(params notes_v1.FindNotesByTagsParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.FindNotesByTags has not yet been implemented")
 		}),
@@ -203,8 +200,6 @@ type CoreapiAPI struct {
 	GroupsV1DeleteGroupV1Handler groups_v1.DeleteGroupV1Handler
 	// NotesV1DeleteNoteV1Handler sets the operation handler for the delete note v1 operation
 	NotesV1DeleteNoteV1Handler notes_v1.DeleteNoteV1Handler
-	// NotesV1FindNotesByGroupnameHandler sets the operation handler for the find notes by groupname operation
-	NotesV1FindNotesByGroupnameHandler notes_v1.FindNotesByGroupnameHandler
 	// NotesV1FindNotesByTagsHandler sets the operation handler for the find notes by tags operation
 	NotesV1FindNotesByTagsHandler notes_v1.FindNotesByTagsHandler
 	// NotesV1FindNotesByUsernameHandler sets the operation handler for the find notes by username operation
@@ -356,9 +351,6 @@ func (o *CoreapiAPI) Validate() error {
 	}
 	if o.NotesV1DeleteNoteV1Handler == nil {
 		unregistered = append(unregistered, "notes_v1.DeleteNoteV1Handler")
-	}
-	if o.NotesV1FindNotesByGroupnameHandler == nil {
-		unregistered = append(unregistered, "notes_v1.FindNotesByGroupnameHandler")
 	}
 	if o.NotesV1FindNotesByTagsHandler == nil {
 		unregistered = append(unregistered, "notes_v1.FindNotesByTagsHandler")
@@ -558,11 +550,7 @@ func (o *CoreapiAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/v1/notes/groupname/{group_name}"] = notes_v1.NewFindNotesByGroupname(o.context, o.NotesV1FindNotesByGroupnameHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/v1/notes/tag/{tag}"] = notes_v1.NewFindNotesByTags(o.context, o.NotesV1FindNotesByTagsHandler)
+	o.handlers["GET"]["/v1/notes/search/{tags}"] = notes_v1.NewFindNotesByTags(o.context, o.NotesV1FindNotesByTagsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
