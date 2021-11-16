@@ -7,7 +7,6 @@ import AddFriendWindow from "../components/addFriendWindow";
 import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { Link } from "react-router-dom";
-import PDFthumbnail from "../components/PDFthumbnail";
 
 function PersonalPage(props) {
     const [buttonAddFriend, setButtonAddFriend] = useState(false);
