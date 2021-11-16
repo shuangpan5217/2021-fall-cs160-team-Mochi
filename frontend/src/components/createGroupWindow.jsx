@@ -1,20 +1,23 @@
 import Button from "./button";
 import InputBox from "./inputBox";
 import ModalHeader from "./modalHeader.jsx";
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import ModalWindow from "./modalWindow";
 import "../css/personalPage.css";
 
-function AddFriendWindow({ trigger, setTrigger, friends, setFriends }) {
-    const [username2, setUsername2] = useState("");
+function CreateGroupWindow({ trigger, setTrigger, groups, setGroups }) {
+    const history = useHistory();
+    const [group_name, setGroupName] = useState("");
+    const [description, setGroupDescription] = useState("");
 
-    const attemptAddFriend = async () => {
-        if (username2 === "") {
-            alert("Please enter your friend's username.");
+    const attemptCreatGroup = async () => {
+        if (group_name === "" || description === "") {
+            alert("Please enter group name and group description.");
             return;
         }
 
-        const response = await fetch("http://localhost:3000/v1/friends/", {
+        const response = await fetch("http://localhost:3000/v1/groups/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -22,18 +25,17 @@ function AddFriendWindow({ trigger, setTrigger, friends, setFriends }) {
                     "bearer " + window.localStorage.getItem("authToken"),
             },
             body: JSON.stringify({
-                username2,
+                group_name,
+                description,
             }),
         });
 
         const responseJSON = await response.json();
-        if (responseJSON.username) {
-            setFriends([...friends, { username: username2 }]);
+        if (responseJSON.group_id) {
+            setGroups([...groups, { group_name }]);
             setTrigger(false);
-        } else if (responseJSON.status_code === 404) {
-            alert("There is no such username.");
         } else {
-            alert("Something went wrong with adding friend!");
+            alert("Something went wrong with creating group!");
         }
     };
 
@@ -42,14 +44,14 @@ function AddFriendWindow({ trigger, setTrigger, friends, setFriends }) {
             blur
             body={
                 <div className="d-flex flex-column align-items-center">
-                    <ModalHeader title="Add friend" />
+                    <ModalHeader title="Create a Group" />
                     <div className="d-flex flex-column align-items-end">
+                        <InputBox placeholder="name" onChange={setGroupName} />
                         <InputBox
-                            placeholder="Enter a Username"
-                            onChange={setUsername2}
+                            placeholder="description"
+                            onChange={setGroupDescription}
                         />
                     </div>
-                    <br></br>
                     <div className="d-flex flex-row ">
                         <Button
                             title="BACK"
@@ -57,9 +59,9 @@ function AddFriendWindow({ trigger, setTrigger, friends, setFriends }) {
                             clicked={() => setTrigger(false)}
                         />
                         <Button
-                            title="ADD"
+                            title="CREATE"
                             type="primary"
-                            clicked={attemptAddFriend}
+                            clicked={attemptCreatGroup}
                         />
                     </div>
                 </div>
@@ -70,4 +72,4 @@ function AddFriendWindow({ trigger, setTrigger, friends, setFriends }) {
     );
 }
 
-export default AddFriendWindow;
+export default CreateGroupWindow;

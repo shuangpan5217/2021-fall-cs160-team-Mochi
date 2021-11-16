@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 
-function Button({ title, type, url, clicked }) {
+function Button({ title, type, url, clicked, small }) {
   if (url)
     return (
-      <Link className={`agenda btn ${type}`} to={url}>
+      <Link className={`agenda btn ${type} ${small ? "small" : small}`} to={url}>
         {title}
       </Link>
     );
   if (clicked)
     return (
-      <button className={`agenda btn ${type}`} onClick={() => clicked()}>
+      <button className={`agenda btn ${type} ${small ? "small" : small}`} onClick={() => clicked()}>
         {title}
       </button>
     );

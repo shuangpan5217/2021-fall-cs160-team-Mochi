@@ -11,7 +11,7 @@
 }
 
 .lg-box{
-    width: 600px;
+    width: 625px;
 }
 
 .btn.link{
@@ -35,4 +35,8 @@
 .btn.secondary{
     background-color: var(--secondary-btn-color);
     border: 1px solid var(--secondary-btn-border-color);
+}
+
+.circle-container{
+    border-radius: 50%;
 }
