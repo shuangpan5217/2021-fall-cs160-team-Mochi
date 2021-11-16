@@ -1,0 +1,13 @@
+.search-results-container{
+    width: 86vw;
+    margin-top: -30px;
+    margin-left: 7vw;
+    overflow: scroll;
+
+    max-height: calc(100vh - 100px);
+}
+
+.thumbnail-wrapper{
+    margin-right: 10px;
+    margin-bottom: 10px;
+}

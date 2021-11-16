@@ -25,30 +25,6 @@ function SearchBar({ showFilterBtn, updateSearch }) {
         myContext.setGlobalFilter(filter);
     };
 
-    const setOutlineStyle = () => {
-        updateFilter("Outline");
-    };
-
-    const setCornellStyle = () => {
-        updateFilter("Cornell");
-    };
-
-    const setBoxingStyle = () => {
-        updateFilter("Boxing");
-    };
-
-    const setChartingStyle = () => {
-        updateFilter("Charting");
-    };
-
-    const setMappingStyle = () => {
-        updateFilter("Mapping");
-    };
-
-    const setSentenceStyle = () => {
-        updateFilter("Sentence");
-    };
-
     const handleKeyDown = (event) => {
         if (event.key === "Enter" && query !== "") {
             myContext.setGlobalQuery(query);
@@ -94,38 +70,44 @@ function SearchBar({ showFilterBtn, updateSearch }) {
                 <div className="d-flex flex-row filters-container">
                     <RadioButton
                         group="style"
+                        label="All Styles"
+                        onChange={() => updateFilter("")}
+                        checked={myContext.filter === ""}
+                    />
+                    <RadioButton
+                        group="style"
                         label="Outline"
-                        onChange={setOutlineStyle}
+                        onChange={() => updateFilter("Outline")}
                         checked={myContext.filter === "Outline"}
                     />
                     <RadioButton
                         group="style"
                         label="Cornell"
-                        onChange={setCornellStyle}
+                        onChange={() => updateFilter("Cornell")}
                         checked={myContext.filter === "Cornell"}
                     />
                     <RadioButton
                         group="style"
                         label="Boxing"
-                        onChange={setBoxingStyle}
+                        onChange={() => updateFilter("Boxing")}
                         checked={myContext.filter === "Boxing"}
                     />
                     <RadioButton
                         group="style"
                         label="Charting"
-                        onChange={setChartingStyle}
+                        onChange={() => updateFilter("Charting")}
                         checked={myContext.filter === "Charting"}
                     />
                     <RadioButton
                         group="style"
                         label="Mapping"
-                        onChange={setMappingStyle}
+                        onChange={() => updateFilter("Mapping")}
                         checked={myContext.filter === "Mapping"}
                     />
                     <RadioButton
                         group="style"
                         label="Sentence"
-                        onChange={setSentenceStyle}
+                        onChange={() => updateFilter("Sentence")}
                         checked={myContext.filter === "Sentence"}
                     />
                 </div>
