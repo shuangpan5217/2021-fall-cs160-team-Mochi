@@ -51,6 +51,10 @@ body {
     font-size: 20px;
 }
 
+.smaller {
+    font-size: 12px;
+  }
+
 .agenda.big {
     font-size: 35px;
 }

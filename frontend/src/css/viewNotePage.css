@@ -38,6 +38,11 @@
     margin-top: 40px;
 }
 
+.scrollable-container{
+    overflow: scroll;
+    max-height: calc(100vh - 450px);
+}
+
 .tab-btn, .tab-btn:focus{
     box-shadow: none;
 }
@@ -74,7 +79,8 @@ p.user-name{
 .btn.primary.note-action-btn{
     width: fit-content;
     padding: 2px 15px;
-    margin: 10px 0px;
+    margin-top: -5px;
+    margin-bottom: 10px;
 }
 
 p.comment{

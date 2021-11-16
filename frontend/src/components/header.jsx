@@ -2,7 +2,6 @@ import Logo from "./logo.jsx";
 import "../css/header.css";
 import SearchBar from "./searchBar.jsx";
 import ProfileImage from "./profileImage.jsx";
-import dummyProfile from "../media/mochi.jpeg";
 
 function Header({ showSearch, showProfile}) {
     return (
@@ -11,7 +10,7 @@ function Header({ showSearch, showProfile}) {
                 <Logo />
             </div>
             {showSearch ? <SearchBar showFilterBtn={true}/> : <></>}
-            {showProfile ? <ProfileImage url={dummyProfile} /> : <></>}
+            {showProfile ? <ProfileImage/> : <></>}
         </div>
     );
 }

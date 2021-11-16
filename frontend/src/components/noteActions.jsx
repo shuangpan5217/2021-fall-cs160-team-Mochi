@@ -4,16 +4,7 @@ import InfoTab from "./infoTab";
 import SharingTab from "./sharingTab";
 import TabButton from "./tabButton";
 
-function NoteActions({
-    title,
-    descr,
-    type,
-    tags,
-    members,
-    comments,
-    noteId,
-    owner,
-}) {
+function NoteActions({ title, descr, type, tags, comments, noteId, owner }) {
     const [openTab, setOpenTab] = useState("Info");
 
     return (
@@ -24,7 +15,7 @@ function NoteActions({
                     selected={openTab === "Info"}
                     clicked={() => setOpenTab("Info")}
                 />
-                {type === "Private" ? (
+                {type === "private" ? (
                     <></>
                 ) : (
                     <TabButton
@@ -42,7 +33,7 @@ function NoteActions({
             {openTab === "Info" ? (
                 <InfoTab title={title} descr={descr} tags={tags} />
             ) : openTab === "Sharing" ? (
-                <SharingTab members={members} />
+                <SharingTab noteId={noteId} type={type} />
             ) : (
                 <CommentsTab
                     comments={comments}
