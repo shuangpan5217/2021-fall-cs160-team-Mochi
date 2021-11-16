@@ -73,3 +73,17 @@ Listen to a different port if needed when run `npm start`.
 Open your browser and input `localhost:front_end_port_number`
 
 Now, you are ready to use the website.
+
+##### Start test-automation cypress
+
+1. Start db server
+2. Start backend Server
+3. Start frontend server
+
+<pre>
+1. npm init -y
+2. npm install cypress
+3. npx cypress open
+</pre>
+
+After opening cypress, click the test file, and code can be automatically tested.
