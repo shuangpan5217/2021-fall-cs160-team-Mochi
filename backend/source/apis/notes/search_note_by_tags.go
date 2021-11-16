@@ -65,15 +65,17 @@ func processFindNotesByTagsRequest(db *gorm.DB, params notes_v1.FindNotesByTagsP
 	}
 
 	// get where statement and args
-	whereStatement := `type = ? AND (`
+	whereStatement := `type = ? AND `
 	var args []interface{}
-	args = append(args, "public") // public tag
+	args = append(args, "public") // public type
 	for i, tag := range tags {
 		if i == len(tags)-1 {
-			whereStatement += `tag like ?)`
+			whereStatement += `(tag like ? OR title like ? OR description like ?)`
 		} else {
-			whereStatement += `tag like ? OR `
+			whereStatement += `(tag like ? OR title like ? OR description like ?) OR `
 		}
+		args = append(args, "%"+tag+"%")
+		args = append(args, "%"+tag+"%")
 		args = append(args, "%"+tag+"%")
 	}
 	selectColumns := "DISTINCT ON (note_reference) note_reference, note_id, description, note_owner, style, tag, title, type, updated_at"
