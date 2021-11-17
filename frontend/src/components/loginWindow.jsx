@@ -37,11 +37,30 @@ function LoginWindow(props) {
     return (
         <div className="d-flex flex-column align-items-center">
             <ModalHeader title="Welcome to MochiNote!" />
-            <InputBox placeholder="Username" onChange={setUsername} />
-            <InputBox placeholder="Password" onChange={setPassword} mask />
+            <InputBox
+                placeholder="Username"
+                onChange={setUsername}
+                dataCy="login-username-input"
+            />
+            <InputBox
+                placeholder="Password"
+                onChange={setPassword}
+                dataCy="login-pwd-input"
+                mask
+            />
             <div className="d-flex flex-row">
-                <Button title="SIGN UP" type="secondary" url="/signup" />
-                <Button title="LOG IN" type="primary" clicked={attemptLogin} />
+                <Button
+                    title="SIGN UP"
+                    type="secondary"
+                    url="/signup"
+                    dataCy="login-signup-btn"
+                />
+                <Button
+                    title="LOG IN"
+                    type="primary"
+                    clicked={attemptLogin}
+                    dataCy="login-btn"
+                />
             </div>
         </div>
     );

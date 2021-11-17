@@ -3,7 +3,7 @@ export class LoginPage {
     loginPage_password = ":nth-child(3) > .agenda";
     loginPage_loginButton = ".primary";
 
-    nevigate(url) {
+    navigate(url) {
         cy.visit(url);
     }
     enterUsername(username) {
