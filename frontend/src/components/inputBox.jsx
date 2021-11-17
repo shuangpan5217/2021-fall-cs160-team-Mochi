@@ -11,6 +11,7 @@ function InputBox({
     fullWidth,
     size,
     onEnter,
+    dataCy,
 }) {
     const [value, setValue] = useState("");
     useEffect(() => {
@@ -55,6 +56,7 @@ function InputBox({
                     rows="3"
                     value={value}
                     onKeyDown={handleKeyDown}
+                    data-cy={dataCy}
                 />
             ) : (
                 <input
@@ -66,6 +68,7 @@ function InputBox({
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
                     onKeyDown={handleKeyDown}
+                    data-cy={dataCy}
                 />
             )}
         </div>

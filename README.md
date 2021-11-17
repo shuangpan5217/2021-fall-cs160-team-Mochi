@@ -77,8 +77,9 @@ Now, you are ready to use the website.
 ##### Test-automation Cypress
 
 1. Start db server
-2. Start backend Server
-3. Start frontend server
+2. Clear any data in the db server (run `TRUNCATE TABLE users CASCADE;`)
+3. Start backend Server
+4. Start frontend server
 
 <pre>
 1. npm init -y
@@ -86,4 +87,4 @@ Now, you are ready to use the website.
 3. npx cypress open
 </pre>
 
-Now, you can click the test file in Cypress to test
+Now, you can click the test file in Cypress to test.

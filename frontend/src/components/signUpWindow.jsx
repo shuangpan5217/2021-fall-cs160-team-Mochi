@@ -117,27 +117,40 @@ function SignUpWindow(props) {
                     <InputBox
                         placeholder="first name"
                         onChange={setFirstname}
+                        dataCy="first-name-input"
                     />
-                    <InputBox placeholder="last name" onChange={setLastname} />
+                    <InputBox
+                        placeholder="last name"
+                        onChange={setLastname}
+                        dataCy="last-name-input"
+                    />
                 </div>
                 <UploadDropzone setFile={setFile} profile />
             </div>
-            <InputBox placeholder="email" onChange={setEmail} size="large" />
+            <InputBox
+                placeholder="email"
+                onChange={setEmail}
+                size="large"
+                dataCy="email-input"
+            />
             <InputBox
                 placeholder="username"
                 onChange={setUsername}
                 size="large"
+                dataCy="username-input"
             />
             <InputBox
                 placeholder="password"
                 onChange={setPassword}
                 size="large"
+                dataCy="pwd-input"
                 mask
             />
             <InputBox
                 placeholder="confirm password"
                 onChange={setConfirmPassword}
                 size="large"
+                dataCy="confirm-pwd-input"
                 mask
             />
             <InputBox
@@ -145,13 +158,20 @@ function SignUpWindow(props) {
                 placeholder="biography"
                 onChange={setDescription}
                 size="large"
+                dataCy="bio-input"
             />
             <div className="d-flex flex-row">
-                <Button title="BACK" type="secondary" url="/login" />
+                <Button
+                    title="BACK"
+                    type="secondary"
+                    url="/login"
+                    dataCy="back-btn"
+                />
                 <Button
                     title="SIGN UP"
                     type="primary"
                     clicked={attemptSignup}
+                    dataCy="signup-btn"
                 />
             </div>
         </div>
