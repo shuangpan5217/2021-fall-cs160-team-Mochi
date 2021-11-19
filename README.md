@@ -74,6 +74,7 @@ Open your browser and input `localhost:front_end_port_number`
 
 Now, you are ready to use the website.
 
+### Testing
 ##### Front-End test automation, Cypress
 
 1. Start db server
