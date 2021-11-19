@@ -89,7 +89,7 @@ Now, you are ready to use the website.
 
 Now, you can click the test file in Cypress to test.
 
-##### Back-end test automation, go `testing`
+##### Back-end test automation, go `testing` and `net/http/httptest` packages
 <pre>
 1. Start db server
 2. From <b>2021-fall-cs160-team-Mochi/backend</b>, run <b>go test ./source/apis/notes/...</b>
