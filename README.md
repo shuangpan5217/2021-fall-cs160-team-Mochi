@@ -74,7 +74,7 @@ Open your browser and input `localhost:front_end_port_number`
 
 Now, you are ready to use the website.
 
-##### Test-automation Cypress
+##### Front-end Automated Testing (Cypress)
 
 1. Start db server
 2. Clear any data in the db server (run `TRUNCATE TABLE users CASCADE;`)
