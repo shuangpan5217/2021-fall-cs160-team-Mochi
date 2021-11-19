@@ -74,7 +74,7 @@ Open your browser and input `localhost:front_end_port_number`
 
 Now, you are ready to use the website.
 
-##### Test-automation Cypress
+##### Front-End test automation, Cypress
 
 1. Start db server
 2. Clear any data in the db server (run `TRUNCATE TABLE users CASCADE;`)
@@ -88,3 +88,16 @@ Now, you are ready to use the website.
 </pre>
 
 Now, you can click the test file in Cypress to test.
+
+##### Back-end test automation, go `testing`
+<pre>
+1. Start db server
+2. From <b>2021-fall-cs160-team-Mochi/backend</b>, run <b>go test ./source/apis/notes/...</b>
+3. From <b>2021-fall-cs160-team-Mochi/backend</b>, run <b>go test ./source/apis/usermgmt/...</b>
+</pre>
+
+Successful test results.
+```
+1. ok  	2021-fall-cs160-team-Mochi/backend/source/apis/notes	1.221s
+2. ok  	2021-fall-cs160-team-Mochi/backend/source/apis/usermgmt	1.108s
+```
