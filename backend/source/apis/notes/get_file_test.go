@@ -72,7 +72,6 @@ func TestGetFileAPI(t *testing.T) {
 			}
 
 			bodyBytes, err := ioutil.ReadAll(resp.Body)
-			t.Errorf(string(bodyBytes))
 			if err != nil {
 				t.Errorf("Encounter error: %s", err.Error())
 			}

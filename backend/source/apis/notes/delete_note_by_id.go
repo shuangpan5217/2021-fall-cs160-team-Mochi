@@ -72,7 +72,7 @@ func processdeleteNoteByIdRequest(db *gorm.DB, params notes_v1.DeleteNoteV1Param
 		tx.Rollback()
 		errResp = commonutils.GenerateErrResp(http.StatusInternalServerError, err.Error())
 		return
-	} else if file.FileOwner == username {
+	} else if file.FileOwner == username { // owner
 		// remove file
 		var path string
 		path, errResp = commonutils.GetMochiNoteFilesDir()
@@ -88,14 +88,15 @@ func processdeleteNoteByIdRequest(db *gorm.DB, params notes_v1.DeleteNoteV1Param
 			tx.Rollback()
 			return
 		}
-	}
 
-	if file.FileName != "" {
-		// remove filename and fileowner from files table
-		errResp = removeFileFormFileTable(tx, noteRef, username)
-		if errResp != nil {
-			tx.Rollback()
-			return
+		// remove from files taable
+		if file.FileName != "" {
+			// remove filename and fileowner from files table
+			errResp = removeFileFormFileTable(tx, noteRef, username)
+			if errResp != nil {
+				tx.Rollback()
+				return
+			}
 		}
 	}
 
