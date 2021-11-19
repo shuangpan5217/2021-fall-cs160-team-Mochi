@@ -75,7 +75,7 @@ Open your browser and input `localhost:front_end_port_number`
 Now, you are ready to use the website.
 
 ### Testing
-##### Front-End test automation, Cypress
+##### Front-End test automation, `Cypress`
 
 1. Start db server
 2. Clear any data in the db server (run `TRUNCATE TABLE users CASCADE;`)
@@ -88,7 +88,7 @@ Now, you are ready to use the website.
 3. npx cypress open
 </pre>
 
-Now, you can click the test file in Cypress to test.
+Now, you can click the test file in `Cypress` to test.
 
 ##### Back-end test automation, go `testing` and `net/http/httptest` packages
 <pre>
