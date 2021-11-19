@@ -34,7 +34,7 @@ func ShutDownTestServer(db *gorm.DB, testServer *httptest.Server) {
 }
 
 func PrepareUsers(db *gorm.DB) {
-	user := &dbpackages.User{
+	user := dbpackages.User{
 		Username:   "admin",
 		Password:   "password",
 		Email:      "email",

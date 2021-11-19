@@ -2,6 +2,7 @@ package notes_test
 
 import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/dbpackages"
 	"2021-fall-cs160-team-Mochi/backend/source/apis/testUtils"
 	"bytes"
 	"encoding/json"
@@ -13,6 +14,8 @@ import (
 	"path"
 	"strings"
 	"testing"
+
+	"github.com/jinzhu/gorm"
 )
 
 const (
@@ -93,7 +96,7 @@ func TestPostFileAPI(t *testing.T) {
 			body := &bytes.Buffer{}
 			// create a writer
 			writer := multipart.NewWriter(body)
-			// creater form data
+			// create form data
 			part, err := writer.CreateFormFile("noteFile", filePath)
 			if err != nil {
 				t.Errorf("Encounter error: %s", err.Error())
@@ -145,7 +148,7 @@ func TestPostFileAPI(t *testing.T) {
 		t.Errorf("Expected value=%d, got value=%d", expected_count, count)
 	}
 	// remove files
-	CleanCreatedFiles(t)
+	CleanCreatedFiles(t, db)
 
 	//shutdown
 	testUtils.ShutDownTestServer(db, testServer)
@@ -169,7 +172,7 @@ func GetCountFileFromDirectory(t *testing.T) {
 	}
 }
 
-func CleanCreatedFiles(t *testing.T) {
+func CleanCreatedFiles(t *testing.T, db *gorm.DB) {
 	funcName := "CleanCreatedFiles: "
 	path, errResp := commonutils.GetMochiNoteFilesDir()
 	if errResp != nil {
@@ -188,4 +191,6 @@ func CleanCreatedFiles(t *testing.T) {
 			}
 		}
 	}
+
+	db.Table(dbpackages.FileTable).Where("file_owner = ?", "admin").Delete(&dbpackages.File{})
 }
