@@ -14,6 +14,9 @@
     margin-right: -50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    width: 14vw;
+    overflow: scroll;
+    max-height: calc(90vh);
 }
 
 .left-side {
@@ -30,6 +33,19 @@
 }
 
 .right-side-down {
-    margin-left: 550px;
-    margin-top: 750px;
+    margin-left: 1200px;
+    margin-top: 0px;
+}
+
+.mynote-results-container {
+    margin-left: 400px;
+    margin-top: 80px;
+    width: 76vw;
+    overflow: scroll;
+    max-height: calc(60vh);
+}
+
+.thumbnail-wrapper {
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
