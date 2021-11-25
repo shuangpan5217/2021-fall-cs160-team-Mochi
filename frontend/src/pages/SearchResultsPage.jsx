@@ -1,27 +1,77 @@
 import Template from "../components/template";
 import { useContext, useEffect, useState } from "react";
 import SectionTitle from "../components/sectionTitle";
-import AppContext from "../components/AppContext";
 import PDFViewer from "../components/PDFViewer";
-import mockPDF from "../media/mockPDF.pdf";
 import "../css/searchResultsPage.css";
 
 function SearchResultsPage(props) {
-    const myContext = useContext(AppContext);
+    const [count, setCount] = useState(0);
     const [thumbnails, setThumbnails] = useState([]);
 
-    useEffect(() => {
-        // return () => {
-        //     myContext.setGlobalFilter("");
-        //     myContext.setGlobalQuery("");
-        // };
-        //this code is breaking the search results page, need to find a different solution in a future PR
-        const numThumbnails = 20;
-        let tempArr = [];
-        for (let i = 0; i < numThumbnails; i++) {
-            tempArr.push(mockPDF);
+    const getSearchResults = async () => {
+        let success = true;
+        const searchResponse = await fetch(
+            "http://localhost:3000/v1/notes/search/valid",
+            {
+                method: "GET",
+                headers: {
+                    Authorization:
+                        "bearer " + window.localStorage.getItem("authToken"),
+                },
+            }
+        ).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const searchResponseJSON = await searchResponse.json();
+            if (searchResponseJSON.notes) {
+                let noteRefs = searchResponseJSON.notes.map((note) => ({
+                    path: note.note_reference,
+                }));
+                await getPDFs(noteRefs);
+            } else {
+                console.error("Could not load search results.");
+            }
         }
-        setThumbnails(tempArr);
+    };
+
+    const getPDFs = async (filePaths) => {
+        let success = true;
+        const pdfResponse = await fetch(
+            "http://localhost:3000/v1/notes/files",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization:
+                        "bearer " + window.localStorage.getItem("authToken"),
+                },
+                body: JSON.stringify({
+                    filePaths,
+                }),
+            }
+        ).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const pdfResponseJSON = await pdfResponse.json();
+            if (pdfResponseJSON.count) {
+                setCount(pdfResponseJSON.count);
+                setThumbnails(
+                    pdfResponseJSON.filesData.map((file) => file.pdf_data)
+                );
+            } else {
+                console.error("Could not load note pdf.");
+            }
+        }
+    };
+
+    useEffect(() => {
+        getSearchResults();
     }, []);
 
     return (
@@ -31,9 +81,7 @@ function SearchResultsPage(props) {
                 showProfile={true}
                 body={
                     <div className="d-flex flex-column align-items-start search-results-container">
-                        <SectionTitle title="Search Results (20+)" />
-                        {/* <p>Filter: {myContext.filter}</p>
-                        <p>Query: {myContext.query}</p> */}
+                        <SectionTitle title={`Search Results (${count})`} />
                         <div className="d-flex flex-row flex-wrap">
                             {thumbnails.map((pdf) => (
                                 <PDFViewer thumbnail pdf={pdf} />
