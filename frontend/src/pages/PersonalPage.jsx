@@ -10,6 +10,7 @@ import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { Link } from "react-router-dom";
 import PDFViewer from "../components/PDFViewer";
+import PersonalPrefWindow from "../components/personalPrefWindow";
 
 function PersonalPage(props) {
     const [buttonAddFriend, setButtonAddFriend] = useState(false);
@@ -253,6 +254,10 @@ function PersonalPage(props) {
                         <UploadNotesWindow
                             trigger={buttonUpload}
                             setTrigger={setButtonUpload}
+                        />
+                        <PersonalPrefWindow
+                            trigger={buttonPersonalProfile}
+                            setTrigger={setButtonPersonalProfile}
                         />
                     </div>
                 }

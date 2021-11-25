@@ -1,11 +1,11 @@
 import Button from "./button";
 import InputBox from "./inputBox";
 import ModalHeader from "./modalHeader.jsx";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import UploadDropzone from "./uploadDropzone";
 
-function SignUpWindow(props) {
+function SignUpWindow({ edit, setTrigger }) {
     let history = useHistory();
     const [first_name, setFirstname] = useState("");
     const [last_name, setLastname] = useState("");
@@ -15,10 +15,6 @@ function SignUpWindow(props) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [description, setDescription] = useState("");
     const [file, setFile] = useState(null);
-
-    useEffect(() => {
-        window.localStorage.setItem("authToken", "");
-    }, []);
 
     const attemptSignup = async () => {
         if (
@@ -111,7 +107,9 @@ function SignUpWindow(props) {
 
     return (
         <div className="d-flex flex-column align-items-center">
-            <ModalHeader title="Create New Account" />
+            <ModalHeader
+                title={edit ? "Update Your Info" : "Create New Account"}
+            />
             <div className="d-flex flex-row">
                 <div className="d-flex flex-column">
                     <InputBox
@@ -160,20 +158,35 @@ function SignUpWindow(props) {
                 size="large"
                 dataCy="bio-input"
             />
-            <div className="d-flex flex-row">
-                <Button
-                    title="BACK"
-                    type="secondary"
-                    url="/login"
-                    dataCy="back-btn"
-                />
-                <Button
-                    title="SIGN UP"
-                    type="primary"
-                    clicked={attemptSignup}
-                    dataCy="signup-btn"
-                />
-            </div>
+            {edit ? (
+                <div className="d-flex flex-row">
+                    <Button
+                        title="DISCARD"
+                        type="secondary"
+                        clicked={() => setTrigger(false)}
+                    />
+                    <Button
+                        title="SAVE"
+                        type="primary"
+                        clicked={() => console.log("save")}
+                    />
+                </div>
+            ) : (
+                <div className="d-flex flex-row">
+                    <Button
+                        title="BACK"
+                        type="secondary"
+                        url="/login"
+                        dataCy="back-btn"
+                    />
+                    <Button
+                        title="SIGN UP"
+                        type="primary"
+                        clicked={attemptSignup}
+                        dataCy="signup-btn"
+                    />
+                </div>
+            )}
         </div>
     );
 }
