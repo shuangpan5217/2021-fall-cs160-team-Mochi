@@ -16,7 +16,7 @@
     text-align: center;
     width: 14vw;
     overflow: scroll;
-    max-height: calc(90vh);
+    max-height: 90vh;
 }
 
 .left-side {
@@ -42,7 +42,7 @@
     margin-top: 80px;
     width: 76vw;
     overflow: scroll;
-    max-height: calc(60vh);
+    max-height: 60vh;
 }
 
 .thumbnail-wrapper {

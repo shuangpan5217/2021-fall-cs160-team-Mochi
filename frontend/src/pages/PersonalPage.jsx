@@ -237,16 +237,16 @@ function PersonalPage(props) {
                         <div className="d-flex flex-column align-items-start mynote-results-container">
                             <SectionTitle title="My Notes" />
                             <div className="d-flex flex-row flex-wrap">
-                                {pdf.map((eachDPF) => (
+                                {pdf.map((eachPDF) => (
                                     <Link
-                                        to={"/note/" + eachDPF.note_id}
+                                        to={"/note/" + eachPDF.note_id}
                                         style={{
                                             color: "inherit",
                                             textDecoration: "inherit",
                                         }}
                                     >
                                         <PersonalPagePDFViewer
-                                            pdf={eachDPF.pdf_data}
+                                            pdf={eachPDF.pdf_data}
                                         />
                                     </Link>
                                 ))}

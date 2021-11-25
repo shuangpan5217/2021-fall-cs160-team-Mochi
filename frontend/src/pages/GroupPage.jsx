@@ -8,6 +8,8 @@ import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { useParams } from "react-router";
 import SectionTitle from "../components/sectionTitle.jsx";
+import { Link } from "react-router-dom";
+import PersonalPagePDFViewer from "../components/personalPagePDFViewer";
 
 function GroupPage(props) {
     const [buttonAddMember, setButtonAddMember] = useState(false);
@@ -18,6 +20,7 @@ function GroupPage(props) {
     const [group, setGroup] = useState("");
     const [groupDescription, setGroupDescription] = useState("");
     const { groupId } = useParams();
+    const [pdf, setPDF] = useState([]);
 
     const getGroupInfo = async () => {
         let success = true;
@@ -70,9 +73,70 @@ function GroupPage(props) {
         }
     };
 
+    const getGroupNotesRef = async () => {
+        let success = true;
+        const groupNotesResponse = await fetch(
+            "http://localhost:3000/v1/notes/group/" + groupId,
+            {
+                method: "GET",
+                headers: {
+                    Authorization:
+                        "bearer " + window.localStorage.getItem("authToken"),
+                },
+            }
+        ).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const groupNotesResponseJSON = await groupNotesResponse.json();
+            if (groupNotesResponseJSON.notes) {
+                setNotes(groupNotesResponseJSON.notes);
+                await getPDF(groupNotesResponseJSON.notes);
+            } else {
+                console.error("Could not load note.");
+            }
+        }
+    };
+
+    const getPDF = async (notes) => {
+        let success = true;
+        for (const note of notes) {
+            const pdfResponse = await fetch(
+                "http://localhost:3000/v1/notes/file/" + note.note_reference,
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization:
+                            "bearer " +
+                            window.localStorage.getItem("authToken"),
+                    },
+                }
+            ).catch((err) => {
+                console.error(err);
+                success = false;
+            });
+
+            if (success) {
+                const pdfResponseJSON = await pdfResponse.json();
+                if (pdfResponseJSON.pdf_data) {
+                    const pdfOjbect = {
+                        note_id: note.note_id,
+                        pdf_data: pdfResponseJSON.pdf_data,
+                    };
+                    setPDF((arr) => [...arr, pdfOjbect]);
+                } else {
+                    console.error("Could not load note pdf.");
+                }
+            }
+        }
+    };
+
     useEffect(() => {
         getGroupInfo();
         getGroupMembers();
+        getGroupNotesRef();
     }, []);
 
     return (
@@ -121,16 +185,32 @@ function GroupPage(props) {
                             <SectionTitle title="Our Group" />
                             <div className="agenda big">{groupDescription}</div>
                         </div>
-                        <div className="d-flex right-side-middle">
+                        <div className="d-flex flex-column align-items-start mynote-results-container">
                             <SectionTitle title="Our Notes" />
-                            <div className="d-flex flex-row right-side-down">
-                                <Button
-                                    title="UPLOAD"
-                                    type="primary"
-                                    clicked={() => setButtonUpload(true)}
-                                />
+                            <div className="d-flex flex-row flex-wrap">
+                                {pdf.map((eachPDF) => (
+                                    <Link
+                                        to={"/note/" + eachPDF.note_id}
+                                        style={{
+                                            color: "inherit",
+                                            textDecoration: "inherit",
+                                        }}
+                                    >
+                                        <PersonalPagePDFViewer
+                                            pdf={eachPDF.pdf_data}
+                                        />
+                                    </Link>
+                                ))}
                             </div>
                         </div>
+                        <div className="d-flex flex-row right-side-down">
+                            <Button
+                                title="UPLOAD"
+                                type="primary"
+                                clicked={() => setButtonUpload(true)}
+                            />
+                        </div>
+
                         <AddMemberWindow
                             members={members}
                             setMembers={setMembers}
