@@ -1,20 +1,30 @@
 import Template from "../components/template";
 import Button from "../components/button";
 import { useContext, useEffect, useState } from "react";
+import AppContext from "../components/appContext";
+import { useHistory } from "react-router-dom";
 import SectionTitle from "../components/sectionTitle";
 import PDFViewer from "../components/pdfViewer";
 import "../css/searchResultsPage.css";
 
 function SearchResultsPage(props) {
+    const history = useHistory();
+    const myContext = useContext(AppContext);
     const [count, setCount] = useState(0);
     const [thumbnails, setThumbnails] = useState([]);
+    const [filteredThumbnails, setFilteredThumbnails] = useState([]);
     const [offset, setOffset] = useState(0);
     const [showLoadMore, setShowLoadMore] = useState(true);
+    const [styles, setStyles] = useState({});
 
     const getSearchResults = async () => {
+        if (!myContext.query) {
+            return;
+        }
+
         let success = true;
         const searchResponse = await fetch(
-            `http://localhost:3000/v1/notes/search/valid?offset=${offset}`, //hardcoded tag
+            `http://localhost:3000/v1/notes/search/${myContext.query}?offset=${offset}`, //hardcoded tag
             {
                 method: "GET",
                 headers: {
@@ -31,6 +41,13 @@ function SearchResultsPage(props) {
             const searchResponseJSON = await searchResponse.json();
             if (searchResponseJSON.notes) {
                 setOffset(offset + 20);
+
+                const newStyles = {};
+                searchResponseJSON.notes.forEach(
+                    (note) => (newStyles[note.note_id] = note.style)
+                );
+                setStyles({ ...styles, ...newStyles });
+
                 let noteRefs = searchResponseJSON.notes.map((note) => ({
                     path: note.note_reference,
                 }));
@@ -68,10 +85,7 @@ function SearchResultsPage(props) {
                     setShowLoadMore(false);
                 }
                 setCount(count + pdfResponseJSON.count);
-                setThumbnails([
-                    ...thumbnails,
-                    ...pdfResponseJSON.filesData.map((file) => file.pdf_data),
-                ]);
+                setThumbnails([...thumbnails, ...pdfResponseJSON.filesData]);
             } else if (pdfResponseJSON.filesData) {
                 setShowLoadMore(false);
             } else {
@@ -84,29 +98,61 @@ function SearchResultsPage(props) {
         getSearchResults();
     }, []);
 
+    useEffect(() => {
+        const newThumbnails = thumbnails.filter(
+            (pdf) =>
+                myContext.filter === "" ||
+                styles[pdf.note_id] === myContext.filter
+        );
+
+        setFilteredThumbnails(newThumbnails);
+        setCount(newThumbnails.length);
+    }, [thumbnails]);
+
     return (
         <>
             <Template
                 showSearch={true}
                 showProfile={true}
+                showFilterBtn={true}
                 body={
                     <div className="d-flex flex-column align-items-start search-results-container">
                         <SectionTitle title={`Search Results (${count})`} />
-                        <div className="d-flex flex-row justify-content-center flex-wrap full-width">
-                            {thumbnails.map((pdf) => (
-                                <PDFViewer thumbnail pdf={pdf} />
-                            ))}
-                        </div>
-                        {showLoadMore ? (
-                            <div className="d-flex flex-row justify-content-center full-width">
-                                <Button
-                                    title="LOAD MORE"
-                                    type="primary"
-                                    clicked={() => getSearchResults()}
-                                />
-                            </div>
+                        {count > 0 ? (
+                            <>
+                                <div className="d-flex flex-row justify-content-center flex-wrap full-width">
+                                    {filteredThumbnails.map((pdf) => (
+                                        <PDFViewer
+                                            thumbnail
+                                            pdf={pdf.pdf_data}
+                                            onClick={() =>
+                                                history.push(
+                                                    "/note/" + pdf.note_id
+                                                )
+                                            }
+                                        />
+                                    ))}
+                                </div>
+                                {showLoadMore ? (
+                                    <div className="d-flex flex-row justify-content-center full-width">
+                                        <Button
+                                            title="LOAD MORE"
+                                            type="primary"
+                                            clicked={() => getSearchResults()}
+                                        />
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </>
                         ) : (
-                            <></>
+                            <p className="agenda">
+                                No results found for the search:&nbsp;
+                                {myContext.query}
+                                {myContext.filter === ""
+                                    ? ""
+                                    : ` and the filter ${myContext.filter}`}
+                            </p>
                         )}
                     </div>
                 }

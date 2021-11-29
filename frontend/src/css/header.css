@@ -13,6 +13,7 @@
     margin-top: 20px;
     margin-right: 20px;
     border: 1px solid var(--profile-img-border-color);
+    z-index: 5;
 }
 
 .profile-img:hover{
