@@ -17,6 +17,12 @@ import (
 // swagger:model getFileResponse
 type GetFileResponse struct {
 
+	// note id for pdf file
+	NoteID string `json:"note_id,omitempty"`
+
+	// note reference for pdf file
+	NoteReference string `json:"note_reference,omitempty"`
+
 	// pdf content
 	PdfData interface{} `json:"pdf_data,omitempty"`
 }
