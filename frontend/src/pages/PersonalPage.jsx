@@ -23,6 +23,7 @@ function PersonalPage(props) {
     const [user, setUser] = useState("");
     const [userDescription, setUserDescription] = useState("");
     const [pdf, setPDF] = useState({});
+    const [refreshProfileImage, setRefreshProfileImage] = useState(false);
 
     const getUserInfo = async () => {
         let success = true;
@@ -156,6 +157,7 @@ function PersonalPage(props) {
             <Template
                 showSearch={true}
                 showProfile={true}
+                refreshProfileImage={refreshProfileImage}
                 body={
                     <div className="d-flex flex-column left-side">
                         <ModalHeader title={`Hi ${user}`} />
@@ -258,6 +260,8 @@ function PersonalPage(props) {
                         <PersonalPrefWindow
                             trigger={buttonPersonalProfile}
                             setTrigger={setButtonPersonalProfile}
+                            setBio={setUserDescription}
+                            setRefreshProfileImage={setRefreshProfileImage}
                         />
                     </div>
                 }

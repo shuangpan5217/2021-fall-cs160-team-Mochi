@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import UploadDropzone from "./uploadDropzone";
 
-function SignUpWindow({ edit, setTrigger }) {
+function SignUpWindow({ edit, setTrigger, setBio, setRefreshProfileImage }) {
     let history = useHistory();
     const [first_name, setFirstname] = useState("");
     const [last_name, setLastname] = useState("");
@@ -23,7 +23,8 @@ function SignUpWindow({ edit, setTrigger }) {
             last_name === "" ||
             username === "" ||
             email === "" ||
-            password === ""
+            password === "" ||
+            description === ""
         ) {
             alert("Please fill out all fields.");
             return;
@@ -172,6 +173,19 @@ function SignUpWindow({ edit, setTrigger }) {
     };
 
     const updateInfo = async () => {
+        if (
+            first_name === "" ||
+            last_name === "" ||
+            email === "" ||
+            description === ""
+        ) {
+            alert("Please fill out all fields.");
+            return;
+        } else if (password !== confirmPassword) {
+            alert("Passwords don't match.");
+            return;
+        }
+
         let success = true;
         const updateInfoResponse = await fetch(
             "http://localhost:3000/v1/user",
@@ -198,12 +212,13 @@ function SignUpWindow({ edit, setTrigger }) {
             const updateInfoResponseJSON = await updateInfoResponse.json();
             if (updateInfoResponseJSON.username) {
                 if (password) {
-                    if (password !== confirmPassword) {
-                        alert("Passwords don't match.");
-                    } else {
-                        await updatePassword();
-                    }
+                    await updatePassword();
                 }
+                if (fileUpdated) {
+                    await uploadProfileImg(false);
+                    setRefreshProfileImage(true);
+                }
+                setBio(description);
                 setTrigger(false);
             } else {
                 alert("Could not update your profile information.");
@@ -230,11 +245,7 @@ function SignUpWindow({ edit, setTrigger }) {
         if (success) {
             const updatePasswordResponseJSON =
                 await updatePasswordResponse.json();
-            if (updatePasswordResponseJSON.username) {
-                if (fileUpdated) {
-                    await uploadProfileImg(false);
-                }
-            } else {
+            if (!updatePasswordResponseJSON.username) {
                 alert("Could not update your password.");
             }
         }
@@ -291,14 +302,14 @@ function SignUpWindow({ edit, setTrigger }) {
                 />
             )}
             <InputBox
-                placeholder={`${edit ? "new" : ""} password`}
+                placeholder={`${edit ? "new " : ""}password`}
                 onChange={setPassword}
                 size="large"
                 dataCy="pwd-input"
                 mask
             />
             <InputBox
-                placeholder={`confirm ${edit ? "new" : ""} password`}
+                placeholder={`confirm ${edit ? "new " : ""}password`}
                 onChange={setConfirmPassword}
                 size="large"
                 dataCy="confirm-pwd-input"

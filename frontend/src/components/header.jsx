@@ -3,14 +3,14 @@ import "../css/header.css";
 import SearchBar from "./searchBar.jsx";
 import ProfileImage from "./profileImage.jsx";
 
-function Header({ showSearch, showProfile}) {
+function Header({ showSearch, showProfile, refreshProfileImage}) {
     return (
         <div className="d-flex flex-row justify-content-between">
             <div className="logo-spacing">
                 <Logo />
             </div>
             {showSearch ? <SearchBar showFilterBtn={true}/> : <></>}
-            {showProfile ? <ProfileImage/> : <></>}
+            {showProfile ? <ProfileImage refresh={refreshProfileImage}/> : <></>}
         </div>
     );
 }
