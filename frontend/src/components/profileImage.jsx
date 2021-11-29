@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import defaultImg from "../media/default.jpeg";
 
-function ProfileImage(props) {
+function ProfileImage({ refresh }) {
     const history = useHistory();
     const [img, setImg] = useState({});
     const [type, setType] = useState("");
@@ -33,7 +33,7 @@ function ProfileImage(props) {
 
     useEffect(() => {
         getImage();
-    }, []);
+    }, [refresh]);
 
     return (
         <img

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import UploadDropzone from "./uploadDropzone";
 
-function SignUpWindow(props) {
+function SignUpWindow({ edit, setTrigger, setBio, setRefreshProfileImage }) {
     let history = useHistory();
     const [first_name, setFirstname] = useState("");
     const [last_name, setLastname] = useState("");
@@ -15,10 +15,7 @@ function SignUpWindow(props) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [description, setDescription] = useState("");
     const [file, setFile] = useState(null);
-
-    useEffect(() => {
-        window.localStorage.setItem("authToken", "");
-    }, []);
+    const [fileUpdated, setFileUpdated] = useState(false);
 
     const attemptSignup = async () => {
         if (
@@ -26,7 +23,8 @@ function SignUpWindow(props) {
             last_name === "" ||
             username === "" ||
             email === "" ||
-            password === ""
+            password === "" ||
+            description === ""
         ) {
             alert("Please fill out all fields.");
             return;
@@ -34,6 +32,8 @@ function SignUpWindow(props) {
             alert("Passwords don't match.");
             return;
         }
+
+        let success = true;
 
         const response = await fetch(
             "http://localhost:3000/v1/login?signup=true",
@@ -49,105 +49,267 @@ function SignUpWindow(props) {
                     description,
                 }),
             }
-        );
+        ).catch((err) => {
+            console.error(err);
+            success = false;
+        });
 
-        const responseJSON = await response.json();
-        if (responseJSON.username) {
-            if (file != null) {
-                const loginResponse = await fetch(
-                    "http://localhost:3000/v1/login",
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            username,
-                            password,
-                        }),
-                    }
-                );
-
-                const loginResponseJSON = await loginResponse.json();
-                if (!loginResponseJSON.status_code) {
-                    window.localStorage.setItem(
-                        "authToken",
-                        loginResponseJSON.token
-                    );
-                    let formData = new FormData();
-                    formData.append("userImage", file);
-
-                    const imgResponse = await fetch(
-                        "http://localhost:3000/v1/images",
+        if (success) {
+            const responseJSON = await response.json();
+            if (responseJSON.username) {
+                if (file != null) {
+                    const loginResponse = await fetch(
+                        "http://localhost:3000/v1/login",
                         {
                             method: "POST",
-                            headers: {
-                                Authorization:
-                                    "bearer " +
-                                    window.localStorage.getItem("authToken"),
-                            },
-                            body: formData,
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                username,
+                                password,
+                            }),
                         }
                     );
 
-                    const imgResponseJSON = await imgResponse.json();
-                    if (!imgResponseJSON.message) {
-                        alert("Something went wrong with Image upload!");
+                    const loginResponseJSON = await loginResponse.json();
+                    if (!loginResponseJSON.status_code) {
+                        window.localStorage.setItem(
+                            "authToken",
+                            loginResponseJSON.token
+                        );
+                        await uploadProfileImg(true);
+                    } else if (loginResponseJSON.status_code === 401) {
+                        alert("Incorrect username or password.");
                     } else {
-                        history.push("/login");
+                        alert("Something went wrong");
                     }
-                } else if (loginResponseJSON.status_code === 401) {
-                    alert("Incorrect username or password.");
                 } else {
-                    alert("Something went wrong");
+                    history.push("/login");
                 }
+            } else if (responseJSON.errMessage === "username already exists") {
+                alert("That username already exists, please try again.");
             } else {
-                history.push("/login");
+                alert("Something went wrong");
             }
-        } else if (responseJSON.errMessage === "username already exists") {
-            alert("That username already exists, please try again.");
-        } else {
-            alert("Something went wrong");
         }
     };
 
+    const uploadProfileImg = async (gotoLogin) => {
+        let success = true;
+
+        let formData = new FormData();
+        formData.append("userImage", file);
+
+        const imgResponse = await fetch("http://localhost:3000/v1/images", {
+            method: "POST",
+            headers: {
+                Authorization:
+                    "bearer " + window.localStorage.getItem("authToken"),
+            },
+            body: formData,
+        }).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const imgResponseJSON = await imgResponse.json();
+            if (!imgResponseJSON.message) {
+                alert("Something went wrong with Image upload!");
+            } else if (gotoLogin) {
+                history.push("/login");
+            }
+        }
+    };
+
+    const getUserInfo = async () => {
+        let success = true;
+        const userInfoResponse = await fetch("http://localhost:3000/v1/user", {
+            method: "GET",
+            headers: {
+                Authorization:
+                    "bearer " + window.localStorage.getItem("authToken"),
+            },
+        }).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const userInfoResponseJSON = await userInfoResponse.json();
+            if (userInfoResponseJSON.email) {
+                setFirstname(userInfoResponseJSON.first_name);
+                setLastname(userInfoResponseJSON.last_name);
+                setEmail(userInfoResponseJSON.email);
+                setDescription(userInfoResponseJSON.description);
+
+                await getImage();
+            } else {
+                console.error("Could not load user info.");
+            }
+        }
+    };
+
+    const getImage = async () => {
+        let success = true;
+        const imgResponse = await fetch("http://localhost:3000/v1/images", {
+            method: "GET",
+            headers: {
+                Authorization:
+                    "bearer " + window.localStorage.getItem("authToken"),
+            },
+        }).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const imgResponseJSON = await imgResponse.json();
+            if (imgResponseJSON.name) {
+                setFile({ path: imgResponseJSON.name });
+            } else {
+                console.error("Could not load profile image.");
+            }
+        }
+    };
+
+    const updateInfo = async () => {
+        if (
+            first_name === "" ||
+            last_name === "" ||
+            email === "" ||
+            description === ""
+        ) {
+            alert("Please fill out all fields.");
+            return;
+        } else if (password !== confirmPassword) {
+            alert("Passwords don't match.");
+            return;
+        }
+
+        let success = true;
+        const updateInfoResponse = await fetch(
+            "http://localhost:3000/v1/user",
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization:
+                        "bearer " + window.localStorage.getItem("authToken"),
+                },
+                body: JSON.stringify({
+                    description,
+                    email,
+                    first_name,
+                    last_name,
+                }),
+            }
+        ).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const updateInfoResponseJSON = await updateInfoResponse.json();
+            if (updateInfoResponseJSON.username) {
+                if (password) {
+                    await updatePassword();
+                }
+                if (fileUpdated) {
+                    await uploadProfileImg(false);
+                    setRefreshProfileImage(true);
+                }
+                setBio(description);
+                setTrigger(false);
+            } else {
+                alert("Could not update your profile information.");
+            }
+        }
+    };
+
+    const updatePassword = async () => {
+        let success = true;
+        const updatePasswordResponse = await fetch(
+            "http://localhost:3000/v1/password/" + password,
+            {
+                method: "PATCH",
+                headers: {
+                    Authorization:
+                        "bearer " + window.localStorage.getItem("authToken"),
+                },
+            }
+        ).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const updatePasswordResponseJSON =
+                await updatePasswordResponse.json();
+            if (!updatePasswordResponseJSON.username) {
+                alert("Could not update your password.");
+            }
+        }
+    };
+
+    const updateFile = (newFile) => {
+        setFileUpdated(true);
+        setFile(newFile);
+    };
+
+    useEffect(() => {
+        if (edit) {
+            getUserInfo();
+        }
+    }, [edit]);
+
     return (
         <div className="d-flex flex-column align-items-center">
-            <ModalHeader title="Create New Account" />
+            <ModalHeader
+                title={edit ? "Update Your Info" : "Create New Account"}
+            />
             <div className="d-flex flex-row">
                 <div className="d-flex flex-column">
                     <InputBox
                         placeholder="first name"
                         onChange={setFirstname}
+                        initVal={first_name}
                         dataCy="first-name-input"
                     />
                     <InputBox
                         placeholder="last name"
                         onChange={setLastname}
+                        initVal={last_name}
                         dataCy="last-name-input"
                     />
                 </div>
-                <UploadDropzone setFile={setFile} profile />
+                <UploadDropzone file={file} setFile={updateFile} profile />
             </div>
             <InputBox
                 placeholder="email"
                 onChange={setEmail}
                 size="large"
+                initVal={email}
                 dataCy="email-input"
             />
+            {edit ? (
+                <></>
+            ) : (
+                <InputBox
+                    placeholder="username"
+                    onChange={setUsername}
+                    size="large"
+                    dataCy="username-input"
+                />
+            )}
             <InputBox
-                placeholder="username"
-                onChange={setUsername}
-                size="large"
-                dataCy="username-input"
-            />
-            <InputBox
-                placeholder="password"
+                placeholder={`${edit ? "new " : ""}password`}
                 onChange={setPassword}
                 size="large"
                 dataCy="pwd-input"
                 mask
             />
             <InputBox
-                placeholder="confirm password"
+                placeholder={`confirm ${edit ? "new " : ""}password`}
                 onChange={setConfirmPassword}
                 size="large"
                 dataCy="confirm-pwd-input"
@@ -158,22 +320,34 @@ function SignUpWindow(props) {
                 placeholder="biography"
                 onChange={setDescription}
                 size="large"
+                initVal={description}
                 dataCy="bio-input"
             />
-            <div className="d-flex flex-row">
-                <Button
-                    title="BACK"
-                    type="secondary"
-                    url="/login"
-                    dataCy="back-btn"
-                />
-                <Button
-                    title="SIGN UP"
-                    type="primary"
-                    clicked={attemptSignup}
-                    dataCy="signup-btn"
-                />
-            </div>
+            {edit ? (
+                <div className="d-flex flex-row">
+                    <Button
+                        title="DISCARD"
+                        type="secondary"
+                        clicked={() => setTrigger(false)}
+                    />
+                    <Button title="SAVE" type="primary" clicked={updateInfo} />
+                </div>
+            ) : (
+                <div className="d-flex flex-row">
+                    <Button
+                        title="BACK"
+                        type="secondary"
+                        url="/login"
+                        dataCy="back-btn"
+                    />
+                    <Button
+                        title="SIGN UP"
+                        type="primary"
+                        clicked={attemptSignup}
+                        dataCy="signup-btn"
+                    />
+                </div>
+            )}
         </div>
     );
 }

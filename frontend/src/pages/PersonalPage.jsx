@@ -10,6 +10,7 @@ import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { Link } from "react-router-dom";
 import PDFViewer from "../components/PDFViewer";
+import PersonalPrefWindow from "../components/personalPrefWindow";
 
 function PersonalPage(props) {
     const [buttonAddFriend, setButtonAddFriend] = useState(false);
@@ -21,7 +22,9 @@ function PersonalPage(props) {
     const [buttonUpload, setButtonUpload] = useState(false);
     const [user, setUser] = useState("");
     const [userDescription, setUserDescription] = useState("");
+
     const [pdfs, setPDFs] = useState([]);
+    const [refreshProfileImage, setRefreshProfileImage] = useState(false);
 
     const getUserInfo = async () => {
         let success = true;
@@ -163,6 +166,7 @@ function PersonalPage(props) {
             <Template
                 showSearch={true}
                 showProfile={true}
+                refreshProfileImage={refreshProfileImage}
                 body={
                     <div className="d-flex flex-column left-side">
                         <ModalHeader title={`Hi ${user}`} />
@@ -277,6 +281,12 @@ function PersonalPage(props) {
                                 clicked={() => setButtonUpload(true)}
                             />
                         </div>
+                        <PersonalPrefWindow
+                            trigger={buttonPersonalProfile}
+                            setTrigger={setButtonPersonalProfile}
+                            setBio={setUserDescription}
+                            setRefreshProfileImage={setRefreshProfileImage}
+                        />
                     </div>
                 }
             />

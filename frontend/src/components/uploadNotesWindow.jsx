@@ -212,7 +212,7 @@ function UploadNotesWindow({ trigger, setTrigger }) {
                             <label className="agenda small label-spacing">
                                 Attach File
                             </label>
-                            <UploadDropzone setFile={setFile} />
+                            <UploadDropzone file={file} setFile={setFile} />
                         </div>
                     </div>
                     <div className="d-flex flex-row ">
