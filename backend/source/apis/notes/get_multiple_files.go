@@ -2,6 +2,7 @@ package notes
 
 import (
 	"2021-fall-cs160-team-Mochi/backend/source/apis/commonutils"
+	"2021-fall-cs160-team-Mochi/backend/source/apis/dbpackages"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/models"
 	"2021-fall-cs160-team-Mochi/backend/source/generated/restapi/operations/notes_v1"
 	"encoding/base64"
@@ -53,8 +54,9 @@ func processGetMultipleFilesRequest(db *gorm.DB, params notes_v1.GetMultipleFile
 		FilesData: filesData,
 	}
 
+	var note dbpackages.Note
 	for _, path := range paths {
-		_, errResp = getNoteByFileName(db, path.Path, payload.Username)
+		note, errResp = getNoteByFileName(db, path.Path, payload.Username)
 		if errResp != nil {
 			return
 		}
@@ -66,7 +68,9 @@ func processGetMultipleFilesRequest(db *gorm.DB, params notes_v1.GetMultipleFile
 			continue
 		}
 		fileResp := &models.GetFileResponse{
-			PdfData: base64.StdEncoding.EncodeToString(pdfData),
+			PdfData:       base64.StdEncoding.EncodeToString(pdfData),
+			NoteReference: path.Path,
+			NoteID:        note.NoteID,
 		}
 		resp.FilesData = append(resp.FilesData, fileResp)
 	}

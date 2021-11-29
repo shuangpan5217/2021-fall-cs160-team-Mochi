@@ -2708,6 +2708,14 @@ func init() {
     "getFileResponse": {
       "type": "object",
       "properties": {
+        "note_id": {
+          "description": "note id for pdf file",
+          "type": "string"
+        },
+        "note_reference": {
+          "description": "note reference for pdf file",
+          "type": "string"
+        },
         "pdf_data": {
           "description": "pdf content",
           "type": "object"
@@ -5848,6 +5856,14 @@ func init() {
     "getFileResponse": {
       "type": "object",
       "properties": {
+        "note_id": {
+          "description": "note id for pdf file",
+          "type": "string"
+        },
+        "note_reference": {
+          "description": "note reference for pdf file",
+          "type": "string"
+        },
         "pdf_data": {
           "description": "pdf content",
           "type": "object"
