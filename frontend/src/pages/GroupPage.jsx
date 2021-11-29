@@ -8,6 +8,7 @@ import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { useParams } from "react-router";
 import SectionTitle from "../components/sectionTitle.jsx";
+import CreateGroupWindow from "../components/createGroupWindow";
 
 function GroupPage(props) {
     const [buttonAddMember, setButtonAddMember] = useState(false);
@@ -140,6 +141,11 @@ function GroupPage(props) {
                         <UploadNotesWindow
                             trigger={buttonUpload}
                             setTrigger={setButtonUpload}
+                        />
+                        <CreateGroupWindow
+                            edit
+                            trigger={buttonGroupProfile}
+                            setTrigger={setButtonGroupProfile}
                         />
                     </div>
                 }
