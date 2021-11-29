@@ -9,7 +9,7 @@ import CreateGroupWindow from "../components/createGroupWindow";
 import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { Link } from "react-router-dom";
-import PersonalPagePDFViewer from "../components/personalPagePDFViewer";
+import PDFViewer from "../components/PDFViewer";
 
 function PersonalPage(props) {
     const [buttonAddFriend, setButtonAddFriend] = useState(false);
@@ -21,7 +21,7 @@ function PersonalPage(props) {
     const [buttonUpload, setButtonUpload] = useState(false);
     const [user, setUser] = useState("");
     const [userDescription, setUserDescription] = useState("");
-    const [pdf, setPDF] = useState([]);
+    const [pdfs, setPDFs] = useState([]);
 
     const getUserInfo = async () => {
         let success = true;
@@ -144,7 +144,7 @@ function PersonalPage(props) {
                         note_id: note.note_id,
                         pdf_data: pdfResponseJSON.pdf_data,
                     };
-                    setPDF((arr) => [...arr, pdfOjbect]);
+                    setPDFs((arr) => [...arr, pdfOjbect]);
                 } else {
                     console.error("Could not load note pdf.");
                 }
@@ -237,7 +237,7 @@ function PersonalPage(props) {
                         <div className="d-flex flex-column align-items-start mynote-results-container">
                             <SectionTitle title="My Notes" />
                             <div className="d-flex flex-row flex-wrap">
-                                {pdf.map((eachPDF) => (
+                                {pdfs.map((eachPDF) => (
                                     <Link
                                         to={"/note/" + eachPDF.note_id}
                                         style={{
@@ -245,20 +245,15 @@ function PersonalPage(props) {
                                             textDecoration: "inherit",
                                         }}
                                     >
-                                        <PersonalPagePDFViewer
+                                        <PDFViewer
+                                            thumbnail
                                             pdf={eachPDF.pdf_data}
                                         />
                                     </Link>
                                 ))}
                             </div>
                         </div>
-                        <div className="d-flex flex-row right-side-down">
-                            <Button
-                                title="UPLOAD"
-                                type="primary"
-                                clicked={() => setButtonUpload(true)}
-                            />
-                        </div>
+
                         <AddFriendWindow
                             friends={friends}
                             setFriends={setFriends}
@@ -275,6 +270,13 @@ function PersonalPage(props) {
                             trigger={buttonUpload}
                             setTrigger={setButtonUpload}
                         />
+                        <div className="d-flex flex-row right-side-down">
+                            <Button
+                                title="UPLOAD"
+                                type="primary"
+                                clicked={() => setButtonUpload(true)}
+                            />
+                        </div>
                     </div>
                 }
             />

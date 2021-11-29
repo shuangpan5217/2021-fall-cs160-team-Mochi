@@ -9,7 +9,7 @@ import UploadNotesWindow from "../components/uploadNotesWindow";
 import { useParams } from "react-router";
 import SectionTitle from "../components/sectionTitle.jsx";
 import { Link } from "react-router-dom";
-import PersonalPagePDFViewer from "../components/personalPagePDFViewer";
+import PDFViewer from "../components/PDFViewer";
 
 function GroupPage(props) {
     const [buttonAddMember, setButtonAddMember] = useState(false);
@@ -20,7 +20,7 @@ function GroupPage(props) {
     const [group, setGroup] = useState("");
     const [groupDescription, setGroupDescription] = useState("");
     const { groupId } = useParams();
-    const [pdf, setPDF] = useState([]);
+    const [pdfs, setPDFs] = useState([]);
 
     const getGroupInfo = async () => {
         let success = true;
@@ -125,7 +125,7 @@ function GroupPage(props) {
                         note_id: note.note_id,
                         pdf_data: pdfResponseJSON.pdf_data,
                     };
-                    setPDF((arr) => [...arr, pdfOjbect]);
+                    setPDFs((arr) => [...arr, pdfOjbect]);
                 } else {
                     console.error("Could not load note pdf.");
                 }
@@ -188,7 +188,7 @@ function GroupPage(props) {
                         <div className="d-flex flex-column align-items-start mynote-results-container">
                             <SectionTitle title="Our Notes" />
                             <div className="d-flex flex-row flex-wrap">
-                                {pdf.map((eachPDF) => (
+                                {pdfs.map((eachPDF) => (
                                     <Link
                                         to={"/note/" + eachPDF.note_id}
                                         style={{
@@ -196,21 +196,14 @@ function GroupPage(props) {
                                             textDecoration: "inherit",
                                         }}
                                     >
-                                        <PersonalPagePDFViewer
+                                        <PDFViewer
+                                            thumbnail
                                             pdf={eachPDF.pdf_data}
                                         />
                                     </Link>
                                 ))}
                             </div>
                         </div>
-                        <div className="d-flex flex-row right-side-down">
-                            <Button
-                                title="UPLOAD"
-                                type="primary"
-                                clicked={() => setButtonUpload(true)}
-                            />
-                        </div>
-
                         <AddMemberWindow
                             members={members}
                             setMembers={setMembers}
@@ -221,6 +214,13 @@ function GroupPage(props) {
                             trigger={buttonUpload}
                             setTrigger={setButtonUpload}
                         />
+                        <div className="d-flex flex-row right-side-down">
+                            <Button
+                                title="UPLOAD"
+                                type="primary"
+                                clicked={() => setButtonUpload(true)}
+                            />
+                        </div>
                     </div>
                 }
             />

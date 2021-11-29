@@ -33,8 +33,9 @@
 }
 
 .right-side-down {
-    margin-left: 1200px;
-    margin-top: 0px;
+    position: fixed;
+    margin-left: 50vw;
+    margin-top: calc(100vh - 230px);
 }
 
 .mynote-results-container {

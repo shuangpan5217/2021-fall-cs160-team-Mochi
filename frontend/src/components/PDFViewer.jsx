@@ -11,14 +11,14 @@ function PDFViewer({ pdf, thumbnail }) {
     return (
         <div className={thumbnail ? "thumbnail-wrapper" : ""}>
             <Document
-                file={thumbnail ? pdf : "data:application/pdf;base64," + pdf}
+                file={"data:application/pdf;base64," + pdf}
                 onLoadSuccess={onDocumentLoadSuccess}
                 className={thumbnail ? "" : "pdf-container"}
             >
                 <Page
                     pageNumber={1}
                     className="pdf-page"
-                    scale={thumbnail ? 0.4 : 1.5}
+                    scale={thumbnail ? 0.6 : 1.5}
                 />
             </Document>
         </div>
