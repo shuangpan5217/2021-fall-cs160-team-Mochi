@@ -13,6 +13,7 @@ function CreateGroupWindow({
     setGroups,
     edit,
     groupId,
+    setBio,
 }) {
     const history = useHistory();
     const [group_name, setGroupName] = useState("");
@@ -74,7 +75,40 @@ function CreateGroupWindow({
     };
 
     const updateInfo = async () => {
-        console.log("update info");
+        if (group_name === "" || description === "") {
+            alert("Please fill out all fields.");
+            return;
+        }
+
+        let success = true;
+        const updateInfoResponse = await fetch(
+            "http://localhost:3000/v1/groups/" + groupId,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization:
+                        "bearer " + window.localStorage.getItem("authToken"),
+                },
+                body: JSON.stringify({
+                    description,
+                    group_name,
+                }),
+            }
+        ).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const updateInfoResponseJSON = await updateInfoResponse.json();
+            if (updateInfoResponseJSON.group_id) {
+                setBio(description);
+                setTrigger(false);
+            } else {
+                alert("Could not update the group information.");
+            }
+        }
     };
 
     useEffect(() => {

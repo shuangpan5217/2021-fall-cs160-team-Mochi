@@ -147,6 +147,7 @@ function GroupPage(props) {
                             trigger={buttonGroupProfile}
                             setTrigger={setButtonGroupProfile}
                             groupId={groupId}
+                            setBio={setGroupDescription}
                         />
                     </div>
                 }
