@@ -9,7 +9,7 @@ import UploadNotesWindow from "../components/uploadNotesWindow";
 import { useParams } from "react-router";
 import SectionTitle from "../components/sectionTitle.jsx";
 import { Link } from "react-router-dom";
-import PDFViewer from "../components/PDFViewer";
+import PDFViewer from "../components/pdfViewer";
 
 function GroupPage(props) {
     const [buttonAddMember, setButtonAddMember] = useState(false);

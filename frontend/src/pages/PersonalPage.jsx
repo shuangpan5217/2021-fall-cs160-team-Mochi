@@ -9,8 +9,9 @@ import CreateGroupWindow from "../components/createGroupWindow";
 import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { Link } from "react-router-dom";
-import PDFViewer from "../components/PDFViewer";
+import PDFViewer from "../components/pdfViewer";
 import PersonalPrefWindow from "../components/personalPrefWindow";
+
 
 function PersonalPage(props) {
     const [buttonAddFriend, setButtonAddFriend] = useState(false);
