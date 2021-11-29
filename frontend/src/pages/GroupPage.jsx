@@ -11,6 +11,7 @@ import SectionTitle from "../components/sectionTitle.jsx";
 import CreateGroupWindow from "../components/createGroupWindow";
 import { Link } from "react-router-dom";
 import PDFViewer from "../components/PDFViewer";
+import GroupPrefWindow from "../components/groupPrefWindow";
 
 function GroupPage(props) {
     const [buttonAddMember, setButtonAddMember] = useState(false);
@@ -215,12 +216,12 @@ function GroupPage(props) {
                             trigger={buttonUpload}
                             setTrigger={setButtonUpload}
                         />
-                        <CreateGroupWindow
-                            edit
+                        <GroupPrefWindow
                             trigger={buttonGroupProfile}
                             setTrigger={setButtonGroupProfile}
                             groupId={groupId}
                             setBio={setGroupDescription}
+                            setName={setGroup}
                         />
                         <div className="d-flex flex-row right-side-down">
                             <Button

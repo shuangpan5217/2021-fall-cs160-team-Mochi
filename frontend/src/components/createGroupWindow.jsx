@@ -1,13 +1,11 @@
 import Button from "./button";
 import InputBox from "./inputBox";
 import ModalHeader from "./modalHeader.jsx";
-import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ModalWindow from "./modalWindow";
 import "../css/personalPage.css";
 
 function CreateGroupWindow({
-    trigger,
     setTrigger,
     groups,
     setGroups,
@@ -15,7 +13,6 @@ function CreateGroupWindow({
     groupId,
     setBio,
 }) {
-    const history = useHistory();
     const [group_name, setGroupName] = useState("");
     const [description, setGroupDescription] = useState("");
 
@@ -117,59 +114,48 @@ function CreateGroupWindow({
         }
     }, [edit]);
 
-    return trigger ? (
-        <ModalWindow
-            blur
-            body={
-                <div className="d-flex flex-column align-items-center">
-                    <ModalHeader
-                        title={edit ? "Update Group Info" : "Create New Group"}
+    return (
+        <div className="d-flex flex-column align-items-center">
+            <ModalHeader
+                title={edit ? "Update Group Info" : "Create New Group"}
+            />
+            <div className="d-flex flex-column align-items-end">
+                <InputBox
+                    placeholder="name"
+                    onChange={setGroupName}
+                    initVal={group_name}
+                />
+                <InputBox
+                    placeholder="description"
+                    onChange={setGroupDescription}
+                    initVal={description}
+                    textArea
+                />
+            </div>
+            {edit ? (
+                <div className="d-flex flex-row">
+                    <Button
+                        title="DISCARD"
+                        type="secondary"
+                        clicked={() => setTrigger(false)}
                     />
-                    <div className="d-flex flex-column align-items-end">
-                        <InputBox
-                            placeholder="name"
-                            onChange={setGroupName}
-                            initVal={group_name}
-                        />
-                        <InputBox
-                            placeholder="description"
-                            onChange={setGroupDescription}
-                            initVal={description}
-                            textArea
-                        />
-                    </div>
-                    {edit ? (
-                        <div className="d-flex flex-row">
-                            <Button
-                                title="DISCARD"
-                                type="secondary"
-                                clicked={() => setTrigger(false)}
-                            />
-                            <Button
-                                title="SAVE"
-                                type="primary"
-                                clicked={updateInfo}
-                            />
-                        </div>
-                    ) : (
-                        <div className="d-flex flex-row ">
-                            <Button
-                                title="BACK"
-                                type="secondary"
-                                clicked={() => setTrigger(false)}
-                            />
-                            <Button
-                                title="CREATE"
-                                type="primary"
-                                clicked={attemptCreatGroup}
-                            />
-                        </div>
-                    )}
+                    <Button title="SAVE" type="primary" clicked={updateInfo} />
                 </div>
-            }
-        />
-    ) : (
-        ""
+            ) : (
+                <div className="d-flex flex-row ">
+                    <Button
+                        title="BACK"
+                        type="secondary"
+                        clicked={() => setTrigger(false)}
+                    />
+                    <Button
+                        title="CREATE"
+                        type="primary"
+                        clicked={attemptCreatGroup}
+                    />
+                </div>
+            )}
+        </div>
     );
 }
 

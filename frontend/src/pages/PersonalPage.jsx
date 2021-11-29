@@ -11,6 +11,7 @@ import UploadNotesWindow from "../components/uploadNotesWindow";
 import { Link } from "react-router-dom";
 import PDFViewer from "../components/PDFViewer";
 import PersonalPrefWindow from "../components/personalPrefWindow";
+import ModalWindow from "../components/modalWindow";
 
 function PersonalPage(props) {
     const [buttonAddFriend, setButtonAddFriend] = useState(false);
@@ -264,12 +265,20 @@ function PersonalPage(props) {
                             trigger={buttonAddFriend}
                             setTrigger={setButtonAddFriend}
                         />
-                        <CreateGroupWindow
-                            groups={groups}
-                            setGroups={setGroups}
-                            trigger={buttonGroup}
-                            setTrigger={setButtonGroup}
-                        />
+                        {buttonGroup ? (
+                            <ModalWindow
+                                blur
+                                body={
+                                    <CreateGroupWindow
+                                        groups={groups}
+                                        setGroups={setGroups}
+                                        setTrigger={setButtonGroup}
+                                    />
+                                }
+                            />
+                        ) : (
+                            <></>
+                        )}
                         <UploadNotesWindow
                             trigger={buttonUpload}
                             setTrigger={setButtonUpload}
