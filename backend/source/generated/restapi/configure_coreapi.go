@@ -127,6 +127,7 @@ func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	corsHandler := cors.Handler(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedHeaders: []string{"*"},
+		AllowedMethods: []string{"POST", "GET", "PATCH", "PUT", "OPTIONS", "DELETE", "HEAD"},
 	})
 
 	return corsHandler(handler)
