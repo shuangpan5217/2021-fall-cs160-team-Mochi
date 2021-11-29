@@ -11,7 +11,7 @@ import "./App.css";
 import { useState } from "react";
 import SearchResultsPage from "./pages/SearchResultsPage.jsx";
 import ViewNotesPage from "./pages/ViewNotesPage.jsx";
-import AppContext from "./components/AppContext";
+import AppContext from "./components/appContext";
 import PersonalPage from "./pages/PersonalPage.jsx";
 import GroupPage from "./pages/GroupPage.jsx";
 

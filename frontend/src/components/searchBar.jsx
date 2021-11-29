@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import AppContext from "./AppContext";
+import AppContext from "./appContext";
 import RadioButton from "./radioButton";
 import "../css/searchbar.css";
 
