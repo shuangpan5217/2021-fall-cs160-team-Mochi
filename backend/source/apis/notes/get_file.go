@@ -44,7 +44,7 @@ func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *
 		return
 	}
 
-	_, errResp = getNoteByFileName(db, params.Path, payload.Username)
+	note, errResp := getNoteByFileName(db, params.Path, payload.Username)
 	if errResp != nil {
 		return
 	}
@@ -58,7 +58,9 @@ func processGetFileRequest(db *gorm.DB, params notes_v1.GetFileV1Params) (resp *
 		return
 	}
 	resp = &models.GetFileResponse{
-		PdfData: base64.StdEncoding.EncodeToString(pdfFileData),
+		PdfData:       base64.StdEncoding.EncodeToString(pdfFileData),
+		NoteReference: params.Path,
+		NoteID:        note.NoteID,
 	}
 	return
 }
