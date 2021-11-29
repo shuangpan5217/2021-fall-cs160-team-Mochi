@@ -1,49 +1,44 @@
-.modal-container-personal {
+.modal-container-left {
     background-color: var(--modal-panel-color);
     border: 1px solid var(--modal-border-color);
     border-radius: 15px;
     padding: 40px;
-    width: 20em;
-    height: 65em;
-}
-
-.container-left {
-    position: fixed;
-    top: 45em;
-    left: 13em;
-    margin-right: -50%;
+    width: 14vw;
+    height: 80vh;
+    overflow: scroll;
     transform: translate(-50%, -50%);
     text-align: center;
-    width: 14vw;
-    overflow: scroll;
-    max-height: 90vh;
+    position: absolute;
+    margin-left: 6vw;
+    margin-top: 40vh;
 }
 
 .left-side {
-    margin-left: 50px;
+    margin-left: 2vw;
 }
 
 .right-side-top {
-    margin-left: 400px;
+    margin-left: 16vw;
 }
 
 .right-side-middle {
-    margin-left: 400px;
-    margin-top: 100px;
+    margin-left: calc(16vw - 100px);
+    margin-top: 20vh;
 }
 
 .right-side-down {
     position: fixed;
-    margin-left: 50vw;
-    margin-top: calc(100vh - 230px);
+    margin-left: calc(55vw - 220px);
+    margin-top: calc(100vh - 200px);
 }
 
 .mynote-results-container {
-    margin-left: 400px;
-    margin-top: 80px;
-    width: 76vw;
+    margin-left: 16vw;
+    margin-top: 5vh;
+    margin-bottom: calc(0vh - 100px);
+    width: 80vw;
     overflow: scroll;
-    max-height: 60vh;
+    max-height: calc(85vh - 300px);
 }
 
 .thumbnail-wrapper {
