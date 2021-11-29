@@ -49,7 +49,7 @@ const Container2 = styled.div`
     transition: border 0.24s ease-in-out;
 `;
 
-function UploadDropzone({ setFile, profile }) {
+function UploadDropzone({ file, setFile, profile }) {
     const onDrop = useCallback(
         (acceptFiles) => {
             setFile(acceptFiles[0]);
@@ -78,10 +78,8 @@ function UploadDropzone({ setFile, profile }) {
                         })}
                     >
                         <input {...getInputProps()} />
-                        {acceptedFiles.length > 0 ? (
-                            <p className="smaller text-center">
-                                {acceptedFiles[0].path}
-                            </p>
+                        {file ? (
+                            <p className="smaller text-center">{file.path}</p>
                         ) : (
                             <p className="smaller text-center">profile photo</p>
                         )}
@@ -104,8 +102,8 @@ function UploadDropzone({ setFile, profile }) {
                     </Container>
                 )}
             </div>
-            {acceptedFiles.length > 0 && !profile ? (
-                <p className="agenda small">{acceptedFiles[0].path}</p>
+            {file && !profile ? (
+                <p className="agenda small">{file.path}</p>
             ) : (
                 <></>
             )}

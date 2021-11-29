@@ -8,6 +8,7 @@ import "../css/uploadNotesWindow.css";
 import RadioButton from "./radioButton";
 import ModalWindow from "./modalWindow";
 import UploadDropzone from "./uploadDropzone";
+import { useParams } from "react-router";
 
 function UploadNotesWindow({ trigger, setTrigger }) {
     const history = useHistory();
@@ -19,6 +20,7 @@ function UploadNotesWindow({ trigger, setTrigger }) {
     const [type, setType] = useState("");
     const [style, setStyle] = useState("");
     const [file, setFile] = useState(null);
+    const { groupId } = useParams();
 
     useEffect(() => {
         const removeTag = (tagTitle) => {
@@ -82,10 +84,40 @@ function UploadNotesWindow({ trigger, setTrigger }) {
 
         const responseJSON = await response.json();
         if (responseJSON.note_id) {
-            history.push("/note/" + responseJSON.note_id);
+            if (groupId && type === "shared") {
+                const sharedGroupNoteResponse = await fetch(
+                    "http://localhost:3000/v1/notes/" +
+                        responseJSON.note_id +
+                        "/members",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization:
+                                "bearer " +
+                                window.localStorage.getItem("authToken"),
+                        },
+                        body: JSON.stringify({
+                            groups: [{ group_id: groupId }],
+                        }),
+                    }
+                );
+
+                const sharedGroupNoteResponseJSON =
+                    await sharedGroupNoteResponse.json();
+
+                if (sharedGroupNoteResponseJSON.note_id) {
+                    history.push("/note/" + responseJSON.note_id);
+                } else {
+                    alert(
+                        "Something went wrong with sharing note with group member!"
+                    );
+                }
+            } else {
+                history.push("/note/" + responseJSON.note_id);
+            }
         } else {
             alert("Something went wrong with note upload!");
-            setTrigger(false);
         }
     };
 
@@ -180,7 +212,7 @@ function UploadNotesWindow({ trigger, setTrigger }) {
                             <label className="agenda small label-spacing">
                                 Attach File
                             </label>
-                            <UploadDropzone setFile={setFile} />
+                            <UploadDropzone file={file} setFile={setFile} />
                         </div>
                     </div>
                     <div className="d-flex flex-row ">

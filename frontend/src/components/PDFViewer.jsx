@@ -22,7 +22,7 @@ function PDFViewer({ pdf, thumbnail, onClick }) {
                 <Page
                     pageNumber={1}
                     className="pdf-page"
-                    scale={thumbnail ? 0.4 : 1.5}
+                    scale={thumbnail ? 0.6 : 1.5}
                 />
             </Document>
         </div>

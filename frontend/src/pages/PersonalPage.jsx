@@ -10,6 +10,8 @@ import "../css/personalPage.css";
 import UploadNotesWindow from "../components/uploadNotesWindow";
 import { Link } from "react-router-dom";
 import PDFViewer from "../components/pdfViewer";
+import PersonalPrefWindow from "../components/personalPrefWindow";
+
 
 function PersonalPage(props) {
     const [buttonAddFriend, setButtonAddFriend] = useState(false);
@@ -21,7 +23,9 @@ function PersonalPage(props) {
     const [buttonUpload, setButtonUpload] = useState(false);
     const [user, setUser] = useState("");
     const [userDescription, setUserDescription] = useState("");
-    const [pdf, setPDF] = useState({});
+
+    const [pdfs, setPDFs] = useState([]);
+    const [refreshProfileImage, setRefreshProfileImage] = useState(false);
 
     const getUserInfo = async () => {
         let success = true;
@@ -112,42 +116,50 @@ function PersonalPage(props) {
             const userNoteResponseJSON = await userNotesResponse.json();
             if (userNoteResponseJSON.notes) {
                 setNotes(userNoteResponseJSON.notes);
-
-                const pdfResponse = await fetch(
-                    "http://localhost:3000/v1/notes/file/" +
-                        notes[0].note_reference,
-                    {
-                        method: "GET",
-                        headers: {
-                            Authorization:
-                                "bearer " +
-                                window.localStorage.getItem("authToken"),
-                        },
-                    }
-                ).catch((err) => {
-                    console.error(err);
-                    success = false;
-                });
-
-                if (success) {
-                    const pdfResponseJSON = await pdfResponse.json();
-                    if (pdfResponseJSON.pdf_data) {
-                        setPDF(pdfResponseJSON.pdf_data);
-                    } else {
-                        console.error("Could not load note pdf.");
-                    }
-                }
+                await getPDF(userNoteResponseJSON.notes);
             } else {
                 console.error("Could not load note.");
             }
         }
     };
 
+    const getPDF = async (notes) => {
+        let success = true;
+        for (const note of notes) {
+            const pdfResponse = await fetch(
+                "http://localhost:3000/v1/notes/file/" + note.note_reference,
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization:
+                            "bearer " +
+                            window.localStorage.getItem("authToken"),
+                    },
+                }
+            ).catch((err) => {
+                console.error(err);
+                success = false;
+            });
+
+            if (success) {
+                const pdfResponseJSON = await pdfResponse.json();
+                if (pdfResponseJSON.pdf_data) {
+                    const pdfOjbect = {
+                        note_id: note.note_id,
+                        pdf_data: pdfResponseJSON.pdf_data,
+                    };
+                    setPDFs((arr) => [...arr, pdfOjbect]);
+                } else {
+                    console.error("Could not load note pdf.");
+                }
+            }
+        }
+    };
     useEffect(() => {
         getUserInfo();
         getMyFriends();
         getMyGroups();
-        // getUserNotesRef();
+        getUserNotesRef();
     }, []);
 
     return (
@@ -155,6 +167,7 @@ function PersonalPage(props) {
             <Template
                 showSearch={true}
                 showProfile={true}
+                refreshProfileImage={refreshProfileImage}
                 body={
                     <div className="d-flex flex-column left-side">
                         <ModalHeader title={`Hi ${user}`} />
@@ -226,18 +239,26 @@ function PersonalPage(props) {
                             <SectionTitle title="Biography" />
                             <div className="agenda big">{userDescription}</div>
                         </div>
-
-                        <div className="d-flex column right-side-middle">
+                        <div className="d-flex flex-column align-items-start mynote-results-container">
                             <SectionTitle title="My Notes" />
-                            {/* <PDFViewer thumbnail pdf={pdf} /> */}
-                            <div className="d-flex flex-row right-side-down">
-                                <Button
-                                    title="UPLOAD"
-                                    type="primary"
-                                    clicked={() => setButtonUpload(true)}
-                                />
+                            <div className="d-flex flex-row flex-wrap">
+                                {pdfs.map((eachPDF) => (
+                                    <Link
+                                        to={"/note/" + eachPDF.note_id}
+                                        style={{
+                                            color: "inherit",
+                                            textDecoration: "inherit",
+                                        }}
+                                    >
+                                        <PDFViewer
+                                            thumbnail
+                                            pdf={eachPDF.pdf_data}
+                                        />
+                                    </Link>
+                                ))}
                             </div>
                         </div>
+
                         <AddFriendWindow
                             friends={friends}
                             setFriends={setFriends}
@@ -253,6 +274,19 @@ function PersonalPage(props) {
                         <UploadNotesWindow
                             trigger={buttonUpload}
                             setTrigger={setButtonUpload}
+                        />
+                        <div className="d-flex flex-row right-side-down">
+                            <Button
+                                title="UPLOAD"
+                                type="primary"
+                                clicked={() => setButtonUpload(true)}
+                            />
+                        </div>
+                        <PersonalPrefWindow
+                            trigger={buttonPersonalProfile}
+                            setTrigger={setButtonPersonalProfile}
+                            setBio={setUserDescription}
+                            setRefreshProfileImage={setRefreshProfileImage}
                         />
                     </div>
                 }
