@@ -2097,6 +2097,12 @@ definitions:
       pdf_data:
         type: object
         description: pdf content
+      note_id:
+        type: string
+        description: note id for pdf file
+      note_reference: 
+        type: string
+        description: note reference for pdf file
   getFilesResponse:
     type: object
     properties:
