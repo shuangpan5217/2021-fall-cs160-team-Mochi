@@ -12,8 +12,16 @@ function InputBox({
     size,
     onEnter,
     dataCy,
+    initVal,
 }) {
     const [value, setValue] = useState("");
+
+    useEffect(() => {
+        if (initVal) {
+            setValue(initVal);
+        }
+    }, [initVal]);
+
     useEffect(() => {
         if (clear) {
             setValue("");
