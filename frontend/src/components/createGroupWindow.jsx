@@ -2,7 +2,6 @@ import Button from "./button";
 import InputBox from "./inputBox";
 import ModalHeader from "./modalHeader.jsx";
 import { useState, useEffect } from "react";
-import ModalWindow from "./modalWindow";
 import "../css/personalPage.css";
 
 function CreateGroupWindow({
@@ -12,6 +11,7 @@ function CreateGroupWindow({
     edit,
     groupId,
     setBio,
+    setName,
 }) {
     const [group_name, setGroupName] = useState("");
     const [description, setGroupDescription] = useState("");
@@ -101,6 +101,7 @@ function CreateGroupWindow({
             const updateInfoResponseJSON = await updateInfoResponse.json();
             if (updateInfoResponseJSON.group_id) {
                 setBio(description);
+                setName(group_name);
                 setTrigger(false);
             } else {
                 alert("Could not update the group information.");
