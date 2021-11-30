@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import PDFViewer from "../components/pdfViewer";
 import PersonalPrefWindow from "../components/personalPrefWindow";
 
-
 function PersonalPage(props) {
     const [buttonAddFriend, setButtonAddFriend] = useState(false);
     const [buttonGroup, setButtonGroup] = useState(false);
@@ -167,6 +166,7 @@ function PersonalPage(props) {
             <Template
                 showSearch={true}
                 showProfile={true}
+                blur
                 refreshProfileImage={refreshProfileImage}
                 body={
                     <div className="d-flex flex-column left-side">

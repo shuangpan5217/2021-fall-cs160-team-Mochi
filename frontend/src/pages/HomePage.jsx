@@ -15,6 +15,7 @@ function HomePage() {
             <Template
                 showSearch={false}
                 showProfile={true}
+                blur
                 body={
                     <div className="d-flex flex-column center-home-content">
                         <ModalHeader title="Study Your Way" />

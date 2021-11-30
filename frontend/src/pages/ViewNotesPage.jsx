@@ -194,6 +194,7 @@ function ViewNotesPage(props) {
             <Template
                 showSearch={true}
                 showProfile={true}
+                blur
                 body={
                     <div className="d-flex flex-row justify-content-center">
                         {hasAccess ? (
