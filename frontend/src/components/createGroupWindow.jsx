@@ -37,7 +37,10 @@ function CreateGroupWindow({
 
         const responseJSON = await response.json();
         if (responseJSON.group_id) {
-            setGroups([...groups, { group_name }]);
+            setGroups([
+                ...groups,
+                { group_name, group_id: responseJSON.group_id },
+            ]);
             setTrigger(false);
         } else {
             alert("Something went wrong with creating group!");
@@ -134,7 +137,7 @@ function CreateGroupWindow({
                 />
             </div>
             {edit ? (
-                <div className="d-flex flex-row">
+                <div className="d-flex flex-row no-top-spacing">
                     <Button
                         title="DISCARD"
                         type="secondary"
@@ -143,7 +146,7 @@ function CreateGroupWindow({
                     <Button title="SAVE" type="primary" clicked={updateInfo} />
                 </div>
             ) : (
-                <div className="d-flex flex-row ">
+                <div className="d-flex flex-row no-top-spacing">
                     <Button
                         title="BACK"
                         type="secondary"

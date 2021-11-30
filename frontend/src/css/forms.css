@@ -40,3 +40,8 @@
 .circle-container{
     border-radius: 50%;
 }
+
+.btn.small {
+    margin-top: 0px;
+    margin-bottom: 20px;
+}

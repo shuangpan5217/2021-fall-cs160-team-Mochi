@@ -152,7 +152,7 @@ function GroupPage(props) {
                         <div className="d-flex flex-row">
                             <div className="d-flex flex-column left-panel justify-content-between agenda align-items-center">
                                 <div className="d-flex flex-column">
-                                    <ModalHeader title="Members" />
+                                    <ModalHeader small title="Members" />
                                     {members.map((member) => (
                                         <h3>{member.username}</h3>
                                     ))}

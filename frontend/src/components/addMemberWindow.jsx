@@ -55,8 +55,7 @@ function AddMemberWindow({ trigger, setTrigger, members, setMembers }) {
                             onChange={setUsername}
                         />
                     </div>
-                    <br></br>
-                    <div className="d-flex flex-row ">
+                    <div className="d-flex flex-row no-top-spacing">
                         <Button
                             title="BACK"
                             type="secondary"

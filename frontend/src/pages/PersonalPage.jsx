@@ -175,7 +175,7 @@ function PersonalPage(props) {
                         <div className="d-flex flex-row">
                             <div className="d-flex flex-column left-panel justify-content-between agenda align-items-center">
                                 <div className="d-flex flex-column">
-                                    <ModalHeader title="My Friends" />
+                                    <ModalHeader small title="My Friends" />
                                     {friends.map((friend) => (
                                         <h3>{friend.username}</h3>
                                     ))}
@@ -185,7 +185,7 @@ function PersonalPage(props) {
                                         type="primary"
                                         clicked={() => setButtonAddFriend(true)}
                                     />
-                                    <ModalHeader title="My Groups" />
+                                    <ModalHeader small title="My Groups" />
                                     {groups.map((group) => (
                                         <Link
                                             to={"/group/" + group.group_id}

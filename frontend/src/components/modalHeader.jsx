@@ -1,7 +1,13 @@
-function ModalHeader({ title }) {
+function ModalHeader({ title, small }) {
     return (
         <>
-            <p className="agenda section-header modal-section-header">{title}</p>
+            <p
+                className={`agenda section-header ${
+                    small ? "modal-section-header" : ""
+                }`}
+            >
+                {title}
+            </p>
         </>
     );
 }

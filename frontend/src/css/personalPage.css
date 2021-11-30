@@ -27,3 +27,7 @@
     margin-right: 10px;
     margin-bottom: 10px;
 }
+
+.no-top-spacing {
+    margin-top: -20px;
+}
