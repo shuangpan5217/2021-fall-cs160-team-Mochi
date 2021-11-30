@@ -14,6 +14,11 @@ function LoginWindow(props) {
     }, []);
 
     const attemptLogin = async () => {
+        if (username === "" || password === "") {
+            alert("Please fill out all fields.");
+            return;
+        }
+
         const response = await fetch("http://localhost:3000/v1/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -41,12 +46,14 @@ function LoginWindow(props) {
                 placeholder="Username"
                 onChange={setUsername}
                 dataCy="login-username-input"
+                onEnter={attemptLogin}
             />
             <InputBox
                 placeholder="Password"
                 onChange={setPassword}
                 dataCy="login-pwd-input"
                 mask
+                onEnter={attemptLogin}
             />
             <div className="d-flex flex-row">
                 <Button
