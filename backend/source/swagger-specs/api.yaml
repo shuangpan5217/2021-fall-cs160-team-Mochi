@@ -1277,6 +1277,61 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/errResponse'
+    patch:
+      description: update a group info
+      operationId: updateGroupInfoV1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+      - groupsV1
+      parameters:
+      - name: Authorization
+        description: Bearer token based Authorization
+        type: string
+        in: header
+        required: true
+      - name: group_id
+        type: string
+        in: path
+        description: group id
+        required: true
+      - name: body
+        in: body
+        description: group object
+        required: true
+        schema:
+          $ref: "#/definitions/patchGroupObj"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/groupObj'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errResponse'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errResponse'
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: '#/definitions/errResponse'
+        404:
+          description: "Not Found"
+          schema:
+            $ref: '#/definitions/errResponse'
+        409:
+          description: Conflict
+          schema:
+            $ref: '#/definitions/errResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errResponse'
   /v1/groups/{group_id}/members:
     get:
       description: get group users
@@ -1805,6 +1860,15 @@ definitions:
   postGroupObj:
     required:
     - group_name
+    type: object
+    properties:
+      group_name:
+        description: group name
+        type: string
+      description:
+        description: group's desciption
+        type: string
+  patchGroupObj:
     type: object
     properties:
       group_name:

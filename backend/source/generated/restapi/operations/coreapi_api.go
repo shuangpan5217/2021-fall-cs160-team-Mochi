@@ -140,6 +140,9 @@ func NewCoreapiAPI(spec *loads.Document) *CoreapiAPI {
 		UserMgmtV1SearchUserV1Handler: user_mgmt_v1.SearchUserV1HandlerFunc(func(params user_mgmt_v1.SearchUserV1Params) middleware.Responder {
 			return middleware.NotImplemented("operation user_mgmt_v1.SearchUserV1 has not yet been implemented")
 		}),
+		GroupsV1UpdateGroupInfoV1Handler: groups_v1.UpdateGroupInfoV1HandlerFunc(func(params groups_v1.UpdateGroupInfoV1Params) middleware.Responder {
+			return middleware.NotImplemented("operation groups_v1.UpdateGroupInfoV1 has not yet been implemented")
+		}),
 		NotesV1UpdateNoteHandler: notes_v1.UpdateNoteHandlerFunc(func(params notes_v1.UpdateNoteParams) middleware.Responder {
 			return middleware.NotImplemented("operation notes_v1.UpdateNote has not yet been implemented")
 		}),
@@ -251,6 +254,8 @@ type CoreapiAPI struct {
 	NotesV1RemoveNoteMembersV1Handler notes_v1.RemoveNoteMembersV1Handler
 	// UserMgmtV1SearchUserV1Handler sets the operation handler for the search user v1 operation
 	UserMgmtV1SearchUserV1Handler user_mgmt_v1.SearchUserV1Handler
+	// GroupsV1UpdateGroupInfoV1Handler sets the operation handler for the update group info v1 operation
+	GroupsV1UpdateGroupInfoV1Handler groups_v1.UpdateGroupInfoV1Handler
 	// NotesV1UpdateNoteHandler sets the operation handler for the update note operation
 	NotesV1UpdateNoteHandler notes_v1.UpdateNoteHandler
 	// UserMgmtV1UpdatePasswordV1Handler sets the operation handler for the update password v1 operation
@@ -428,6 +433,9 @@ func (o *CoreapiAPI) Validate() error {
 	}
 	if o.UserMgmtV1SearchUserV1Handler == nil {
 		unregistered = append(unregistered, "user_mgmt_v1.SearchUserV1Handler")
+	}
+	if o.GroupsV1UpdateGroupInfoV1Handler == nil {
+		unregistered = append(unregistered, "groups_v1.UpdateGroupInfoV1Handler")
 	}
 	if o.NotesV1UpdateNoteHandler == nil {
 		unregistered = append(unregistered, "notes_v1.UpdateNoteHandler")
@@ -651,6 +659,10 @@ func (o *CoreapiAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/v1/user/username/{username}"] = user_mgmt_v1.NewSearchUserV1(o.context, o.UserMgmtV1SearchUserV1Handler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
+	}
+	o.handlers["PATCH"]["/v1/groups/{group_id}"] = groups_v1.NewUpdateGroupInfoV1(o.context, o.GroupsV1UpdateGroupInfoV1Handler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
