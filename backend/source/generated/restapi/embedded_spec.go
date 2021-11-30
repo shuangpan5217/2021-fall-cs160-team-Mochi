@@ -674,6 +674,88 @@ func init() {
             }
           }
         }
+      },
+      "patch": {
+        "description": "update a group info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "updateGroupInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "group object",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/patchGroupObj"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
       }
     },
     "/v1/groups/{group_id}/members": {
@@ -3041,6 +3123,19 @@ func init() {
           "items": {
             "$ref": "#/definitions/noteObjectResponse"
           }
+        }
+      }
+    },
+    "patchGroupObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "group's desciption",
+          "type": "string"
+        },
+        "group_name": {
+          "description": "group name",
+          "type": "string"
         }
       }
     },
@@ -3822,6 +3917,88 @@ func init() {
             }
           }
         }
+      },
+      "patch": {
+        "description": "update a group info",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "groupsV1"
+        ],
+        "operationId": "updateGroupInfoV1",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Bearer token based Authorization",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group id",
+            "name": "group_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "group object",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/patchGroupObj"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/groupObj"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errResponse"
+            }
+          }
+        }
       }
     },
     "/v1/groups/{group_id}/members": {
@@ -6189,6 +6366,19 @@ func init() {
           "items": {
             "$ref": "#/definitions/noteObjectResponse"
           }
+        }
+      }
+    },
+    "patchGroupObj": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "group's desciption",
+          "type": "string"
+        },
+        "group_name": {
+          "description": "group name",
+          "type": "string"
         }
       }
     },
