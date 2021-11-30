@@ -7,6 +7,7 @@ function Template({
     showSearch,
     showProfile,
     refreshProfileImage,
+    blur,
 }) {
     const history = useHistory();
 
@@ -15,13 +16,17 @@ function Template({
     }
 
     return (
-        <div className="d-flex flex-column full-width full-height justify-content-between">
+        <div
+            className={`d-flex flex-column full-width full-height ${
+                blur ? "blur-bkgrd" : ""
+            }`}
+        >
             <Header
                 showSearch={showSearch}
                 showProfile={showProfile}
                 refreshProfileImage={refreshProfileImage}
             />
-            <div>{body}</div>
+            {body}
         </div>
     );
 }

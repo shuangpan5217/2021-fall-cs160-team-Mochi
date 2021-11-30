@@ -115,6 +115,7 @@ function SearchResultsPage(props) {
                 showSearch={true}
                 showProfile={true}
                 showFilterBtn={true}
+                blur
                 body={
                     <div className="d-flex flex-column align-items-start search-results-container">
                         <SectionTitle title={`Search Results (${count})`} />

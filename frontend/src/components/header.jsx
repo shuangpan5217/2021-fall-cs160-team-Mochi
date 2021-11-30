@@ -7,7 +7,7 @@ function Header({ showSearch, showProfile, refreshProfileImage}) {
     return (
         <div className="d-flex flex-row justify-content-between">
             <div className="logo-spacing">
-                <Logo />
+                <Logo canClick={showProfile}/>
             </div>
             {showSearch ? <SearchBar showFilterBtn={true}/> : <></>}
             {showProfile ? <ProfileImage refresh={refreshProfileImage}/> : <></>}

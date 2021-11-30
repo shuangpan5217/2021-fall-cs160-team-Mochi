@@ -1,15 +1,25 @@
 import { useHistory } from "react-router-dom";
 import "../css/logo.css";
 
-function Logo(props) {
+function Logo({ canClick }) {
     const history = useHistory();
 
     return (
         <>
-            <p className="continuo logo" onClick={() => history.push("/home")}>
-                <span className="continuo-lg">M</span>ochi
-                <span className="continuo-lg">N</span>ote
-            </p>
+            {canClick ? (
+                <p
+                    className="continuo logo"
+                    onClick={() => history.push("/home")}
+                >
+                    <span className="continuo-lg">M</span>ochi
+                    <span className="continuo-lg">N</span>ote
+                </p>
+            ) : (
+                <p className="continuo logo no-click">
+                    <span className="continuo-lg">M</span>ochi
+                    <span className="continuo-lg">N</span>ote
+                </p>
+            )}
         </>
     );
 }

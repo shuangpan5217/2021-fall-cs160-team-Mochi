@@ -145,6 +145,7 @@ function GroupPage(props) {
             <Template
                 showSearch={true}
                 showProfile={true}
+                blur
                 body={
                     <div className="d-flex flex-column left-side">
                         <ModalHeader title={`Hi Group ${group}`} />
