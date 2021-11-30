@@ -9,6 +9,7 @@ import UploadNotesWindow from "../components/uploadNotesWindow";
 import { useParams } from "react-router";
 import SectionTitle from "../components/sectionTitle.jsx";
 import { Link } from "react-router-dom";
+import GroupPrefWindow from "../components/groupPrefWindow";
 import PDFViewer from "../components/pdfViewer";
 
 function GroupPage(props) {
@@ -213,6 +214,13 @@ function GroupPage(props) {
                         <UploadNotesWindow
                             trigger={buttonUpload}
                             setTrigger={setButtonUpload}
+                        />
+                        <GroupPrefWindow
+                            trigger={buttonGroupProfile}
+                            setTrigger={setButtonGroupProfile}
+                            groupId={groupId}
+                            setBio={setGroupDescription}
+                            setName={setGroup}
                         />
                         <div className="d-flex flex-row right-side-down">
                             <Button
