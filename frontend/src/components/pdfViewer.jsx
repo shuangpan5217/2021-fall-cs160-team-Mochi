@@ -3,10 +3,10 @@ import { useState } from "react";
 import "../css/pdfViewer.css";
 
 function PDFViewer({ pdf, thumbnail, onClick }) {
-    const [numPages, setNumPages] = useState(null);
+    const [pages, setPages] = useState(null);
 
-    function onDocumentLoadSuccess({ newNumPages }) {
-        setNumPages(newNumPages);
+    function onDocumentLoadSuccess({ numPages }) {
+        setPages(numPages);
     }
 
     return (
@@ -19,11 +19,19 @@ function PDFViewer({ pdf, thumbnail, onClick }) {
                 onLoadSuccess={onDocumentLoadSuccess}
                 className={thumbnail ? "" : "pdf-container"}
             >
-                <Page
-                    pageNumber={1}
-                    className="pdf-page"
-                    scale={thumbnail ? 0.6 : 1.5}
-                />
+                {thumbnail ? (
+                    <Page pageNumber={1} className="pdf-page" scale={0.6} />
+                ) : (
+                    Array(pages)
+                        .fill()
+                        .map((_, i) => (
+                            <Page
+                                pageNumber={i + 1}
+                                className="pdf-page"
+                                scale={1.5}
+                            />
+                        ))
+                )}
             </Document>
         </div>
     );

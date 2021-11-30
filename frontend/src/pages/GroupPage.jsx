@@ -165,7 +165,7 @@ function GroupPage(props) {
                                 </div>
                                 <Button
                                     small
-                                    title="EDIT PROFILE"
+                                    title="EDIT GROUP"
                                     type="secondary"
                                     clicked={() => setButtonGroupProfile(true)}
                                 />
