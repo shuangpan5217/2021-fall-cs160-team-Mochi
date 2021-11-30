@@ -1,0 +1,17 @@
+.thumbnail-wrapper{
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.pdf-container{
+    overflow: scroll;
+    height: calc(100vh - 200px);
+}
+
+.pdf-page{
+    border: 1px solid var(--txt-input-border-color);
+}
+
+.pdf-wrapper{
+    cursor: pointer;
+}

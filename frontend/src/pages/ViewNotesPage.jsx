@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import NoteActions from "../components/noteActions";
-import PDFViewer from "../components/PDFViewer";
+import PDFViewer from "../components/pdfViewer";
 import SectionTitle from "../components/sectionTitle";
 import "../css/viewNotePage.css";
 import Template from "../components/template";
