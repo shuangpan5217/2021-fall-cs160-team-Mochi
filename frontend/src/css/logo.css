@@ -9,3 +9,7 @@
     font-style: normal;
     color: var(--logo-color);
 }
+
+.no-click:hover{
+    cursor: default !important;
+}
