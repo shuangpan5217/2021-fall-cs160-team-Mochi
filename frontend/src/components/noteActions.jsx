@@ -15,15 +15,11 @@ function NoteActions({ title, descr, type, tags, comments, noteId, owner }) {
                     selected={openTab === "Info"}
                     clicked={() => setOpenTab("Info")}
                 />
-                {type === "private" ? (
-                    <></>
-                ) : (
-                    <TabButton
-                        title="Sharing"
-                        selected={openTab === "Sharing"}
-                        clicked={() => setOpenTab("Sharing")}
-                    />
-                )}
+                <TabButton
+                    title="Sharing"
+                    selected={openTab === "Sharing"}
+                    clicked={() => setOpenTab("Sharing")}
+                />
                 <TabButton
                     title="Comments"
                     selected={openTab === "Comments"}
