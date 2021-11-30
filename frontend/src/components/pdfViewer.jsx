@@ -2,7 +2,7 @@ import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { useState } from "react";
 import "../css/pdfViewer.css";
 
-function PDFViewer({ pdf, thumbnail, onClick }) {
+function PDFViewer({ title, pdf, thumbnail, onClick }) {
     const [pages, setPages] = useState(null);
 
     function onDocumentLoadSuccess({ numPages }) {
@@ -10,17 +10,17 @@ function PDFViewer({ pdf, thumbnail, onClick }) {
     }
 
     return (
-        <div
-            className={`${thumbnail ? "thumbnail-wrapper" : ""} pdf-wrapper`}
-            onClick={onClick}
-        >
+        <div className="pdf-wrapper" onClick={onClick}>
             <Document
                 file={"data:application/pdf;base64," + pdf}
                 onLoadSuccess={onDocumentLoadSuccess}
                 className={thumbnail ? "" : "pdf-container"}
             >
                 {thumbnail ? (
-                    <Page pageNumber={1} className="pdf-page" scale={0.6} />
+                    <div className="thumbnail-wrapper">
+                        <Page pageNumber={1} className="pdf-page" scale={0.6} />
+                        <div className="overlay agenda">{title}</div>
+                    </div>
                 ) : (
                     Array(pages)
                         .fill()

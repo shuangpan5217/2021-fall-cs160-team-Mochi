@@ -1,6 +1,5 @@
 import Template from "../components/template";
 import ModalHeader from "../components/modalHeader.jsx";
-import LeftPanel from "../components/leftPanel";
 import Button from "../components/button";
 import { useState, React, useEffect } from "react";
 import AddMemberWindow from "../components/addMemberWindow";
@@ -16,7 +15,6 @@ function GroupPage(props) {
     const [buttonAddMember, setButtonAddMember] = useState(false);
     const [buttonGroupProfile, setButtonGroupProfile] = useState(false);
     const [members, setMembers] = useState([]);
-    const [notes, setNotes] = useState([]);
     const [buttonUpload, setButtonUpload] = useState(false);
     const [group, setGroup] = useState("");
     const [groupDescription, setGroupDescription] = useState("");
@@ -102,7 +100,6 @@ function GroupPage(props) {
         if (success) {
             const groupNotesResponseJSON = await groupNotesResponse.json();
             if (groupNotesResponseJSON.notes) {
-                setNotes(groupNotesResponseJSON.notes);
                 await getPDF(groupNotesResponseJSON.notes);
             } else {
                 console.error("Could not load note.");
@@ -157,6 +154,7 @@ function GroupPage(props) {
                     const pdfOjbect = {
                         note_id: note.note_id,
                         pdf_data: pdfResponseJSON.pdf_data,
+                        title: note.title,
                     };
                     setPDFs((arr) => [...arr, pdfOjbect]);
                 } else {
@@ -237,6 +235,7 @@ function GroupPage(props) {
                                                     }}
                                                 >
                                                     <PDFViewer
+                                                        title={eachPDF.title}
                                                         thumbnail
                                                         pdf={eachPDF.pdf_data}
                                                     />

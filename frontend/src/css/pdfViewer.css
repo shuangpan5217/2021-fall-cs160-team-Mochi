@@ -15,3 +15,17 @@
 .pdf-wrapper{
     cursor: pointer;
 }
+
+.overlay{
+    position: absolute;
+    transform: translate(0, -100%);
+    display: none;
+    color: white;
+    width: inherit;
+    padding: 5px 15px;
+}
+
+.thumbnail-wrapper:hover .overlay{
+    display: inline-block;
+    background: rgba(0,0,0,0.4);
+}

@@ -144,6 +144,7 @@ function PersonalPage(props) {
                     const pdfOjbect = {
                         note_id: note.note_id,
                         pdf_data: pdfResponseJSON.pdf_data,
+                        title: note.title,
                     };
                     setPDFs((arr) => [...arr, pdfOjbect]);
                 } else {
@@ -234,6 +235,7 @@ function PersonalPage(props) {
                                             }}
                                         >
                                             <PDFViewer
+                                                title={eachPDF.title}
                                                 thumbnail
                                                 pdf={eachPDF.pdf_data}
                                             />
