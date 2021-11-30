@@ -1,7 +1,6 @@
 import Template from "../components/template";
 import ModalHeader from "../components/modalHeader.jsx";
 import SectionTitle from "../components/sectionTitle.jsx";
-import LeftPanel from "../components/leftPanel";
 import Button from "../components/button";
 import { useState, React, useEffect } from "react";
 import AddFriendWindow from "../components/addFriendWindow";
@@ -19,7 +18,6 @@ function PersonalPage(props) {
     const [buttonPersonalProfile, setButtonPersonalProfile] = useState(false);
     const [friends, setFriends] = useState([]);
     const [groups, setGroups] = useState([]);
-    const [notes, setNotes] = useState([]);
     const [buttonUpload, setButtonUpload] = useState(false);
     const [user, setUser] = useState("");
     const [userDescription, setUserDescription] = useState("");
@@ -115,7 +113,6 @@ function PersonalPage(props) {
         if (success) {
             const userNoteResponseJSON = await userNotesResponse.json();
             if (userNoteResponseJSON.notes) {
-                setNotes(userNoteResponseJSON.notes);
                 await getPDF(userNoteResponseJSON.notes);
             } else {
                 console.error("Could not load note.");
@@ -204,14 +201,22 @@ function PersonalPage(props) {
                                         clicked={() => setButtonGroup(true)}
                                     />
                                 </div>
-                                <Button
-                                    small
-                                    title="EDIT PROFILE"
-                                    type="secondary"
-                                    clicked={() =>
-                                        setButtonPersonalProfile(true)
-                                    }
-                                />
+                                <div className="d-flex flex-column">
+                                    <Button
+                                        small
+                                        title="EDIT PROFILE"
+                                        type="secondary"
+                                        clicked={() =>
+                                            setButtonPersonalProfile(true)
+                                        }
+                                    />
+                                    <Button
+                                        small
+                                        title="SIGN OUT"
+                                        type="primary"
+                                        url="/login"
+                                    />
+                                </div>
                             </div>
                             <div className="d-flex flex-column right-panel">
                                 <SectionTitle title="Biography" />
