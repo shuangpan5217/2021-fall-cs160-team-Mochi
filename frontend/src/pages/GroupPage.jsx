@@ -147,63 +147,58 @@ function GroupPage(props) {
                 showProfile={true}
                 blur
                 body={
-                    <div className="d-flex flex-column left-side">
-                        <ModalHeader title={`Hi Group ${group}`} />
-                        <div className="d-flex flex-column align-items-left">
-                            <LeftPanel
-                                body={
-                                    <div className="flex-row">
-                                        <ModalHeader title="Members" />
-                                        <div className="d-flex row agenda">
-                                            {members.map((member) => (
-                                                <h3>{member.username}</h3>
-                                            ))}
-                                        </div>
-                                        <div className="flex-row">
-                                            <Button
-                                                small
-                                                title="ADD MEMBER"
-                                                type="primary"
-                                                clicked={() =>
-                                                    setButtonAddMember(true)
-                                                }
+                    <div className="d-flex flex-column page-container">
+                        <SectionTitle title={`Hi Group ${group}!`} />
+                        <div className="d-flex flex-row">
+                            <div className="d-flex flex-column left-panel justify-content-between agenda align-items-center">
+                                <div className="d-flex flex-column">
+                                    <ModalHeader title="Members" />
+                                    {members.map((member) => (
+                                        <h3>{member.username}</h3>
+                                    ))}
+                                    <Button
+                                        small
+                                        title="ADD MEMBER"
+                                        type="primary"
+                                        clicked={() => setButtonAddMember(true)}
+                                    />
+                                </div>
+                                <Button
+                                    small
+                                    title="EDIT PROFILE"
+                                    type="secondary"
+                                    clicked={() => setButtonGroupProfile(true)}
+                                />
+                            </div>
+                            <div className="d-flex flex-column right-panel">
+                                <SectionTitle title="Group Description" />
+                                <div className="agenda big">
+                                    {groupDescription}
+                                </div>
+                                <SectionTitle title="Our Notes" />
+                                <div className="d-flex flex-row flex-wrap mynote-results-container">
+                                    {pdfs.map((eachPDF) => (
+                                        <Link
+                                            to={"/note/" + eachPDF.note_id}
+                                            style={{
+                                                color: "inherit",
+                                                textDecoration: "inherit",
+                                            }}
+                                        >
+                                            <PDFViewer
+                                                thumbnail
+                                                pdf={eachPDF.pdf_data}
                                             />
-                                        </div>
-                                        <div className="flex-row">
-                                            <Button
-                                                small
-                                                title="EDIT PROFILE"
-                                                type="secondary"
-                                                clicked={() =>
-                                                    setButtonGroupProfile(true)
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                }
-                            />
-                        </div>
-                        <div className="d-flex flex-column right-side-top">
-                            <SectionTitle title="Our Group" />
-                            <div className="agenda big">{groupDescription}</div>
-                        </div>
-                        <div className="d-flex flex-column align-items-start mynote-results-container">
-                            <SectionTitle title="Our Notes" />
-                            <div className="d-flex flex-row flex-wrap">
-                                {pdfs.map((eachPDF) => (
-                                    <Link
-                                        to={"/note/" + eachPDF.note_id}
-                                        style={{
-                                            color: "inherit",
-                                            textDecoration: "inherit",
-                                        }}
-                                    >
-                                        <PDFViewer
-                                            thumbnail
-                                            pdf={eachPDF.pdf_data}
-                                        />
-                                    </Link>
-                                ))}
+                                        </Link>
+                                    ))}
+                                </div>
+                                <div className="d-flex flex-row justify-content-center">
+                                    <Button
+                                        title="UPLOAD"
+                                        type="primary"
+                                        clicked={() => setButtonUpload(true)}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <AddMemberWindow
@@ -223,13 +218,6 @@ function GroupPage(props) {
                             setBio={setGroupDescription}
                             setName={setGroup}
                         />
-                        <div className="d-flex flex-row right-side-down">
-                            <Button
-                                title="UPLOAD"
-                                type="primary"
-                                clicked={() => setButtonUpload(true)}
-                            />
-                        </div>
                     </div>
                 }
             />

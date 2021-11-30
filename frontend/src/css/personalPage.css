@@ -1,44 +1,26 @@
-.modal-container-left {
+.page-container{
+    margin: -30px 20px;
+}
+
+.left-panel {
     background-color: var(--modal-panel-color);
     border: 1px solid var(--modal-border-color);
     border-radius: 15px;
-    padding: 40px;
-    width: 14vw;
-    height: 80vh;
+    padding: 20px 35px;
+    width: 275px;
+    height: calc(100vh - 180px);
     overflow: scroll;
-    transform: translate(-50%, -50%);
     text-align: center;
-    position: absolute;
-    margin-left: 6vw;
-    margin-top: 40vh;
 }
 
-.left-side {
-    margin-left: 2vw;
-}
-
-.right-side-top {
-    margin-left: 16vw;
-}
-
-.right-side-middle {
-    margin-left: calc(16vw - 100px);
-    margin-top: 20vh;
-}
-
-.right-side-down {
-    position: fixed;
-    margin-left: calc(55vw - 220px);
-    margin-top: calc(100vh - 200px);
+.right-panel {
+    margin: 0px 30px;
 }
 
 .mynote-results-container {
-    margin-left: 16vw;
-    margin-top: 5vh;
-    margin-bottom: calc(0vh - 100px);
-    width: 80vw;
+    width: calc(100vw - 400px);
+    height: calc(100vh - 460px);
     overflow: scroll;
-    max-height: calc(85vh - 300px);
 }
 
 .thumbnail-wrapper {
