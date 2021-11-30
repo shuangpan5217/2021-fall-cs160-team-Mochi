@@ -48,17 +48,22 @@ function SearchResultsPage(props) {
                 );
                 setStyles({ ...styles, ...newStyles });
 
+                const titles = {};
+                searchResponseJSON.notes.forEach(
+                    (note) => (titles[note.note_id] = note.title)
+                );
+
                 let noteRefs = searchResponseJSON.notes.map((note) => ({
                     path: note.note_reference,
                 }));
-                await getPDFs(noteRefs);
+                await getPDFs(noteRefs, titles);
             } else {
                 console.error("Could not load search results.");
             }
         }
     };
 
-    const getPDFs = async (filePaths) => {
+    const getPDFs = async (filePaths, titles) => {
         let success = true;
         const pdfResponse = await fetch(
             "http://localhost:3000/v1/notes/files",
@@ -85,7 +90,13 @@ function SearchResultsPage(props) {
                     setShowLoadMore(false);
                 }
                 setCount(count + pdfResponseJSON.count);
-                setThumbnails([...thumbnails, ...pdfResponseJSON.filesData]);
+                setThumbnails([
+                    ...thumbnails,
+                    ...pdfResponseJSON.filesData.map((fileData) => ({
+                        ...fileData,
+                        title: titles[fileData.note_id],
+                    })),
+                ]);
             } else if (pdfResponseJSON.filesData) {
                 setShowLoadMore(false);
             } else {
@@ -104,6 +115,8 @@ function SearchResultsPage(props) {
                 myContext.filter === "" ||
                 styles[pdf.note_id] === myContext.filter
         );
+
+        newThumbnails.forEach((pdf) => console.log(pdf));
 
         setFilteredThumbnails(newThumbnails);
         setCount(newThumbnails.length);
@@ -126,6 +139,7 @@ function SearchResultsPage(props) {
                                         <PDFViewer
                                             thumbnail
                                             pdf={pdf.pdf_data}
+                                            title={pdf.title}
                                             onClick={() =>
                                                 history.push(
                                                     "/note/" + pdf.note_id
