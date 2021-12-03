@@ -1,7 +1,6 @@
 import Template from "../components/template";
 import ModalHeader from "../components/modalHeader.jsx";
 import SectionTitle from "../components/sectionTitle.jsx";
-import LeftPanel from "../components/leftPanel";
 import Button from "../components/button";
 import { useState, React, useEffect } from "react";
 import AddFriendWindow from "../components/addFriendWindow";
@@ -19,7 +18,6 @@ function PersonalPage(props) {
     const [buttonPersonalProfile, setButtonPersonalProfile] = useState(false);
     const [friends, setFriends] = useState([]);
     const [groups, setGroups] = useState([]);
-    const [notes, setNotes] = useState([]);
     const [buttonUpload, setButtonUpload] = useState(false);
     const [user, setUser] = useState("");
     const [userDescription, setUserDescription] = useState("");
@@ -115,7 +113,6 @@ function PersonalPage(props) {
         if (success) {
             const userNoteResponseJSON = await userNotesResponse.json();
             if (userNoteResponseJSON.notes) {
-                setNotes(userNoteResponseJSON.notes);
                 await getPDF(userNoteResponseJSON.notes);
             } else {
                 console.error("Could not load note.");
@@ -147,6 +144,7 @@ function PersonalPage(props) {
                     const pdfOjbect = {
                         note_id: note.note_id,
                         pdf_data: pdfResponseJSON.pdf_data,
+                        title: note.title,
                     };
                     setPDFs((arr) => [...arr, pdfOjbect]);
                 } else {
@@ -170,93 +168,87 @@ function PersonalPage(props) {
                 blur
                 refreshProfileImage={refreshProfileImage}
                 body={
-                    <div className="d-flex flex-column left-side">
-                        <ModalHeader title={`Hi ${user}`} />
-                        <div className="d-flex flex-column align-items-left">
-                            <LeftPanel
-                                body={
-                                    <div className="flex-row">
-                                        <ModalHeader title="My Friends" />
-                                        <div className="d-flex row agenda">
-                                            {friends.map((friend) => (
-                                                <h3>{friend.username}</h3>
-                                            ))}
-                                        </div>
-                                        <div className="flex-row">
-                                            <Button
-                                                small
-                                                title="ADD FRIEND"
-                                                type="primary"
-                                                clicked={() =>
-                                                    setButtonAddFriend(true)
-                                                }
+                    <div className="d-flex flex-column page-container">
+                        <SectionTitle title={`Hi ${user}!`} />
+                        <div className="d-flex flex-row">
+                            <div className="d-flex flex-column left-panel justify-content-between agenda align-items-center">
+                                <div className="d-flex flex-column">
+                                    <ModalHeader small title="My Friends" />
+                                    {friends.map((friend) => (
+                                        <h3>{friend.username}</h3>
+                                    ))}
+                                    <Button
+                                        small
+                                        title="ADD FRIEND"
+                                        type="primary"
+                                        clicked={() => setButtonAddFriend(true)}
+                                    />
+                                    <ModalHeader small title="My Groups" />
+                                    {groups.map((group) => (
+                                        <Link
+                                            to={"/group/" + group.group_id}
+                                            style={{
+                                                color: "inherit",
+                                                textDecoration: "inherit",
+                                            }}
+                                        >
+                                            <h3>{group.group_name}</h3>{" "}
+                                        </Link>
+                                    ))}
+                                    <Button
+                                        small
+                                        title="CREATE GROUP"
+                                        type="primary"
+                                        clicked={() => setButtonGroup(true)}
+                                    />
+                                </div>
+                                <div className="d-flex flex-column">
+                                    <Button
+                                        small
+                                        title="EDIT PROFILE"
+                                        type="secondary"
+                                        clicked={() =>
+                                            setButtonPersonalProfile(true)
+                                        }
+                                    />
+                                    <Button
+                                        small
+                                        title="SIGN OUT"
+                                        type="primary"
+                                        url="/login"
+                                    />
+                                </div>
+                            </div>
+                            <div className="d-flex flex-column right-panel">
+                                <SectionTitle title="Biography" />
+                                <div className="agenda big">
+                                    {userDescription}
+                                </div>
+                                <SectionTitle title="My Notes" />
+                                <div className="d-flex flex-row flex-wrap mynote-results-container">
+                                    {pdfs.map((eachPDF) => (
+                                        <Link
+                                            to={"/note/" + eachPDF.note_id}
+                                            style={{
+                                                color: "inherit",
+                                                textDecoration: "inherit",
+                                            }}
+                                        >
+                                            <PDFViewer
+                                                title={eachPDF.title}
+                                                thumbnail
+                                                pdf={eachPDF.pdf_data}
                                             />
-                                        </div>
-                                        <ModalHeader title="My Groups" />
-                                        <div className="flex-column agenda">
-                                            {groups.map((group) => (
-                                                <Link
-                                                    to={
-                                                        "/group/" +
-                                                        group.group_id
-                                                    }
-                                                    style={{
-                                                        color: "inherit",
-                                                        textDecoration:
-                                                            "inherit",
-                                                    }}
-                                                >
-                                                    <h3>{group.group_name}</h3>{" "}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                        <div className="flex-row">
-                                            <Button
-                                                small
-                                                title="CREATE GROUP"
-                                                type="primary"
-                                                clicked={() =>
-                                                    setButtonGroup(true)
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex-row">
-                                            <Button
-                                                small
-                                                title="EDIT PROFILE"
-                                                type="secondary"
-                                                clicked={() =>
-                                                    setButtonPersonalProfile(
-                                                        true
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    </div>
-                                }
-                            />
-                        </div>
-                        <div className="d-flex flex-column right-side-top">
-                            <SectionTitle title="Biography" />
-                            <div className="agenda big">{userDescription}</div>
-                        </div>
-                        <div className="d-flex flex-column align-items-start mynote-results-container">
-                            <SectionTitle title="My Notes" />
-                            <div className="d-flex flex-row flex-wrap">
-                                {pdfs.map((eachPDF) => (
-                                    <Link
-                                        to={"/note/" + eachPDF.note_id}
-                                        style={{
-                                            color: "inherit",
-                                            textDecoration: "inherit",
-                                        }}
-                                    >
-                                        <PDFViewer
-                                            thumbnail
-                                            pdf={eachPDF.pdf_data}
-                                        />
-                                    </Link>
-                                ))}
+                                        </Link>
+                                    ))}
+                                </div>
+                                <div className="d-flex flex-row justify-content-center">
+                                    <Button
+                                        title="UPLOAD"
+                                        type="primary"
+                                        clicked={() => setButtonUpload(true)}
+                                    />
+                                </div>
                             </div>
                         </div>
 
@@ -284,13 +276,6 @@ function PersonalPage(props) {
                             trigger={buttonUpload}
                             setTrigger={setButtonUpload}
                         />
-                        <div className="d-flex flex-row right-side-down">
-                            <Button
-                                title="UPLOAD"
-                                type="primary"
-                                clicked={() => setButtonUpload(true)}
-                            />
-                        </div>
                         <PersonalPrefWindow
                             trigger={buttonPersonalProfile}
                             setTrigger={setButtonPersonalProfile}

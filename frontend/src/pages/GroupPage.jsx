@@ -1,6 +1,5 @@
 import Template from "../components/template";
 import ModalHeader from "../components/modalHeader.jsx";
-import LeftPanel from "../components/leftPanel";
 import Button from "../components/button";
 import { useState, React, useEffect } from "react";
 import AddMemberWindow from "../components/addMemberWindow";
@@ -16,12 +15,13 @@ function GroupPage(props) {
     const [buttonAddMember, setButtonAddMember] = useState(false);
     const [buttonGroupProfile, setButtonGroupProfile] = useState(false);
     const [members, setMembers] = useState([]);
-    const [notes, setNotes] = useState([]);
     const [buttonUpload, setButtonUpload] = useState(false);
     const [group, setGroup] = useState("");
     const [groupDescription, setGroupDescription] = useState("");
     const { groupId } = useParams();
     const [pdfs, setPDFs] = useState([]);
+    const [hasAccess, setHasAccess] = useState(true);
+    const [isOwner, setIsOwner] = useState(true);
 
     const getGroupInfo = async () => {
         let success = true;
@@ -44,6 +44,13 @@ function GroupPage(props) {
             if (groupInfoResponseJSON.group_id) {
                 setGroup(groupInfoResponseJSON.group_name);
                 setGroupDescription(groupInfoResponseJSON.description);
+                getGroupMembers();
+                getGroupNotesRef();
+                checkIsOwner(groupInfoResponseJSON.group_owner);
+            } else if (
+                groupInfoResponseJSON.errMessage === " not a group member "
+            ) {
+                setHasAccess(false);
             } else {
                 console.error("Could not get group information.");
             }
@@ -93,10 +100,32 @@ function GroupPage(props) {
         if (success) {
             const groupNotesResponseJSON = await groupNotesResponse.json();
             if (groupNotesResponseJSON.notes) {
-                setNotes(groupNotesResponseJSON.notes);
                 await getPDF(groupNotesResponseJSON.notes);
             } else {
                 console.error("Could not load note.");
+            }
+        }
+    };
+
+    const checkIsOwner = async (owner) => {
+        let success = true;
+        const userInfoResponse = await fetch("http://localhost:3000/v1/user", {
+            method: "GET",
+            headers: {
+                Authorization:
+                    "bearer " + window.localStorage.getItem("authToken"),
+            },
+        }).catch((err) => {
+            console.error(err);
+            success = false;
+        });
+
+        if (success) {
+            const userInfoResponseJSON = await userInfoResponse.json();
+            if (userInfoResponseJSON.username) {
+                setIsOwner(owner === userInfoResponseJSON.username);
+            } else {
+                console.error("Could not load user info.");
             }
         }
     };
@@ -125,6 +154,7 @@ function GroupPage(props) {
                     const pdfOjbect = {
                         note_id: note.note_id,
                         pdf_data: pdfResponseJSON.pdf_data,
+                        title: note.title,
                     };
                     setPDFs((arr) => [...arr, pdfOjbect]);
                 } else {
@@ -136,8 +166,6 @@ function GroupPage(props) {
 
     useEffect(() => {
         getGroupInfo();
-        getGroupMembers();
-        getGroupNotesRef();
     }, []);
 
     return (
@@ -147,89 +175,107 @@ function GroupPage(props) {
                 showProfile={true}
                 blur
                 body={
-                    <div className="d-flex flex-column left-side">
-                        <ModalHeader title={`Hi Group ${group}`} />
-                        <div className="d-flex flex-column align-items-left">
-                            <LeftPanel
-                                body={
-                                    <div className="flex-row">
-                                        <ModalHeader title="Members" />
-                                        <div className="d-flex row agenda">
+                    <div className="d-flex flex-column page-container">
+                        {hasAccess ? (
+                            <>
+                                <SectionTitle title={`Hi Group ${group}!`} />
+                                <div className="d-flex flex-row">
+                                    <div className="d-flex flex-column left-panel justify-content-between agenda align-items-center">
+                                        <div className="d-flex flex-column">
+                                            <ModalHeader
+                                                small
+                                                title="Members"
+                                            />
                                             {members.map((member) => (
                                                 <h3>{member.username}</h3>
                                             ))}
+                                            {isOwner ? (
+                                                <Button
+                                                    small
+                                                    title="ADD MEMBER"
+                                                    type="primary"
+                                                    clicked={() =>
+                                                        setButtonAddMember(true)
+                                                    }
+                                                />
+                                            ) : (
+                                                <></>
+                                            )}
                                         </div>
-                                        <div className="flex-row">
+                                        {isOwner ? (
                                             <Button
                                                 small
-                                                title="ADD MEMBER"
-                                                type="primary"
-                                                clicked={() =>
-                                                    setButtonAddMember(true)
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex-row">
-                                            <Button
-                                                small
-                                                title="EDIT PROFILE"
+                                                title="EDIT GROUP"
                                                 type="secondary"
                                                 clicked={() =>
                                                     setButtonGroupProfile(true)
                                                 }
                                             />
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
+                                    <div className="d-flex flex-column right-panel">
+                                        <SectionTitle title="Group Description" />
+                                        <div className="agenda big">
+                                            {groupDescription}
+                                        </div>
+                                        <SectionTitle title="Our Notes" />
+                                        <div className="d-flex flex-row flex-wrap mynote-results-container">
+                                            {pdfs.map((eachPDF) => (
+                                                <Link
+                                                    to={
+                                                        "/note/" +
+                                                        eachPDF.note_id
+                                                    }
+                                                    style={{
+                                                        color: "inherit",
+                                                        textDecoration:
+                                                            "inherit",
+                                                    }}
+                                                >
+                                                    <PDFViewer
+                                                        title={eachPDF.title}
+                                                        thumbnail
+                                                        pdf={eachPDF.pdf_data}
+                                                    />
+                                                </Link>
+                                            ))}
+                                        </div>
+                                        <div className="d-flex flex-row justify-content-center">
+                                            <Button
+                                                title="UPLOAD"
+                                                type="primary"
+                                                clicked={() =>
+                                                    setButtonUpload(true)
+                                                }
+                                            />
                                         </div>
                                     </div>
-                                }
-                            />
-                        </div>
-                        <div className="d-flex flex-column right-side-top">
-                            <SectionTitle title="Our Group" />
-                            <div className="agenda big">{groupDescription}</div>
-                        </div>
-                        <div className="d-flex flex-column align-items-start mynote-results-container">
-                            <SectionTitle title="Our Notes" />
-                            <div className="d-flex flex-row flex-wrap">
-                                {pdfs.map((eachPDF) => (
-                                    <Link
-                                        to={"/note/" + eachPDF.note_id}
-                                        style={{
-                                            color: "inherit",
-                                            textDecoration: "inherit",
-                                        }}
-                                    >
-                                        <PDFViewer
-                                            thumbnail
-                                            pdf={eachPDF.pdf_data}
-                                        />
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
-                        <AddMemberWindow
-                            members={members}
-                            setMembers={setMembers}
-                            trigger={buttonAddMember}
-                            setTrigger={setButtonAddMember}
-                        />
-                        <UploadNotesWindow
-                            trigger={buttonUpload}
-                            setTrigger={setButtonUpload}
-                        />
-                        <GroupPrefWindow
-                            trigger={buttonGroupProfile}
-                            setTrigger={setButtonGroupProfile}
-                            groupId={groupId}
-                            setBio={setGroupDescription}
-                            setName={setGroup}
-                        />
-                        <div className="d-flex flex-row right-side-down">
-                            <Button
-                                title="UPLOAD"
-                                type="primary"
-                                clicked={() => setButtonUpload(true)}
-                            />
-                        </div>
+                                </div>
+                                <AddMemberWindow
+                                    members={members}
+                                    setMembers={setMembers}
+                                    trigger={buttonAddMember}
+                                    setTrigger={setButtonAddMember}
+                                />
+                                <UploadNotesWindow
+                                    trigger={buttonUpload}
+                                    setTrigger={setButtonUpload}
+                                />
+                                <GroupPrefWindow
+                                    trigger={buttonGroupProfile}
+                                    setTrigger={setButtonGroupProfile}
+                                    groupId={groupId}
+                                    setBio={setGroupDescription}
+                                    setName={setGroup}
+                                />
+                            </>
+                        ) : (
+                            <p className="agenda">
+                                You don't have access to this group.
+                            </p>
+                        )}
                     </div>
                 }
             />

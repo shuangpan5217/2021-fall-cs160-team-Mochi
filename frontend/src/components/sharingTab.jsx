@@ -154,6 +154,8 @@ function SharingTab({ noteId, type }) {
                         ))}
                     </div>
                 </>
+            ) : type === "private" ? (
+                <p className="agenda">This note is private!</p>
             ) : (
                 <p className="agenda">This note is public!</p>
             )}

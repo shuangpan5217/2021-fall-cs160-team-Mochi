@@ -49,8 +49,7 @@ function AddFriendWindow({ trigger, setTrigger, friends, setFriends }) {
                             onChange={setUsername2}
                         />
                     </div>
-                    <br></br>
-                    <div className="d-flex flex-row ">
+                    <div className="d-flex flex-row no-top-spacing">
                         <Button
                             title="BACK"
                             type="secondary"
