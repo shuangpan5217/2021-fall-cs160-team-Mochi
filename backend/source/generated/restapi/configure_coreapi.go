@@ -4,8 +4,10 @@ package restapi
 
 import (
 	"crypto/tls"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/cors"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -135,9 +137,15 @@ func setupGlobalMiddleware(handler http.Handler) http.Handler {
 }
 
 func CreateDBConnection() (db *gorm.DB) {
-	db, err := gorm.Open("postgres", "host=localhost port=5432 dbname=shuangpan user=shuangpan sslmode=disable")
+	var dbConn = os.Getenv("DB_CONN")
+	if dbConn == "" {
+		dbConn = "host=localhost port=5432 dbname=shuangpan user=shuangpan sslmode=disable"
+	}
+
+	db, err := gorm.Open("postgres", dbConn)
 	if err != nil {
-		log.Fatal(err.Error())
+		fmt.Println(err.Error() + " : " + dbConn)
+		os.Exit(1)
 	}
 	db.LogMode(true)
 	err = commonutils.InsertTables(db)

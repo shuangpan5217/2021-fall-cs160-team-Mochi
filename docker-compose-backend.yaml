@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  backend:
+    container_name: mochiNote
+    build:
+      dockerfile: backend.Dockerfile
+      context: .
+    ports:
+      - '3000:3000'
+    restart: on-failure
+    environment:
+      DB_CONN: "postgresql://shuangpan:5217@db:5432/db?sslmode=disable"
+    depends_on:
+      - db
+    links:
+      - db
+  db:
+    image: postgres
+    container_name: postgres_db
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: "shuangpan"
+      POSTGRES_PASSWORD: "5217"
+      POSTGRES_DB: "db"
+      TZ: 'UTC'
+      PGTZ: 'UTC'
