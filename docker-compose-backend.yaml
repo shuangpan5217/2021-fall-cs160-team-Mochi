@@ -10,6 +10,7 @@ services:
       - '3000:3000'
     restart: on-failure
     environment:
+      ENV: production
       DB_CONN: "postgresql://shuangpan:5217@db:5432/db?sslmode=disable"
     depends_on:
       - db
