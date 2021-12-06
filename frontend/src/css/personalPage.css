@@ -9,6 +9,7 @@
     padding: 20px 35px;
     width: 275px;
     height: calc(100vh - 180px);
+    min-width: 275px;
     overflow: scroll;
     text-align: center;
 }
