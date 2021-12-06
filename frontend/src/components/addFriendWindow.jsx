@@ -14,7 +14,7 @@ function AddFriendWindow({ trigger, setTrigger, friends, setFriends }) {
             return;
         }
 
-        const response = await fetch("http://localhost:3000/v1/friends/", {
+        const response = await fetch("http://localhost:3001/v1/friends/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

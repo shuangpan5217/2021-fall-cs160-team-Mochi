@@ -27,7 +27,7 @@ function PersonalPage(props) {
 
     const getUserInfo = async () => {
         let success = true;
-        const userInfoResponse = await fetch("http://localhost:3000/v1/user/", {
+        const userInfoResponse = await fetch("http://localhost:3001/v1/user/", {
             method: "GET",
             headers: {
                 Authorization:
@@ -52,7 +52,7 @@ function PersonalPage(props) {
     const getMyFriends = async () => {
         let success = true;
         const friendsResponse = await fetch(
-            "http://localhost:3000/v1/friends/",
+            "http://localhost:3001/v1/friends/",
             {
                 method: "GET",
                 headers: {
@@ -75,7 +75,7 @@ function PersonalPage(props) {
 
     const getMyGroups = async () => {
         let success = true;
-        const groupsResponse = await fetch("http://localhost:3000/v1/groups/", {
+        const groupsResponse = await fetch("http://localhost:3001/v1/groups/", {
             method: "GET",
             headers: {
                 Authorization:
@@ -97,7 +97,7 @@ function PersonalPage(props) {
     const getUserNotesRef = async () => {
         let success = true;
         const userNotesResponse = await fetch(
-            "http://localhost:3000/v1/notes/username/",
+            "http://localhost:3001/v1/notes/username/",
             {
                 method: "GET",
                 headers: {
@@ -124,7 +124,7 @@ function PersonalPage(props) {
         let success = true;
         for (const note of notes) {
             const pdfResponse = await fetch(
-                "http://localhost:3000/v1/notes/file/" + note.note_reference,
+                "http://localhost:3001/v1/notes/file/" + note.note_reference,
                 {
                     method: "GET",
                     headers: {

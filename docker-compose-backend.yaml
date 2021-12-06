@@ -1,13 +1,23 @@
 version: '3'
 
 services:
+  frontend:
+    container_name: mochiNoteUI
+    build:
+      dockerfile: frontend.Dockerfile
+      context: .
+    ports:
+      - '3000:3000'
+    restart: on-failure
+    links:
+      - backend
   backend:
     container_name: mochiNote
     build:
       dockerfile: backend.Dockerfile
       context: .
     ports:
-      - '3000:3000'
+      - '3001:3001'
     restart: on-failure
     environment:
       ENV: production

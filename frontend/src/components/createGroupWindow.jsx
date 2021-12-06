@@ -22,7 +22,7 @@ function CreateGroupWindow({
             return;
         }
 
-        const response = await fetch("http://localhost:3000/v1/groups/", {
+        const response = await fetch("http://localhost:3001/v1/groups/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -50,7 +50,7 @@ function CreateGroupWindow({
     const getGroupInfo = async () => {
         let success = true;
         const groupInfoResponse = await fetch(
-            "http://localhost:3000/v1/groups/" + groupId,
+            "http://localhost:3001/v1/groups/" + groupId,
             {
                 method: "GET",
                 headers: {
@@ -82,7 +82,7 @@ function CreateGroupWindow({
 
         let success = true;
         const updateInfoResponse = await fetch(
-            "http://localhost:3000/v1/groups/" + groupId,
+            "http://localhost:3001/v1/groups/" + groupId,
             {
                 method: "PATCH",
                 headers: {

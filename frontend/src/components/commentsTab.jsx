@@ -19,7 +19,7 @@ function CommentsTab({ comments, noteId, owner }) {
     const postComment = async () => {
         let success = true;
         const commentResponse = await fetch(
-            "http://localhost:3000/v1/comments/",
+            "http://localhost:3001/v1/comments/",
             {
                 method: "POST",
                 headers: {

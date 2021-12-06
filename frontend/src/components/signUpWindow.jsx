@@ -36,7 +36,7 @@ function SignUpWindow({ edit, setTrigger, setBio, setRefreshProfileImage }) {
         let success = true;
 
         const response = await fetch(
-            "http://localhost:3000/v1/login?signup=true",
+            "http://localhost:3001/v1/login?signup=true",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -59,7 +59,7 @@ function SignUpWindow({ edit, setTrigger, setBio, setRefreshProfileImage }) {
             if (responseJSON.username) {
                 if (file != null) {
                     const loginResponse = await fetch(
-                        "http://localhost:3000/v1/login",
+                        "http://localhost:3001/v1/login",
                         {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
@@ -99,7 +99,7 @@ function SignUpWindow({ edit, setTrigger, setBio, setRefreshProfileImage }) {
         let formData = new FormData();
         formData.append("userImage", file);
 
-        const imgResponse = await fetch("http://localhost:3000/v1/images", {
+        const imgResponse = await fetch("http://localhost:3001/v1/images", {
             method: "POST",
             headers: {
                 Authorization:
@@ -123,7 +123,7 @@ function SignUpWindow({ edit, setTrigger, setBio, setRefreshProfileImage }) {
 
     const getUserInfo = async () => {
         let success = true;
-        const userInfoResponse = await fetch("http://localhost:3000/v1/user", {
+        const userInfoResponse = await fetch("http://localhost:3001/v1/user", {
             method: "GET",
             headers: {
                 Authorization:
@@ -151,7 +151,7 @@ function SignUpWindow({ edit, setTrigger, setBio, setRefreshProfileImage }) {
 
     const getImage = async () => {
         let success = true;
-        const imgResponse = await fetch("http://localhost:3000/v1/images", {
+        const imgResponse = await fetch("http://localhost:3001/v1/images", {
             method: "GET",
             headers: {
                 Authorization:
@@ -188,7 +188,7 @@ function SignUpWindow({ edit, setTrigger, setBio, setRefreshProfileImage }) {
 
         let success = true;
         const updateInfoResponse = await fetch(
-            "http://localhost:3000/v1/user",
+            "http://localhost:3001/v1/user",
             {
                 method: "PATCH",
                 headers: {
@@ -229,7 +229,7 @@ function SignUpWindow({ edit, setTrigger, setBio, setRefreshProfileImage }) {
     const updatePassword = async () => {
         let success = true;
         const updatePasswordResponse = await fetch(
-            "http://localhost:3000/v1/password/" + password,
+            "http://localhost:3001/v1/password/" + password,
             {
                 method: "PATCH",
                 headers: {

@@ -9,7 +9,7 @@ function ProfileImage({ refresh }) {
 
     const getImage = async () => {
         let success = true;
-        const imgResponse = await fetch("http://localhost:3000/v1/images", {
+        const imgResponse = await fetch("http://localhost:3001/v1/images", {
             method: "GET",
             headers: {
                 Authorization:

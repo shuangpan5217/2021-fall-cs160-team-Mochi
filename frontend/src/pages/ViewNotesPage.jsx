@@ -20,7 +20,7 @@ function ViewNotesPage(props) {
     const getNoteData = async () => {
         let success = true;
         const noteResponse = await fetch(
-            "http://localhost:3000/v1/notes/" + noteId,
+            "http://localhost:3001/v1/notes/" + noteId,
             {
                 method: "GET",
                 headers: {
@@ -63,7 +63,7 @@ function ViewNotesPage(props) {
     const getPDF = async (noteRef) => {
         let success = true;
         const pdfResponse = await fetch(
-            "http://localhost:3000/v1/notes/file/" + noteRef,
+            "http://localhost:3001/v1/notes/file/" + noteRef,
             {
                 method: "GET",
                 headers: {
@@ -88,7 +88,7 @@ function ViewNotesPage(props) {
 
     const getOwnerImage = async (noteOwner) => {
         let success = true;
-        const imgResponse = await fetch("http://localhost:3000/v1/images", {
+        const imgResponse = await fetch("http://localhost:3001/v1/images", {
             method: "GET",
             headers: {
                 Authorization:
@@ -112,7 +112,7 @@ function ViewNotesPage(props) {
     const getCommentData = async () => {
         let success = true;
         const commentResponse = await fetch(
-            "http://localhost:3000/v1/notes/" + noteId + "/comments",
+            "http://localhost:3001/v1/notes/" + noteId + "/comments",
             {
                 method: "GET",
                 headers: {
@@ -146,7 +146,7 @@ function ViewNotesPage(props) {
 
         let success = true;
         const imgResponse = await fetch(
-            "http://localhost:3000/v1/images/multiple",
+            "http://localhost:3001/v1/images/multiple",
             {
                 method: "POST",
                 headers: {
