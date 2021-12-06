@@ -24,7 +24,7 @@ function SearchResultsPage(props) {
 
         let success = true;
         const searchResponse = await fetch(
-            `http://localhost:3000/v1/notes/search/${myContext.query}?offset=${offset}`, //hardcoded tag
+            `http://localhost:3001/v1/notes/search/${myContext.query}?offset=${offset}`, //hardcoded tag
             {
                 method: "GET",
                 headers: {
@@ -66,7 +66,7 @@ function SearchResultsPage(props) {
     const getPDFs = async (filePaths, titles) => {
         let success = true;
         const pdfResponse = await fetch(
-            "http://localhost:3000/v1/notes/files",
+            "http://localhost:3001/v1/notes/files",
             {
                 method: "POST",
                 headers: {

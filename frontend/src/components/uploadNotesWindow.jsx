@@ -48,7 +48,7 @@ function UploadNotesWindow({ trigger, setTrigger }) {
         let formData = new FormData();
         formData.append("noteFile", file);
 
-        const pdfResponse = await fetch("http://localhost:3000/v1/notes/file", {
+        const pdfResponse = await fetch("http://localhost:3001/v1/notes/file", {
             method: "POST",
             headers: {
                 Authorization:
@@ -65,7 +65,7 @@ function UploadNotesWindow({ trigger, setTrigger }) {
 
         const note_reference = pdfResponseJSON.note_reference;
 
-        const response = await fetch("http://localhost:3000/v1/notes/", {
+        const response = await fetch("http://localhost:3001/v1/notes/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -86,7 +86,7 @@ function UploadNotesWindow({ trigger, setTrigger }) {
         if (responseJSON.note_id) {
             if (groupId && type === "shared") {
                 const sharedGroupNoteResponse = await fetch(
-                    "http://localhost:3000/v1/notes/" +
+                    "http://localhost:3001/v1/notes/" +
                         responseJSON.note_id +
                         "/members",
                     {

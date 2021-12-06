@@ -78,7 +78,7 @@ git remote add upstream git@github.com:shuangpan5217/2021-fall-cs160-team-Mochi.
   cd /backend/source/generated/cmd/coreapi-server
   ./coreapi-server
   ```
-- *Note: the backend will listen to the `localhost:3000`*
+- *Note: the backend will listen to the `localhost:3001`*
 
 ### 3. Start frontend server
 - Ensure you have run `npm install`
@@ -88,8 +88,7 @@ git remote add upstream git@github.com:shuangpan5217/2021-fall-cs160-team-Mochi.
   cd /frontend
   npm start
   ```
-- *Note: You will likely need to enter `y` to start the server on `localhost:3001` instead of the default since the backend server is already running on `localhost:3000   `
-- If the website hasn't opened, go to your browser and goto `localhost:3001`
+
 
 # Making Changes
 All changes made to this directory must go through a PR/review process.

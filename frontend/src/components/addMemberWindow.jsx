@@ -20,7 +20,7 @@ function AddMemberWindow({ trigger, setTrigger, members, setMembers }) {
         }
 
         const response = await fetch(
-            "http://localhost:3000/v1/groups/" + groupId + "/members",
+            "http://localhost:3001/v1/groups/" + groupId + "/members",
             {
                 method: "POST",
                 headers: {
