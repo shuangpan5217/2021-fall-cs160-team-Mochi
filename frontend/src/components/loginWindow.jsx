@@ -19,7 +19,7 @@ function LoginWindow(props) {
             return;
         }
 
-        const response = await fetch("http://localhost:3000/v1/login", {
+        const response = await fetch("http://localhost:3001/v1/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

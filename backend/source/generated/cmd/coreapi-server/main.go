@@ -27,7 +27,7 @@ func init() {
 	} else {
 		hostFlag = flag.String("host", localhost, "Host to run this service")
 	}
-	portFlag = flag.String("port", "3000", "Port to run this service on")
+	portFlag = flag.String("port", "3001", "Port to run this service on")
 }
 
 func main() {

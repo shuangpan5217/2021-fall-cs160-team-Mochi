@@ -26,7 +26,7 @@ function GroupPage(props) {
     const getGroupInfo = async () => {
         let success = true;
         const groupInfoResponse = await fetch(
-            "http://localhost:3000/v1/groups/" + groupId,
+            "http://localhost:3001/v1/groups/" + groupId,
             {
                 method: "GET",
                 headers: {
@@ -60,7 +60,7 @@ function GroupPage(props) {
     const getGroupMembers = async () => {
         let success = true;
         const membersResponse = await fetch(
-            "http://localhost:3000/v1/groups/" + groupId + "/members",
+            "http://localhost:3001/v1/groups/" + groupId + "/members",
             {
                 method: "GET",
                 headers: {
@@ -84,7 +84,7 @@ function GroupPage(props) {
     const getGroupNotesRef = async () => {
         let success = true;
         const groupNotesResponse = await fetch(
-            "http://localhost:3000/v1/notes/group/" + groupId,
+            "http://localhost:3001/v1/notes/group/" + groupId,
             {
                 method: "GET",
                 headers: {
@@ -109,7 +109,7 @@ function GroupPage(props) {
 
     const checkIsOwner = async (owner) => {
         let success = true;
-        const userInfoResponse = await fetch("http://localhost:3000/v1/user", {
+        const userInfoResponse = await fetch("http://localhost:3001/v1/user", {
             method: "GET",
             headers: {
                 Authorization:
@@ -134,7 +134,7 @@ function GroupPage(props) {
         let success = true;
         for (const note of notes) {
             const pdfResponse = await fetch(
-                "http://localhost:3000/v1/notes/file/" + note.note_reference,
+                "http://localhost:3001/v1/notes/file/" + note.note_reference,
                 {
                     method: "GET",
                     headers: {

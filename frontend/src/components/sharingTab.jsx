@@ -12,7 +12,7 @@ function SharingTab({ noteId, type }) {
     const getMemberData = async () => {
         let success = true;
         const memberResponse = await fetch(
-            "http://localhost:3000/v1/notes/" + noteId + "/members",
+            "http://localhost:3001/v1/notes/" + noteId + "/members",
             {
                 method: "GET",
                 headers: {
@@ -48,7 +48,7 @@ function SharingTab({ noteId, type }) {
 
         let success = true;
         const imgResponse = await fetch(
-            "http://localhost:3000/v1/images/multiple",
+            "http://localhost:3001/v1/images/multiple",
             {
                 method: "POST",
                 headers: {
@@ -90,7 +90,7 @@ function SharingTab({ noteId, type }) {
     const addMember = async () => {
         let success = true;
         const memberResponse = await fetch(
-            `http://localhost:3000/v1/notes/${noteId}/members`,
+            `http://localhost:3001/v1/notes/${noteId}/members`,
             {
                 method: "POST",
                 headers: {

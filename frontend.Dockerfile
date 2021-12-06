@@ -3,5 +3,4 @@ WORKDIR /frontend
 COPY frontend/package.json /frontend
 RUN npm install --production
 COPY frontend /frontend
-EXPOSE $PORT
 CMD [ "npm", "start" ]
