@@ -18,7 +18,7 @@ function PDFViewer({ title, pdf, thumbnail, onClick }) {
             >
                 {thumbnail ? (
                     <div className="thumbnail-wrapper">
-                        <Page pageNumber={1} className="pdf-page" scale={0.6} />
+                        <Page pageNumber={1} className="pdf-page" scale={0.5} />
                         <div className="overlay agenda">{title}</div>
                     </div>
                 ) : (
